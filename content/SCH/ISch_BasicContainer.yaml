@@ -1,0 +1,113 @@
+# SCH.ISch_BasicContainer: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_BasicContainer interface represents as a parent object or a child object for a schematic object in
+  Altium Designer.
+remarks: >-
+  A sheet symbol object for example is a parent object, and its child objects are sheet entries, thus to fetch the sheet
+  entries, you would create an iterator for the sheet symbol and iterate for sheet entry objects.
+
+
+  A schematic document is a parent object as well thus you also create an iterator for this document and iterate for
+  objects on this document.
+
+
+  ISch_BasicContainer is the ancestor interface object for schematic object interfaces.
+
+
+  ISch_BasicContainer is the ancestor interface object for ISch_MapDefiner and ISch_Implementation interfaces.
+
+
+  ISch_Document is inherited from ISch_BasicContainer and is a container for storing design objects and in turn each
+  design object is inherited from the ISch_BasicContainer interface.
+
+
+  ISch_Iterator fetches design objects which are inherited from the ISch_BasicContainer interface.
+members:
+  AddAndPositionSchObject:
+    summary: The AddSchObject method adds and positions a child object into the parent object that the AddSchObject is
+      associated with. For example adding sheet entries in a sheet symbol, you would use this method.
+    seeAlso:
+      - SCH.ISch_BasicContainer.AddSchObject
+  AddSchObject:
+    summary: The AddSchObject method adds a child object into the parent object that the AddSchObject is associated with.
+  DeleteAll:
+    summary: The DeleteAll method removes the contained objects from the container of ISch_BasicContainer type. For example,
+      if you just want to get a list of contained objects, and make small changes to them and then move them to a new
+      container. In this case, you do not want to free and recreate all the contained objects, so you use the DeleteAll
+      method. To have a clean container, you need to call the FreeAllContainedObjects method instead.
+    seeAlso:
+      - SCH.ISch_BasicContainer.FreeAllContainedObjects
+  DescriptionString:
+    summary: This method returns you the description string for this object.
+  FreeAllContainedObjects:
+    summary: The FreeAllContainedObjects method removes the contained objects from the container of ISch_BasicContainer type
+      and the container ends up clean. To have container that can be reused with the same elements in another container,
+      you need to call the DeleteAll method instead.
+    seeAlso:
+      - SCH.ISch_BasicContainer.DeleteAll
+  IdentifierString:
+    summary: This method returns you the identifier string.
+  Import_FromUser:
+    summary: The Import_FromUser method invokes the Properties dialog for the object. This is equivalent to when you double
+      click on an object on the schematic document and the Object Properties dialog appears. This method returns a true
+      value when the User clicks okay otherwise a false value is returned.
+    remarks: An example of using this method is to pop up the Properties dialog programmatically so that the user can modify
+      the object and then the extension or the server code can do more processing.
+  ObjectId:
+    summary: The ObjectID property determines what object type the object in question is. For example when iterating for
+      objects on a schematic document, you would want to modify all objects but update the port objects' locations only,
+      thus you check for the object's ObjectId and if it is a ePort type, then take action.
+    seeAlso:
+      - SCH.TObjectId
+  OwnerSchDocument:
+    summary: This property returns the ISch_Document interface that the object is associated with. It is also said that the
+      document owns the object when the Object has a valid OwnerDocument property.
+    seeAlso:
+      - SCH.ISch_Document
+      - SCH.ISch_GraphicalObject
+  RemoveSchObject:
+    summary: The RemoveSchObject method removes the Schematic object from the database associated with the document or the
+      parent object but it is not removed from memory. Therefore an Undo action will be able to restore this object only
+      if the RobotManager's SendMessage methods are invoked.
+  Replicate:
+    summary: This methods makes another copy of this object but with an unique object address (a new memory location) but
+      with same attributes as this object.
+  SchBasicContainer:
+    summary: This property represents the container within the parent object (such as a document, component or sheet
+      symbol). If the container is empty it implies that this object itself is a standalone or child object.
+  SchIterator_Create:
+    summary: The SchIterator_Create method creates an iterator for the parent object (such as the document, component or the
+      sheet symbol) and with this iterator, you have the ability to iterate the child objects within, such as pins of a
+      component. Once you have finished using the iterator, invoke the SchIterator_Destroy method to free the iterator
+      from memory.
+    seeAlso:
+      - SCH.ISch_Iterator
+      - SCH.ISch_BasicContainer.SchIterator_Destroy
+  SchIterator_Destroy:
+    summary: The SchIterator_Destroy method destroys the iterator from the parent object (such as the document, component or
+      the sheet symbol). This iterator once created with the SchIterator_Create method, has the ability to iterate the
+      child objects within, such as pins of a component.
+  Setstate_Default:
+    summary: This method sets the default unit system for this object.
+    seeAlso:
+      - SCH.TUnitSystem
+  Text:
+    summary: The Text property of the ISch_Label represents the actual text string entered by the user.
+    seeAlso:
+      - SCH.ISch_Directive
+      - SCH.ISch_ErrorMarker
+      - SCH.ISch_Label
+      - SCH.ISch_TextFrame
+  UniqueId:
+    summary: The SetState_UniqueID property sets the new ID for the sheet symbol. All parameters, sheet symbols, ports,
+      pins, components, openbus links, openbus ports and openbus components have Unique IDs. Unique IDs are used to
+      maintain design synchronization in design projects.
+    remarks: The Unique ID (UID) is an system generated value that uniquely identifies this current component. It is used
+      for linking to a PCB document and for project management. Enter a new UID value or click the Reset button to
+      generate a new UID for this design object from the Change Properties dialog. You can also globally reset UIDs of
+      components and sheet symbols from the Schematic Editor's Tools » Convert » Reset Component Unique IDs menu.
+    seeAlso:
+      - SCH.ISch_Component
+      - SCH.ISch_Parameter
+      - SCH.ISch_Pin
+      - SCH.ISch_Port
+      - SCH.ISch_SheetSymbol

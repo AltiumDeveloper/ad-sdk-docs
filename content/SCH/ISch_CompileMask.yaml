@@ -1,0 +1,11 @@
+# SCH.ISch_CompileMask: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A compile mask is used to effectively hide the area of the design within the PCB project it contains from the
+  Compiler, allowing you to manually prevent error checking for circuitry that may not yet be complete and you know will
+  generated compile errors.
+remarks: >-
+  This can prove very useful if you need to compile the active document or project to check the integrity of the design
+  in other specific areas, but do not want the clutter of compiler-generated messages associated with unfinished
+  portions of the design.
+
+
+  The CompileMask object hold multiple lines of free text that can be collapsed or not.

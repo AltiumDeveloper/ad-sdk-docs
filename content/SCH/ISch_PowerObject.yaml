@@ -1,0 +1,12 @@
+# SCH.ISch_PowerObject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Power ports are special symbols that represent a power supply and are always identified by their net names. The
+  Text property is the net name of the power object.
+members:
+  ShowNetName:
+    summary: This property denotes the visibility of the net name of the power object.
+    seeAlso:
+      - SCH.TPowerObjectStyle
+  Style:
+    summary: This property denotes the style of the power object.
+    seeAlso:
+      - SCH.TPowerObjectStyle

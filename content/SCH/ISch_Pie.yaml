@@ -1,0 +1,5 @@
+# SCH.ISch_Pie: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Pie objects are unfilled or filled graphic elements.
+members:
+  IsSolid:
+    summary: The IsSolid property denotes whether the pie object has a solid fill or not.

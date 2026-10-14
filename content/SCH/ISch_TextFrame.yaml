@@ -1,0 +1,11 @@
+# SCH.ISch_TextFrame: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Text frames hold multiple lines of free text.
+remarks: >-
+  The FontID property denotes the font type of the TextFrame object. Windows true Type fonts are fully supported. The
+  FontID value denotes which font has been used. The FontID is the index to an entry in the font table in the Schematic
+  editor. Each font used in the Schematic editor has its own FontID.
+
+
+  When a new font is used (through a Change Font dialog), a new FontID is added to the internal table in the Schematic
+  editor. The FontID value can be extracted from the following Schematic objects (TextField, Sheet, Annotation,
+  TextFrame and NetLabel objects).

@@ -1,0 +1,74 @@
+# SCH.ISch_Port: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A port is used to connect a net on one sheet to Ports with the same name on other sheets. Ports can also
+  connect from child sheets to Sheet entries, in the appropriate sheet symbol on the parent sheet.
+remarks: >-
+  The port cross referencing information for ports on different schematics linked to sheet entries of a sheet symbol can
+  be added to schematic sheets by executing the Reports » Port Cross Reference » Add To Sheet or Add to Project command
+  within Schematic Editor in Altium Designer.
+
+
+  To obtain the cross reference field of a port, the design project needs to be compiled first and then port
+  cross-referencing information added to the project or the sheet.
+
+
+  Port cross references are a calculated attribute of ports, they can not be edited and are not stored with the design.
+
+
+  The location of each port reference is determined by the location of the port on the sheet and the position of the
+  connecting wire.
+
+
+  The CrossReference property returns the name of the sheet the port is linked to and the grid where the port is located
+  at. Example : 4 Port Serial Interface .
+members:
+  Alignment:
+    summary: The Alignment property determines how the port's Name is aligned with respect to the ends of the port itself.
+      The Name string can be left justified, centered or right justified.
+    seeAlso:
+      - SCH.THorizontalAlign
+  ConnectedEnd:
+    summary: The ConnectedEnd property determines how a port object is connected graphically with the TPortConnectedEnd type.
+    seeAlso:
+      - SCH.TPortConnectedEnd
+  CrossRef:
+    summary: Port Cross References are text that show which schematic sheets the ports are linked to with the zone reference
+      information in brackets. SchDoc. The string in the [] bracket is dependent on the Port Cross References options in
+      the Schematic
+    remarks: >-
+      - General page of the Preferences dialog.
+
+
+      Port Cross References are generated from the Reports » Port Cross Reference » Add to Sheet or Reports » Port Cross
+      Reference » Add to Project commands in the Schematic Editor.
+
+
+      The CrossRef string is also represented as a parameter associated with this port object AFTER the port cross
+      reference command from the Reports menu has been invoked.
+  IOType:
+    summary: "The IOType property defines the electrical properties of the port with the TPortIO type. Available Port IO
+      types are: Input, Output, Bi-directional and Unspecified."
+    remarks: The setting of this IO Type does not influence the connectivity of the circuit, but is considered during the
+      running of an electrical rules check, which can be set to detect incompatible port directions.
+    seeAlso:
+      - SCH.TPortIO
+  IsVertical:
+    summary: This method returns a Boolean value that determines whether the port object is aligned vertically or not.
+  Name:
+    summary: The Name property determines the name for the port object.
+  OverrideDisplayString:
+    summary: End;
+    remarks: The OverrrideDisplayString property determines the override display string which overrides the Name string.
+      This property is supported by the GetState_OverrideDisplayString and SetState_OverrideDisplayString methoes.
+  Style:
+    summary: The Style property determines the style of the port object. This style is determined by the TPortArrowStyle
+      type. This style defines the graphical style of the port object.
+    seeAlso:
+      - SCH.TPortArrowStyle
+  TextColor:
+    summary: The TextColor property determines the color (a value of TColor type) of the Port's Name string.
+    remarks: The TColor value specifies a 6 digit hexadecimal number of the $FFFFFF format. For example the color blue would
+      be RGB:0,0,255 and Hex:FF0000 therefore the converted decimal value would be 16711680. The following formula may
+      be used to calculate the required value, R+256*(G+(256*B)).
+  Width:
+    summary: This SetState_Width method sets the width of the port object in a TCoord value. Use one of the following
+      conversion methods to convert from a unit value to a TCoord value. For example MilsToCoord or DXPsToCoord methods.

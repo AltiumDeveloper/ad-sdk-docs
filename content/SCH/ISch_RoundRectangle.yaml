@@ -1,0 +1,7 @@
+# SCH.ISch_RoundRectangle: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Rounded rectangles are drawing objects which are unfilled or filled graphic elements.
+members:
+  CornerYRadius:
+    seeAlso:
+      - SCH.ISch_GraphicalObject
+      - SCH.ISch_Rectangle

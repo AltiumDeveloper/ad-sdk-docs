@@ -1,0 +1,52 @@
+# SCH.ISch_FontManager2: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_FontManager2 interface represents the internal font manager in Schematic Editor that manages fonts for
+  text based objects on schematic documents. The ISch_FontManager2 is the same as ISch_FontManager, but all the methods
+  have the Safecall calling convention which is important for SDK purposes.
+remarks: |-
+  To have access to the ISch_FontManager interface, you need to invoke the SchServer method;
+
+  FontManager;
+members:
+  Bold:
+    summary: This Bold property determines the Bold style for the font.
+    seeAlso:
+      - SCH.ISch_FontManager
+      - SCH.ISch_FontManager2.GetFontID
+  FontCount:
+    summary: The FontCount property returns the number of fonts used in the computer system that the Altium Designer is
+      currently residing on.
+    seeAlso:
+      - SCH.ISch_FontManager
+  FontName:
+    summary: This indexed FontName property returns the name of an indexed font as a string. Every computer could have a
+      different table of fonts used.
+  GetFontID:
+    summary: This method retrieves the font ID of TFontID type that can be used to set the font style of a text based object
+      such as a ISch_Label object.
+  GetFontSpec:
+    summary: Every font used in the Schematic document has its own FontID. You can invoke the GetFontSpec method to retrieve
+      font specifications for the supplied Font ID.
+  IsFontVertical:
+    summary: This method determines whether the font is vertically orientated or not.
+  Italic:
+    summary: This Italic property determines the Italic style for the font.
+    seeAlso:
+      - SCH.ISch_FontManager2.GetFontID
+  Rotation:
+    summary: The Rotation property determines the orientation of the text object. For ISch_Labels, it is necessary to set
+      the Orientation property of these ISch_Labels as well as the Rotation property for the FontID variables.
+  Size:
+    summary: The Size property determines the font size.
+    seeAlso:
+      - SCH.ISch_FontManager
+      - SCH.ISch_FontManager2.GetFontID
+  StrikeOut:
+    summary: The StrikeOut property determines whether the font is striked out or not.
+    seeAlso:
+      - SCH.ISch_FontManager
+      - SCH.ISch_FontManager2.GetFontID
+  UnderLine:
+    summary: This UnderLine property determines whether the font is underlined or not.
+    seeAlso:
+      - SCH.ISch_FontManager
+      - SCH.ISch_FontManager2.GetFontID

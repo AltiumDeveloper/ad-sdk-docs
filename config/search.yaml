@@ -1,0 +1,20 @@
+# Search ranking knobs, embedded into static/search-index.json by `npm run search:index` (the engine itself is in
+# src/search/engine.mjs). Check every change with `npm run search:eval`.
+
+# Leading name words that only say where a name comes from. Ranking ignores them, so "component" finds ISch_Component
+# and "iterator" ISch_Iterator first. camelCase entries are word sequences; the longest match is dropped.
+prefixes: [i, iSch, iPcb, t, e, getState, setState]
+
+# Phrasings that never appear in names. When `match` (a case-insensitive regular expression) matches the query, the
+# query is extended with `add`.
+synonyms:
+  - { match: '\bschematics?\b', add: sch }
+  - { match: '\bprinted circuit boards?\b', add: pcb }
+  - { match: '\bbills? of materials?\b', add: bom }
+  - { match: '\b(?:electrical rule checks?|erc)\b', add: no erc }
+  - { match: '\bundo\b', add: robot manager }
+  - { match: '\b(?:loop|walk|traverse|enumerate) (?:over |through )?objects?\b', add: iterator }
+  - { match: '\bcreate (?:an? )?objects?\b', add: object factory }
+
+# Ranking prior per namespace slug (default 1).
+contextWeights: {}

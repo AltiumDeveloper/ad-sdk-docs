@@ -1,0 +1,24 @@
+# SCH.ISch_HarnessConnector: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_HarnessConnector interface is used to represent a harness connector design obejct which is a member of
+  the harness system.
+members:
+  LineWidth:
+    summary: The LineWidth property defines the line width of the harness connector which is based on one of the TSize values. .
+    seeAlso:
+      - SCH.TSize
+      - SCH.ISch_HarnessEntry
+  MasterEntryLocation:
+    summary: The MasterEntryLocation property defines the location of the master entry of the harness connector. The master
+      entry represents the tip of the harness connector and the position of the tip is determined from the top side of
+      the connector..
+    seeAlso:
+      - SCH.ISch_HarnessConnectorType
+      - SCH.ISch_HarnessEntry
+      - SCH.TSize
+  SchHarnessConnectorType:
+    summary: The HarnessConnectorType property defines the harness connector type of the harness connector and returns the
+      ISch_HarnessConnectorType interface. The default connector type is 'Harness'.
+    seeAlso:
+      - SCH.ISch_HarnessConnectorType
+      - SCH.ISch_HarnessEntry
+      - SCH.TSize

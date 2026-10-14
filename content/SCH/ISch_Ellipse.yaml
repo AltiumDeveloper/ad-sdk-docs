@@ -1,0 +1,11 @@
+# SCH.ISch_Ellipse: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An ellipse is a drawing object which is filled or unfilled graphic elements on a schematic sheet. Refer to the
+  ISch_Circle interface for details.
+members:
+  SecondaryRadius:
+    summary: The secondary radius property defines the second set of arcs the define the elliptical arc. The elliptical arc
+      has two sets of arcs (four all together). The Radius property defines the first set of arcs that define the
+      elliptical arc (inherited from the ISch_Arc interface).
+    seeAlso:
+      - SCH.ISch_Circle
+      - SCH.ISch_EllipticalArc

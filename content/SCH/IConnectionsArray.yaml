@@ -1,0 +1,36 @@
+# SCH.IConnectionsArray: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IConnectionsArray represents the bus and wire connections in a schematic document. Bus and wire connections
+  that have more than 3 connections could be connected by an automatic junction or a manual junction (placed by an
+  user).
+remarks: >-
+  A schematic with valid buses and wires will have connections. An IConnectionsArray interface has all the connections
+  for this schematic sheet and each element in the IConnectionsArray interface is a IConnection interface type.
+
+
+  IConnectionsArray Methods and Properties Table
+members:
+  AddConnection:
+    summary: This method adds a connection with a location parameter into the IConnectionsArray object.
+    seeAlso:
+      - SCH.IConnectionsArray.AddConnectionXY
+  AddConnectionXY:
+    summary: This method adds a connection with X,Y parameters into the IConnectionsArray object.
+    seeAlso:
+      - SCH.IConnectionsArray.AddConnection
+  Connection:
+    summary: This method retrieves the indexed connection of IConnection type from the IConnectionsArray interface.
+  ConnectionsCount:
+    summary: This method returns the number of connections for wires or buses on the schematic sheet. For each
+  GetConnectionAt:
+    summary: This method retrieves the connection of IConnection type based on the Location parameter.
+  GraphicallyInvalidate:
+    summary: This method puts the group of design objects (bus or wire objects in an connection array) in an invalid state.
+      A redraw is required to update the schematic sheet.
+  RemoveAllConnectionsAt:
+    summary: This method removes all connections at this specified location on the schematic document.
+  RemoveAllConnectionsForLine:
+    summary: This method removes all connections for the specified line with L1 and L2 parameters. If the call was
+      successful, a true value is returned. The Connections can either represent bus or wire connections.
+  ResetAllConnections:
+    summary: This method resets all connections (frees all items) in the IConnectionsArray interface for either wire or bus
+      connections.

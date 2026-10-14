@@ -1,0 +1,41 @@
+# SCH.ISch_SheetEntry: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A sheet entry within a Sheet Symbol object creates a connection between the net touching on the parent sheet,
+  to a Port with the same name on the child sheet.
+members:
+  DistanceFromTop:
+    summary: The DistanceFromTop property defines the location of the sheet entry in respect to the associated sheet symbol.
+  IOType:
+    summary: "The IOType property determines the IO of the sheet entry. This IO Type defines the electrical properties of
+      the sheet entry. Available IOs are: Input, Output, Bi-directional and Unspecified. The IO setting does not
+      influence the connectivity of the circuit, but is considered during the running of an electrical rules check,
+      which can be set to detect incompatible port directions."
+    remarks: Note, the I/O Type of the Sheet Entry overrides the Style property. If the I/O Type is set to Unspecified you
+      can set the appropriate Style for this sheet entry. However if the I/O Type is set to one of the specified I/O
+      types then changing the Style will not update the graphical content of the sheet entry.
+    seeAlso:
+      - SCH.TPortIO
+  IsVertical:
+    summary: This method returns a Boolean value that determines whether the sheet entry is aligned vertically or not.
+  Name:
+    summary: The Name property defines the name of the sheet entry. Normally the name property is a number but can be
+      alphanumeric.
+  OverrideDisplayString:
+    summary: The OverrideDisplayString property defines the OverRideDisplayString property.
+    seeAlso:
+      - SCH.ISch_HarnessEntry
+  Side:
+    summary: The Side property defines the orientation of the sheet entry in respect to the associated sheet symbol.
+    seeAlso:
+      - SCH.TLeftRightSide
+  Style:
+    summary: The Style property determines the style of the sheet entry and is determined by the TPortArrowStyle type. This
+      style defines the graphical style of the sheet entry only if the I/O Type property is set to Unspecified. The IO
+      Type of the Sheet Entry overrides the Style property if the I/O Type is set to one of the specified IO types then
+      changing the Style will not update the graphical content of the sheet entry.
+    seeAlso:
+      - SCH.TPortArrowStyle
+  TextColor:
+    summary: The TextColor property defines the color (a value of TColor type) for the Harness Entry's Name string.
+    remarks: The TColor value specifies a 6 digit hexadecimal number of the $FFFFFF format. For example the color blue would
+      be RGB:0,0,255 and Hex:FF0000 therefore the converted decimal value would be 16711680. The following formula may
+      be used to calculate the required value, R+256*(G+(256*B)).

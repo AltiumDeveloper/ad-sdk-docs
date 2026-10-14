@@ -1,0 +1,10 @@
+# SCH.ISch_EllipticalArc: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Elliptical arc objects are drawing objects which represent open circular or elliptical curves on a schematic
+  sheet. Refer to the ISch_Arc interface for extra details.
+members:
+  SecondaryRadius:
+    summary: The secondary radius property defines the second set of arcs the define the elliptical arc. The elliptical arc
+      has two sets of arcs (four all together). The Radius property defines the first set of arcs that define the
+      elliptical arc (inherited from the ISch_Arc interface).
+    seeAlso:
+      - SCH.ISch_Arc

@@ -1,0 +1,31 @@
+# SCH.IComponentInfo: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IComponentInfo interface is an item within the ILibCompInfoReader interface. This IComponentInfo interface
+  represents a schematic symbol in a specified schematic library file with a SchLib extension.
+remarks: |-
+  The steps required to load a schematic library and its components.
+
+  1. Create an object and pass in the filename of a schematic library file. CreateLibCompInfoReader(FileName);
+
+  2. Invoke the ReadAllComponentInfo method to load the library and its components.
+
+  3. Invoke the NumComponentInfos method to obtain the number of components for this library
+
+  4. Obtain the indexed ComponentInfos method. This ComponentInfos method returns the indexed IComponentInfo interface.
+
+  ComponentInfos method.
+members:
+  AliasName:
+    summary: This property returns the alias name for this component. Ie a component can be referred to by one of its
+      multiple names.
+  CompName:
+    summary: This property returns the name string for this component from the IComponentInfo object interface. This
+      property is supported by the GetState_CompName method.
+  Description:
+    summary: This property returns the description string for this component from the IComponentInfo object interface.
+  Offset:
+    summary: This property returns the offset as a number
+    remarks: "- each part of a component whole has an offset to denote its place within the component. This property is
+      supported by the GetState_Offset method."
+  PartCount:
+    summary: This method obtains the number of parts (multiple types of the same component type as an example). For example
+      an Integrated circuit may have multiple smaller modules, such as a 74LS00 has multiple OR gates.

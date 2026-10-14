@@ -1,0 +1,4 @@
+# SCH.ISch_Note: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_Note interface represents the note object on the schematic sheet. This note object stores textual
+  information and can be collapsed upon user's mouse click on the schematic sheet.
+remarks: The interface hierarchy for the ISch_Note interface is as follows;

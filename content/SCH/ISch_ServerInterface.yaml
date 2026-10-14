@@ -1,0 +1,89 @@
+# SCH.ISch_ServerInterface: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This interface is an entry interface to the schematic server loaded in Altium Designer. You can fetch the
+  Preferences, Robot Manager (for sending messages into the schematic system), the font manager for managing fonts on a
+  schematic document. You can also create or delete schematic design objects from this interface.
+remarks: >-
+  The ISch_ServerInterface as the composite interface has the following aggregate object interfaces:
+
+
+  Note that these IServerModule interfaces represent loaded servers in Altium Designer. This application manages single
+  instances of different server modules. Each server can have multiple server document kinds, for example the Schematic
+  server supports two server document kinds - SCH and SCHLIB design documents. A loaded server typically hosts documents
+  and each document in turn hosts a document view and panel views. Thus a Schematic Editor server also has the
+  IServerModule interface along with the ISch_ServerInterface interface.
+
+
+  Invoke the SchServer method to obtain the ISch_ServerInterface object interface which represents the Schematic Editor
+  server.
+members:
+  CreateComponentMetafilePainter:
+    seeAlso:
+      - SCH.IComponentMetafilePainter
+  CreateComponentPainter:
+    summary: A IComponentPainterView interface represents the surface that a component can be painted on.
+    remarks: >-
+      This interface is a IExternalForm type which represents the TExternalFormComponent object. The TExternalForm class
+      is defined in the ExternalForm unit from the DXP Run Time Library.
+
+
+      This IComponentPainterView interface is not supported in the scripting system.
+
+
+      This IComponentPainterView interface is for server development purposes and you need to have RT_IntegratedLIbrary,
+      RT_Schematic, ExternalForms and the RT_ClientServerINterfaces units in a server project.
+    seeAlso:
+      - SCH.IComponentPainterView
+  CreateDocumentPainter:
+    summary: This method retrieves the IDocumentPainterView interface that represents the Mini Viewer object in the
+      Schematic Editor.
+    seeAlso:
+      - SCH.IDocumentPainterView
+  CreateLibCompInfoReader:
+    summary: The method returns a ILibCompInfoReader interface that represents a library component information reader object.
+    remarks: NumComponentsInfos method and then to obtain the information for each component in this library invoke the
+      ComponentInfos[] method. When you are done, invoke the DestroyCompInfoReader method.
+    seeAlso:
+      - SCH.ILibCompInfoReader
+  DestroyCompInfoReader:
+    summary: The method destroys an library component information reader object that is represented by the
+      ILibCompInfoReader interface.
+    seeAlso:
+      - SCH.ISch_ServerInterface.CreateLibCompInfoReader
+      - SCH.ILibCompInfoReader
+  FontManager:
+    summary: This property retrieves the Font manager object which is represented by the ISch_FontManager interface.
+    seeAlso:
+      - SCH.ISch_FontManager2
+  GetCurrentSchDocument:
+    summary: This method returns the ISch_Document interface that represents the current schematic document open in Altium
+      Designer.
+    seeAlso:
+      - SCH.ISch_Document
+  JunctionConvertSettings:
+    summary: The JunctionConvertSettings property represents a crossing of wiring on a schematic sheet. When an addition of
+      a wire would create a four-way junction, this is converted to into two adjacent three way junctions. If it is
+      disabled and when a four way junction is created, the two wires crossing at the intersection are not joined
+      electrically and if the Display Cross Overs option is enabled, a cross over is shown on this intersection.
+    seeAlso:
+      - SCH.ISch_JunctionConvertSettings
+  ProbesTimerEnabled:
+    summary: The ProbesTimerEnabled property determines whether the Probes are active or not. This feature is used in the
+      LiveDesign process in Altium Designer.
+  RobotManager:
+    summary: This property returns the ISch_RobotManager interface. This interface deals with sending Schematic notification
+      messages in the system. To have the ability to send a specific message when a specific event in the Schematic
+      Editor occurs can be achieved with the ISch_RobotManager interface.
+    seeAlso:
+      - SCH.ISch_RobotManager
+  SchObjectFactory:
+    summary: The SchObjectFactory method creates a new object based on TObjectID and TObjectCreationMode values.
+    remarks: When you wish to create a new design object with the ISch_ServerInterface's SchObjectFactory method, you will
+      need to have a specific design object type, assign this object with new attribute values and register this object
+      with in the schematic document with the ISch_Document's RegisterSchObjectInContainer method.
+    seeAlso:
+      - SCH.TObjectCreationMode
+  SchPreferences:
+    summary: This Preferences property retrieves the ISch_Preferences interface which represents the Preferences object for
+      the Schematic Editor.
+    seeAlso:
+      - SCH.ISch_Preferences

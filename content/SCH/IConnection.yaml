@@ -1,0 +1,35 @@
+# SCH.IConnection: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IConnection interface represents whether the wire or bus connection has a manual junction on it or not,
+  with location, wire or bus objects count and the thickness of wire or bus objects.
+remarks: >-
+  The object count denotes the number of connections from this connection location for example one end of a capacitor
+  can have two or more wire connections because it is tied to the Ground as well as to other points on the schematic. A
+  connection that has 3 or more wire / bus objects denotes that a junction (system generated or manually placed) is
+  required to tied the connections together. Thus you can use the IConnection interface to determine the number of wire
+  or bus connections at the specified location.
+
+
+  The project that has schematics need to be compiled first before IConnection interfaces can be extracted with valid
+  data.
+
+
+  The ISch_Sheet interface has the IConnectionsArray interface which in turn has the IConnection interface.
+
+
+  The ISch_Document can be either ISch_Sheet or ISch_Lib interfaces depending on which document (Schematic Sheet or
+  Schematic Library) you are working with.
+
+
+  A manual junction (placed by an user) may signify a forced connection of at least 3 or more connections on a schematic
+  document.
+
+
+  IConnection Methods and Properties Table
+members:
+  IsManualJunction:
+    summary: This property retrieves or sets the IsManualJunction setting of Bus or Wire connection represented by the
+      IConnection object.
+  Location:
+    summary: This property retrieves or sets the Location of Bus or Wire connection represented by the IConnection object.
+  ObjectsCount:
+    summary: This property retrieves or sets the Objects Count for Bus or Wire connection represented by the IConnection object.

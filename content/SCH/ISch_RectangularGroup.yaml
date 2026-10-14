@@ -1,0 +1,22 @@
+# SCH.ISch_RectangularGroup: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_RectangularGroup interface represents a group rectangular object with the size of the object with
+  XSize and YSize dimensions. The Origin of the rectangular object is the Location property from the
+  ISch_GraphicalObject interface.
+remarks: >-
+  The ISch_RectangularGroup interface is an ancestor interface for the ISch_SheetSymbol, ISch_HarnessConnector and
+  IOpenBus_Component interfaces.
+
+
+  The interface hierarchy for the ISch_RectangularGroup interface is as follows;
+members:
+  XSize:
+    summary: The XSize property sets or gets the XSize dimension of the rectangular group object such as a sheet symbol. The
+      XSize and YSize values determines the size of the rectangular group object in the X and Y directions.
+    remarks: The Location property from the ISch_GraphicalObject interface determines the origin of the rectangular group
+      object.
+    seeAlso:
+      - SCH.ISch_RectangularGroup.YSize
+  YSize:
+    summary: This method sets the YSize dimension of the rectangular group object such as the sheet symbol.
+    seeAlso:
+      - SCH.ISch_RectangularGroup.XSize

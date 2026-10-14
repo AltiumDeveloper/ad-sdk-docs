@@ -1,0 +1,279 @@
+# SCH.IIntegratedLibraryManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IIntegratedLibraryManager interface represents the integrated library manager that manages schematic
+  components and its models from installed libraries in Altium Designer.
+remarks: |-
+  Invoke the IntegratedLibraryManager method to fetch the IIntegratedLibraryManager interface.
+
+  Integrated Library Manager Methods and Properties Table
+members:
+  AddRemoveLibraries:
+    summary: This method invokes the Available Libraries dialog with a list of installed libraries if any and their
+      activated, path and type values.
+  AvailableLibraryCount:
+    summary: The AvailableLibraryCount method determines the number of available libraries. Note, the first installed
+      library in the Available Libraries dialog is indexed zero (0).
+    remarks: >-
+      An available library is one of the libraries on the Installed, Project and Search path tabs within the Available
+      Libraries dialog.
+
+
+      An installed library appears in the Installed tab of the Available Libraries dialog.
+    seeAlso:
+      - SCH.IIntegratedLibraryManager.AvailableLibraryPath
+      - SCH.IIntegratedLibraryManager.AvailableLibraryType
+  AvailableLibraryPath:
+    summary: The AvailableLibraryPath method retrieves the file path of the indexed library in the Available Libraries
+      dialog. Note, the first installed library in the Available Libraries dialog is indexed zero (0).
+    remarks: >-
+      An available library is one of the libraries on the Installed, Project and Search path tabs within the Available
+      Libraries dialog.
+
+
+      An installed library appears in the Installed tab of the Available Libraries dialog.
+  AvailableLibraryType:
+    summary: The AvailableLibraryType method determines what type the indexed library is. Note, the first installed library
+      in the Available Libraries dialog is indexed zero (0).
+    remarks: >-
+      An available library is one of the libraries on the Installed, Project and Search path tabs within the Available
+      Libraries dialog.
+
+
+      An installed library appears in the Installed tab of the Available Libraries dialog.
+
+
+      TLibraryType = (eLibIntegrated, eLibSource, eLibDatafile, eLibDatabase, eLibNone, eLibQuery, eLibDesignItems);
+    seeAlso:
+      - SCH.TLibraryType
+  BrowseForComponent:
+    summary: This BrowseForDataFile method invokes the Browse for Components dialog.
+  BrowseForComponentAndPart:
+    summary: This BrowseForComponentAndPart method invokes the Browse for Parts dialog.
+  BrowseForDatafile:
+    summary: This BrowseForDataFile method invokes the Browse Libraries dialog.
+  ComponentHasModelOfType:
+    summary: "This method checks if this indexed component from the specified library has this model type. Model Types include:"
+    remarks: |-
+      PCBLIB
+
+      PCB3DLIB
+
+      SIM
+
+      SI
+  CreateIntegratedLibrary:
+    summary: This CreateIntegratedLibrary method creates an integrated library from a project into the specified
+      AnOutputPath path and depending on the Install parameter is installed in the Available Libraries dialog.
+  ExtractSources:
+    summary: This ExtractSources method extracts the source files such as PCBLIB and PCB3DLIb files from the Integrated
+      Library specified by its ALibraryPath parameter.
+  ExtractSourcesToPath:
+    summary: This ExtractSources method extracts the source files such as PCBLIB and PCB3DLIb files to the destination path
+      (ADestinationPath parameter) from the Integrated Library specified by its ALibraryPath parameter.
+  FindComponentLibraryPath:
+    summary: The method returns the path of the library the component is part of.
+    remarks: >-
+      The ALibIdentifierKind parameter denotes which type of library the component is from.
+
+
+      TLibIdentifierKind = (eLibIdentifierKind_Any, eLibIdentifierKind_NameNoType, eLibIdentifierKind_NameWithType,
+      eLibIdentifierKind_FullPath);
+
+
+      The ALIbraryIdentifier parameter is the library identifier string that the component is associated with.
+
+
+      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
+      Integrated Library or an unique part number from a record within a table of a Database.
+  FindComponentSymbol:
+    summary: The method validates whether if the component symbol is available or not dependent on the supplied parameters.
+    remarks: >-
+      The ALibIdentifierKind parameter denotes which type of library the component is from.
+
+
+      TLibIdentifierKind = (eLibIdentifierKind_Any, eLibIdentifierKind_NameNoType, eLibIdentifierKind_NameWithType,
+      eLibIdentifierKind_FullPath);
+
+
+      The ALibraryIdentifier parameter is the library identifier string that the component is associated with.
+
+
+      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
+      Integrated Library or an unique part number from a record within a table of a Database.
+
+
+      The ASymbolLibraryPath is the library.
+
+
+      The ASymbolReference is the name of the component symbol.
+  FindDatafileEntityDatafilePath:
+    summary: The method returns the path of the library the component is part of.
+    remarks: |-
+      The ALibIdentifierKind parameter denotes which type of library the component is from.
+
+      TLibIdentifierKind = (eLibIdentifierKind_Any,
+
+      eLibIdentifierKind_NameNoType,
+
+      eLibIdentifierKind_NameWithType,
+
+      eLibIdentifierKind_FullPath);
+
+      The ALibraryIdentifier parameter is the library identifier string that the component is associated with.
+
+      The ADatafileEntityName parameter
+
+      The ADatafileType parameter
+
+      The AUseIntAndDBLibrary parameter
+  FindDatafileEntitySourceDatafilePath:
+    summary: This method returns the path of the data file in library .
+  FindDatafileInStandardLibs:
+    summary: This method returns the path of the data file for the specified model in an integrated library. You need to
+      specify the ADataFileEntityName parameter which is the footprint name, 3D model name, Sim name or SI name.
+    remarks: >-
+      The ADataFileType parameter denotes the model type represented by the datafiletype (PCB, PCB3DLIB, SIM, SI).
+
+
+      The ADatafileLocation parameter is optional.
+
+
+      The ForComponentInstance is a Boolean and is true if it is in an integrated library, false otherwise.
+
+
+      The FoundInLibraryPath parameter is a returnable value and returns the location of the data file if all the
+      supplied parameters are valid.
+  FindLibraryInformation:
+    summary: The method validates the existence of the library.
+    remarks: >-
+      The ALibIdentifierKind parameter denotes which type of library the component is from.
+
+
+      TLibIdentifierKind = (eLibIdentifierKind_Any,
+
+
+      eLibIdentifierKind_NameNoType,
+
+
+      eLibIdentifierKind_NameWithType,
+
+
+      eLibIdentifierKind_FullPath);
+
+
+      The ALIbraryIdentifier parameter is the library identifier string that the component is associated with. Normally
+      a path to a library.
+
+
+      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
+      Integrated Library or an unique part number from a record within a table of a Database.
+
+
+      The ALibraryPath parameter is returned for the valid design item of a component.
+
+
+      The ADBTableName is returned if a component is from a database.
+  FindModelLibraryPath:
+    summary: The method returns the path of the library the model is part of.
+    remarks: >-
+      The ALibIdentifierKind parameter denotes which type of library the component is from.
+
+
+      TLibIdentifierKind = (eLibIdentifierKind_Any,
+
+
+      eLibIdentifierKind_NameNoType,
+
+
+      eLibIdentifierKind_NameWithType,
+
+
+      eLibIdentifierKind_FullPath);
+
+
+      The ALIbraryIdentifier parameter is the library identifier string that the component is associated with.
+
+
+      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
+      Integrated Library or an unique part number from a record within a table of a Database.
+
+
+      The AModelName parameter is the name of the implementation (model) linked to this component.
+
+
+      The AModelType parameter is the model type of the implementation (model) linked to this component.
+  GetComponentCount:
+    summary: This method retrieves the count of components within the integrated library specified by the LibraryPath parameter.
+  GetComponentDatafileLocation:
+    summary: This GetComponentDatafileLocation method obtains the location of the datafile for the component with the
+      specified data file index, model name and its model type, component name and the full library. The result is
+      returned in the FoundInLibraryPath parameter or by the method itself.
+  GetComponentLocation:
+    summary: This GetComponentLocation returns the path of the specified component name within the specified library.
+  GetComponentName:
+    summary: This method retrieves the name for the indexed component within the specified integrated library. Remember
+      first index is 0.
+  GetDatafileEntityCount:
+    summary: This method gets datafile entity count for the specified component and its indexed model in the specified
+      library path. Remember first index is 0.
+  GetDatafilePath:
+    summary: This method gets datafile path for the specified component, its indexed model and its indexed datafile in the
+      specified library path. Remember first index is 0.
+  GetModelCount:
+    summary: This method retrieves the model count for the indexed component within the specified library. The first indexed
+      component is 0.
+    seeAlso:
+      - SCH.IIntegratedLibraryManager.GetModelName
+      - SCH.IIntegratedLibraryManager.GetModelType
+  GetModelName:
+    summary: This method retrieves the model name for the indexed component within the specified library. The first indexed
+      component is 0.
+    seeAlso:
+      - SCH.IIntegratedLibraryManager.GetModelCount
+      - SCH.IIntegratedLibraryManager.GetModelType
+  GetModelType:
+    summary: This method retrieves the model type for the indexed component within the specified library. The first indexed
+      component is 0.
+    seeAlso:
+      - SCH.IModelType
+      - SCH.IIntegratedLibraryManager.GetModelName
+      - SCH.IIntegratedLibraryManager.GetModelCount
+  InstalledLibraryCount:
+    summary: This InstalledLibraryCount method reports the number of installed libraries as in the Installed tab of the
+      Available Libraries dialog in Altium Designer.
+    seeAlso:
+      - SCH.IIntegratedLibraryManager.InstalledLibraryPath
+      - SCH.IIntegratedLibraryManager.AvailableLibraryPath
+      - SCH.IIntegratedLibraryManager.AvailableLibraryCount
+  InstalledLibraryPath:
+    summary: This InstalledLibraryPath method retrieves the path of the indexed installed library in Altium Designer. An
+      installed library appears in the installed libraries list box in the Installed tab of the Available Libraries
+      dialog.
+  InstallLibrary:
+    summary: This method installs the library (full path) in the Available Libraries dialog (in the Installed page) in
+      Altium Designer.
+  MakeCurrentProject:
+    summary: This method makes the current library in the Libraries panel based on the project.
+  ModelCount:
+    summary: This ModelCount method returns the number of models of the same type associated with the component within the
+      specified library. The AComponentName parameter is the name of the component. The AComponentLibraryName parameter
+      is the full path of the library the component is from, and the AModelType parameter is the model type you wish to
+      find how many.
+  ModelName:
+    summary: This ModelName method returns the name of the model type associated with the component within a specified library.
+  PlaceLibraryComponent:
+    summary: This method places a component from a specified library with Library Reference and Parameters that
+      describe/define this component.
+    remarks: >-
+      The ALIbReference parameter defines the component. For example 'Res2'
+
+
+      The ALibraryPath parameter defines the path to the library that the component is from. IntLib'
+
+
+      The Parameters parameter defines the parameters needed for the component to be able to be placed on the schematic
+      sheet. Y=20000000'. Y parameters at the least to be able to place this component on the schematic sheet.
+  UninstallLibrary:
+    summary: This method removes the specified library (full path) in the Available Libraries dialog (in the Installed page)
+      in Altium Designer
+    seeAlso:
+      - SCH.IIntegratedLibraryManager.InstallLibrary

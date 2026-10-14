@@ -1,0 +1,122 @@
+# SCH.ISch_Component: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_Component references the logical symbol as a component that can contain links to different model
+  implementations such as PCB, Signal Integrity and Simulation models. Only one model of a particular model type (PCB
+  footprint, SIM, SI, EDIF Macro and VHDL) can be enabled as the currently linked model, at any one time.
+remarks: >-
+  Each schematic component has two system parameters - the Designator parameter and the Comment parameter. Custom
+  parameters can be added anytime. The Comment parameter can be assigned an indirect name parameter. Once a name
+  parameter (with a equal sign character as a prefix to the name parameter) is assigned to the Comment field of the
+  Component properties dialog, the value for this parameter appears on the document, ensure that the Convert Special
+  Strings option in the Schematic Preferences dialog is enabled.
+
+
+  The Unique ID (UID) is an system generated value that uniquely identifies this current component. It is used for
+  linking to an associated PCB component on a PCB document. Enter a new UID value or click the Reset button to generate
+  a new UID if you wish to force the Schematic component to be linked to a different PCB component. You will need to run
+  the Component Links... dialog to update the linkage on the corresponding PCB document.
+
+
+  This SourceLibraryName property denotes the source library where the symbol and its associated model links are from.
+  The * character in this field denotes the current library of the current project. Note a schematic component is a
+  symbol with a defined designator placed on a schematic document.
+
+
+  The LibraryRef property is the name of the symbol. The symbol is from the library specified in the Library field
+  below.
+
+
+  The SheetPartyFilename property, enter a sub design project file name to be linked to the current schematic component.
+  An example of a sub design project is a programmable logic device project or a schematic sub-sheet.
+members:
+  AddDisplayMode:
+    summary: The AddDisplayMode method adds a graphical representation (mode) for the current component. Up to 255
+      alternative modes can be created.
+  AddSchImplementation:
+    summary: Each schematic component can have models from one or more domains. A schematic component can also have multiple
+      models per domain, one of which will be the current model for that domain.
+    remarks: >-
+      A model represents all the information needed for a component in a given domain, while a datafile entity (or link)
+      is the only information which is in an external file.
+
+
+      The models of a component are represented by the ISch_Implementation interface.
+
+
+      The mapping of pins of a component and the nodes/ports/pads of a model are represented by the ISch_MapDefiner
+      interfaces.
+
+
+      The link between a model and its external data file links are represented by the ISch_DataFileLink interfaces.
+    seeAlso:
+      - SCH.ISch_Implementation
+      - SCH.ISch_MapDefiner
+  AliasAt:
+    summary: The indexed property returns an alias string. A component can have multiple aliases because a component name
+      can be referred to by multiple names. For example a SN7432 is also SN74LS32 or SN74S32.
+    remarks: Use the AliasCount property to obtain the number of aliases before going through one by one.
+  AliasCount:
+    remarks: Use the AliasCount to obtain the count before going through each indexed Alias property one by one.
+  ComponentDescription:
+    summary: The ComponentDescription property determines the description string for this component. Normally this string
+      contains text on what this component is.
+  ComponentKind:
+    summary: The ComponentKind property deteremines the component's type of TComponentKind type. This property is supported
+      by the GetState_ComponentKind and Setstate_Component kind methods.
+    remarks: >-
+      eComponentKind_Standard: These components possess standard electrical properties, are always synchronized and are
+      the type most commonly used on a schematic sheet.
+
+
+      eComponentKind_Mechanical: These components do not have electrical properties and will appear in the BOM. They are
+      synchronized if the same components exist on both the Schematic and PCB documents. An example is a heatsink.
+
+
+      eComponentKind_Graphical: These components are not used during synchronization or checked for electrical errors.
+      These components are used, for example, when adding company logos to documents.
+
+
+      eComponentKind_NetTie_BOM: These components short two or more different nets and these components will appear in
+      the BOM and are maintained during synchronization.
+
+
+      eComponentKind_NetTie_NoBOM: These components short two or more different nets and these components will NOT
+      appear in the BOM and are maintained during synchronization.
+
+
+      eComponentKind_Standard_NoBOM: These components possess standard electrical properties, and are synchronized BUT
+      are not included in any BOM file produced from the file.
+  DeleteDisplayMode:
+    summary: This DeleteDisplayMode removes a display mode (graphical representation) from the component.
+  DisplayMode:
+    summary: The GetState_DisplayMode method returns the TDisplayMode value for this component. This TDisplayMode is a byte
+      type from RT_Workspace unit.
+  DisplayModeCount:
+    summary: The property can return up to 255 display modes for the same component. Modes are added or edited in the
+      Schematic Library Editor.
+  IsMirrored:
+    summary: The IsMirrored property determines whether the component is mirrored along the x-axis.
+  Orientation:
+    summary: This property determines the orientation of the component on the schematic sheet in increments of 0,90,180 and
+      270 degrees only.
+    seeAlso:
+      - SCH.TRotationBy90
+  OverideColors:
+    summary: The SetState_OverrideColors method sets the local colors for the component. This component's fill, line and pin
+      colors are overridden with the colors from the Fill, Lines and Pins color boxes respectively.
+  PartCountNoPart0:
+    summary: A component can consist of more than one part, for example a 74LS00 contains four parts.
+    remarks: Each component also includes a non-graphical part, Part Zero. Part Zero is used for pins that are to be
+      included in all parts of a multi-part component, for example power pins.
+  SchComment:
+    summary: The Comment property determines the comment object associated with the component object. The Component
+      Properties dialog for this component has a Comment field. The Parameter object has a Name and Value fields and
+      this Name field will normally have 'Comment' string and a Value string.
+    seeAlso:
+      - SCH.ISch_Parameter
+  ShowHiddenFields:
+    summary: The ShowHiddenFields property determines the visibility of the text fields associated with the component, such
+      as its name. If the Value is true, the hidden fields of the component will be displayed on the schematic sheet. If
+      the value is false, the hidden text fields are not shown on the schematic.
+  ShowHiddenPins:
+    summary: This property determines whether the hidden pins of a component can be hidden or not. Power pins are often
+      defined as hidden.

@@ -1,0 +1,5 @@
+# SCH.ISch_BasicPolyline: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  LineStyle:
+    seeAlso:
+      - SCH.ISch_Polyline

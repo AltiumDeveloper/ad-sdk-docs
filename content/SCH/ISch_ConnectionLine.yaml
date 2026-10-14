@@ -1,0 +1,11 @@
+# SCH.ISch_ConnectionLine: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A connection line represents a line that has corner properties as well as width and style properties between
+  two nodes on a schematic document.
+members:
+  IsInferred:
+    summary: An inferred property indicates that a connection between documents has been detected by the Schematic
+      Navigation system after the project has been compiled.
+    remarks: An inferred property denotes whether the object is an inferred object with respect to connective objects. Bus
+      and Sheet Symbols can be defined in ranges using the NetLabel [] and Repeat statements respectively and once the
+      project has been compiled, inferred objects created in memory for navigation/connective purposes. A5 net labels
+      (only in memory). This property is useful for multi - channel projects and for sheets that have Bus objects.

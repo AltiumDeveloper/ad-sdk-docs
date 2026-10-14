@@ -1,0 +1,85 @@
+---
+title: Working with schematics
+sidebar_position: 3
+description: Find, change and create schematic objects - the current document, iterators, modification notifications and the object factory.
+---
+
+# Working with schematics
+
+## The current document
+
+[`ISch_ServerInterface.GetCurrentSchDocument`](../reference/sch/ISch_ServerInterface/GetCurrentSchDocument.md) returns
+the active schematic document, or `null` when the active document is not a schematic. Schematic sheets are
+[`ISch_Sheet`](../reference/sch/ISch_Sheet.md) and schematic libraries [`ISch_Lib`](../reference/sch/ISch_Lib.md);
+both are [`ISch_Document`](../reference/sch/ISch_Document.md):
+
+```csharp
+ISch_ServerInterface schServer = SCH.GlobalVars.SchServer;
+if (schServer == null)
+    return;
+
+ISch_Document document = schServer.GetCurrentSchDocument();
+if (document == null)
+    return;
+
+ISch_Lib library = document as ISch_Lib; // null on a schematic sheet
+```
+
+## Iterating over objects
+
+An [`ISch_Iterator`](../reference/sch/ISch_Iterator.md) walks the objects of a document or of a container such as a
+component. Restrict it to some object kinds with a filter, then step through the objects:
+
+```csharp
+ISch_Iterator iterator = document.SchIterator_Create();
+var objectSet = new SCH.TObjectSet();
+objectSet.Add(SCH.TObjectId.eWire);
+iterator.AddFilter_ObjectSet(objectSet);
+
+for (var wire = iterator.FirstSchObject() as ISch_Wire; wire != null; wire = iterator.NextSchObject() as ISch_Wire)
+{
+    // ...
+}
+
+document.SchIterator_Destroy(ref iterator);
+```
+
+## Changing objects
+
+Tell the schematic editor before and after changing an object, so that undo and the other editor sub-systems stay
+consistent. The notifications go through the [`ISch_RobotManager`](../reference/sch/ISch_RobotManager.md):
+
+```csharp
+ISch_RobotManager robot = schServer.GetState_RobotManager();
+
+robot.SendMessage(wire, null, SCH.SCHConstant.SCHMBeginModify, SCH.SCHConstant.NoEventData);
+wire.SetState_Color(0x0000C8);
+robot.SendMessage(wire, null, SCH.SCHConstant.SCHMEndModify, SCH.SCHConstant.NoEventData);
+
+wire.GraphicallyInvalidate();
+```
+
+`GraphicallyInvalidate` redraws the object.
+
+## Creating objects
+
+[`ISch_ServerInterface.SchObjectFactory`](../reference/sch/ISch_ServerInterface/SchObjectFactory.md) creates a design
+object of a [`TObjectId`](../reference/sch/TObjectId.md) kind. Position it, then add it to its owner: a document, or
+a component for pins and graphical primitives.
+
+```csharp
+ISch_Lib library = schServer.GetCurrentSchDocument() as ISch_Lib;
+
+var component = schServer.SchObjectFactory(SCH.TObjectId.eSchComponent, SCH.TObjectCreationMode.eCreate_Default) as ISch_Component;
+component.MoveToXY(0, 0);
+library.AddSchComponent(component);
+
+var pin = schServer.SchObjectFactory(SCH.TObjectId.ePin, SCH.TObjectCreationMode.eCreate_GlobalCopy) as ISch_Pin;
+pin.MoveToXY(0, 0);
+pin.SetState_OwnerPartId(component.GetState_CurrentPartID());
+pin.SetState_OwnerPartDisplayMode(component.GetState_DisplayMode());
+component.AddSchObject(pin);
+
+library.SetState_Current_SchComponent(component);
+library.GraphicallyInvalidate();
+```

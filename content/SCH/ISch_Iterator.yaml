@@ -1,0 +1,51 @@
+# SCH.ISch_Iterator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An iterator object interface represents an existing iterator object which iterates through a design database to
+  fetch specified objects within a specified region if necessary.
+remarks: >-
+  AddFilter_ObjectSet(MkSet(ePort));
+
+
+  The TIterationDepth type denotes how deep the iterator can look - look for first level objects (for example standalone
+  system parameters of the document only, or all levels for example all parameters on the document including system
+  parameters, objects' parameters such as component's parameters. By default, eIterateAllLevels value is used.
+
+
+  SetState_FilterAll denotes that all objects and the whole schematic document is to be searched within. Otherwise, use
+  the following AddFilter_ObjectSet, AddFilter_Area etc methods to set up a restricted search.
+
+
+  ISch_Iterator Methods and Properties Table
+members:
+  AddFilter_Area:
+    summary: The AddFilter_Area method defines the rectangular bounds (X1,Y1 and X2,Y2) of the schematic/library document
+      that the iterator will search within.
+  AddFilter_CurrentDisplayModePrimitives:
+    summary: This method sets the iterator to look for current display mode primitives only. A component can be represented
+      by different modes - ie there can be different graphical representations of the same component type.
+  AddFilter_CurrentPartPrimitives:
+    summary: This method sets up the filter of the iterator to look for the current primitives of a part only. A component
+      can be composed of multiple parts and each part is identified by its PartID value.
+  AddFilter_ObjectSet:
+    summary: This method defines which objects the iterator will look for on a schematid document or a library document.
+  AddFilter_PartPrimitives:
+    summary: This method sets up the filter of the iterator to look for primitives of a part (of a component). A component
+      can be a multi-part component, for example a 74LS04 can have four parts and they are identified by the PartID
+      value.
+  FirstSchObject:
+    summary: The FirstSchObject method fetches the first object found by the iterator. The FirstSchObject method is to be
+      invoked first and then in a While null loop, the NextSchObject is called repeatedly until it returns a nil value
+      where the loop is terminated.
+    seeAlso:
+      - SCH.ISch_Iterator.NextSchObject
+  IterationDepth:
+    summary: The TIterationDepth type denotes how deep the iterator can look on a document.
+    seeAlso:
+      - SCH.TIterationDepth
+  NextSchObject:
+    summary: The NextSchObject method fetches the next object found by the iterator. The FirstSchObject method is to be
+      invoked first and then in a While null loop, the NextSchObject is called repeatedly until it returns a nil value
+      where the loop is terminated.
+    seeAlso:
+      - SCH.ISch_Iterator.FirstSchObject
+  SetState_FilterAll:
+    summary: This method sets the iterator to look for everything on a document.

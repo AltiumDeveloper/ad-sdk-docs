@@ -1,0 +1,3 @@
+# SCH.ISch_ParametrizedGroup: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_ParametrizedGroup is an immediate ancestor interface for ParameterSet, Port, Pin, Component and
+  SheetSymbol interfaces. This interface deals with positions of parameters of such objects..

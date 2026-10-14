@@ -1,0 +1,4 @@
+# SCH.ISch_Bezier: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A bezier curve is used to create curved line shapes (For example a section of a sine wave or a pulse). At least
+  four points are required to define a bezier curve. More than four points used will define another bezier curve and so
+  on.

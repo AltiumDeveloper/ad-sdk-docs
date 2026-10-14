@@ -1,0 +1,43 @@
+# SCH.ILibCompInfoReader: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ILibCompInfoReader interface represents the object which has the list of library components (symbols) of a
+  loaded schematic library.
+remarks: >-
+  A Schematic library file with a SchLib extension can be loaded in the object represented by the ILibCompInfoReader
+  interface and to obtain each component (Symbol), invoke the indexed ComponentInfos method. This method fetches the
+  object which is represented by the IComponentInfo interface.
+
+
+  The steps required to load a schematic library and its components.
+
+
+  1. Create an object and pass in the filename of a schematic library file. This object is represented by the
+  ILibCompInfoReader interface. CreateLibCompInfoReader(LibraryFileName);
+
+
+  2. Invoke the ReadAllComponentInfo method to load the components specified by the library name.
+
+
+  3. Invoke the NumComponentInfos method to obtain the number of components for this library
+
+
+  4. Obtain the indexed ComponentInfos method. This ComponentInfos method returns the indexed IComponentInfo interface.
+members:
+  ComponentInfo:
+    summary: This ComponentInfos property retrieves the indexed IComponentInfo data structure. The ComponentInfo interface
+      contains information such as component name, alias name, part count and offset for the indexed schematic symbol
+      (component) in the library.
+    seeAlso:
+      - SCH.IComponentInfo
+  FileName:
+    summary: This FileName property gets the temporary filename of the datastructure. The FileName property is supported by
+      the GetState_FileName method.
+    seeAlso:
+      - SCH.IComponentInfo
+  NumComponentInfos:
+    summary: This NumComponentInfos method retrieves the number of component information data structures. This method is
+      also used by the ComponentInfos property. The ComponentInfo interface contains information such as component name,
+      alias name, part count and offset for the indexed schematic symbol (component) in the library.
+  ReadAllComponentInfo:
+    summary: The ReadAllComponentInfo retrieves all the IComponentInfo data structures for the ILibCompInfoReader interface.
+      The ComponentInfo interface contains information such as component name, alias name, part count and offset for the
+      indexed schematic symbol (component) in the library.

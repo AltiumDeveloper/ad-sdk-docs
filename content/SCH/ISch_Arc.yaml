@@ -1,0 +1,18 @@
+# SCH.ISch_Arc: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An arc object is a circular curve used to place on the schematic sheet.
+members:
+  EndAngle:
+    summary: This property defines the end angle of the arc in degrees from the horizontal. The arc is drawn in an
+      anti-clockwise direction from the start angle to the end angle. The value can be between -360 to 360 to define the
+      end angle directly.
+  LineWidth:
+    summary: The LineWidth property defines the border width of the arc with one of the following values from the TSize
+      enumerated type.
+    seeAlso:
+      - SCH.TSize
+  Radius:
+    summary: The Radius property defines the radius of the arc.
+  StartAngle:
+    summary: This property defines the start angle of the arc in degrees from the horizontal. The arc is drawn in an
+      anti-clockwise direction from the start angle to the end angle. The value can be between -360 to 360 to define the
+      start angle directly.

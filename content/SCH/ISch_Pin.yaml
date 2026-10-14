@@ -1,0 +1,6 @@
+# SCH.ISch_Pin: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Pins are special objects that have electrical characteristics and are used to direct signals in and out of
+  components. Pins connect directly to other pins, wires, net labels, sheet entries or ports.
+members:
+  Name:
+    summary: The Name property determines the name for the Pin object.

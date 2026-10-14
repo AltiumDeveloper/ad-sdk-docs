@@ -1,0 +1,7 @@
+# SCH.ISch_Line: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Lines are graphical drawing objects with any number of joined segments. A line object is represented by the
+  ISch_Line interface.
+members:
+  LineWidth:
+    summary: The LineWidth property defines the border width of the line with one of the following values from the TSize
+      enumerated type.

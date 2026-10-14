@@ -1,0 +1,43 @@
+# SCH.IModelType: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IModelType interface represents the type used by a model linked in the Component. Each model has at least
+  one data file type or entity type.
+remarks: |-
+  The IModelDataFiletype interface uses the IModelType interface
+
+  The IModelTypeManager interface uses the IModelType interface
+
+  IModelType Methods and Properties Table
+members:
+  Description:
+    summary: The method returns the description of the model type.
+  Editor:
+    summary: This method returns the IModelEditor for this model type.
+    seeAlso:
+      - SCH.IModelEditor
+      - SCH.IModelType.Description
+  Highlightable:
+    summary: This method returns a boolean value for the model that can be highlightable (viewable on a document kind).
+      Simulation and Signal Integrity models are not highlightable or previewable and thus they don't have viewable
+      document kinds.
+    seeAlso:
+      - SCH.IModelType.ViewableDocKind
+      - SCH.IModelType.Previewable
+  Name:
+    summary: "The method returns the name of the model type supported by Altium Designer. The following model names
+      supported by Altium Designer are:"
+  PortDescriptor:
+    summary: The PortDescriptor
+  Previewable:
+    summary: This method returns a boolean value for the model that can be previewable. Simulation and Signal Integrity
+      models are not highlightable or previewable and thus they don't have viewable document kinds.
+    seeAlso:
+      - SCH.IModelType.Highlightable
+      - SCH.IModelType.ViewableDocKind
+  ServerName:
+    summary: This method returns the Server Name associated with the model type.
+  ViewableDocKind:
+    summary: This method returns the name of the Document Kind that's viewable (related to the Highlightable method).
+      Simulation and Signal Integrity models are not highlightable and thus they don't have document kinds.
+    seeAlso:
+      - SCH.IModelType.Highlightable
+      - SCH.IModelType.Previewable

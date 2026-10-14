@@ -1,0 +1,42 @@
+# Sidebar groups for each namespace. A type goes to the first category whose `match` regular expression matches its
+# name (without the namespace); `kinds` limits a category to some type kinds. Unmatched interfaces go to `other`,
+# enums to `enums`, structs to `structs`. Order here is the order in the sidebar.
+SCH:
+  - id: server
+    title: Server and preferences
+    match: ['^ISch_(ServerInterface|Preferences|RobotManager|FontManager\d*|JunctionConvertSettings|LibraryRuleChecker|CompileMask|MapDefiner)$', '^IGrid', '^IDocumentOptions$']
+  - id: documents
+    title: Documents and iteration
+    match: ['^ISch_(Document|DrawableDocument|Sheet|Lib|Template|Iterator|HitTest|ConnectivityStorage|RichTextDocument)$', '^IConnection', '^ISchComponentLink$', '^I(PCB)?ProjectLink$']
+  - id: harness
+    title: Harness design
+    match: ['Harness']
+  - id: objects
+    title: Design objects
+    match: ['^ISch_']
+  - id: library
+    title: Libraries, components and models
+    match: ['^ILib', '^IIntegratedLibraryManager$', '^ISubLibrary', '^IModel', '^IServerModel', '^IImplementationFile$', '^IComponent(Info|FullInfo|Configurator|PinSelectionListener)$', '^IFootprintConfigurator$', '^I(Get)?LibraryReport', '^IReport', '^IGenerateReport$', '^IPinMapping$', '^IHighlightedModelEditor$', '^IConfiguratorManager$']
+  - id: supply-chain
+    title: Supply chain and parts
+    match: ['^ISuppl', '^IPart', '^IManufacturerPart', '^IAggregatorSupplier', '^IPrice', '^IStock', '^IProviderSupplier', '^ICanChange', '^IComponentDynamicData', '^ISearchComponent', '^IDragDrop']
+  - id: simulation
+    title: Simulation and signal integrity
+    match: ['^ISim', '^ISignalIntegrity', '^ISi[A-Z]', '^IIbis', '^IWave', '^IPlot', '^IChart', '^I[X]?Axis', '^IMeasurement', '^ISourceWave', '^IBasicSimModel']
+  - id: rendering
+    title: Painting and views
+    match: ['Painter', '^IGeometry', '^IPrimitive', '^ICoord', '^IScrollArrow$', '^ISelectionButton$', '^IViewManager$', '^ISCH_GraphicalView', '^ISDF', '^IDataChunkImageInterface$', '^IInstrumentView$']
+  - id: embedded
+    title: Embedded, FPGA and device programming
+    match: ['^IDevice', '^INexus', '^IJ[Tt]ag', '^IJlink', '^IFlash', '^IBSDL', '^IBoundaryCell$', '^IClock', '^I(Custom)?Core', '^ITarget', '^IVHDL', '^IVendor', '^IFPGA', '^IOpenBus', '^IProcess', '^ISoftwareProcessFlow$', '^IARM', '^I(Hard|Soft)Breakpoint$', '^IInstructionOpCode$', '^IMemorySpace$', '^IProcessorRegister$', '^IRegisterAssociation$', '^IRemoteExecute', '^ISPI', '^ISPROM', '^IGPIO', '^IScanPin$', '^ITestDongles$', '^IDriverManager$', '^IGenericDeviceManager$', '^IEmbeddedCode$', '^IAbstractSynthesizer$', '^IFSM_', '^IConfiguratorTest$', '^IBitLevelJTagChannel$', '^IHardDeviceLink$', '^ISourceConstraint$', '^IVendorConstraint']
+  - id: enums
+    title: Enumerations
+    kinds: [enum]
+    match: ['.']
+  - id: structs
+    title: Structures and classes
+    kinds: [struct, class]
+    match: ['.']
+  - id: other
+    title: Other interfaces
+    match: []

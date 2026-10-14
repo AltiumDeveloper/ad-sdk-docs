@@ -1,0 +1,19 @@
+# SCH.ISch_ComplexText: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An immediate ancestor interface for ISch_SheetFilename and ISch_SheetName interfaces.
+members:
+  Autoposition:
+    summary: The property defines whether the parameter can be positioned automatically every time the associated component
+      is rotated or moved. If this property is false, the parameter will have a dot appear below it on the schematic to
+      denote that this parameter will not be auto positioned everytime the component is rotated/moved.
+    remarks: To prevent dots form being displayed, disable the MarkManualParameters property from the ISch_Preferences
+      interface.
+  IsHidden:
+    summary: The property determines whether the text object is hidden or not.
+  TextHorzAnchor:
+    summary: This property defines the horizontal justification style of the parameter object.
+    seeAlso:
+      - SCH.TTextHorzAnchor
+  TextVertAnchor:
+    summary: This property defines the vertical justification style of the parameter object.
+    seeAlso:
+      - SCH.TTextVertAnchor

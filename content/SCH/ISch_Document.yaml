@@ -1,0 +1,221 @@
+# SCH.ISch_Document: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This interface is the immediate ancestor interface for ISch_Sheet and ISch_Lib interfaces.
+remarks: >-
+  You can modify or set the document's preference settings.
+
+
+  You can iterate design objects in a Schematic or library document, see ISch_Iterator interface for details.
+
+
+  You can invoke the ChooseLocationInteractively or ChooseRectangleInteractively methods to obtain coordinates from the
+  Schematic sheet or library sheet.
+
+
+  You can create a library from a project that has components
+
+
+  You can check whether objects exist on a particular point on a schematic or library document.
+
+
+  ISch_Document Methods and Properties Table
+members:
+  BorderOn:
+    summary: This BorderOn property determines whether the border on around the outside of the current schematic document
+      will be displayed or not.
+  BoundingRectangle_Selected:
+    summary: The method returns the coordinates of the selected bounding rectangle on the current schematic document.
+  ChooseLocationInteractively:
+    summary: To monitor the mouse movement and clicks from your extension, the ISch_Document document interface and its
+      descendant interfaces, ISch_Lib and ISch_Sheet interfaces has several interactive feedback methods. The
+      ChooseLocationInteractively when invoked prompts the user to set the location (point) on the schematic sheet.
+    remarks: The ChooseLocationinteractively method can be used to fetch the coordinates of the clicked point on the
+      schematic sheet and can be used for the ISch_HitTest interface.
+    seeAlso:
+      - SCH.ISch_HitTest
+  ChooseRectangleInteractively:
+    summary: To monitor the mouse movement and clicks from your extension, the ISch_Document document interface and its
+      descendant interfaces, ISch_Lib and ISch_Sheet interfaces has several interactive feedback methods. The
+      ChooseRectangleinteractively when invoked prompts the user to set the two corners of the bounding rectangle on the
+      schematic sheet.
+    remarks: The ChooseRectangleinteractively method can be used to fetch the coordinates of the bounding rectangle (of
+      TCoordRect type) for the Spatial iterator where it needs the bounds of a rectangle on the schematic document to
+      search within.
+  CountContextMenuObjects:
+    summary: The method counts the contextual objects based on the AObjectSet parameter of TObjectSet type.
+  CreateHitTest:
+    summary: The CreateHitTest method creates an hit test object which is represented by the ISch_HitTest interface with the
+      ATestMode and ALocation parameters.
+    remarks: With this ISch_HitTest interface, the number of objects and the object type at a particular point on the
+      schematic document can be returned.
+    seeAlso:
+      - SCH.ISch_HitTest
+      - SCH.THitTestMode
+      - SCH.ISch_Document.ChooseLocationInteractively
+  CreateLibraryFromProject:
+    summary: This method creates a schematic library based on the components on a schematic project. If AddLibToProject
+      parameter is set to true, then the created library is put in the same project where the components are in. The
+      RunQuiet parameter set to true avoids the Information dialog from coming up.
+  CustomMarginWidth:
+    summary: The CustomMarginWidth property sets the margin from the bounds of the schematic sheet inwards.
+    remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of
+      the schematic sheet.
+    seeAlso:
+      - SCH.ISch_Document.UseCustomSheet
+  CustomSheetStyle:
+    summary: This property represents custom sheet style property which values can be inherited from one of the standard
+      sheet styles and customized further.
+    remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of
+      the schematic sheet.
+  CustomX:
+    summary: This property sets the width of the custom sheet for the document.
+    remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of
+      the schematic sheet.
+  CustomXZones:
+    summary: This property determines the number of regions or reference zones that are displayed along the horizontal and
+      vertical borders. The reference zones form a reference grid along the border of your schematic. This reference
+      grid is only for display purposes and does not affect the Snap, Visible or Electrical Grids that are used when
+      placing schematic objects.
+    remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of
+      the schematic sheet.
+  CustomY:
+    summary: This property sets the height of the custom sheet for the document.
+    remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of
+      the schematic sheet.
+  CustomYZones:
+    summary: This property determines the number of regions or reference zones that are displayed along the horizontal and
+      vertical borders. The reference zones form a reference grid along the border of your schematic. This reference
+      grid is only for display purposes and does not affect the Snap, Visible or Electrical Grids that are used when
+      placing schematic objects.
+    remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of
+      the schematic sheet.
+  DocumentBorderStyle:
+    summary: The DocumentBorderStyle property determines the current document/border style for the schematic sheet - whether
+      it is a standard or an ANSI title block.
+    seeAlso:
+      - SCH.TSheetDocumentBorderStyle
+  DocumentName:
+    summary: This read only property determines the schematic document name. This property is supported by the
+      GetState_DocumentName;
+  Graphical_VirtualRectangle:
+    summary: The method returns the coordinates of TCoordRect type of the virtual rectangle of the graphical window in
+      Altium Designer.
+  LockViewUpdate:
+    summary: This method prevents the views of Schematic documents and panels from being refreshed or updated. This is
+      especially used in the situations when a component is being created in the Schematic Library Editor. See the
+      UnLockViewUpdate method.
+    remarks: |-
+      If SchServer = null Then Exit;
+
+      GetCurrentSchDocument, ISch_Lib, CurrentLib) Then Exit;
+
+      LockViewUpdate;
+
+      CurrentSchComponent;
+
+      AddSchObject(SimModel);
+
+      UnLockViewUpdate;
+    seeAlso:
+      - SCH.ISch_Document.UnLockViewUpdate
+  ObjectReferenceZone:
+    summary: The method returns the reference zone string for the design object on the schematic sheet. For example, if a
+      sheet entry object is in the vicinity of Reference Zone C (vertically) and 2 (horizontally) for a Standard Style A
+      document then the method will return a 2C for this sheet entry.
+  PopupMenuHitTest:
+    seeAlso:
+      - SCH.ISch_HitTest
+  RedrawToDC:
+    summary: The DC parameter is a Handle of the canvas (a encapsulation of a device context).
+    remarks: >-
+      PrintKind is an ordinal value of the TPrintKind type, TPrintKind =
+      (ePrintKind_FullColor,ePrintKind_GrayScale,ePrintKind_Monochrome);
+
+
+      PrintWhat is an ordinal value of the TPrintWhat type, TPrintWhat =
+      (ePrintAllDocuments,ePrintActiveDocument,ePrintSelection,ePrintScreenRegion);
+  ReferenceZonesOn:
+    summary: This property determines the number of regions or reference zones that are displayed along the horizontal and
+      vertical borders. The reference zones form a reference grid along the border of your schematic. This reference
+      grid is only for display purposes and does not affect the Snap, Visible or Electrical Grids that are used when
+      placing schematic objects.
+  RegisterSchObjectInContainer:
+    summary: The RegisterSchObjectInContainer method registers the object of ISch_BasicContainer type (including its
+      descendants) in the parent object itself. In this case, the document registers a new design object. For example
+      when you create a new port object, you are required to register the port object in the schematic document.
+  SheetMarginWidth:
+    summary: The SheetMarginWidth property sets the margin from the bounds of the schematic sheet inwards.
+    remarks: The UseCustomSheet property must be set to false before you can massage the attributes for the schematic sheet.
+  SheetSizeX:
+    summary: The SheetSizeX property defines the width of the sheet.
+    seeAlso:
+      - SCH.ISch_Document.SheetSizeY
+  SheetSizeY:
+    summary: The SheetSizeY property defines the height of the sheet.
+  SheetStyle:
+    summary: The SheetStyle property determines the document standard style. One of the document sheet styles are A4, Letter
+      and imperial/metric sized sheets.
+    seeAlso:
+      - SCH.TSheetStyle
+  ShowTemplateGraphics:
+    summary: The template is usually placed on the bottom right of the schematic sheet. The template files have a DOT
+      extension and are located in the \Templates\ folder of the Altium Designer software installation.
+    remarks: The property determines whether the template graphics are displayed or not.
+  SnapGridOn:
+    summary: The snap grid is the grid that the cursor is locked to when placing or manipulating objects on the sheet. This
+      grid should be left on at all times except when specifically placing or moving objects that need to be off grid
+      such as text objects. The visible grid is the grid you see on the grid which acts as a visual grid and typically
+      it is set to be the same as or a multiple of the snap grid.
+  SnapGridSize:
+    summary: The snap grid is the grid that the cursor is locked to when placing or manipulating objects on the sheet. This
+      grid should be left on at all times except when specifically placing or moving objects that need to be off grid
+      such as text objects. The visible grid is the grid you see on the grid which acts as a visual grid and typically
+      it is set to be the same as or a multiple of the snap grid.
+  TemplateFileName:
+    summary: The template filename is the filename of the template that is placed usually on the bottom right of the
+      schematic sheet. The template files have a DOT extension and are located in the \Templates\ folder of Altium
+      Designer software installation.
+    seeAlso:
+      - SCH.ISch_Document.ShowTemplateGraphics
+  TitleBlockOn:
+    seeAlso:
+      - SCH.ISch_Document.DocumentBorderStyle
+  Unit:
+    summary: This property determines the system unit used for the schematic project. The available imperial units are Mils,
+      inches, DXP default and Auto imperial as well as available metric units which are mm,cm,metres and autometric.
+    seeAlso:
+      - SCH.TUnit
+  UnLockViewUpdate:
+    summary: This method allows the views of Schematic documents and panels from being refreshed or updated after being
+      locked by the LockViewUpdate method. This is especially used in the situations when a component is being created
+      in the Schematic Library Editor. See the LockViewUpdate method.
+    seeAlso:
+      - SCH.ISch_Document.LockViewUpdate
+  UnregisterAndFreeAllConnectionLines:
+    summary: When this method is invoked, the connection lines are unregistered and freed from the database associated with
+      the schematic document.
+    seeAlso:
+      - SCH.ISch_ConnectionLine
+  UnRegisterSchObjectFromContainer:
+    summary: When a schematic object is unregistered from the container, it is explicitly freed and cannot be used again.
+  UpdateDocumentProperties:
+    summary: This method forces an update of the document properties after the properties have been modified programmatically.
+  UseCustomSheet:
+    summary: The property determines whether a custom sheet is used instead of a standard sheet. If the UseCustomSheet is
+      true, then the CustomMarginWidth, CustomSheetStyle, CustomX and CustomY properties can be set for this custom
+      sheet property.
+    seeAlso:
+      - SCH.ISch_Document.CustomX
+      - SCH.ISch_Document.CustomY
+      - SCH.ISch_Document.CustomSheetStyle
+      - SCH.ISch_Document.CustomMarginWidth
+  VisibleGridOn:
+    summary: The electrical grid supports the Schematic Editor's guided wiring feature. When you are moving an electrical
+      object in the workspace, and when it falls within the electrical grid range of another electrical object that you
+      could connect to, the object you are moving will snap to the fixed object and a hot spot or highlight dot will
+      appear. This dot guides you as to where a valid connection can be made. The electrical grid (hot spot) should be
+      set slightly lower than the current snap grid or else it becomes difficult to position electrical objects one snap
+      grid apart.
+  WorkspaceOrientation:
+    summary: This method sets the orientation of the workspace - either as a portrait or as a landscape format.
+    seeAlso:
+      - SCH.TSheetOrientation

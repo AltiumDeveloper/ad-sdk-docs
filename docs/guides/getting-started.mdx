@@ -1,0 +1,105 @@
+---
+title: Getting started
+sidebar_position: 1
+description: The structure of an Altium Designer extension in C# - plugin factory, server module, commands and installation files.
+---
+
+# Getting started
+
+An Altium Designer extension is a .NET class library that Altium Designer loads as a *server*. The server registers
+*commands*; menus, toolbars and shortcuts invoke the commands, and each command works with the documents through the
+SDK interfaces.
+
+## Project setup
+
+Create a C# class library and reference the SDK assemblies:
+
+| Assembly | Contents |
+| --- | --- |
+| `Altium.SDK.Interfaces.dll` | The API: interfaces, enumerations and structures (this reference). |
+| `Altium.SDK.dll` | Hosting classes (`DXP.ServerModule`, `DXP.CommandLauncher`), entry points (`SCH.GlobalVars`, `PCB.GlobalVars`, `DXP.GlobalVars`), constants (`SCH.SCHConstant`) and utilities (`DXP.Utils`, `EDP.Utils`). |
+
+The current SDK assemblies target .NET 8 (they reference `System.Runtime` 8.0). Many projects in the
+[SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository were written for earlier SDK versions
+and target .NET Framework 4.x; their source code still shows the API usage, but use the target framework that matches
+your SDK version.
+
+## The plugin factory and the server module
+
+Altium Designer creates the extension through a plugin factory. The factory returns a `ServerModule` subclass, which
+registers the extension's commands:
+
+```csharp
+using System.Runtime.InteropServices;
+using DXP;
+
+namespace MyExtension
+{
+    public interface IPluginFactory
+    {
+        object InvokePluginFactory(IClient client);
+    }
+
+    [ClassInterface(ClassInterfaceType.None)]
+    public class PluginFactory : IPluginFactory
+    {
+        public object InvokePluginFactory(IClient client) => new PluginServerModule(client, "MyExtension");
+    }
+
+    [ClassInterface(ClassInterfaceType.AutoDispatch)]
+    public class PluginServerModule : ServerModule
+    {
+        public PluginServerModule(IClient client, string moduleName) : base(client, moduleName) { }
+
+        protected override void InitializeCommands()
+        {
+            ((CommandLauncher)CommandLauncher).RegisterCommand("HelloSchematic", Command_HelloSchematic, GetState_HelloSchematic);
+        }
+
+        protected override IServerDocument NewDocumentInstance(string kind, string fileName) => null;
+
+        private void Command_HelloSchematic(IServerDocumentView view, ref string parameters)
+        {
+            // The command's work: see "Working with schematics".
+        }
+
+        private void GetState_HelloSchematic(IServerDocumentView context, ref string parameters, ref bool enabled,
+            ref bool isChecked, ref bool visible, ref string caption, ref string imageFile)
+        {
+        }
+    }
+}
+```
+
+- `RegisterCommand` binds a command name to two methods: the command itself, and a *get state* method that Altium
+  Designer calls to decide whether the command is enabled, checked or visible, and with which caption and image.
+- `NewDocumentInstance` is used by extensions that implement a document editor; a command-only extension returns `null`.
+
+## Installation files
+
+Next to the assembly, an extension ships two text files with the extension's name:
+
+- **`.ins`** declares the server (its name, the assembly file, version and description) and the commands it provides:
+
+  ```text
+  ClientInsFile 1.0
+
+  Server
+      EditorName        = 'MyExtension'
+      EditorExePath     = 'MyExtension.DLL'
+      EditorDescription = 'My first extension'
+      Version           = 'Version 1.0.0.1'
+  End
+
+  Command Name='HelloSchematic' End
+  ```
+
+- **`.rcs`** defines the menus, toolbars and shortcuts that invoke the commands.
+
+The assembly and both files go into a folder under the Altium Designer `Extensions` folder; Altium Designer loads the
+extension on start.
+
+## Next steps
+
+- [API conventions](./api-conventions.mdx) explains how the interfaces are organised.
+- [Working with schematics](./schematic-basics.mdx) completes `Command_HelloSchematic`.

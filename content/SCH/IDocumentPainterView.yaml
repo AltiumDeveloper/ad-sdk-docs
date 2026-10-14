@@ -1,0 +1,16 @@
+# SCH.IDocumentPainterView: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IDocumentPainterView interface is an internal interface for the Schematic Editor and it represents the Mini
+  Viewer facility. This is for internal use.
+members:
+  DocumentToPaint:
+    summary: This is for internal use.
+  DrawCurrentZoomRectangle_Invert:
+    summary: This is for internal use.
+  PaintSingleObject:
+    summary: This is for internal use.
+  Redraw:
+    summary: This is for internal use.
+  Refresh:
+    summary: This is for internal use.
+  RefreshCurrentZoomWindow:
+    summary: This is for internal use.

@@ -1,0 +1,81 @@
+---
+title: API conventions
+sidebar_position: 2
+description: How the SDK API is organised - namespaces, entry points, properties as GetState/SetState methods, typed helper methods and enumerations.
+---
+
+# API conventions
+
+## Namespaces
+
+| Namespace | Area |
+| --- | --- |
+| [`SCH`](../reference/sch/index.md) | Schematic and schematic library documents, design objects, the schematic server. |
+| `PCB` | PCB and PCB library documents, design objects, the PCB server. |
+| `EDP` | Projects, documents and the workspace (the project manager). |
+| `DXP` | The client application, servers, commands, views and notifications. |
+
+## Entry points
+
+Each editor is reached through a static property of `GlobalVars` in `Altium.SDK.dll`:
+
+| Entry point | Type | Use |
+| --- | --- | --- |
+| `SCH.GlobalVars.SchServer` | [`ISch_ServerInterface`](../reference/sch/ISch_ServerInterface.md) | Schematic documents, object creation, schematic preferences. |
+| `PCB.GlobalVars.PCBServer` | `IPCB_ServerInterface` | PCB documents and objects. |
+| `DXP.GlobalVars.Client` | `IClient` | The application: documents, views, commands. |
+
+An entry point is `null` when its server is not loaded, so check before use.
+
+## Interfaces and properties
+
+The API is a set of interfaces; objects are never created with `new` but obtained from the servers, documents and
+iterators. Interfaces form hierarchies: [`ISch_Component`](../reference/sch/ISch_Component.md) is an
+[`ISch_ParametrizedGroup`](../reference/sch/ISch_ParametrizedGroup.md), which is an
+[`ISch_GraphicalObject`](../reference/sch/ISch_GraphicalObject.md), and so on. Each reference page lists the members
+an interface inherits.
+
+An object's state is read and written through accessor methods: `GetState_<Name>()` reads and
+`SetState_<Name>(value)` writes. The reference shows each pair as one **property** page:
+
+```csharp
+TRotationBy90 orientation = component.GetState_Orientation();
+component.SetState_Orientation(TRotationBy90.eRotate90);
+```
+
+A property with only a `GetState_` accessor is read-only. Some interfaces use other prefixes (`Get_`/`Set_`,
+`GetProperty_`/`SetProperty_`, or plain `Get`/`Set` pairs such as `GetModified`/`SetModified`); they are grouped the
+same way. Indexed properties take the index as the first argument (`GetState_AliasAt(index)`).
+
+## Typed helper methods
+
+Many methods are provided as extension methods of a static helper class next to the interface, such as
+`ISch_ComponentHelper` for `ISch_Component`. The helpers return and accept the specific interface and enumeration
+types, for example [`ISch_Designator`](../reference/sch/ISch_Designator.md) from `GetState_SchDesignator()` and
+[`TRotationBy90`](../reference/sch/TRotationBy90.md) for `SetState_Orientation`. With `using SCH;` they are called
+like interface methods:
+
+```csharp
+using SCH;
+
+ISch_Designator designator = component.GetState_SchDesignator();
+```
+
+They can also be called as static methods: `ISch_ComponentHelper.GetState_SchDesignator(component)`. The reference
+documents the typed form and notes on each page when a method comes from a helper class.
+
+## Enumerations and object sets
+
+Enumeration values carry their type's prefix convention, such as `eWire` and `eSchComponent` in
+[`TObjectId`](../reference/sch/TObjectId.md). Filters that take a set of values use the `*Set` classes, such as
+`SCH.TObjectSet`:
+
+```csharp
+var objectSet = new SCH.TObjectSet();
+objectSet.Add(SCH.TObjectId.eWire);
+```
+
+## Coordinates
+
+Coordinates are integers in internal units. `EDP.Utils` converts between internal units and mils or millimetres
+(`MilsToCoord`, `CoordToMils`, `MMsToCoord`, `CoordToMMs`).

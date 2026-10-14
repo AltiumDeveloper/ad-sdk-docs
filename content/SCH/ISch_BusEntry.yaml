@@ -1,0 +1,2 @@
+# SCH.ISch_BusEntry: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A bus entry is a special wire at an angle of 45 degrees which is used to connect a wire to the bus line.

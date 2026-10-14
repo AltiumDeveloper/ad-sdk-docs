@@ -1,0 +1,13 @@
+# SCH.ISch_HitTest: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This ISch_HitTest interface returns you the number of objects and object type at a particular point on the
+  schematic document.
+remarks: To specify the location where the objects can be checked on the schematic document, pass in the location (of
+  TLocation type) and invoke the CreateHitTest method from the ISchDocument interface. This location parameter can be
+  set either programmatically or by the ChooseLocationInteractively method form the ISch_Document interface.
+members:
+  HitObject:
+    summary: This property returns you the indexed object at the particular point on the schematic document.
+    seeAlso:
+      - SCH.ISch_HitTest.HitTestCount
+  HitTestCount:
+    summary: This property returns you the number of objects at the particular point on the schematic document.

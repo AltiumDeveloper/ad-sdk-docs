@@ -1,0 +1,112 @@
+# SCH.ISch_GraphicalObject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_GraphicalObject interface represents the ancestor interface for an object that has graphical
+  properties on a schematic document.
+remarks: |-
+  All graphic objects such as arcs, ports, rectangles etc have bounding rectangles of TCoordRect type.
+
+  ISch_BasicContainer interface
+
+  ISch_GraphicalObject interface
+members:
+  AddErrorString:
+    summary: This method adds an error string to the string whether it is at end or not.
+  AreaColor:
+    summary: The AreaColor property denotes the filled color region of a closed object.
+    seeAlso:
+      - SCH.ISch_Port
+      - SCH.ISch_Pie
+      - SCH.ISch_Rectangle
+      - SCH.ISch_RoundRectangle
+      - SCH.ISch_TextFrame
+  BoundingRectangle:
+    summary: This method returns the coordinates of the bounds of the parent object itself (not including the children
+      objects if any). To determine the full bounding rectangle of the object (including the children object), invoke
+      the BoundingRectangle_Full method instead.
+    remarks: For example a Schematic component would typically have a rectangle as the outline, the pins and parameters as
+      the children objects.
+    seeAlso:
+      - SCH.ISch_GraphicalObject.BoundingRectangle_Full
+  BoundingRectangle_Full:
+    summary: This method returns the coordinates of the bounds of the parent object itself and including the children
+      objects if any.. To determine the bounding rectangle of the parent object (excluding the children object), invoke
+      the BoundingRectangle method instead.
+    remarks: For example a Schematic component would typically have a rectangle as the outline, the pins and parameters as
+      the children objects.
+    seeAlso:
+      - SCH.ISch_GraphicalObject.BoundingRectangle
+  Color:
+    summary: The Color property denotes the color region of a closed object which is usually the border outline.
+    remarks: The color format is in blue,green,red (b,g,r) primary color format and each primary color has a value of 0 to 255.
+  CompilationMasked:
+    summary: The CompilationMasked property determines whether the object is masked by the Compiler. The CompileMask object
+      can be placed on a group of objects on the schematic sheet, and these objects have their CompilationMasked
+      property set to true.
+  Dimmed:
+    summary: This Dimmed property is true when a parent object is not part of the navigation mechanism (Navigator panel).
+      When objects are found by the Navigation mechanism, they stay as is (Dimmed is false), and the objects that are
+      not part of the Navigation are dimmed (Dimmed is true).
+    remarks: ) will be also set to this state. Thus when the Disabled/Dimmed property of a child object is being queried,
+      the Disabled/Dimmed state of the parent object will be returned.
+  Disabled:
+    summary: The Disabled property determines whether the object is disabled (due to not being part of the collected objects
+      by the filter mechanism ie the Filter panel)
+    remarks: ) will be also set to this state. Thus when the Disabled/Dimmed property of a child object is being queried,
+      the Disabled/Dimmed state of the parent object will be returned.
+  DisplayError:
+    summary: This property determines whether the DisplayError is displayed or not. When true, the red squiggly line
+      underneath the graphical object appears when it is subject to a compilation error in Altium Designer.
+  EnableDraw:
+    summary: This property merely determines whether the object can be drawn on the screen or not.
+  ErrorColor:
+    summary: The ErrorColor property determines the error color value that the object is associated with.
+  ErrorKind:
+    summary: This property determines the error kind that the object is associated with, when it is subject to the Compiler
+      in Altium Designer. This property is supported by the GetState_ErrorKind and the SetState_ErrorKind methods.
+  ErrorString:
+    summary: This property returns the Error string that the object is associated with when it is subject to the Compiler in
+      Altium Designer.
+  GraphicallyInvalidate:
+    summary: This method when invoked invalidates the object graphically prompting the system to do a system re-draw to
+      refresh the screen.
+  LiveHighlightValue:
+    summary: This property toggles the highlight value (text string) of the object when it is subject to the probe process
+      in Altium Designer during the Live Design mode.
+  Location:
+    summary: The Location property defines the reference point of the object (not necessarily the center of the object). Use
+      the BoundingRectangle and BoundingRectangle_Full methods to determine the bounding regions of the object.
+    seeAlso:
+      - SCH.ISch_GraphicalObject.BoundingRectangle
+      - SCH.ISch_GraphicalObject.BoundingRectangle_Full
+  Mirror:
+    summary: The Mirror method flips the object across the axis (TLocaiton Type)
+    seeAlso:
+      - SCH.ISch_Label
+      - SCH.ISch_Component
+  MoveByXY:
+    summary: This MoveByXY method moves the object in a linear distance specified by the X,Y coordinates relative to the
+      reference point of the object.
+  MoveToXY:
+    summary: This MoveToXY method moves the object to a new location specified by the X,Y coordinates.
+  OwnerPartDisplayMode:
+    summary: This property represents schematic components in various graphical representations only. A schematic component
+      can have up to 255 different graphical representations and a component can be composed of different parts that
+      make up the whole. A child object is part of the parent object and thus the child object's owner part display mode
+      fetches the parent's (in this case the component) part display mode.
+    seeAlso:
+      - SCH.ISch_Component
+  OwnerPartId:
+    summary: The OwnerPartId property determines the child object's parent object's part id. A component can be composed of
+      multiple parts. Each part is composed of schematic primitives and thus each primitive associated with the part can
+      be queried for its OwnerPartId property. The owner of the child object is the parent object.
+  ResetErrorFields:
+    summary: This method resets the error fields of the object.
+  RotateBy90:
+    summary: The RotateBy90 method forces the rotation of the object by its center or a defined location on the schematic
+      sheet and the rotation is done in 90 degree increments (0, 90, 180, 270).
+    seeAlso:
+      - SCH.TRotationBy90
+  Selection:
+    summary: This property determines whether the object is selected or not. When an object is selected, a crossed line
+      boundary appears around the object. This object can then be moved or edited graphically.
+  SetState_xSizeySize:
+    summary: This method sets the X size and the ySize of the graphical bounds of the object.

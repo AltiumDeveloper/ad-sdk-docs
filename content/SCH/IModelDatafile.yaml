@@ -1,0 +1,20 @@
+# SCH.IModelDatafile: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IModelDatafile interface represents the data file (external file) that is associated with a model. Each
+  model can have multiple data files (different representations of the same model type).
+remarks: |-
+  This interface is used within the IServerModel interface.
+
+  IModelDataFile Methods and Properties Table
+members:
+  AddEntity:
+    summary: This method adds a new entity for the datafile.
+  EntityCount:
+    summary: This method returns the number of entities for the data file related to the model.
+    seeAlso:
+      - SCH.IModelDatafile.EntityName
+  EntityName:
+    summary: This Entitynames property returns the indexed entity name for the datafile related to the model.
+    seeAlso:
+      - SCH.IModelDatafile.EntityCount
+  FullPath:
+    summary: This method fetches the full path of the data file part of the model.

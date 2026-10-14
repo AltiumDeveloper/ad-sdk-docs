@@ -1,0 +1,3 @@
+# SCH.ISch_ErrorMarker: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Error Markers are placed on a schematic sheet at the site of each ERC violation by the Schematic Editor. Refer
+  to the ISch_Directive and ISch_GraphicalObject interfaces for details.

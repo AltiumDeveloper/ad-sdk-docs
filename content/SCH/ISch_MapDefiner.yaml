@@ -1,0 +1,39 @@
+# SCH.ISch_MapDefiner: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_MapDefiner interface represents the object that is used to define a mapping between schematic pins of
+  a schematic component and its model for example the associated PCB pad objects of the PCB component in the same PCB
+  project.
+remarks: >-
+  This interface is part of the ISch_Implementation interface. Each component can have a number of implementations
+  (models of the same type and/or different types as well).
+
+
+  DefinerByInterfaceDesignator returns you theISch_MapDefiner interface with the Designator string representing the
+  component's designator text string.
+
+
+  A model represents all the information needed for a component in a given domain, while a datafile entity (or link) is
+  the only information which is in an external file.
+
+
+  A model can be represented by external data sources called data file links. For example, pins of a component can have
+  links to different data files, as for signal integrity models. We will consider each model type in respect to the data
+  file links for the main editor servers supported in Altium Designer.
+
+
+  For the PCB footprints, the model and the data file are both the same.
+
+
+  With the simulation models, you can have a simulation model which is a 4ohm resistor for example, there is a
+  simulation model but there is no information is coming from an external file, therefore, a no external file is needed
+  for this as the resistor model is built from spice. This is the case where you have a model with no data file entity.
+  Thus the parameters are used for these types of simulation models that don't have data file links.
+
+
+  With signal integrity models, it can have information required for each pin. If we used IBIS datafiles, not the Altium
+  Designer's central database, then each signal integrity model would then have multiple data files, each one for each
+  type of pin.
+members:
+  IsTrivial:
+    summary: This property determines whether the mapping is trivial or not. Basically the mapping is trivial if there is no
+      other possible mappings. For example if there is only 1 schematic pin and one PCB pad then the map is trivial.
+    remarks: This property implements the GetState_IsTrivial method.

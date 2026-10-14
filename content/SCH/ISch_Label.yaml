@@ -1,0 +1,34 @@
+# SCH.ISch_Label: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_Label interface represents an existing label object on a schematic document. This interface is the
+  ancestor interface for the ISch_NetLabel interfaces.
+remarks: The interface hierarchy for the ISch_Label interface is as follows;
+members:
+  CalculatedValueString:
+    summary: Much like the DisplayString, the CalculatedValueString contains the value of the parameter text after special
+      string evaluation. However, unlike the DisplayString, it does not include the parameter name, even if that is
+      visible on the schematic.
+  DisplayString:
+    summary: The DisplayString is the text displayed on the schematic after special string evaluation. It is used in the
+      compiled project, and will include the parameter name at the beginning of the string in the form 'Name:' if the
+      parameter name is visible on the schematic.
+  FontId:
+    summary: The FontID property determines the style and type of font for the ISch_Label object on a Schematic document.
+    seeAlso:
+      - SCH.ISch_FontManager
+  Justification:
+    summary: The Justification property determines the alignment of the text in respect to the Label object whether it is
+      left justified, centered and so on.
+    seeAlso:
+      - SCH.TTextJustification
+  Orientation:
+    summary: This Orientation property determines the angle the ISch_Label is at on the Schematic document. The angle is in
+      90 degree increments - 0, 90, 180, 270.
+    remarks: However if you are using the FontID property to be assigned by the FontManager (ISch_FontManger interface) then
+      you will need to set the Orientation property as well as passing in the same rotation parameter for the GetFontID
+      method of the ISch_FontManager interface.
+  OverrideDisplayString:
+    summary: The OverrrideDisplayString property determines the override display string which overrides the Name string.
+      This is similar to the DisplayString, except that it is used in compiled projects which use board level annotation
+      or assembly variants. In those cases, it will include the new value that has been set by the user for that
+      variant/annotation.
+    remarks: SetState_OverrideDisplayString methods.

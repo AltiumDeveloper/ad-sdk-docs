@@ -1,0 +1,25 @@
+# SCH.ISch_Parameter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: There are two types of parameters - system parameters which are owned by a schematic document and parameters
+  owned by certain schematic design objects.
+remarks: >-
+  A parameter is a child object of a Parameter Set, Part, Pin, Port, or Sheet Symbol object. g. 100K for a resistor or
+  10PF for a capacitor).
+
+
+  Each parameter has a Unique Id assigned to it. This is used for those parameters that have been added as design rule
+  directives. When transferring the design to the PCB document, any defined rule parameters will be used to generate the
+  relevant design rules in the PCB. These generated rules will be given the same Unique Ids, allowing you to change rule
+  constraints in either schematic or PCB and push the change across when performing a synchronization.
+
+
+  To look for system wide parameters (not associated with a schematic design object), you would set up an iterator to
+  look for parameters.
+
+
+  The interface hierarchy for the ISch_Parameter interface is as follows;
+
+
+  Fetching system (standalone) parameters
+members:
+  Name:
+    summary: The Name property determines the name for the parameter object.

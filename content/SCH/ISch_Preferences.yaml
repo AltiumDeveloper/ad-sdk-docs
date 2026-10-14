@@ -1,0 +1,153 @@
+# SCH.ISch_Preferences: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_Preferences interface represents the global preferences for the Schematic Editor and the settings are
+  the same for any PCB project that has schematics in Altium Designer.
+remarks: The ISch_ServerInterface interface represents the Schematic Editor and this interface has an ISch_Preferences
+  aggregate object interface.
+members:
+  AddTemplateToClipBoard:
+    summary: The AddTemplateToClipBoard property determines whether the current sheet template can be added to to the
+      clipboard when you copy or cut from the current schematic sheet.
+  AlwaysDrag:
+    summary: This property represents the AlwaysDrag option and every time you are dragging a group of objects on a
+      schematic document, the electrical wiring stay connected if it is true. Note, to keep the connections clean while
+      dragging, press the spacebar to cycle through the different corner modes.
+    remarks: Set it to false and the wiring are left alone and become disconnected when previously connected objects are
+      being dragged.
+  AutoPanJumpDistance:
+    summary: This property represents the value to set/get the size of each auto-panning step. The step size determines how
+      fast the document pans when auto-panning is enabled. The smaller the value, the slower or finer the auto-panning
+      movement.
+  AutoPanShiftJumpDistance:
+    summary: This property represents a value to get/set the size of each step when the SHIFT key is held during
+      auto-panning. The shift step size determines how fast the document pans when auto-panning is enabled and the SHIFT
+      key is pressed. The smaller the value, the slower or finer the auto-panning movement.
+  AutoZoom:
+    summary: This property if set to true the schematic sheet is automatically zoomed when jumping to a component. Zoom
+      level remains as it was if this option is not enabled.
+  ClickClearsSelection:
+    summary: If this property is set to true, then all design objects are de-selected by clicking any where on the schematic
+      workspace. Set this property to false if you do not want to have this click anywhere to deselect all ability and
+      the selection is cumulative.
+    remarks: "Note: regardless of the setting, you can de-select a selected design object by clicking on it."
+  ComponentsCutWires:
+    summary: Set the property to true so you can drop a component onto a schematic wire and then the wire is cut into two
+      segments and the segments are terminated onto any two hot pins of this component automatically. You will need to
+      set the Optimize Wires & Buses option to true first.
+  ConfirmSelectionMemoryClear:
+    summary: The selection memories can be used to store the selection state of a set of objects. To prevent inadvertent
+      overwriting of a selection memory, set the property to true.
+  ConvertSpecialStrings:
+    summary: This property when set to true, the contents of the special strings on screen are displayed, as they appear on
+      a printout.
+  CtrlDbleClickGoesDown:
+    summary: This property when set to true, the sub-sheet of its associated sheet symbol by double clicking on this sheet
+      symbol opens in Altium Designer.
+    remarks: Set it to false and when you double-click on a sheet symbol, the change properties dialog is displayed instead.
+  DefaultEarthName:
+    summary: The DefaultEarthName denotes the default signal ground name to be used for objects on the schematic document.
+      The default name is EARTH.
+  DefaultPowerGndName:
+    summary: The DefaultPowerGndName property denotes the default power ground name to be used for objects on the schematic
+      document. The default name is GND.
+  DefaultSheetStyle:
+    summary: The DefaultSheetStyle property denotes the sheet style used for the workspace.
+    remarks: There are various sheet styles; A4,A3,A2,A1,A0, A,C,D,E,Letter, Legal, Tabloid, Orcad A, Orcad B, Orcad C,
+      Orcad D, Orcad E.
+    seeAlso:
+      - SCH.TSheetStyle
+  DefaultSignalGndName:
+    summary: The DefaultSignalGndName denotes the default signal ground name to be used for objects on the schematic
+      document. The default name is SGND.
+  DisplayPrinterFonts:
+    summary: The DisplayPrinterFonts property denotes whether the printer fonts can be displayed or not.
+  DocMenuID:
+    summary: The DocMenuID property determines which pop up menu to pop up depending on whether it is a schematic or a
+      library document. RCS file).
+  DocumentScope:
+    summary: The DocumentScope property determines the scope for filtering and selection to be applied to the current
+      document or to any open document in Altium Designer.
+    seeAlso:
+      - SCH.TChosenDocumentScope
+  DoubleClickRunsInspector:
+    summary: This property represents the option to bring up the Inspector dialog instead of the design object's properties
+      dialog when you double click on a design object.
+    remarks: Assign false to this property to disable this option if you want to see the design object's properties dialog
+      when you double click on a design object. Invoke this property to check if design object's properties dialog is
+      invoked (false) or the Inspector dialog (true) when you double click on a design object.
+  LibraryScope:
+    summary: This property represents scope for filtering and selection to be applied to the current component on a library
+      sheet or to all components of an open library in Altium Designer.
+    seeAlso:
+      - SCH.TLibraryScope
+  MaintainOrthogonal:
+    summary: e. corners at 90 degrees). If this option is disabled, wiring dragged with a component will be repositioned
+      obliquely.
+  MarkManualParameters:
+    summary: The MarkManualParameters property denotes whether the dots will be displayed or not when parameters of
+      components for example are auto positioned. If true, the dot for the parameter will appear when its associated
+      component has been rotated/moved on the schematic document.
+  Metafile_ParameterSets:
+    summary: This property if set to true includes Parameter Sets design objects when copying to the clipboard or when
+      printing a schematic document.
+  MultiSelectionColor:
+    summary: This property determines the color of the multi_selection, that is multiple objects on the schematic object is
+      being selected.
+  OptimizePolylines:
+    summary: If this property is set to true, then extra wires, poly-lines or buses are prevented from overlapping on top of
+      each other and the overlapping wires, poly-lines or busses are removed automatically.
+    remarks: "Note: You need to enable this option to have the ability to automatically cut a wire and terminate onto any
+      two pins of this component when this component is dropped onto this wire."
+  PinNameMargin:
+    summary: Normally, component pin names are displayed inside the body of the component, adjacent to the corresponding
+      pin. This property controls the placement of component pin names. It specifies the distance (in hundredths of an
+      inch) from the component outline to the start of the pin name text. The default is 5.
+  PinNumberMargin:
+    summary: Normally, component pin numbers are displayed outside the body of the component, directly above the
+      corresponding pin line. This property controls the placement of the pin numbers. It specifies the distance (in
+      hundredths of an inch) from the component outline to the start of the pin number text. The default is 8.
+  RunInPlaceEditing:
+    summary: This property if set to true, then the focused text field may be directly edited within the Schematic Editor,
+      rather than in a dialog box. After focusing the field you wish to modify, clicking upon it again or pressing the
+      F2 shortcut key will open the field for editing.
+    remarks: If this property is set to false, you cannot edit the text directly and you have to edit it from the Parameter
+      Properties dialog. You can just graphically move this text field.
+  SnapToCenter:
+    summary: This property represents the action where you hold the object being moved or dragged by its reference point
+      (for objects that have one, such as library components or ports), or its center (for objects which do not have a
+      reference point such as a rectangle).
+  SnapToHotSpot:
+    summary: This property represents the action where you hold the object being moved or dragged by the nearest electrical
+      hot spot (eg, the end of a pin) when moving or dragging.
+  StringIncA:
+    summary: This property represents a value to auto-increment on pin designators of a component when you are placing pins
+      for a component. This is used for building components in the Library editor. Normally you would use a positive
+      increment value for pin designators and negative increment value for pin names. Eg 1, 2,3 for pin designators and
+      D8, D7, D6 for pin names. Thus Primary = 1 and Secondary = -1 and set Display Name to D8 and Designator to 1 in
+      the Pin Properties dialog before you place the first pin.
+  StringIncB:
+    summary: This property represents a value to auto-increment on pin names of a component when you are placing pins for a
+      component. This can be used for building components in the Library editor.
+    remarks: Normally you would use a positive increment value for pin designators and negative increment value for pin
+      names. Eg 1, 2,3 for pin designators and D8, D7, D6 for pin names. Thus Primary = 1 and Secondary = -1 and set
+      Display Name to D8 and Designator to 1 in the Pin Properties dialog before you place the first pin.
+  TranslateRotateColor:
+    summary: This property sets or gets the color associated with translation or rotation.
+  UndoRedoStackSize:
+    summary: This property shows the number of actions held in the Undo Buffer. The default value is 50. Define a value to
+      set the Undo Buffer size. There is no limit to the size of the Undo Buffer, however, the larger the size, the more
+      main memory is used to store undo information.
+  UseOrcadPortWidth:
+    summary: The UseOrcadPortWidth property determines whether the ports can be re-sized in the Schematic Editor. This is
+      important if the design has to go back to Orcad(TM) (which does not support re-sizing ports).
+  ViolationColorByLevel:
+    summary: This ViolationColor property determines the color of the violation depending on the error level.
+  ViolationDisplayByLevel:
+    summary: This ViolationDisplay property determines the error level for the violation display.
+  VisibleGridColor:
+    summary: This property determines the color of the visible grid on schematic sheets.
+  VisibleGridStyle:
+    summary: This property determines the lined or dotted style of the visible grid on the schematic document.
+    seeAlso:
+      - SCH.TVisibleGrid
+  WireAutoJunctionsColor:
+    summary: This property determines the color of the auto generated junctions on the schematic document.

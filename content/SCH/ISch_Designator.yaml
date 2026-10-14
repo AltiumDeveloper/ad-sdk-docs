@@ -1,0 +1,3 @@
+# SCH.ISch_Designator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_Designator interface represents a designator object which is part of the component object that
+  identifies it as part of a net. Refer to the ISch_Parameter interface for details.

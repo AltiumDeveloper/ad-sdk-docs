@@ -1,0 +1,9 @@
+# SCH.ISch_Symbol: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The symbol objects are special markers used for components in the Schematic Library.
+remarks: Descended from ISch_GraphicalObject
+members:
+  LineWidth:
+    summary: The LineWidth property defines the border width of the circle with one of the following values from the TSize
+      enumerated type.
+    seeAlso:
+      - SCH.TSize

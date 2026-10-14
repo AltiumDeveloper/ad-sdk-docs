@@ -1,0 +1,47 @@
+{
+  "name": "ad-sdk-api-reference",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Altium Designer SDK (.NET) API reference documentation.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve",
+    "clear": "docusaurus clear",
+    "metadata": "dotnet run --project tools/AssemblyMetadata -c Release -- \"${SDK_ASSEMBLY:-internal/assemblies/Altium.SDK.Interfaces.dll}\" metadata/Altium.SDK.Interfaces.json",
+    "examples:index": "node scripts/examples/index-examples.mjs",
+    "apidocs": "node scripts/apidocs/generate.mjs && npm run search:index",
+    "search:index": "node scripts/apidocs/search-index.mjs",
+    "search:eval": "node scripts/apidocs/search-eval.mjs",
+    "llms": "node scripts/apidocs/llms.mjs",
+    "test": "node --test \"test/**/*.test.mjs\" && node scripts/apidocs/check-content.mjs",
+    "check:content": "node scripts/apidocs/check-content.mjs"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.10.1",
+    "@docusaurus/preset-classic": "^3.10.1",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.1.1",
+    "minisearch": "^7.2.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "yaml": "^2.9.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

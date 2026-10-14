@@ -1,0 +1,3 @@
+# SCH.ISch_NoERC: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The NoERC directive is a special symbol that identifies a pin as one that you want the Electrical Rules Checker
+  to ignore.

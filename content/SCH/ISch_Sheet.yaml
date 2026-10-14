@@ -1,0 +1,25 @@
+# SCH.ISch_Sheet: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_Sheet interface represents an existing schematic document open in Altium Designer. A schematic
+  document can have bus and wiring connections which are represented by the IConnectionsArray interface.
+remarks: >-
+  You can modify or set the document's preference settings.
+
+
+  You can iterate design objects in a Schematic or library document, see ISch_Iterator interface for details.
+
+
+  You can invoke the ChooseLocationInteractively or ChooseRectangleInteractively methods to obtain coordinates from the
+  Schematic sheet or library sheet.
+
+
+  You can create a library from a project that has components
+
+
+  You can check whether objects exist on a particular point on a schematic or library document.
+members:
+  BusConnections:
+    summary: This property fetches the connections of busses on the schematic document.
+  OptimizeUseOfPolylines:
+    summary: This method forces the optimal connection of polylines graphically and in the datastructure.
+  WireConnections:
+    summary: This property fetches the connections of wires on the schematic document.

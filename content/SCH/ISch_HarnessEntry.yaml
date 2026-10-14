@@ -1,0 +1,28 @@
+# SCH.ISch_HarnessEntry: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_HarnessEntry interface is used to represent a harness entry which is a member of the harness system.
+  Harness Entries are the graphical definition of a Signal Harness member. They are placed within a Harness Connector
+  and they are the connection point through which actual nets, buses and Signal Harnesses are combined to form a higher
+  level Signal Harness. Harness Entries along with Harness Connectors, Signal Harnesses and Harness Definition Files
+  make up a complete Signal Harness.
+members:
+  DistanceFromTop:
+    summary: The DistanceFromTop property defines the location of the harness entry in respect to the associated harness
+      connector.
+  IsVertical:
+    summary: The IsVertical property defines the orientation of the harness entry in respect to the harness connector.
+  Name:
+    summary: The Name property defines the name of the harness entry. Normally the name property is a number but can be
+      alphanumeric...
+  OverrideDisplayString:
+    summary: The OverrideDisplayString property defines the OverRideDisplayString property.
+  SchOwnerHarnessConnector:
+    summary: The OwnerHarnessConnector property retrieves the HarnessConnector interface this harness entry is associated with.
+  Side:
+    summary: The Side property defines the orientation of the harness entry in respect to the associated harness connector.
+    seeAlso:
+      - SCH.TLeftRightSide
+  TextColor:
+    summary: The TextColor property defines the color (a value of TColor type) for the Harness Entry's Name string.
+    remarks: The TColor value specifies a 6 digit hexadecimal number of the $FFFFFF format. For example the color blue would
+      be RGB:0,0,255 and Hex:FF0000 therefore the converted decimal value would be 16711680. The following formula may
+      be used to calculate the required value, R+256*(G+(256*B)).

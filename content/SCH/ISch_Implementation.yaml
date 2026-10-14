@@ -1,0 +1,78 @@
+# SCH.ISch_Implementation: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Each schematic component can have models from one or more domains. A schematic component can also have multiple
+  models per domain, one of which will be the current model for that domain.
+remarks: >-
+  A model represents all the information needed for a component in a given domain, while a datafile entity (or link) is
+  the only information which is in an external file.
+
+
+  The models of a component are represented by the ISch_Implementation interface.
+
+
+  The mapping of pins of a component and the nodes/pads of a model are represented by the ISch_MapDefiner interfaces.
+
+
+  The link between a model and its external data file links are represented by the ISch_DataFileLink interfaces.
+
+
+  A diagram of the relationship between a component and its models
+
+
+  A model can be represented by external data sources called data file links. For example, pins of a component can have
+  links to different data files, as for signal integrity models. We will consider each model type in respect to the data
+  file links for the main editor servers supported in Altium Designer.
+
+
+  For the PCB footprints, the model and the data file are both the same.
+
+
+  With the simulation models, you can have a simulation model which is a 4ohm resistor for example, there is a
+  simulation model here, but there is no information is coming from an external file, therefore, a no external file is
+  needed for this as the resistor model is built from spice. This is the case where you have a model with no data file
+  entity. Thus the parameters are used for these types of simulation models that don't have data file links.
+
+
+  With signal integrity models, it can have information required for each pin. If we used IBIS datafiles, not the Altium
+  Designer's central database, then each signal integrity model would then have multiple data files, each one for each
+  type of pin.
+
+
+  A model can also be called an implementation. Each implementation linked to a component can have parameters and data
+  file links.
+members:
+  ClearAllDatafileLinks:
+    summary: This method removes all the data file links of the implementation (model) for the current component.
+  DatabaseModel:
+    summary: This property is implemented by the GetState_DatabaseModel and SetState_DatabaseModel methods.
+    seeAlso:
+      - SCH.ISch_Implementation.IntegratedModel
+  DatafileLinkCount:
+    summary: This property fetches the number of data file links for the current implementation of the schematic component.
+    remarks: This property is supported by the GetState_DatafileLinkCount method.
+  Description:
+    summary: "The Description property fetches or sets the Description string for the model. This is optional and is for
+      reference purposes and do not have any impact on simulation processes. This property is implemented by the
+      GetState_Description : string and SetState_Description(AValue : string) methods."
+  IntegratedModel:
+    summary: The property determines whether the implementation is an integrated model type or not.
+    seeAlso:
+      - SCH.ISch_Implementation.DatabaseModel
+  MapAsString:
+    summary: "This MapAsString property returns or sets the map of the component pins to a model pins (simulation ports for
+      example) as a string of the following format: (SchematicPinNumber:ModelPinNumber) for example (1:1),(2:2), ...
+      ,(X:X)"
+  ModelName:
+    summary: "This property is implemented with GetState_ModelName : string and SetState_ModelName(AValue : string) methods."
+  SchDatafileLink:
+    summary: The DatafileLink property determines the indexed datafilelink of the model type linked to the component. A
+      component can have multiple linked models and each model can have multiple external data file links.
+    remarks: "This property is implemented with the GetState_SchDatafileLink(i : Integer) : ISch_ModelDatafileLink method."
+  UseComponentLibrary:
+    summary: "This UseComponentLibrary property determines whether the component is from an integrated library or not
+      (either as an installed library or part of the Project Libraries. This is accessed from the Available Libraries
+      dialog in Altium Designer). A Boolean value is returned. This property is implemented with
+      GetState_UseComponentLibrary : Boolean and SetState_UseComponentLibrary(AValue : Boolean) methods."
+    seeAlso:
+      - SCH.ISch_GraphicalObject
+      - SCH.ISch_Rectangle
+      - SCH.ISch_Image

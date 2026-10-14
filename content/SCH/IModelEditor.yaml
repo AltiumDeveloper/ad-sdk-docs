@@ -1,0 +1,5 @@
+# SCH.IModelEditor: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IModelEditor interface represents the Model Editor hosted by a server which normally has a dialog that
+  displays data about the model properties in Altium Designer. This IModelEditor interface is the front end for the
+  actual implementation of a Model Editor for a specific model domain (PCB, Signal Integrity and other model types).
+remarks: IModelEditor Methods and Properties Table

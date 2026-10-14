@@ -1,0 +1,8 @@
+# SCH.IGridSetting: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IGridSetting interface represents the grid settings for the Schematic documents part of a project.
+remarks: The IGridSetting interface hierarchy is a standalone.
+members:
+  HotspotGridOn:
+    summary: This method determines whether the hot spot grid is enabled or not and returns a true or false value.
+  HotspotGridSize:
+    summary: This method determines the size of the hot spot grid size.

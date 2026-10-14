@@ -1,0 +1,8 @@
+# SCH.ISch_CollapsibleRectangle: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  Collapsed:
+    summary: When the property is false, the compile mask is collapsed and disabled. When this property is true, the compile
+      mask is fully expanded and enabled meaning the portion of the schematic covered by the Compile Mask object is not
+      affected by the Compiler.
+    seeAlso:
+      - SCH.ISch_CompileMask

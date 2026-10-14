@@ -1,0 +1,8 @@
+# Namespaces documented by the site, in sidebar order. `metadata` lists the extracted assembly files the types come
+# from (tools/AssemblyMetadata). Add a namespace here, a category block in config/categories.yaml and a `.ns-<slug>`
+# colour in src/css/custom.css to publish it.
+namespaces:
+  - id: SCH
+    title: Schematic
+    description: Schematic and schematic library documents, design objects, the schematic server and its services.
+    metadata: [metadata/Altium.SDK.Interfaces.json]

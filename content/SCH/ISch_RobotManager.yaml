@@ -1,0 +1,145 @@
+# SCH.ISch_RobotManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISch_RobotManager interface represents an object that can send Schematic messages into the Schematic Editor
+  server from your extension to update the sub-systems such as the Undo system.
+remarks: |-
+  Part of ISch_ServerInterface object interface
+
+  MessageID table
+
+  SCHM_NullMessage = 0;
+
+  SCHM_PrimitiveRegistration = 1;
+
+  SCHM_BeginModify = 2;
+
+  SCHM_EndModify = 3;
+
+  SCHM_YieldToRobots = 4;
+
+  SCHM_CancelModify = 5;
+
+  SCHM_Create = 6;
+
+  SCHM_Destroy = 7;
+
+  SCHM_ProcessStart = 8;
+
+  SCHM_ProcessEnd = 9;
+
+  SCHM_ProcessCancel = 10;
+
+  SCHM_CycleEnd = 11;
+
+  SCHM_CycleStart = 12;
+
+  SCHM_SystemInvalid = 13;
+
+  SCHM_SystemValid = 14;
+
+  Message types table
+
+  c_BroadCast = null;
+
+  c_NoEventData = null;
+
+  c_FromSystem = null;
+members:
+  SendMessage:
+    summary: The SendMessage method sends a message into Schematic Editor notifying that the data structures need to be
+      updated and synchronized. It could be an object being modified, added or deleted from the schematic document.
+    remarks: |-
+      Normally when an object is being modified,
+
+      The Source parameter, the current sheet's I_ObjectAddress value.
+
+      The Destination parameter has the c_Broadcast value
+
+      The MessageID parameter has the SchM_PrimitiveRegistration value
+
+      The MessageData parameter has the new object's I_ObjectAddress value.
+
+      Normally when a new object is being added,
+
+      The Source parameter, the I_ObjectAddress of an object needs to be invoked.
+
+      The Destination parameter has the c_Broadcast value
+
+      The MessageID parameter has the SchM_BeginModify and SchM_EndModify values.
+
+      The MessageData parameter has the c_noEventData value
+
+      Normally when an object is being removed,
+
+      The Source parameter, the current sheet's I_ObjectAddress value.
+
+      The Destination parameter normally has the c_Broadcast value
+
+      The MessageID parameter has the SchM_PrimitiveRegistration value.
+
+      The MessageData parameter has the deleted object's I_ObjectAddress value.
+
+      // Initialize the robots in Schematic editor.
+
+      PreProcess(Doc, '');
+
+      SchIterator_Create;
+
+      AddFilter_ObjectSet(MkSet(ePort, eWire));
+
+      If Iterator = null Then Exit;
+
+      Try
+
+      FirstSchObject;
+
+      While AnObject <> null Do
+
+      ObjectId Of
+
+      I_ObjectAddress, c_BroadCast, SCHM_BeginModify, c_NoEventData);
+
+      I_ObjectAddress, c_BroadCast, SCHM_EndModify , c_NoEventData);
+
+      End;
+
+      NextSchObject;
+
+      End;
+
+      Finally
+
+      SchIterator_Destroy(Iterator);
+
+      End;
+
+      // Clean up the robots in Schematic editor
+
+      PostProcess(Doc, '');
+
+      Try
+
+      FirstSchObject;
+
+      While Port <> null Do
+
+      NextSchObject;
+
+      RemoveSchObject(OldPort);
+
+      SendMessage
+
+      I_ObjectAddress,
+
+      c_BroadCast,
+
+      SCHM_PrimitiveRegistration,
+
+      I_ObjectAddress);
+
+      End;
+
+      Finally
+
+      SchIterator_Destroy(Iterator);
+
+      End;

@@ -1,0 +1,66 @@
+# SCH.IModelTypeManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IModelTypeManager interface represents a repository of available model types in Altium Designer. IMP) from
+  the System folder of Altium Designer Installation are collected and processed by this manager.
+remarks: >-
+  Each model that can be linked to a schematic component has a model type and model data file(s).
+
+
+  PCBLIB)
+
+
+  PCB3DLib)
+
+
+  Signal Integrity Model has one model data file - pin model library.
+
+
+  LB).
+
+
+  This IModelTypeManager interface uses IModelType and IModelDataType interfaces to store different model types and
+  their model data types.
+
+
+  Invoke the ModelTypeManager method to fetch the IModelTypeManager interface.
+
+
+  IModelTypeManager Methods and Properties Table
+members:
+  ModelDatafileTypeAt:
+    summary: This property returns the data file types supported by Altium Designer. First data file type starts at 0.
+    seeAlso:
+      - SCH.IModelTypeManager.ModelDatafileTypeCount
+      - SCH.IModelDatafileType
+  ModelDatafileTypeCount:
+    summary: This method reports the number of model data file types used by Altium Designer. Since there are four models
+      supported and Simulation model has 3 types while the other 3 models has one type each making 6 in total.
+  ModelDatafileTypeFromKind:
+    summary: "This method returns the IModelDatafileType based on the datafile kind. The datafile kinds for:"
+  ModelTypeAt:
+    summary: This method returns the indexed model type. First model type starts at 0.
+    seeAlso:
+      - SCH.IModelTypeManager.ModelTypeCount
+      - SCH.IModelType
+  ModelTypeCount:
+    summary: This method returns the number of models supported by Altium Designer. The available models are PCBLIB, SI, SIM
+      and PCB3DLIB types.
+  ModelTypeFromName:
+    summary: "This method returns the model type interface based on the model type name. The names can be:"
+    remarks: |-
+      PCB3DLIB
+
+      PCBLIB
+
+      SI
+
+      SIM
+  ModelTypeFromServerName:
+    summary: "This method returns the model type interface based on the server name. The Server names can be:"
+    remarks: |-
+      PCB3D
+
+      PCB
+
+      Sim
+
+      SignalIntegrity

@@ -1,0 +1,8 @@
+# SCH.ISch_CrossSheetConnector: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Cross sheet connector objects can be used to link a net from a sheet to other sheets within a project. This
+  method defines global connections between sheets within a project.
+members:
+  CrossSheetConnectorStyle:
+    summary: The CrossSheetStyle property represents the style or the alignment of the cross sheet object.
+    seeAlso:
+      - SCH.TCrossSheetConnectorStyle

@@ -1,0 +1,14 @@
+# SCH.IComponentPainterView: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: IComponentPainterView Methods and Properties Table
+members:
+  SetComponent:
+    summary: The SetComponent method sets the ComponentPainter object to display the specific part of a component from the
+      library with the specified library path. Note a component can be a multi-part component and the first part is
+      numbered 1 and so on.
+    remarks: A component painter object can also be set with the component's handle of ISch_Component type.
+  SetComponentByHandle:
+    summary: The SetComponentByHandle method sets the ComponentPainter object to display the specific part of a component.
+      Note a component can be a multi-part component and the first part is numbered 1 and so on.
+    remarks: A component painter object can also be set with the full path to a library and its component.
+    seeAlso:
+      - SCH.IComponentPainterView.SetComponent

@@ -1,0 +1,33 @@
+# SCH.ISch_Lib: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This interface represents an existing library document open in Altium Designer. A library is composed of
+  library pages and each page represents the symbol (schematic library component).
+remarks: >-
+  You can modify or set the document's preference settings.
+
+
+  You can invoke the ChooseLocationInteractively or ChooseRectangleInteractively methods to obtain coordinates from the
+  Schematic sheet or library sheet.
+
+
+  You can check whether objects exist on a particular point on a schematic or library document.
+
+
+  You can iterate design objects in a library document, with the library iterator. This iterator is created by the
+  SchLibIterator_Create method.
+
+
+  You can invoke the LibIsEmpty method to check if the library is empty (ie no symbols in the library) or not.
+
+
+  Due to the nature of a library document, all symbols (library components) are displayed on their library pages, so you
+  iterate through the library to fetch symbols.
+members:
+  Current_SchComponent:
+    summary: This property gets or sets the component as the current component in the library document. This property is
+      supported by its GetState_CurrentSchComponent and SetState_CurrentSchComponent methods.
+  Description:
+    summary: This property gets or sets the description of the library document. This property is supported by its
+      GetState_Description and SetState_Description methods.
+  ShowHiddenPins:
+    summary: This property gets or sets the visible property of hidden pins of the component in the library document. This
+      property is supported by its GetState_ShowHiddenPins and SetState_ShowHiddenPins methods.

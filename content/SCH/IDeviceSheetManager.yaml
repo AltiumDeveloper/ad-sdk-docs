@@ -1,0 +1,37 @@
+# SCH.IDeviceSheetManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IDeviceSheetManager interface represents the Device Sheets Folder dialog in Altium Designer. Invoke the
+  DeviceSheetManager method to fetch the IDeviceSheetManager object interface.
+remarks: IDeviceSheetManager Methods and Properties Table
+members:
+  AddDeviceFolder:
+    summary: This method adds a new device folder into the existing top level Device Folder and whether sub folders can be
+      searched from that folder.
+  BrowseDeviceSheet:
+    summary: The method BrowseDeviceSheet invokes the Select Device Sheet dialog and when you select a device sheet, the
+      filename (without the file extension) is returned for the device sheet you chose from this dialog. This filename
+      is returned in the AFilename parameter.
+  ChooseDeviceFolder:
+    summary: This method invokes the Choose Device Sheet Folder dialog and returns you the valid device folder via the
+      AFolderPath parameter. The method returns a false value if the dialog is cancelled.
+  ConvertDeviceSheetPathToName:
+    summary: The method converts the full file path (the AFilePath parameter) of the device sheet to the valid device sheet
+      filename (without the file extension). If the AFilePath parameter is invalid, an empty string is returned.
+  EditDeviceFolderList:
+    summary: This method invokes the Device Sheet Folders dialog with all Device Sheet Folders if any.
+  FindDeviceSheetPath:
+    summary: This method finds the Device Sheet path for the valid device sheet (without the file extension). The valid
+      device sheet is defined by the AFilename parameter. If the AFileName is invalid, a blank string is returned.
+  GetFolders_FolderPath:
+    summary: This method returns the indexed path of device sheets (as in the Device Sheet Folders dialog). The first entry
+      starts at zero (0).
+    seeAlso:
+      - SCH.IDeviceSheetManager.GetFoldersCount
+  GetFolders_SearchSubFolders:
+    summary: This method returns a boolean result for sub folders of the indexed path of device sheets (as in the Device
+      Sheet Folders dialog). The first entry starts at zero (0).
+    seeAlso:
+      - SCH.IDeviceSheetManager.GetFoldersCount
+  GetFoldersCount:
+    summary: The GetFoldersCount method returns the number of Device Sheet Folders in Altium Designer.
+  WillSearchDeviceFolder:
+    summary: This method determines whether the Device Sheet Folder represented by the AFolderPath parameter exists or not.

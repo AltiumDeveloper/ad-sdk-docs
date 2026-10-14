@@ -1,0 +1,34 @@
+# Dependencies
+/node_modules
+
+# Production
+/build
+
+# Generated files (npm run apidocs)
+.docusaurus
+.cache-loader
+/.generated/
+/docs/reference/
+/static/search-index.json
+
+# .NET build output
+bin/
+obj/
+
+# Internal working material: sources, cross-reference tables, context notes, seeding scripts, SDK binaries.
+# Never published.
+/internal/
+/assembliies/
+/assemblies/
+
+# Local tooling
+/.claude/
+/.vscode/
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*

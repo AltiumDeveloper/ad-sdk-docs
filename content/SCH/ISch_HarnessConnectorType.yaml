@@ -1,0 +1,3 @@
+# SCH.ISch_HarnessConnectorType: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISchHarnessConnectorType interface represents the text object of the harness connector and defines the
+  harness connector type. By Default the Type string is Harness.

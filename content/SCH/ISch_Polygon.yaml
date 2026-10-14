@@ -1,0 +1,10 @@
+# SCH.ISch_Polygon: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Polygons are multi-sided graphical elements. The vertices of a polygon object denote the link of lines to
+  describe its outline.
+remarks: ISch_Polygon interface
+members:
+  LineWidth:
+    summary: The LineWidth property defines the border width of the polygon with one of the following values from the TSize
+      enumerated type.
+    seeAlso:
+      - SCH.TSize

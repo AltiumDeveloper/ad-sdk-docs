@@ -1,0 +1,4923 @@
+{
+ "commit": "5b144f54740a53ec578b3b6c3f902b831e0b1144",
+ "examples": {
+  "Ciiva": {
+   "files": 7
+  },
+  "DownloadCmpLibsFromVault": {
+   "files": 3
+  },
+  "Extension_AddVariant": {
+   "files": 2
+  },
+  "Extension_BlockAD_CS": {
+   "files": 2
+  },
+  "Extension_BOMManager": {
+   "files": 16
+  },
+  "Extension_ChangeOutputJobFile": {
+   "files": 2
+  },
+  "Extension_CreatePCBLib": {
+   "files": 2
+  },
+  "Extension_CreateProject": {
+   "files": 2
+  },
+  "Extension_CreateSchComponent": {
+   "files": 2
+  },
+  "Extension_CreateVariantComponent": {
+   "files": 2
+  },
+  "Extension_GenerateGerber": {
+   "files": 2
+  },
+  "Extension_GetVaultFolder": {
+   "files": 2
+  },
+  "Extension_HierarchicalDesign": {
+   "files": 2
+  },
+  "Extension_IComponent_To_ISch_Component": {
+   "files": 2
+  },
+  "Extension_IntegratedLibraryManager": {
+   "files": 2
+  },
+  "Extension_InternalPlaneLayer": {
+   "files": 2
+  },
+  "Extension_ModifySchWireColor": {
+   "files": 2
+  },
+  "Extension_NavigationProvider": {
+   "files": 3
+  },
+  "Extension_Pad_SolderMask": {
+   "files": 2
+  },
+  "Extension_PartChoice": {
+   "files": 2
+  },
+  "Extension_PartComment": {
+   "files": 2
+  },
+  "Extension_PartRequest": {
+   "files": 2
+  },
+  "Extension_PCBDrawing": {
+   "files": 2
+  },
+  "Extension_PcbLibComponentToSTEP": {
+   "files": 2
+  },
+  "Extension_PcbLibToImage": {
+   "files": 2
+  },
+  "Extension_PCBToImage": {
+   "files": 2
+  },
+  "Extension_PCBUndoRedo": {
+   "files": 2
+  },
+  "Extension_PlaceAndMovePcbComponent": {
+   "files": 2
+  },
+  "Extension_PlaceComponentFromVault": {
+   "files": 2
+  },
+  "Extension_PlaceDeviceSheet": {
+   "files": 2
+  },
+  "Extension_PlacePad": {
+   "files": 4
+  },
+  "Extension_PortalUserInfo": {
+   "files": 2
+  },
+  "Extension_Preference": {
+   "files": 4
+  },
+  "Extension_RefreshDocument": {
+   "files": 2
+  },
+  "Extension_RemoveSchLibComponent": {
+   "files": 2
+  },
+  "Extension_SchPreference": {
+   "files": 2
+  },
+  "Extension_SchTemplate": {
+   "files": 2
+  },
+  "Extension_SetGroupingInDocumentsBar": {
+   "files": 2
+  },
+  "Extension_SupplierPreference": {
+   "files": 2
+  },
+  "Extension_TestCS": {
+   "files": 2
+  },
+  "Extension_TestNotification": {
+   "files": 3
+  },
+  "Extension_TestPortHarnessDev": {
+   "files": 2
+  },
+  "Extension_VariantOptions": {
+   "files": 2
+  },
+  "Extension_WebBrowserPanel": {
+   "files": 4
+  },
+  "PLMApproveComponentRequest": {
+   "files": 2
+  }
+ },
+ "types": {
+  "ComponentLib.IParameter": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 70
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 92
+   }
+  ],
+  "DXP.IClient": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 15
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 57
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 91
+   },
+   {
+    "example": "Extension_BlockAD_CS",
+    "file": "Extension_BlockAD_CS/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Main.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Main.cs",
+    "line": 14
+   }
+  ],
+  "DXP.IClientAPI_Interface": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 359
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 96
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 132
+   },
+   {
+    "example": "Extension_SetGroupingInDocumentsBar",
+    "file": "Extension_SetGroupingInDocumentsBar/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IDXPWorkSpace": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 61
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "DXP.IEDMS_DXPServerManager": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "DXP.IEDMS_TaskExt": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 44
+   }
+  ],
+  "DXP.IEDMS_TaskSearchParams": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 27
+   }
+  ],
+  "DXP.IEDMS_TaskService": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IEDMS_Vault": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 27
+   },
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 52
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IEDMS_VaultManager": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 17
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "DXP.IExternalForm": [
+   {
+    "example": "Extension_NavigationProvider",
+    "file": "Extension_NavigationProvider/Source Code/NavigationProvider.cs",
+    "line": 23
+   }
+  ],
+  "DXP.IInterfaceList": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 36
+   }
+  ],
+  "DXP.INavigationProvider": [
+   {
+    "example": "Extension_NavigationProvider",
+    "file": "Extension_NavigationProvider/Source Code/NavigationProvider.cs",
+    "line": 11
+   }
+  ],
+  "DXP.INotification": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 55
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Main.cs",
+    "line": 53
+   }
+  ],
+  "DXP.IOptionsFormDataManager": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 56
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 58
+   }
+  ],
+  "DXP.IOptionsPage": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 64
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Main.cs",
+    "line": 62
+   }
+  ],
+  "DXP.IOptionsReader": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Preferences.cs",
+    "line": 27
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Preferences.cs",
+    "line": 30
+   },
+   {
+    "example": "Extension_SchPreference",
+    "file": "Extension_SchPreference/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "DXP.IOptionsWriter": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Preferences.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Preferences.cs",
+    "line": 37
+   },
+   {
+    "example": "Extension_SchPreference",
+    "file": "Extension_SchPreference/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IServerDocument": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMPanelForm.cs",
+    "line": 30
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 44
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Main.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Main.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_BlockAD_CS",
+    "file": "Extension_BlockAD_CS/Source Code/Main.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Main.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Main.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Main.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Main.cs",
+    "line": 42
+   }
+  ],
+  "DXP.IServerDocumentView": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 14
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 71
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 16
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Main.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 16
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Main.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 16
+   },
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Main.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 15
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Main.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 16
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Main.cs",
+    "line": 49
+   }
+  ],
+  "DXP.IServerModule": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 180
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 96
+   }
+  ],
+  "DXP.IServerOptions": [
+   {
+    "example": "Extension_SchPreference",
+    "file": "Extension_SchPreference/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "DXP.IStrings": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 67
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 103
+   }
+  ],
+  "DXP.IULB_Folder": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "DXP.IULB_Item": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IULB_ItemRevision": [
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 53
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 27
+   }
+  ],
+  "DXP.IValidateStateTransitionNotification": [
+   {
+    "example": "Extension_TestNotification",
+    "file": "Extension_TestNotification/Source Code/ValidateStateTransitionNotification.cs",
+    "line": 18
+   }
+  ],
+  "DXP.TDocumentsBarGrouping": [
+   {
+    "example": "Extension_SetGroupingInDocumentsBar",
+    "file": "Extension_SetGroupingInDocumentsBar/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "DXP.TEDMS_VaultFlag": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "DXP.TTaskType": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "EDP.IBomComponent": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/BomItem.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/IBomComponent.cs",
+    "line": 10
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/IBomItem.cs",
+    "line": 11
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 11
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBomItem.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 10
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 10
+   }
+  ],
+  "EDP.IBomManager": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/BomManager.cs",
+    "line": 11
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/IBomManager.cs",
+    "line": 11
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 13
+   }
+  ],
+  "EDP.IBomManagerFactory": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 175
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 91
+   }
+  ],
+  "EDP.IBomParameter": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 157
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 65
+   }
+  ],
+  "EDP.IComponent": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 59
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 106
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 12
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 56
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "EDP.IComponentImplementation": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 81
+   }
+  ],
+  "EDP.IComponentLibraryLink": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 67
+   }
+  ],
+  "EDP.IComponentVariation": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 61
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 106
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 60
+   }
+  ],
+  "EDP.IDocument": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 52
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 56
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/BomManager.cs",
+    "line": 31
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 66
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/IBomManager.cs",
+    "line": 16
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 27
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 53
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 52
+   }
+  ],
+  "EDP.ILibraryInterface": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 240
+   }
+  ],
+  "EDP.INetItem": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 55
+   }
+  ],
+  "EDP.IOutputer": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "EDP.IParameterVariation": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 72
+   }
+  ],
+  "EDP.IPart": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 65
+   }
+  ],
+  "EDP.IProject": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 16
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 20
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/BomManager.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 65
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/IBomManager.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 12
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 15
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 37
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 58
+   }
+  ],
+  "EDP.IProjectVariant": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "EDP.IUnifiedDataModel": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "EDP.IVariantOption": [
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 27
+   }
+  ],
+  "EDP.IWorkspace": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 56
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 19
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 24
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 27
+   },
+   {
+    "example": "Extension_IComponent_To_ISch_Component",
+    "file": "Extension_IComponent_To_ISch_Component/Source Code/Commands.cs",
+    "line": 15
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_SchTemplate",
+    "file": "Extension_SchTemplate/Source Code/Commands.cs",
+    "line": 18
+   },
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "EDP.IWorkspacePreferences": [
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "EDP.IWSM_OutputJobDocument": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 32
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 45
+   }
+  ],
+  "EDP.TComponentKind": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 117
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 109
+   }
+  ],
+  "EDP.THighlightMethod": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 47
+   }
+  ],
+  "EDP.TLibIdentifierKind": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 244
+   }
+  ],
+  "EDP.TVariationKind": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 65
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 113
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 38
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 72
+   }
+  ],
+  "PCB.IPCB_Board": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/BomManager.cs",
+    "line": 19
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/IBomManager.cs",
+    "line": 14
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 86
+   },
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PCBToImage",
+    "file": "Extension_PCBToImage/Source Code/Commands.cs",
+    "line": 94
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 33
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 15
+   }
+  ],
+  "PCB.IPCB_BoardIterator": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "PCB.IPCB_Component": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 13
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 47
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "PCB.IPCB_ComponentBody": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 51
+   }
+  ],
+  "PCB.IPCB_Contour": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 61
+   }
+  ],
+  "PCB.IPCB_InternalPlane_V7": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "PCB.IPCB_LayerObjectIterator": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "PCB.IPCB_LibComponent": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 46
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 52
+   }
+  ],
+  "PCB.IPCB_Library": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 33
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "PCB.IPCB_LibraryIterator": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 37
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 43
+   }
+  ],
+  "PCB.IPCB_Model": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 93
+   }
+  ],
+  "PCB.IPCB_Pad": [
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 24
+   }
+  ],
+  "PCB.IPCB_Parameter": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 32
+   }
+  ],
+  "PCB.IPCB_Primitive": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 44
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "PCB.IPCB_PrimitiveParameters": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 29
+   }
+  ],
+  "PCB.IPCB_ServerInterface": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 30
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 35
+   },
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 24
+   }
+  ],
+  "PCB.TCacheState": [
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "PCB.TDimensionKind": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 90
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 35
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 38
+   }
+  ],
+  "PCB.TIterationMethod": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "PCB.TLayerPartition": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 46
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "PCB.TObjectCreationMode": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 90
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 35
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 38
+   }
+  ],
+  "PCB.TObjectId": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 89
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 90
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 38
+   }
+  ],
+  "PCB.TV6_Layer": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 39
+   }
+  ],
+  "SCH.IDeviceSheetManager": [
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 50
+   },
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "SCH.IHarnessTypeHolder": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 60
+   }
+  ],
+  "SCH.IIntegratedLibraryManager": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 275
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 70
+   },
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "SCH.IModelTypeManager": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "SCH.IPartCatalog2": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 41
+   }
+  ],
+  "SCH.IPartChoice2": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 56
+   }
+  ],
+  "SCH.IPartChoice2List": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "SCH.IPartChoice2ListResult": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 45
+   }
+  ],
+  "SCH.ISch_BasicContainer": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 345
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "SCH.ISch_Component": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 91
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_RemoveSchLibComponent",
+    "file": "Extension_RemoveSchLibComponent/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "SCH.ISch_Designator": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 104
+   }
+  ],
+  "SCH.ISch_Document": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 76
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 46
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "SCH.ISch_Implementation": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 96
+   }
+  ],
+  "SCH.ISch_Iterator": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 84
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "SCH.ISch_Lib": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_RemoveSchLibComponent",
+    "file": "Extension_RemoveSchLibComponent/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "SCH.ISch_Parameter": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 105
+   }
+  ],
+  "SCH.ISch_Pin": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 199
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 44
+   }
+  ],
+  "SCH.ISch_Port": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 59
+   }
+  ],
+  "SCH.ISch_RobotManager": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 47
+   }
+  ],
+  "SCH.ISch_ServerInterface": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 48
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 30
+   },
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_RemoveSchLibComponent",
+    "file": "Extension_RemoveSchLibComponent/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "SCH.ISch_Wire": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 43
+   }
+  ],
+  "SCH.ISupplier": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "SCH.ISupplierImportParameterPref": [
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 69
+   }
+  ],
+  "SCH.ISupplierManager": [
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 68
+   },
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 36
+   }
+  ],
+  "SCH.TIterationDepth": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 165
+   }
+  ]
+ },
+ "members": {
+  "DXP.IClient.AddServerView": [
+   {
+    "example": "Extension_WebBrowserPanel",
+    "file": "Extension_WebBrowserPanel/Source Code/Main.cs",
+    "line": 74
+   }
+  ],
+  "DXP.IClient.BroadcastNotification": [
+   {
+    "example": "Extension_SetGroupingInDocumentsBar",
+    "file": "Extension_SetGroupingInDocumentsBar/Source Code/Commands.cs",
+    "line": 36
+   }
+  ],
+  "DXP.IClient.BroadcastNotificationAsynchronously": [
+   {
+    "example": "Extension_TestNotification",
+    "file": "Extension_TestNotification/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "DXP.IClient.CloseDocument": [
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 65
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 68
+   }
+  ],
+  "DXP.IClient.CurrentView": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PCBToImage",
+    "file": "Extension_PCBToImage/Source Code/Commands.cs",
+    "line": 100
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 56
+   }
+  ],
+  "DXP.IClient.GetClientAPI": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 359
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 96
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 132
+   },
+   {
+    "example": "Extension_SetGroupingInDocumentsBar",
+    "file": "Extension_SetGroupingInDocumentsBar/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IClient.GetDocumentByPath": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 104
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 76
+   }
+  ],
+  "DXP.IClient.GetDXPWorkspace": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 19
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 61
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 24
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 27
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 35
+   },
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "DXP.IClient.GetMainWindowHandle": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 69
+   }
+  ],
+  "DXP.IClient.GetNavigationSystem": [
+   {
+    "example": "Extension_NavigationProvider",
+    "file": "Extension_NavigationProvider/Source Code/NavigationProvider.cs",
+    "line": 19
+   }
+  ],
+  "DXP.IClient.GetOptionsManager": [
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "DXP.IClient.GetServerModuleByName": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 180
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 96
+   },
+   {
+    "example": "Extension_SchPreference",
+    "file": "Extension_SchPreference/Source Code/Commands.cs",
+    "line": 31
+   }
+  ],
+  "DXP.IClient.OpenDocument": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 45
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 56
+   },
+   {
+    "example": "Extension_PCBDrawing",
+    "file": "Extension_PCBDrawing/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 135
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "DXP.IClient.ShowDocument": [
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 47
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 58
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 137
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "DXP.IClient.StartServer": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 251
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 183
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 99
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IClientAPI_Interface.BeginCursor": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 363
+   }
+  ],
+  "DXP.IClientAPI_Interface.EndCursor": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 372
+   }
+  ],
+  "DXP.IClientAPI_Interface.GroupingInDocumentsBar": [
+   {
+    "example": "Extension_SetGroupingInDocumentsBar",
+    "file": "Extension_SetGroupingInDocumentsBar/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IClientAPI_Interface.SpecialFolder_ExportPreferences": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 100
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 136
+   }
+  ],
+  "DXP.IDXPWorkSpace.DM_FocusedDocument": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 66
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 41
+   }
+  ],
+  "DXP.IDXPWorkSpace.DM_FocusedProject": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 65
+   }
+  ],
+  "DXP.IEDM_AsyncResult.WaitUntilDone": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "DXP.IEDM_Record.GUID": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 45
+   },
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IEDM_Record.HRID": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "DXP.IEDM_User.FullName": [
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "DXP.IEDM_User.GUID": [
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "DXP.IEDMS_DXPServerManager.GetTaskService": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IEDMS_TaskBase.AssigneeGUID": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 47
+   }
+  ],
+  "DXP.IEDMS_TaskBase.Description": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "DXP.IEDMS_TaskSearchParams.ForCurrentUser": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IEDMS_TaskSearchParams.ItemsPerPage": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 30
+   }
+  ],
+  "DXP.IEDMS_TaskSearchParams.PageIndex": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 31
+   }
+  ],
+  "DXP.IEDMS_TaskSearchParams.SortField": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "DXP.IEDMS_TaskSearchParams.TaskType": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "DXP.IEDMS_TaskService.CreateSearchParams": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 27
+   }
+  ],
+  "DXP.IEDMS_TaskService.GetPartRequestTasks": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "DXP.IEDMS_Vault.GetFolders": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IEDMS_Vault.GetServiceURL": [
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "DXP.IEDMS_Vault.GetUserDetails": [
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "DXP.IEDMS_Vault.GetVaultGUID": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "DXP.IEDMS_Vault.GetVaultTypeID": [
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "DXP.IEDMS_Vault.ItemByHRID": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "DXP.IEDMS_Vault.ItemRevisionByHRID": [
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 53
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 27
+   }
+  ],
+  "DXP.IEDMS_VaultManager.GetInstalledVault": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 31
+   },
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 52
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "DXP.IEDMS_VaultManager.GetInstalledVaultCount": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PortalUserInfo",
+    "file": "Extension_PortalUserInfo/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "DXP.IExternalForm.FocusFirstTabStop": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 64
+   }
+  ],
+  "DXP.IExternalForm.SetFocus": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 62
+   }
+  ],
+  "DXP.IExternalForm.Show": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 65
+   }
+  ],
+  "DXP.IInterfaceList.Count": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 53
+   },
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "DXP.IInterfaceList.Get": [
+   {
+    "example": "Extension_PartRequest",
+    "file": "Extension_PartRequest/Source Code/Commands.cs",
+    "line": 44
+   }
+  ],
+  "DXP.INotification.GetNotificationCode": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 58
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Main.cs",
+    "line": 56
+   }
+  ],
+  "DXP.INotification.GetNotificationType": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Main.cs",
+    "line": 57
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Main.cs",
+    "line": 55
+   }
+  ],
+  "DXP.IOptionsReader.ReadBoolean": [
+   {
+    "example": "Extension_SchPreference",
+    "file": "Extension_SchPreference/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "DXP.IOptionsReader.ReadString": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Preferences.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Preferences.cs",
+    "line": 32
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "DXP.IOptionsWriter.WriteBoolean": [
+   {
+    "example": "Extension_SchPreference",
+    "file": "Extension_SchPreference/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 52
+   }
+  ],
+  "DXP.IOptionsWriter.WriteString": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Preferences.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/Preferences.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 60
+   }
+  ],
+  "DXP.IServerDocument.DoFileSave": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "DXP.IServerDocument.FileName": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "DXP.IServerDocument.GetKind": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 27
+   },
+   {
+    "example": "Extension_PCBToImage",
+    "file": "Extension_PCBToImage/Source Code/Commands.cs",
+    "line": 85
+   }
+  ],
+  "DXP.IServerDocument.Modified": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 106
+   }
+  ],
+  "DXP.IServerDocumentView.GetOwnerDocument": [
+   {
+    "example": "Extension_PCBToImage",
+    "file": "Extension_PCBToImage/Source Code/Commands.cs",
+    "line": 84
+   }
+  ],
+  "DXP.IServerDocumentView.PerformAutoZoom": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 63
+   }
+  ],
+  "DXP.IStrings.Add": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 74
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 110
+   }
+  ],
+  "DXP.IStrings.GetCount": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 79
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 115
+   }
+  ],
+  "DXP.IStrings.GetItem": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/OptionsPage.cs",
+    "line": 81
+   },
+   {
+    "example": "Extension_Preference",
+    "file": "Extension_Preference/Source Code/OptionsPage.cs",
+    "line": 117
+   }
+  ],
+  "DXP.IULB_FoldersResult.Folders": [
+   {
+    "example": "Extension_GetVaultFolder",
+    "file": "Extension_GetVaultFolder/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "DXP.IULB_ItemRevision.ItemGUID": [
+   {
+    "example": "Extension_PlaceComponentFromVault",
+    "file": "Extension_PlaceComponentFromVault/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "EDP.IBomComponent.GetParameters": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 64
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 18
+   }
+  ],
+  "EDP.IBomComponentList.GetCount": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 61
+   }
+  ],
+  "EDP.IBomComponentList.GetItem": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 63
+   }
+  ],
+  "EDP.IBomManager.GetOptions": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 46
+   }
+  ],
+  "EDP.IBomManager.GetSchema": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 59
+   }
+  ],
+  "EDP.IBomManagerOptions.AutoGroup": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 50
+   }
+  ],
+  "EDP.IBomManagerOptions.GetState": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 47
+   }
+  ],
+  "EDP.IBomManagerOptions.GroupOrder": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 51
+   }
+  ],
+  "EDP.IBomManagerOptions.IncludeAlternatives": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 54
+   }
+  ],
+  "EDP.IBomManagerOptions.IncludeDbParameters": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 56
+   }
+  ],
+  "EDP.IBomManagerOptions.IncludeDbParametersInVariations": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 55
+   }
+  ],
+  "EDP.IBomManagerOptions.IncludeNotFitted": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 53
+   }
+  ],
+  "EDP.IBomManagerOptions.IncludePcbParameters": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 57
+   }
+  ],
+  "EDP.IBomManagerOptions.RestoreState": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 86
+   }
+  ],
+  "EDP.IBomManagerOptions.UseCurrentVariant": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 52
+   }
+  ],
+  "EDP.IBomParameter.StrValue": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 159
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 68
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 23
+   }
+  ],
+  "EDP.IBomParameterDefinition.GetName": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 81
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 23
+   }
+  ],
+  "EDP.IBomParameterDefinitionList.GetCount": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 78
+   }
+  ],
+  "EDP.IBomParameterDefinitionList.GetItem": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 80
+   }
+  ],
+  "EDP.IBomParameterDictionary.GetEnumerator": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 19
+   }
+  ],
+  "EDP.IBomParameterDictionary.TryGetParameter": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 65
+   }
+  ],
+  "EDP.IBomParameterEnumerator.GetCurrent": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 22
+   }
+  ],
+  "EDP.IBomParameterEnumerator.MoveNext": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaComponent.cs",
+    "line": 20
+   }
+  ],
+  "EDP.IBomSchema.GetComponents": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 60
+   }
+  ],
+  "EDP.IBomSchema.GetParameterDefinitions": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/SchemaBom.cs",
+    "line": 77
+   }
+  ],
+  "EDP.IComponentImplementation.DM_DatafileCount": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 103
+   }
+  ],
+  "EDP.IComponentImplementation.DM_DatafileEntity": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 116
+   }
+  ],
+  "EDP.IComponentImplementation.DM_DatafileKind": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 117
+   }
+  ],
+  "EDP.IComponentImplementation.DM_DatafileLocation": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 118
+   }
+  ],
+  "EDP.IComponentImplementation.DM_Description": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 83
+   }
+  ],
+  "EDP.IComponentImplementation.DM_IntegratedModel": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 106
+   }
+  ],
+  "EDP.IComponentImplementation.DM_ModelName": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 82
+   }
+  ],
+  "EDP.IComponentImplementation.DM_ModelType": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 84
+   }
+  ],
+  "EDP.IComponentLibraryLink.DM_SetDesignItemID": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 71
+   }
+  ],
+  "EDP.IComponentLibraryLink.DM_SetLibraryIdentifier": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 69
+   }
+  ],
+  "EDP.IComponentLibraryLink.DM_SetSourceLibraryName": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 70
+   }
+  ],
+  "EDP.IComponentLibraryLink.DM_SetUseLibraryName": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 68
+   }
+  ],
+  "EDP.IComponentVariation.DM_AddParameterVariation": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 74
+   }
+  ],
+  "EDP.IComponentVariation.DM_AlternateLibraryLink": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 67
+   }
+  ],
+  "EDP.IComponentVariation.DM_FindParameterVariation": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 72
+   }
+  ],
+  "EDP.IComponentVariation.DM_SetUniqueId": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 66
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 66
+   }
+  ],
+  "EDP.IComponentVariation.DM_SetVariationKind": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 65
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 72
+   }
+  ],
+  "EDP.IComponentVariation.DM_VariationCount": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 31
+   }
+  ],
+  "EDP.IComponentVariation.DM_VariationKind": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 113
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 38
+   }
+  ],
+  "EDP.IComponentVariation.DM_Variations": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 34
+   }
+  ],
+  "EDP.IDMObject.DM_IsInferredObject": [
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 57
+   }
+  ],
+  "EDP.IDMObject.DM_ObjectKindString": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 21
+   }
+  ],
+  "EDP.IDMObject.DM_ParameterCount": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 68
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 21
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 88
+   }
+  ],
+  "EDP.IDMObject.DM_Parameters": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 70
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 92
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 62
+   }
+  ],
+  "EDP.IDMObject.DM_SchHandle": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 57
+   }
+  ],
+  "EDP.IDocument.DM_ComponentCount": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 57
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "EDP.IDocument.DM_Components": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 59
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 44
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 56
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "EDP.IDocument.DM_DocumentKind": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 74
+   },
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 42
+   }
+  ],
+  "EDP.IDocument.DM_FileName": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 80
+   }
+  ],
+  "EDP.IDocument.DM_FullPath": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 76
+   }
+  ],
+  "EDP.IDocument.DM_PartCount": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "EDP.IDocument.DM_Parts": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 65
+   }
+  ],
+  "EDP.IDocument.DM_PortCount": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 53
+   }
+  ],
+  "EDP.IDocument.DM_Ports": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 55
+   }
+  ],
+  "EDP.IDocument.DM_Project": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 59
+   }
+  ],
+  "EDP.ILibraryInterface.FindComponentSymbol": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 244
+   }
+  ],
+  "EDP.INetItem.DM_PortName": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 63
+   }
+  ],
+  "EDP.IOutputer.DM_Generate_OutputFilesTo": [
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 59
+   }
+  ],
+  "EDP.IOutputer.DM_SetDocumentPath": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 38
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 53
+   }
+  ],
+  "EDP.IOutputer.DM_ViewName": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 54
+   }
+  ],
+  "EDP.IParameter.DM_Name": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 26
+   }
+  ],
+  "EDP.IParameter.DM_Value": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 26
+   }
+  ],
+  "EDP.IParameterVariation.DM_ParameterName": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 35
+   }
+  ],
+  "EDP.IParameterVariation.DM_SetParameterName": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 76
+   }
+  ],
+  "EDP.IParameterVariation.DM_SetVariedValue": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 77
+   }
+  ],
+  "EDP.IParameterVariation.DM_VariedValue": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 35
+   }
+  ],
+  "EDP.IPart.DM_ComponentKind": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 108
+   }
+  ],
+  "EDP.IPart.DM_ImplementationCount": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 78
+   }
+  ],
+  "EDP.IPart.DM_Implementations": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 81
+   }
+  ],
+  "EDP.IPart.DM_LibraryReference": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 71
+   }
+  ],
+  "EDP.IPart.DM_LogicalDesignator": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 72
+   }
+  ],
+  "EDP.IPart.DM_PartType": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 73
+   }
+  ],
+  "EDP.IPart.DM_PhysicalDesignator": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectComponent.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "EDP.IPart.DM_SourceLibraryName": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 71
+   }
+  ],
+  "EDP.IPart.DM_UniqueId": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 61
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 45
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 60
+   }
+  ],
+  "EDP.IProject.DM_AddProjectVariant": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 51
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 44
+   }
+  ],
+  "EDP.IProject.DM_AddSourceDocument": [
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "EDP.IProject.DM_BeginUpdate": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 50
+   }
+  ],
+  "EDP.IProject.DM_Compile": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 30
+   },
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 47
+   }
+  ],
+  "EDP.IProject.DM_CurrentProjectVariant": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 21
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "EDP.IProject.DM_DataModel": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "EDP.IProject.DM_DocumentFlattened": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 56
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 53
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "EDP.IProject.DM_EndUpdate": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 83
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 77
+   }
+  ],
+  "EDP.IProject.DM_LogicalDocumentCount": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 23
+   }
+  ],
+  "EDP.IProject.DM_LogicalDocuments": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 25
+   }
+  ],
+  "EDP.IProject.DM_NeedsCompile": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 33
+   },
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/ProjectBom.cs",
+    "line": 38
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "EDP.IProject.DM_ProjectVariantCount": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "EDP.IProject.DM_ProjectVariants": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "EDP.IProject.DM_RefreshInWorkspaceForm": [
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 63
+   }
+  ],
+  "EDP.IProject.DM_RemoveSourceDocument": [
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 66
+   }
+  ],
+  "EDP.IProjectVariant.DM_AddComponentVariation": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 63
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 63
+   }
+  ],
+  "EDP.IProjectVariant.DM_Description": [
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "EDP.IProjectVariant.DM_FindComponentVariationByUniqueId": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 61
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 60
+   }
+  ],
+  "EDP.IProjectVariant.DM_SetDescription": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 53
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "EDP.IProjectVariant.DM_SetName": [
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 52
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 45
+   }
+  ],
+  "EDP.IUnifiedDataModel.BeginRead": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "EDP.IUnifiedDataModel.EndRead": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 70
+   }
+  ],
+  "EDP.IUnifiedDataModel.SupportsInterface": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 57
+   }
+  ],
+  "EDP.IVariantOption.DM_SCHUseText": [
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 28
+   }
+  ],
+  "EDP.IWorkspace.DM_CreateNewDocument": [
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "EDP.IWorkspace.DM_FocusedDocument": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 52
+   }
+  ],
+  "EDP.IWorkspace.DM_FocusedProject": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/Commands.cs",
+    "line": 20
+   },
+   {
+    "example": "Extension_AddVariant",
+    "file": "Extension_AddVariant/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_CreateProject",
+    "file": "Extension_CreateProject/Source Code/Commands.cs",
+    "line": 37
+   },
+   {
+    "example": "Extension_CreateVariantComponent",
+    "file": "Extension_CreateVariantComponent/Source Code/Commands.cs",
+    "line": 26
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 25
+   },
+   {
+    "example": "Extension_HierarchicalDesign",
+    "file": "Extension_HierarchicalDesign/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 58
+   },
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 44
+   }
+  ],
+  "EDP.IWorkspace.DM_GetDocumentFromPath": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 57
+   }
+  ],
+  "EDP.IWorkspace.DM_GetProjectFromPath": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 61
+   }
+  ],
+  "EDP.IWorkspace.DM_Preferences": [
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "EDP.IWorkspacePreferences.GetVariantOption": [
+   {
+    "example": "Extension_VariantOptions",
+    "file": "Extension_VariantOptions/Source Code/Commands.cs",
+    "line": 27
+   }
+  ],
+  "EDP.IWSM_OutputJobDocument.Outputer": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 35
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 52
+   }
+  ],
+  "EDP.IWSM_OutputJobDocument.OutputerCount": [
+   {
+    "example": "Extension_ChangeOutputJobFile",
+    "file": "Extension_ChangeOutputJobFile/Source Code/Commands.cs",
+    "line": 33
+   },
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 50
+   }
+  ],
+  "EDP.IWSM_OutputJobDocument.VariantName": [
+   {
+    "example": "Extension_GenerateGerber",
+    "file": "Extension_GenerateGerber/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "PCB.IPCB_AbstractIterator.AddFilter_LayerSet": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 42
+   }
+  ],
+  "PCB.IPCB_AbstractIterator.AddFilter_LayerSet_2": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 36
+   }
+  ],
+  "PCB.IPCB_AbstractIterator.AddFilter_ObjectSet": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "PCB.IPCB_AbstractIterator.FirstPCBObject": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 44
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "PCB.IPCB_AbstractIterator.NextPCBObject": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 51
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 50
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 55
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 62
+   }
+  ],
+  "PCB.IPCB_Board.AddObjectToHighlightObjectList": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 46
+   }
+  ],
+  "PCB.IPCB_Board.AddPCBObject": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 42
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 44
+   }
+  ],
+  "PCB.IPCB_Board.BoardIterator_Create": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 36
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 40
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 32
+   }
+  ],
+  "PCB.IPCB_Board.BoardIterator_Destroy": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 55
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 54
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 53
+   }
+  ],
+  "PCB.IPCB_Board.DispatchMessage": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "PCB.IPCB_Board.FileName": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 104
+   }
+  ],
+  "PCB.IPCB_Board.InternalPlaneLayerIterator": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "PCB.IPCB_Board.Navigate_HighlightObjectList": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 47
+   }
+  ],
+  "PCB.IPCB_Board.RemovePCBObject": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 52
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 62
+   }
+  ],
+  "PCB.IPCB_Board.XCursor": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 142
+   }
+  ],
+  "PCB.IPCB_Board.YCursor": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 143
+   }
+  ],
+  "PCB.IPCB_BoardIterator.AddFilter_Method": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 41
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "PCB.IPCB_Component.Comment": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 20
+   }
+  ],
+  "PCB.IPCB_Component.ComponentKind": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbBom.cs",
+    "line": 116
+   }
+  ],
+  "PCB.IPCB_Component.FootprintConfiguratorName": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 25
+   }
+  ],
+  "PCB.IPCB_Component.FootprintDescription": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 27
+   }
+  ],
+  "PCB.IPCB_Component.Height": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 24
+   }
+  ],
+  "PCB.IPCB_Component.LoadFromLibrary": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 45
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "PCB.IPCB_Component.SaveModelToFile": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 51
+   }
+  ],
+  "PCB.IPCB_Component.SourceCompDesignItemID": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 22
+   }
+  ],
+  "PCB.IPCB_Component.SourceComponentLibrary": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 23
+   }
+  ],
+  "PCB.IPCB_Component.SourceDescription": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 21
+   }
+  ],
+  "PCB.IPCB_Component.SourceDesignator": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 38
+   }
+  ],
+  "PCB.IPCB_Component.SourceFootprintLibrary": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 26
+   }
+  ],
+  "PCB.IPCB_ComponentBody.BodyColor3D": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 101
+   }
+  ],
+  "PCB.IPCB_ComponentBody.Identifier": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 102
+   }
+  ],
+  "PCB.IPCB_ComponentBody.Model": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 99
+   }
+  ],
+  "PCB.IPCB_ComponentBody.ModelFactory_CreateExtruded": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 93
+   }
+  ],
+  "PCB.IPCB_ComponentBody.OverallHeight": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 98
+   }
+  ],
+  "PCB.IPCB_ComponentBody.StandoffHeight": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 100
+   }
+  ],
+  "PCB.IPCB_Contour.Count": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 63
+   }
+  ],
+  "PCB.IPCB_Contour.PointX": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 64
+   }
+  ],
+  "PCB.IPCB_Contour.PointY": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 65
+   }
+  ],
+  "PCB.IPCB_Group.AddPCBObject": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 103
+   }
+  ],
+  "PCB.IPCB_Group.XLocation": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 47
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "PCB.IPCB_Group.YLocation": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 48
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "PCB.IPCB_InternalPlane.PullBackDistance": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "PCB.IPCB_LayerIterator.Next": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "PCB.IPCB_LayerIterator.SetBeforeFirst": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "PCB.IPCB_LayerObjectIterator.LayerObject": [
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "PCB.IPCB_LibComponent.Pattern": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 49
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 45
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 53
+   }
+  ],
+  "PCB.IPCB_Library.LibraryIterator_Create": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 37
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 43
+   }
+  ],
+  "PCB.IPCB_Library.LibraryIterator_Destroy": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 60
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 67
+   }
+  ],
+  "PCB.IPCB_Library.RegisterComponent": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 50
+   }
+  ],
+  "PCB.IPCB_Library.SetBoardToComponentByName": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 52
+   }
+  ],
+  "PCB.IPCB_Model.SetState": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 96
+   }
+  ],
+  "PCB.IPCB_Pad.Cache": [
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 45
+   }
+  ],
+  "PCB.IPCB_Pad.Name": [
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 43
+   }
+  ],
+  "PCB.IPCB_Pad.XLocation": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 40
+   }
+  ],
+  "PCB.IPCB_Pad.YLocation": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 41
+   }
+  ],
+  "PCB.IPCB_Parameter.Name": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 33
+   }
+  ],
+  "PCB.IPCB_Parameter.Value": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 33
+   }
+  ],
+  "PCB.IPCB_Primitive.BeginModify": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "PCB.IPCB_Primitive.Board": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 44
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 36
+   }
+  ],
+  "PCB.IPCB_Primitive.EndModify": [
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 50
+   }
+  ],
+  "PCB.IPCB_Primitive.GraphicallyInvalidate": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 50
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 45
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 144
+   }
+  ],
+  "PCB.IPCB_Primitive.IsTestPoint_Bottom": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 42
+   }
+  ],
+  "PCB.IPCB_Primitive.Layer": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 46
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 38
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 39
+   }
+  ],
+  "PCB.IPCB_Primitive.Selected": [
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 44
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 45
+   }
+  ],
+  "PCB.IPCB_PrimitiveParameters.Count": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 30
+   }
+  ],
+  "PCB.IPCB_PrimitiveParameters.GetParameterByIndex": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/PcbComponent.cs",
+    "line": 32
+   }
+  ],
+  "PCB.IPCB_Region.GetMainContour": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 97
+   }
+  ],
+  "PCB.IPCB_ServerInterface.CreatePCBLibComp": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "PCB.IPCB_ServerInterface.GetCurrentPCBBoard": [
+   {
+    "example": "Extension_BOMManager",
+    "file": "Extension_BOMManager/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 86
+   },
+   {
+    "example": "Extension_InternalPlaneLayer",
+    "file": "Extension_InternalPlaneLayer/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PCBToImage",
+    "file": "Extension_PCBToImage/Source Code/Commands.cs",
+    "line": 94
+   },
+   {
+    "example": "Extension_PCBUndoRedo",
+    "file": "Extension_PCBUndoRedo/Source Code/Commands.cs",
+    "line": 33
+   },
+   {
+    "example": "Extension_Pad_SolderMask",
+    "file": "Extension_Pad_SolderMask/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 28
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "PCB.IPCB_ServerInterface.GetCurrentPCBLibrary": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 39
+   },
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "PCB.IPCB_ServerInterface.LoadPCBLibraryByPath": [
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "PCB.IPCB_ServerInterface.PaintFootprintThumbnail": [
+   {
+    "example": "Extension_PcbLibToImage",
+    "file": "Extension_PcbLibToImage/Source Code/Commands.cs",
+    "line": 58
+   }
+  ],
+  "PCB.IPCB_ServerInterface.PCBObjectFactory": [
+   {
+    "example": "Extension_CreatePCBLib",
+    "file": "Extension_CreatePCBLib/Source Code/Commands.cs",
+    "line": 90
+   },
+   {
+    "example": "Extension_PcbLibComponentToSTEP",
+    "file": "Extension_PcbLibComponentToSTEP/Source Code/Commands.cs",
+    "line": 43
+   },
+   {
+    "example": "Extension_PlaceAndMovePcbComponent",
+    "file": "Extension_PlaceAndMovePcbComponent/Source Code/Commands.cs",
+    "line": 34
+   },
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 38
+   }
+  ],
+  "PCB.IPCB_ServerInterface.PostProcess": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 64
+   }
+  ],
+  "PCB.IPCB_ServerInterface.PreProcess": [
+   {
+    "example": "Extension_PlacePad",
+    "file": "Extension_PlacePad/Source Code/PlacePadCommand.cs",
+    "line": 35
+   }
+  ],
+  "SCH.IDeviceSheetManager.ChooseDeviceFolder": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "SCH.IDeviceSheetManager.FindDeviceSheetPath": [
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 51
+   }
+  ],
+  "SCH.IHarnessTypeHolder.HarnessType": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 63
+   }
+  ],
+  "SCH.IHarnessTypeHolder.IsHarnessObject": [
+   {
+    "example": "Extension_TestPortHarnessDev",
+    "file": "Extension_TestPortHarnessDev/Source Code/Commands.cs",
+    "line": 61
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.AvailableLibraryPath": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 26
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.FindDatafileInStandardLibs": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 115
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetComponentCount": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 279
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 35
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetComponentDatafileLocation": [
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 107
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetComponentLocation": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 278
+   },
+   {
+    "example": "Extension_PartComment",
+    "file": "Extension_PartComment/Source Code/Commands.cs",
+    "line": 71
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetComponentName": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 283
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 41
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetParameterCount": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 289
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 42
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetParameterName": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 295
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.GetParameterValue": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 296
+   },
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.InstalledLibraryCount": [
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 30
+   }
+  ],
+  "SCH.IIntegratedLibraryManager.InstalledLibraryPath": [
+   {
+    "example": "Extension_IntegratedLibraryManager",
+    "file": "Extension_IntegratedLibraryManager/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "SCH.IModelTypeManager.ModelTypeAt": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 30
+   }
+  ],
+  "SCH.IPartCatalog2.GetItemPartChoiceList": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 45
+   }
+  ],
+  "SCH.IPartChoice2.Description": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 58
+   }
+  ],
+  "SCH.IPartChoice2.ManufacturerName": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 58
+   }
+  ],
+  "SCH.IPartChoice2.MPN": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 58
+   }
+  ],
+  "SCH.IPartChoice2.PartID": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 58
+   }
+  ],
+  "SCH.IPartChoice2List.GetPartChoice": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 56
+   }
+  ],
+  "SCH.IPartChoice2ListResult.GetPartChoiceList": [
+   {
+    "example": "Extension_PartChoice",
+    "file": "Extension_PartChoice/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "SCH.ISch_BasicContainer.AddSchObject": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "SCH.ISch_BasicContainer.ObjectId": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 348
+   }
+  ],
+  "SCH.ISch_BasicContainer.SchBasicContainer": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 48
+   }
+  ],
+  "SCH.ISch_BasicContainer.SchIterator_Create": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 84
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 34
+   }
+  ],
+  "SCH.ISch_BasicContainer.SchIterator_Destroy": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 122
+   }
+  ],
+  "SCH.ISch_BasicContainer.Text": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 108
+   }
+  ],
+  "SCH.ISch_Component.ComponentDescription": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 111
+   }
+  ],
+  "SCH.ISch_Component.CurrentPartID": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 46
+   }
+  ],
+  "SCH.ISch_Component.DesignItemId": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 226
+   }
+  ],
+  "SCH.ISch_Component.DisplayMode": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 47
+   }
+  ],
+  "SCH.ISch_Component.ItemGUID": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 234
+   }
+  ],
+  "SCH.ISch_Component.LibraryIdentifier": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 227
+   }
+  ],
+  "SCH.ISch_Component.LibReference": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 237
+   }
+  ],
+  "SCH.ISch_Component.RevisionGUID": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 235
+   }
+  ],
+  "SCH.ISch_Component.SchComment": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 105
+   }
+  ],
+  "SCH.ISch_Component.SchDesignator": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 104
+   }
+  ],
+  "SCH.ISch_Component.SourceLibraryName": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 238
+   }
+  ],
+  "SCH.ISch_Component.VaultGUID": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 229
+   }
+  ],
+  "SCH.ISch_Document.UnLockViewUpdate": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 41
+   }
+  ],
+  "SCH.ISch_GraphicalObject.GraphicallyInvalidate": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 51
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 55
+   }
+  ],
+  "SCH.ISch_GraphicalObject.Location": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 208
+   }
+  ],
+  "SCH.ISch_GraphicalObject.MoveToXY": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 38
+   }
+  ],
+  "SCH.ISch_GraphicalObject.OwnerPartDisplayMode": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "SCH.ISch_GraphicalObject.OwnerPartId": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "SCH.ISch_Iterator.AddFilter_ObjectSet": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 90
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 37
+   }
+  ],
+  "SCH.ISch_Iterator.FirstSchObject": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 91
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 43
+   }
+  ],
+  "SCH.ISch_Iterator.IterationDepth": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 165
+   }
+  ],
+  "SCH.ISch_Iterator.NextSchObject": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 119
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 59
+   }
+  ],
+  "SCH.ISch_Lib.AddSchComponent": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 42
+   }
+  ],
+  "SCH.ISch_Lib.Current_SchComponent": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 50
+   }
+  ],
+  "SCH.ISch_Lib.LibIsEmpty": [
+   {
+    "example": "Extension_RemoveSchLibComponent",
+    "file": "Extension_RemoveSchLibComponent/Source Code/Commands.cs",
+    "line": 33
+   }
+  ],
+  "SCH.ISch_Lib.SchComponentByLibRef": [
+   {
+    "example": "Extension_RemoveSchLibComponent",
+    "file": "Extension_RemoveSchLibComponent/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "SCH.ISch_Parameter.Name": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 179
+   }
+  ],
+  "SCH.ISch_Pin.Designator": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 209
+   }
+  ],
+  "SCH.ISch_RobotManager.SendMessage": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 49
+   }
+  ],
+  "SCH.ISch_ServerInterface.GetCurrentSchDocument": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_PlaceDeviceSheet",
+    "file": "Extension_PlaceDeviceSheet/Source Code/Commands.cs",
+    "line": 46
+   },
+   {
+    "example": "Extension_RemoveSchLibComponent",
+    "file": "Extension_RemoveSchLibComponent/Source Code/Commands.cs",
+    "line": 29
+   },
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 75
+   }
+  ],
+  "SCH.ISch_ServerInterface.GetSchDocumentByPath": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 76
+   },
+   {
+    "example": "Extension_RefreshDocument",
+    "file": "Extension_RefreshDocument/Source Code/Commands.cs",
+    "line": 29
+   }
+  ],
+  "SCH.ISch_ServerInterface.LoadComponent": [
+   {
+    "example": "Ciiva",
+    "file": "Ciiva/Source Code/CiivaBOMDocument.cs",
+    "line": 259
+   }
+  ],
+  "SCH.ISch_ServerInterface.RobotManager": [
+   {
+    "example": "Extension_ModifySchWireColor",
+    "file": "Extension_ModifySchWireColor/Source Code/Commands.cs",
+    "line": 47
+   }
+  ],
+  "SCH.ISch_ServerInterface.SchObjectFactory": [
+   {
+    "example": "Extension_CreateSchComponent",
+    "file": "Extension_CreateSchComponent/Source Code/Commands.cs",
+    "line": 36
+   }
+  ],
+  "SCH.ISupplier.SourceName": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 40
+   }
+  ],
+  "SCH.ISupplierImportParameterPref.Visible": [
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 72
+   }
+  ],
+  "SCH.ISupplierManager.FindImportParameterPreferences": [
+   {
+    "example": "Extension_SupplierPreference",
+    "file": "Extension_SupplierPreference/Source Code/Commands.cs",
+    "line": 69
+   }
+  ],
+  "SCH.ISupplierManager.GetSupplierSource": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 39
+   }
+  ],
+  "SCH.ISupplierManager.GetSupplierSourceCount": [
+   {
+    "example": "Extension_TestCS",
+    "file": "Extension_TestCS/Source Code/Commands.cs",
+    "line": 37
+   }
+  ]
+ }
+}

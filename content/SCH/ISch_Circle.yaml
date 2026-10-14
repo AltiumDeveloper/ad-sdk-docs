@@ -1,0 +1,13 @@
+# SCH.ISch_Circle: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A circle is a closed arc object.
+members:
+  IsSolid:
+    summary: This property defines whether the circle is to be filled inside or not. If it is true, the circle is filled
+      with the color set by the AreaColor property (from its ancestor ISch_GraphicalObject interface).
+  LineWidth:
+    summary: The LineWidth property defines the border width of the circle with one of the following values from the TSize
+      enumerated type.
+  Radius:
+    summary: The Radius property defines the radius of the circle (pie chart).
+  Transparent:
+    summary: This transparent property toggles the transparency of this circle object.

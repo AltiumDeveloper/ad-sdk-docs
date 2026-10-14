@@ -1,0 +1,8 @@
+# SCH.IServerModel: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IServerModel interface represents the model set up by the server to be used by the integrated library server.
+remarks: IServerModel Methods and Properties Table
+members:
+  Name:
+    summary: The method gives the name for the Server Model.
+  PortCount:
+    summary: This method returns the number of ports for this Server Model.

@@ -1,0 +1,23 @@
+# SCH.ISch_SheetSymbol: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Sheet symbols represent other schematic sheets (often referred to as a child sheet). The link between a sheet
+  symbol and other schematic sheets is the FileName attribute, which must be the same as the name of the child sheet.
+members:
+  IsSolid:
+    summary: The IsSolid property denotes whether the sheet symbol object has a solid fill or not.
+  LineWidth:
+    summary: The LineWidth property defines the border width of the sheet symbol with one of the following values from the
+      TSize enumerated type.
+    seeAlso:
+      - SCH.TSize
+  SchSheetFileName:
+    summary: The SchSheetFileName property denotes the FileName text object which is represented by the ISch_SheetFileName
+      interface object associated with the sheet symbol. The ISch_SheetFileName interface is inherited from the
+      ISch_ComplexText and ISch_Label interfaces. This property is supported by GetState_SchSheetFileName method.
+  SchSheetName:
+    summary: The SchSheetName property denotes the Designator Name text object which is represented by the ISch_SheetName
+      interface object associated with the sheet symbol. The ISch_SheetName interface is inherited from the
+      ISch_ComplexText and ISch_Label interfaces. This property is supported by GetState_SchSheetname method.
+  ShowHiddenFields:
+    summary: The ShowHiddenFields property determines the visibility of the text fields associated with the sheet symbol,
+      such as its name and filename. If the Value is true, the hidden fields of the sheet symbol will be displayed on
+      the schematic sheet. If the value is false, the hidden text fields are not shown on the schematic.

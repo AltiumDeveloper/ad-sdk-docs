@@ -1,0 +1,39 @@
+---
+title: Altium Designer SDK
+sidebar_label: Overview
+description: .NET API reference for building Altium Designer extensions with the Altium Designer SDK.
+slug: /
+pagination_next: null
+pagination_prev: null
+---
+
+# Altium Designer SDK
+
+The Altium Designer SDK lets you build extensions that run inside Altium Designer: commands, panels and document
+editors that read and change schematic, PCB and project data. Extensions are written in C# against the SDK assemblies:
+
+- `Altium.SDK.Interfaces.dll` defines the API: the interfaces, enumerations and structures documented in this reference.
+- `Altium.SDK.dll` provides the extension hosting classes (`ServerModule`, `CommandLauncher`) and the entry points to
+  the editors (`SCH.GlobalVars.SchServer`, `PCB.GlobalVars.PCBServer`, `DXP.GlobalVars.Client`).
+
+## Where to start
+
+- [Getting started](./guides/getting-started.mdx): the structure of an extension and how Altium Designer loads it.
+- [API conventions](./guides/api-conventions.mdx): namespaces, properties, typed helpers and enumerations.
+- [Working with schematics](./guides/schematic-basics.mdx): finding, changing and creating schematic objects.
+- [API reference](./reference/index.md): every type and member, generated from the SDK assemblies.
+
+The [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository has complete extensions; reference
+pages link to the places where the examples use a type or member.
+
+## Coverage
+
+This first release documents the **SCH** (schematic) namespace. The PCB, project (EDP) and system (DXP) namespaces
+will follow. Reference pages are generated from the assemblies, so every type and member is listed even when it has
+no description yet; such pages say *No description yet.* Each page has an edit link to its description file, and
+contributions are welcome.
+
+## For AI assistants
+
+Every page is also available as Markdown (add `.md` to its URL, or use **View as Markdown**), and
+[`llms.txt`](pathname:///llms.txt) indexes the site for coding assistants.

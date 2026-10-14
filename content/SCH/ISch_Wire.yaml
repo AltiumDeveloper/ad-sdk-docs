@@ -1,0 +1,94 @@
+# SCH.ISch_Wire: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Wires are straight line segments which are placed on a schematic document to create the electrical connections.
+remarks: |-
+  Fetch the vertices of existing wires e xample
+
+  Index : Integer;
+
+  Wire : ISch_Wire;
+
+  Iterator : ISch_Iterator;
+
+  WireCount : Integer;
+
+  ALocation : TLocation;
+
+  SchDoc : ISch_Document;
+
+  Document : IServerDocument;
+
+  ReportList : TStringList;
+
+  If SchServer = null Then Exit;
+
+  GetCurrentSchDocument;
+
+  If SchDoc = null Then Exit;
+
+  // Set up an iterator to look for port objects only.
+
+  SchIterator_Create;
+
+  AddFilter_ObjectSet(MkSet(eWire));
+
+  Create;
+
+  Add('Wires'' Vertex report:');
+
+  Add('______________________');
+
+  Add('');
+
+  // Using a Try Finally block to avoid exception errors.
+
+  Try
+
+  FirstSchObject;
+
+  While Wire <> null Do
+
+  Inc(WireCount);
+
+  Add('Wire #'
+
+  + IntToStr(WireCount));
+
+  VerticesCount Do
+
+  Vertex;
+
+  Add('X: '
+
+  X)
+
+  + ', Y: '
+
+  Y));
+
+  End;
+
+  Add('');
+
+  NextSchObject;
+
+  End;
+
+  Finally
+
+  SchIterator_Destroy(Iterator);
+
+  End;
+
+  Txt');
+
+  Free;
+
+  // Display the report containing parameters for each component found.
+
+  txt');
+
+  If Document <> null Then
+
+  ShowDocument(Document);
+
+  End;

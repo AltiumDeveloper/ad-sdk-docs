@@ -1,0 +1,2 @@
+# SCH.ISch_Probe: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A probe is a special marker which is placed on a schematic document to identify nodes for digital simulation.
