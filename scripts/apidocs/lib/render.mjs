@@ -228,7 +228,10 @@ export function renderType(model, type, ctx) {
     }
     page.push(`**Returns:** ${type.signature.returnType === 'void' ? 'nothing (`void`)' : link.type(type.signature.returnType)}`, '');
   }
-  if (type.kind === 'struct' || type.kind === 'class') renderClassMembers(page, type, link);
+  if (type.kind === 'struct' || type.kind === 'class') {
+    renderClassMembers(page, type, link);
+    if (type.members.length) renderMembers(page, model, type, link, ctx);
+  }
   renderUsedBy(page, model, type, link);
   const seeAlso = seeAlsoLinks(link, content.seeAlso);
   if (seeAlso.length) {
@@ -246,23 +249,13 @@ export function renderType(model, type, ctx) {
 function renderClassMembers(page, type, link) {
   if (type.constructors.length) {
     page.heading(2, 'Constructors');
-    page.push('```csharp', ...type.constructors.map((c) => methodSignature({ ...c, returnType: 'public' }, { name: type.name })), '```', '');
+    page.push('```csharp', ...type.constructors.map((c) => methodSignature({ ...c, returnType: 'public' }, { name: type.name.replace(/<.*$/, '') })), '```', '');
   }
   if (type.fields.length) {
     page.heading(2, 'Fields');
     page.push('| Name | Type | Value |', '| --- | --- | --- |');
-    for (const f of type.fields) page.push(`| \`${f.name}\` | ${link.type(f.type)} | ${f.value ?? ''} |`);
+    for (const f of type.fields) page.push(`| \`${f.name}\`${f.isStatic && f.value === null ? ' (static)' : ''} | ${link.type(f.type)} | ${f.value === null ? '' : cell(JSON.stringify(f.value))} |`);
     page.push('');
-  }
-  if (type.properties.length) {
-    page.heading(2, 'Properties');
-    page.push('| Name | Type | Access |', '| --- | --- | --- |');
-    for (const p of type.properties) page.push(`| \`${p.name}\`${p.isStatic ? ' (static)' : ''} | ${link.type(p.type)} | ${p.canRead && p.canWrite ? 'get; set' : p.canRead ? 'get' : 'set'} |`);
-    page.push('');
-  }
-  if (type.methods.length) {
-    page.heading(2, 'Methods');
-    page.push('```csharp', ...type.methods.map((m) => `${m.isStatic ? 'static ' : ''}${methodSignature(m)}`), '```', '');
   }
 }
 
@@ -292,7 +285,11 @@ function inheritanceChain(model, type, link) {
   return chain.map((b) => link.type(b)).join(' → ');
 }
 
-const accessText = (member) => (member.getter && member.setter ? 'get; set' : member.getter ? 'get' : 'set');
+const accessText = (member) => {
+  const readable = member.native ? member.canRead : Boolean(member.getter);
+  const writable = member.native ? member.canWrite : Boolean(member.setter);
+  return `${member.isStatic ? 'static ' : ''}${readable && writable ? 'get; set' : readable ? 'get' : 'set'}`;
+};
 const extensionOf = (s) => (s?.extension ? shortType(s.extension) : null);
 
 function renderMembers(page, model, type, link, ctx) {
@@ -316,7 +313,7 @@ function renderMembers(page, model, type, link, ctx) {
     page.push('');
     for (const m of methods) type.anchors.set(m.slug, renderMethod(page, type, m, link, ctx));
   }
-  if (!properties.length && !methods.length) page.push('This interface declares no members of its own.', '');
+  if (!properties.length && !methods.length && type.kind === 'interface') page.push('This interface declares no members of its own.', '');
 
   const inherited = inheritedMembers(model, type);
   if (inherited.some((g) => g.members.length || g.external)) {
@@ -350,8 +347,13 @@ function renderProperty(page, type, member, link, ctx) {
   const anchor = page.heading(3, member.name);
   const content = ctx.content(type.id).members?.[member.slug] ?? {};
   page.push(content.summary ? paragraphs(content.summary) : gap, '');
-  page.push('```csharp', ...[member.getter, member.setter].filter(Boolean).map((s) => methodSignature(s)), '```', '');
-  const access = member.getter && member.setter ? 'read/write' : member.getter ? 'read-only' : 'write-only';
+  const readable = member.native ? member.canRead : Boolean(member.getter);
+  const writable = member.native ? member.canWrite : Boolean(member.setter);
+  const code = member.native
+    ? [`${member.isStatic ? 'static ' : ''}${shortType(member.type)} ${member.name} { ${readable ? 'get; ' : ''}${writable ? 'set; ' : ''}}`]
+    : [member.getter, member.setter].filter(Boolean).map((s) => methodSignature(s));
+  page.push('```csharp', ...code, '```', '');
+  const access = readable && writable ? 'read/write' : readable ? 'read-only' : 'write-only';
   const facts = [`**Type:** ${link.type(member.type)}`, `**Access:** ${access}`];
   if (member.indexParameters.length) {
     facts.push(`**Index:** ${member.indexParameters.map((p) => `\`${p.name}\` (${link.type(p.type)})`).join(', ')}`);
@@ -368,13 +370,27 @@ function renderMethod(page, type, member, link, ctx) {
   const content = ctx.content(type.id).members?.[member.slug] ?? {};
   const s = member.signature;
   page.push(content.summary ? paragraphs(content.summary) : gap, '');
-  page.push('```csharp', ...[s, s.alternate].filter(Boolean).map((x) => methodSignature(x)), '```', '');
-  if (s.parameters.length) {
+  const overloads = member.overloads ?? [s, s.alternate].filter(Boolean);
+  const line = (x) => `${x.isStatic ? 'static ' : ''}${methodSignature(x)}`;
+  page.push('```csharp', ...overloads.map(line), '```', '');
+  const parameterTable = (x) => {
+    if (!x.parameters.length) return;
     page.push('| Parameter | Type | Passing |', '| --- | --- | --- |');
-    for (const p of s.parameters) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
+    for (const p of x.parameters) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
     page.push('');
+  };
+  const returns = (x) => (x.returnType === 'void' ? 'nothing (`void`)' : link.type(x.returnType));
+  if (member.overloads && member.overloads.length > 1) {
+    // Several overloads (class methods): parameters and result per overload.
+    member.overloads.forEach((x, i) => {
+      page.push(`**Overload ${i + 1}:** \`${line(x).replace(/;$/, '')}\``, '');
+      parameterTable(x);
+      page.push(`Returns ${returns(x)}.`, '');
+    });
+  } else {
+    parameterTable(s);
+    page.push(`**Returns:** ${returns(s)}`, '');
   }
-  page.push(`**Returns:** ${s.returnType === 'void' ? 'nothing (`void`)' : link.type(s.returnType)}`, '');
   if (s.extension && s.alternate) {
     page.push(`The first overload is an extension method of \`${extensionOf(s)}\` (\`using ${type.namespace};\`) with typed parameters; the second is declared by the interface.`, '');
   } else if (s.extension) {

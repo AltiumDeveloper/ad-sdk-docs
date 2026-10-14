@@ -200,6 +200,17 @@ export function buildModel({ metadataPaths, namespaces, categories = [], hidden 
       const staticAccessors = new Set(t.methods.filter((m) => m.isSpecialName && m.isStatic).map((m) => m.name));
       record.properties = (t.properties ?? []).map((p) => ({ ...p, isStatic: staticAccessors.has(`get_${p.name}`) || staticAccessors.has(`set_${p.name}`) }));
       record.interfaces = (t.interfaces ?? []).slice();
+      // Members in the same shape as interface members, so class pages get the same sections, anchors and search
+      // records: .NET properties (`native`), and methods grouped by name (one section lists all overloads).
+      const byName = new Map();
+      for (const m of record.methods) {
+        if (!byName.has(m.name)) byName.set(m.name, []);
+        byName.get(m.name).push(m);
+      }
+      record.members = assignSlugs([
+        ...record.properties.map((p) => ({ kind: 'property', native: true, name: p.name, type: p.type, isStatic: p.isStatic, canRead: p.canRead, canWrite: p.canWrite, indexParameters: [] })),
+        ...[...byName].map(([name, overloads]) => ({ kind: 'method', name, signature: overloads[0], overloads })),
+      ]).sort((a, b) => a.name.localeCompare(b.name, 'en'));
     } else if (t.kind === 'delegate') {
       const invoke = t.methods.find((m) => m.name === 'Invoke');
       record.signature = invoke ? signatureOf(invoke) : null;
