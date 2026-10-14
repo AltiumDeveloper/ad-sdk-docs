@@ -3,7 +3,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_BasicContainer_SchIterator_Create()
+    static void Example_ISch_BasicContainer_SchIterator_Create()
     {
         // <example>
         ISch_Document currentSheet = SCH.GlobalVars.SchServer?.GetCurrentSchDocument();

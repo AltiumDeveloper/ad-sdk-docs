@@ -4,7 +4,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_ServerInterface_SchObjectFactory()
+    static void Example_ISch_ServerInterface_SchObjectFactory()
     {
         // <example>
         ISch_ServerInterface schServer = SCH.GlobalVars.SchServer;

@@ -5,7 +5,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_Document_ReferenceZonesOn()
+    static void Example_ISch_Document_ReferenceZonesOn()
     {
         // <example>
         var workspace = DXP.GlobalVars.Client.GetDXPWorkspace() as IWorkspace;

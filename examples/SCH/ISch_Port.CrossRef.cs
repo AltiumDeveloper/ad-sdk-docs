@@ -6,7 +6,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_Port_CrossRef()
+    static void Example_ISch_Port_CrossRef()
     {
         // <example>
         ISch_Document currentSheet = SCH.GlobalVars.SchServer?.GetCurrentSchDocument();

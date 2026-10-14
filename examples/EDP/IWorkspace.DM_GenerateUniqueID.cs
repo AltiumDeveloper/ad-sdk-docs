@@ -5,7 +5,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void IWorkspace_DM_GenerateUniqueID()
+    static void Example_IWorkspace_DM_GenerateUniqueID()
     {
         // <example>
         // The workspace manager generates the unique IDs.

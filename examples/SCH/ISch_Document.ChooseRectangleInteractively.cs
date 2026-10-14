@@ -3,7 +3,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_Document_ChooseRectangleInteractively()
+    static void Example_ISch_Document_ChooseRectangleInteractively()
     {
         // <example>
         ISch_Document currentSheet = SCH.GlobalVars.SchServer?.GetCurrentSchDocument();

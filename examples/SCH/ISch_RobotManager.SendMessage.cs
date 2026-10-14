@@ -4,7 +4,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_RobotManager_SendMessage()
+    static void Example_ISch_RobotManager_SendMessage()
     {
         // <example>
         ISch_ServerInterface schServer = SCH.GlobalVars.SchServer;

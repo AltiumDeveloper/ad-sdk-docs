@@ -3,7 +3,7 @@ using PCB;
 
 static partial class Examples
 {
-    static void IPCB_BoardIterator()
+    static void Example_IPCB_BoardIterator()
     {
         // <example>
         IPCB_Board board = PCB.GlobalVars.PCBServer?.GetCurrentPCBBoard();

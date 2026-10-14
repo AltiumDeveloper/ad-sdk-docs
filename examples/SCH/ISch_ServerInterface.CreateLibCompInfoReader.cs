@@ -6,7 +6,7 @@ using SCH;
 
 static partial class Examples
 {
-    static void ISch_ServerInterface_CreateLibCompInfoReader()
+    static void Example_ISch_ServerInterface_CreateLibCompInfoReader()
     {
         // <example>
         ISch_ServerInterface schServer = SCH.GlobalVars.SchServer;
