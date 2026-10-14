@@ -14,8 +14,8 @@ members:
   GetCommand:
     summary: The method returns the IServerProcess interface. Used in conjunction with the GetCommandCount method.
   GetCommandCount:
-    summary: The method returns the number of commands (Process launchers) this server supports. Used in
-    remarks: conjunction with the GetCommand method
+    summary: The method returns the number of commands (Process launchers) this server supports. Used in conjunction with
+      the GetCommand method
   GetCopyRight:
     summary: The method returns the copyright string.
   GetDate:

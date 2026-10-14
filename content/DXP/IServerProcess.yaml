@@ -4,13 +4,7 @@ remarks: >-
   the command name (GetOriginalID method)
 
 
-  the long summary
-
-
-  the number of parameters if any
-
-
-  parameter names if any
+  the long summary the number of parameters if any parameter names if any
 
 
   The IServerProcess interface is an aggregate interface used within the IServerRecord interface.

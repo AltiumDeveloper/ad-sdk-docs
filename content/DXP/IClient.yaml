@@ -64,8 +64,8 @@ members:
       - DXP.INotification
   EndDisableInterface:
     summary: These BeginDisableInterface and EndDisableInterface methods are invoked when the User Interface of Client needs
-      to be disabled, for example there might be extensive
-    remarks: processing going on, and you do not want the user's intervention. This is a Altium Designer wide method.
+      to be disabled, for example there might be extensive processing going on, and you do not want the user's
+      intervention. This is a Altium Designer wide method.
     seeAlso:
       - DXP.IClient.BeginDisableInterface
   EndDocumentLoad:
