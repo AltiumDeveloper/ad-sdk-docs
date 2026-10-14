@@ -85,7 +85,7 @@ IBomManagerOptions options = bomManager.GetOptions();
 | Flat (one row per component) | `options.SetAutoGroup(false); options.SetGroupOrder("");` and, for ActiveBOM, `SetMultiVariant(false)` |
 | Consolidated | `options.SetAutoGroup(true); options.SetGroupOrder("");` and, for ActiveBOM, `SetMultiVariant(true)` |
 
-Sorting is set with `SetSortOrder` and `SetAutoSort`. The sort order is a `string`; its format is not documented yet.
+Sorting is set with `SetSortOrder` and `SetAutoSort`.
 
 The options are shared with the rest of Altium Designer. Save them before changing them and restore them when you
 are done, so other BOMs are not affected:

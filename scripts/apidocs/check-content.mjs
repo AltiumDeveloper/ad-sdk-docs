@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 
 const BANNED = /\b(delphi(script)?|object pascal|borland)\b/i;
-const roots = ['content', 'docs/guides', 'docs/index.mdx', 'config', 'README.md'];
+const roots = ['content', 'docs/guides', 'docs/index.mdx', 'config', 'README.md', 'OPEN-ISSUES.md'];
 
 function files(path, out = []) {
   if (statSync(path).isDirectory()) for (const name of readdirSync(path)) files(join(path, name), out);

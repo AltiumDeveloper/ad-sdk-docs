@@ -63,6 +63,11 @@ silently dropped. Types and members without a description are still published, m
 
 `npm run check:content` (also run by CI) validates the YAML and the guides.
 
+## Open issues
+
+Questions the reference cannot answer from the assemblies (formats, supported setups, intended usage) are tracked
+in [OPEN-ISSUES.md](OPEN-ISSUES.md), not in the published pages.
+
 ## Guides
 
 Hand-written pages live in `docs/guides/*.mdx` (sidebar order from `sidebar_position`; the front-matter
