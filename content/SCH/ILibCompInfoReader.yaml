@@ -29,8 +29,7 @@ members:
     seeAlso:
       - SCH.IComponentInfo
   FileName:
-    summary: This FileName property gets the temporary filename of the datastructure. The FileName property is supported by
-      the GetState_FileName method.
+    summary: This FileName property gets the temporary filename of the datastructure.
     seeAlso:
       - SCH.IComponentInfo
   NumComponentInfos:

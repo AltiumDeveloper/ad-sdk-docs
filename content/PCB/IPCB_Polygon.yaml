@@ -23,34 +23,10 @@ remarks: >-
   angles ( ePolySegmentArc type). Each segment record has a Kind field which denotes the type of segment it is.
 
 
-  A segment of a polygon either as an arc or a track is encapsulated as a TPolySegment record as shown below;
-
-
-  TPolySegment = Record
-
-
-  Kind : TPolySegmentType;
-
-
   {Vertex}
 
 
-  vx,vy : TCoord;
-
-
   {Arc}
-
-
-  cx,cy : TCoord;
-
-
-  Radius : TCoord;
-
-
-  Angle1 : TAngle;
-
-
-  Angle2 : TAngle;
 
 
   End;
@@ -71,7 +47,6 @@ members:
   Grid:
     summary: The Grid property denotes the grid which the tracks within a polygon are placed. Ideally this grid is a
       fraction of the component pin pitch, to allow the most effective placement of the polygon tracks.
-    remarks: This property is supported by GetState_Grid and SetState_Grid methods.
   HitPrimitive:
     summary: This method checks if a primitive that is not part of the board outline is touching or overlapping on the edge
       of the outline (whether being touched or enclosed by the outline).
@@ -134,12 +109,10 @@ members:
       Note: The entire polygon is removed if it does not enclose any pads on the selected net, as it is all viewed as
       dead copper.
   RemoveNarrowNecks:
-    summary: "Property Segments Integer : TPolySegment Read GetState_Segments Write SetState_Segments;"
-    remarks: If this property is true, thin sections (composing of tracks and arcs for example) are removed from this
+    summary: If this property is true, thin sections (composing of tracks and arcs for example) are removed from this
       polygon on the PCB document that violate the minimum width threshold value. If false, narrow necks are left alone.
   RotateAroundXY:
     summary: This method rotates the polygon about its reference point by an angle.
   UseOctagons:
     summary: The UseOctagons property determines that octagons are to surround pads if true. If false, pads are surrounded
       by arcs. Octagons give smaller Gerber files and faster photoplotting.
-    remarks: This property is supported by GetState_UseOctagons and SetState_UseOctagons methods.

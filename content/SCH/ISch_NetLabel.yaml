@@ -3,8 +3,6 @@ summary: A net describes a connection from one component pin, to a second pin, a
   label is a text string with the text property that holds the net name that attachs to a connection such as wires. A
   net label object is represented by the ISch_NetLabel interface.
 remarks: |-
-  The ISch_NetLabel interface hierachy is as follows;
-
   Text property is the net name of the net label.
 
   ISch_NetLabel itself has no properties or methods but has inherited properties and methods.

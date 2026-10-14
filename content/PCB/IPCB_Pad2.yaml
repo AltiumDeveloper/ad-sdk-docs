@@ -3,8 +3,7 @@ summary: Pad objects are hole connectors for components and for connection to si
   represents the extra attributes such as the Corner radius attribute of rounded rectangular pads.
 members:
   CornerRadiusOnLayer:
-    summary: This property returns the corner radius of a rectangular pad on the specified layer in TCoord units. This
-      property is implemented by the GetState_CornerRadiusOnLayer method.
+    summary: This property returns the corner radius of a rectangular pad on the specified layer in TCoord units.
   CRPercentageOnLayer:
     summary: This method returns the percentage of the corner radius of a rectangular pad on the specified layer as a byte
       value (0-100).

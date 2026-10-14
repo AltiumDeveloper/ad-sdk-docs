@@ -24,14 +24,12 @@ members:
     summary: This property returns the alias name for this component. Ie a component can be referred to by one of its
       multiple names.
   CompName:
-    summary: This property returns the name string for this component from the IComponentInfo object interface. This
-      property is supported by the GetState_CompName method.
+    summary: This property returns the name string for this component from the IComponentInfo object interface.
   Description:
     summary: This property returns the description string for this component from the IComponentInfo object interface.
   Offset:
     summary: This property returns the offset as a number
-    remarks: "- each part of a component whole has an offset to denote its place within the component. This property is
-      supported by the GetState_Offset method."
+    remarks: "- each part of a component whole has an offset to denote its place within the component."
   PartCount:
     summary: This method obtains the number of parts (multiple types of the same component type as an example). For example
       an Integrated circuit may have multiple smaller modules, such as a 74LS00 has multiple OR gates.

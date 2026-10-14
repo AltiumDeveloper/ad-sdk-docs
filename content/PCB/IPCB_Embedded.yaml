@@ -9,5 +9,4 @@ members:
       its GetState_ Description and SetState_ Description methods.
     remarks: The Description field can be used to store data that represents this embedded object.
   Name:
-    summary: The Name property represents the name identifier of the embedded object. This property is supported by its
-      GetState_Name and SetState_Name methods.
+    summary: The Name property represents the name identifier of the embedded object.

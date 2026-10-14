@@ -75,8 +75,7 @@ members:
       for rending text objects as standalone line objects to be used in external programs such as 3D modelling
       applications.
   FontID:
-    summary: The FontID property denotes which Font the text object is using. The property is supported by GetState_FontID
-      and SetState_FontID methods.
+    summary: The FontID property denotes which Font the text object is using.
     remarks: >-
       The TFontID type defines the font ID for a text object. It is the index to an entry in the font table in the PCB
       editor. Each font used in the PCB editor has its own FontID.
@@ -162,8 +161,7 @@ members:
   RotationHandle:
     summary: This method returns the rotation handle of the text object as a record of X and Y coordinates (TPoint).
   Size:
-    summary: The Size property sets the height of the text. This property is supported by GetState_Size and SetState_Size
-      methods.
+    summary: The Size property sets the height of the text.
   Text:
     summary: The Text property contains the text for the Text object.
     remarks: Note, the PCB editor includes special strings which are interpreted when output (printing, plotting or

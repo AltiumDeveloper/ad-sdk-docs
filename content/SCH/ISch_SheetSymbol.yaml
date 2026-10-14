@@ -12,11 +12,11 @@ members:
   SchSheetFileName:
     summary: The SchSheetFileName property denotes the FileName text object which is represented by the ISch_SheetFileName
       interface object associated with the sheet symbol. The ISch_SheetFileName interface is inherited from the
-      ISch_ComplexText and ISch_Label interfaces. This property is supported by GetState_SchSheetFileName method.
+      ISch_ComplexText and ISch_Label interfaces.
   SchSheetName:
     summary: The SchSheetName property denotes the Designator Name text object which is represented by the ISch_SheetName
       interface object associated with the sheet symbol. The ISch_SheetName interface is inherited from the
-      ISch_ComplexText and ISch_Label interfaces. This property is supported by GetState_SchSheetname method.
+      ISch_ComplexText and ISch_Label interfaces.
   ShowHiddenFields:
     summary: The ShowHiddenFields property determines the visibility of the text fields associated with the sheet symbol,
       such as its name and filename. If the Value is true, the hidden fields of the sheet symbol will be displayed on

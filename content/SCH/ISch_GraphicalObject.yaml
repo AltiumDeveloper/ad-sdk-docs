@@ -63,7 +63,7 @@ members:
     summary: The ErrorColor property determines the error color value that the object is associated with.
   ErrorKind:
     summary: This property determines the error kind that the object is associated with, when it is subject to the Compiler
-      in Altium Designer. This property is supported by the GetState_ErrorKind and the SetState_ErrorKind methods.
+      in Altium Designer.
   ErrorString:
     summary: This property returns the Error string that the object is associated with when it is subject to the Compiler in
       Altium Designer.

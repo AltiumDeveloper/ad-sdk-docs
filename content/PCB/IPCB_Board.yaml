@@ -14,7 +14,7 @@ remarks: >-
   together for the PCB library document.
 
 
-  Check if the PCB server exists and if there is a PCB document before you invoke any PCB interface methods. For example
+  Check if the PCB server exists and if there is a PCB document before you invoke any PCB interface methods.
 
 
   If PCBBoard = null Then Exit;
@@ -43,8 +43,7 @@ members:
     summary: This method analyzes a supplied net object in the form of IPCB_Net interface.
   AutomaticSplitPlanes:
     summary: The AutomaticSplitPlanes property returns you the boolean value whether the split planes are system generated
-      automatically or not. This property is implemented by its GetState_AutomaticSplitPlanes and
-      SetState_AutomaticSplitPlanes methods.
+      automatically or not.
   BigVisibleGridSize:
     summary: This property retrieves or sets the Big Visible Grid Size in TReal type. This Grid Size is used for reference
       purposes and there are two visible grids.

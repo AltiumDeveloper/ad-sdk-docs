@@ -18,8 +18,12 @@ members:
     summary: The OwnerDocument property returns the IServerDocument interface that the IServerDocumentView itnerface is
       associated with. An IServerDocument container stores IServerDocumentView interfaces which represent a document or
       panel view.
-    remarks: This property returns the IServerDocument interface that the IServerDocumentView interface is associated with.
-      An IServerDocument container stores IServerDocumentView interfaces which represent a document or panel view.
+    remarks: >-
+      This read only property is supported by the GetOwnerDocument method.
+
+
+      This property returns the IServerDocument interface that the IServerDocumentView interface is associated with. An
+      IServerDocument container stores IServerDocumentView interfaces which represent a document or panel view.
     seeAlso:
       - DXP.IClient
       - DXP.IExternalForm

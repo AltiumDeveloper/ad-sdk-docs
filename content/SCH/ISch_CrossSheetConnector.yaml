@@ -3,6 +3,7 @@ summary: Cross sheet connector objects can be used to link a net from a sheet to
   method defines global connections between sheets within a project.
 members:
   CrossSheetConnectorStyle:
-    summary: The CrossSheetStyle property represents the style or the alignment of the cross sheet object.
+    summary: The CrossSheetStyle property represents the style or the alignment of the cross sheet object. This property is
+      supported by the GetCrossSheetConnectorStyle and SetCrossSheetConnectorStyle methods.
     seeAlso:
       - SCH.TCrossSheetConnectorStyle

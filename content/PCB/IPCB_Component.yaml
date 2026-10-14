@@ -78,7 +78,6 @@ members:
     summary: This method flips the component from one layer to the other, for example top layer to the bottom layer.
   FootprintDescription:
     summary: This property denotes the descriptive account of the footprint.
-    remarks: This property is supported by the GetState_Footprint Description and SetState_Footprint Description methods.
   Getstate_PadByName:
     summary: This method retrieves the pad object interface only if the pad's name is found which is associated with this
       component.
@@ -125,7 +124,6 @@ members:
       footprint is populated with source library path names."
   SourceDescription:
     summary: This property can include a descriptive account of the reference link to a source component or a device name.
-    remarks: This property is supported by the GetState_Source Description and SetState_Source Description methods.
   SourceDesignator:
     summary: This property represents the current designator of the source component from the corresponding schematic.
   SourceFootprintLibrary:

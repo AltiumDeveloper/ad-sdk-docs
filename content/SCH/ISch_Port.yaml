@@ -60,7 +60,6 @@ members:
   OverrideDisplayString:
     summary: End;
     remarks: The OverrrideDisplayString property determines the override display string which overrides the Name string.
-      This property is supported by the GetState_OverrideDisplayString and SetState_OverrideDisplayString methoes.
   Style:
     summary: The Style property determines the style of the port object. This style is determined by the TPortArrowStyle
       type. This style defines the graphical style of the port object.

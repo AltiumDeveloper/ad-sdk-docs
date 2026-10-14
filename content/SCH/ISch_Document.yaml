@@ -96,8 +96,7 @@ members:
     seeAlso:
       - SCH.TSheetDocumentBorderStyle
   DocumentName:
-    summary: This read only property determines the schematic document name. This property is supported by the
-      GetState_DocumentName;
+    summary: This read only property determines the schematic document name.
   Graphical_VirtualRectangle:
     summary: The method returns the coordinates of TCoordRect type of the virtual rectangle of the graphical window in
       Altium Designer.

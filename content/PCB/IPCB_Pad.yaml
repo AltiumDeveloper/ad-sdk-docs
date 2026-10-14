@@ -58,7 +58,6 @@ members:
     remarks: This method sets the hole width of a pad's hole on the PCB.
   IsConnectedToPlane:
     summary: This property determines whether the pad is connected to the specified plane (one of the power internal planes).
-    remarks: This property is supported by GetState_IsConnectedToPlane and SetState_IsConnectedToPlane methods.
   IsPadStack:
     summary: This method determines whether the pad is a full stack up pad or not. Use this method before you change the
       properties of a pad stack. You can also use the Mode property to check what type of stack up the pad is.
@@ -88,9 +87,6 @@ members:
 
       If Mode is Full Stack (ePadMode_ExternalStack) then you deal with XStackSizeOnLayer, YStackSizeOnLayer and
       StackShapeOnLayer properties.
-
-
-      This property is supported by GetState_mode and SetState_mode methods.
     seeAlso:
       - PCB.TPadMode
       - PCB.IPCB_Pad.IsPadStack
@@ -128,14 +124,12 @@ members:
       the AX,AY parameters or use the Rotation property.
   Rotation:
     summary: This Rotation property deals with the rotation of the pad object in degrees (of TAngle type 0 -360 degrees).
-    remarks: This property is supported by GetState_Rotation and SetState_Rotation methods.
   ShapeOnLayer:
     summary: This property determines what shape the pad is on this specified layer.
     seeAlso:
       - PCB.TShape
   StackShapeOnLayer:
-    summary: This property determines what shape the pad stack is on that layer. This property is supported by
-      GetState_StackShapeOnLayer and SetState_StackShapeOnLayer methods.
+    summary: This property determines what shape the pad stack is on that layer.
     seeAlso:
       - PCB.TShape
   TopShape:
@@ -150,8 +144,6 @@ members:
     summary: This property retrieves the width of the pad on the specified layer.
   XLocation:
     summary: The Properties X and Y set the location of the pad with respect to the PCB document it is on.
-    remarks: These properties are supported by GetState_XLocation, GetState_YLocation and SetState_XLocation,
-      SetState_YLocation methods.
   XPadOffsetOnLayer:
     summary: This property is not implemented.
   XSizeOnLayer:
@@ -163,8 +155,6 @@ members:
       - PCB.TPadMode
   YLocation:
     summary: The Properties X and Y set the location of the pad with respect to the PCB document it is on.
-    remarks: These properties are supported by GetState_XLocation, GetState_YLocation and SetState_XLocation,
-      SetState_YLocation methods.
   YPadOffsetOnLayer:
     summary: This property is not implemented.
   YSizeOnLayer:

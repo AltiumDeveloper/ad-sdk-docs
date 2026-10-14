@@ -19,6 +19,3 @@ remarks: >-
   Invoke the Count method to obtain the number of mechanical layer pairs for the existing PCB document. Indexed
   mechanical layer pairs which is a LayerPair[] property can be returned. This property returns a TMechanicalLayerPair
   record of two PCB layers.
-members:
-  Clear:
-    summary: "LayerPair [I : Integer] : TMechanicalLayerPair"

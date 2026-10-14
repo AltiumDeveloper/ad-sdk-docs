@@ -12,7 +12,6 @@ members:
   Rotation:
     summary: This Rotation property deals with the rotation of the rectangular primitive (fill, text, embedded board for
       example) object in degrees (of TAngle type 0 -360 degrees).
-    remarks: This property is supported by GetState_Rotation and SetState_Rotation methods.
   SetState_XSizeYSize:
     summary: This method sets the XSize and YSize of the rectangular primitive.
   X1Location:

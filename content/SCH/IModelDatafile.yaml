@@ -14,7 +14,8 @@ members:
       - SCH.IModelDatafile.EntityName
   EntityName:
     summary: The method returns the indexed entityname for the datafile related to the model.
-    remarks: This Entitynames property returns the indexed entity name for the datafile related to the model.
+    remarks: This Entitynames property returns the indexed entity name for the datafile related to the model. This property
+      is supported by the Entitynames method.
     seeAlso:
       - SCH.IModelDatafile.EntityCount
   FullPath:

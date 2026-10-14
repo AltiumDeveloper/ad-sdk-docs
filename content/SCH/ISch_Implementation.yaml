@@ -43,16 +43,13 @@ members:
   ClearAllDatafileLinks:
     summary: This method removes all the data file links of the implementation (model) for the current component.
   DatabaseModel:
-    summary: This property is implemented by the GetState_DatabaseModel and SetState_DatabaseModel methods.
     seeAlso:
       - SCH.ISch_Implementation.IntegratedModel
   DatafileLinkCount:
     summary: This property fetches the number of data file links for the current implementation of the schematic component.
-    remarks: This property is supported by the GetState_DatafileLinkCount method.
   Description:
-    summary: "The Description property fetches or sets the Description string for the model. This is optional and is for
-      reference purposes and do not have any impact on simulation processes. This property is implemented by the
-      GetState_Description : string and SetState_Description(AValue : string) methods."
+    summary: The Description property fetches or sets the Description string for the model. This is optional and is for
+      reference purposes and do not have any impact on simulation processes.
   IntegratedModel:
     summary: The property determines whether the implementation is an integrated model type or not.
     seeAlso:
@@ -61,18 +58,13 @@ members:
     summary: "This MapAsString property returns or sets the map of the component pins to a model pins (simulation ports for
       example) as a string of the following format: (SchematicPinNumber:ModelPinNumber) for example (1:1),(2:2), ...
       ,(X:X)"
-  ModelName:
-    summary: "The ModelName property fetches or sets the name of the indexed model name.This property is implemented with
-      GetState_ModelName : string and SetState_ModelName(AValue : string) methods."
   SchDatafileLink:
     summary: The DatafileLink property determines the indexed datafilelink of the model type linked to the component. A
       component can have multiple linked models and each model can have multiple external data file links.
-    remarks: "This property is implemented with the GetState_SchDatafileLink(i : Integer) : ISch_ModelDatafileLink method."
   UseComponentLibrary:
-    summary: "This UseComponentLibrary property determines whether the component is from an integrated library or not
-      (either as an installed library or part of the Project Libraries. This is accessed from the Available Libraries
-      dialog in Altium Designer). A Boolean value is returned. This property is implemented with
-      GetState_UseComponentLibrary : Boolean and SetState_UseComponentLibrary(AValue : Boolean) methods."
+    summary: This UseComponentLibrary property determines whether the component is from an integrated library or not (either
+      as an installed library or part of the Project Libraries. This is accessed from the Available Libraries dialog in
+      Altium Designer). A Boolean value is returned.
     seeAlso:
       - SCH.ISch_GraphicalObject
       - SCH.ISch_Rectangle

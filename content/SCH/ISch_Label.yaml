@@ -1,7 +1,6 @@
 # SCH.ISch_Label: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The ISch_Label interface represents an existing label object on a schematic document. This interface is the
   ancestor interface for the ISch_NetLabel interfaces.
-remarks: The interface hierarchy for the ISch_Label interface is as follows;
 members:
   CalculatedValueString:
     summary: Much like the DisplayString, the CalculatedValueString contains the value of the parameter text after special

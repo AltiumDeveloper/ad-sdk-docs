@@ -20,7 +20,3 @@ remarks: >-
 
 
   IPCB_Net table
-members:
-  Name:
-    summary: "Property PadByName string : IPCB_Primitive Read Getstate_PadByName; Property PadByPinDescription string :
-      IPCB_Primitive Read Getstate_PadByPinDescription;"

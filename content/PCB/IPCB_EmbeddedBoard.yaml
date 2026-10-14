@@ -24,7 +24,6 @@ members:
   ColCount:
     summary: This ColCount property represents the number of columns that the board array will have. You can also define the
       RowCount property as well to define the size of the matrix for the board array.
-    remarks: This property is represented by the GetState_ColCount and SetState_ColCount methods.
   ColSpacing:
     summary: The ColSpacing property determines the height of the first board and the gap between two boards. This column
       spacing and the row spacing values are used to generate an embedded board array.
@@ -49,7 +48,6 @@ members:
   RowCount:
     summary: This RowCount property represents the number of rows that the board array will have. You can also define the
       ColCount property as well to define the size of the matrix for the board array.
-    remarks: This property is represented by the GetState_RowCount and SetState_RowCount methods.
   RowSpacing:
     summary: The RowSpacing property determines the width of the first board and the gap between two boards. This row
       spacing and the column spacing values are used to generate an embedded board array.

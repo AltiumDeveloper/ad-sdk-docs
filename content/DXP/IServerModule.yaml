@@ -96,6 +96,9 @@ members:
 
       The Client property returns the IClient interface of the client subsystem of Altium Designer. This IClient
       interface can be used to invoke its methods.
+
+
+      This readonly property is supported by the GetClient method.
   GetCommandLauncher:
     summary: The CommandLauncher method returns the ICommandLauncher interface. It is used to launch a process from its
       server module. The CommandLauncher object contains a command table which binds a process name to the actual method
@@ -118,6 +121,9 @@ members:
 
       Whenever a process is called within the server this table is looked up in order to find the actual method pointer.
       If a process name is not found within this table nothing will happen.
+
+
+      This read-only property is supported by the GetCommandLauncher method.
   GetDocumentCount:
     summary: The DocumentCount method returns you the number of Document Kinds. An important note is that a View is the
       actual design document. A Document type is a container that stores specific Views.
@@ -127,6 +133,9 @@ members:
 
       The DocumentCount property returns you the number of Document Kinds. An important note is that a View is the
       actual design document. A Document type is a container that stores specific Views.
+
+
+      This property is supported by the GetDocumentCount method.
   GetDocuments:
     summary: An editor type of server can have different document types, such as Schematic Editor and PCB Editor - these
       editor servers have two document types - SCH/SCHLIB and PCB/PCBLIB respectively.
@@ -142,15 +151,20 @@ members:
 
 
       This property returns you the indexed document container which is represented by the IServerDocument interface.
+
+
+      This read only property is supported by the GetDocuments method.
     seeAlso:
       - DXP.IServerDocument
       - DXP.IClient
   GetHandle:
     summary: The method returns the handle of the server.
-    remarks: |-
+    remarks: >-
       This method is used for the Handle property.
 
-      The Handle property returns the handle of the server.
+
+      The Handle property returns the handle of the server. This read only property is supported by the GetHandle
+      method.
   GetModuleName:
     summary: The method returns the module name of this server.
     remarks: >-
@@ -162,6 +176,9 @@ members:
 
 
       The ModuleName property returns the module name of this server.
+
+
+      This read only property is supported by the GetModuleName method.
   GetProcessControl:
     summary: The method returns the IProcessControl interface. This interface controls the process depth for each design
       document in Altium Designer.
@@ -169,6 +186,9 @@ members:
       Every time a process is launched on a document, the process depth is increased by one and once this same process
       has finished executing, the process depth is decreased by one. When the process depth is zero, it denotes that
       nothing is taking place on the current design document.
+
+
+      This read only property is supported by the GetProcessControl method.
 
 
       The ProcessControl property returns the pointer to the IProcessControl interface. This interface controls the
@@ -184,6 +204,9 @@ members:
 
 
       The ViewCount property returns you the number of views for the specified server.
+
+
+      This read only property is supported by the GetViewCount method.
   GetViews:
     summary: The GetViews method in conjunction with the GetViewCount method returns you the indexed View object. A view is
       a form supported by its associated server.
@@ -193,6 +216,9 @@ members:
 
       The Views property in conjunction with the ViewCount property returns you the indexed View object. A view is a
       form supported by its associated server.
+
+
+      This read only property is supported by the GetViews method.
     seeAlso:
       - DXP.IClient
   ReceiveNotification:

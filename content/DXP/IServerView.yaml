@@ -11,11 +11,17 @@ members:
     summary: The IsPanel property determines whether the IServerDocumentView object is a panel or not. A IServerDocument
       container stores IServerDocumentView objects and they are can be a panel view or a document view.
     remarks: >-
+      This property is supported by the GetIsPanel method.
+
+
       The IsPanel property returns a boolean value denoting whether the view is a panel or a document view.
 
 
       A document consists of a document view and at least one panel view. There also can be global or system views such
       as Message panel which is a global panel view.
+
+
+      This read only property is supported by the GetIsPanel method.
     seeAlso:
       - DXP.IClient
       - DXP.IExternalForm
@@ -23,6 +29,9 @@ members:
     summary: The ViewName property represents the view name and is not the same as the document filename. A view can be a
       global panel that can be seen globally within Altium Designer, as a document view or as a panel view.
     remarks: >-
+      This read only property is supported by the GetViewName method.
+
+
       For example a library document open in Altium Designer yields the following information:
 
 

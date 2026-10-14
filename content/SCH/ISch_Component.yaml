@@ -60,8 +60,7 @@ members:
     summary: The ComponentDescription property determines the description string for this component. Normally this string
       contains text on what this component is.
   ComponentKind:
-    summary: The ComponentKind property deteremines the component's type of TComponentKind type. This property is supported
-      by the GetState_ComponentKind and Setstate_Component kind methods.
+    summary: The ComponentKind property deteremines the component's type of TComponentKind type.
     remarks: >-
       eComponentKind_Standard: These components possess standard electrical properties, are always synchronized and are
       the type most commonly used on a schematic sheet.

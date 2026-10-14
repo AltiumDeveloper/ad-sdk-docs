@@ -6,6 +6,8 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 
 const BANNED = /\b(delphi(script)?|object pascal|borland)\b/i;
+// Declaration syntax of another language in prose (`Index : Integer;`, `X = Record`, `Read GetX`): content shows C#.
+const FOREIGN_SYNTAX = /\b\w+\s*:\s*(Integer|Boolean|WideString|TCoord|Cardinal|Word|Byte|Double|TDynamicString|String)\s*[;)\]]|=\s*Record\b|\bRead\s+Get\w+/;
 const roots = ['content', 'docs/guides', 'docs/index.mdx', 'config', 'README.md', 'OPEN-ISSUES.md'];
 
 function files(path, out = []) {
@@ -20,6 +22,7 @@ for (const root of roots) {
     const text = readFileSync(file, 'utf8');
     text.split('\n').forEach((line, i) => {
       if (BANNED.test(line)) problems.push(`${file}:${i + 1}: ${line.trim().slice(0, 120)}`);
+      if (file.startsWith('content') && FOREIGN_SYNTAX.test(line)) problems.push(`${file}:${i + 1}: non-C# declaration syntax: ${line.trim().slice(0, 100)}`);
     });
     if (file.endsWith('.yaml')) {
       try {

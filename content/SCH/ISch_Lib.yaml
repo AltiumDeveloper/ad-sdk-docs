@@ -23,11 +23,8 @@ remarks: >-
   iterate through the library to fetch symbols.
 members:
   Current_SchComponent:
-    summary: This property gets or sets the component as the current component in the library document. This property is
-      supported by its GetState_CurrentSchComponent and SetState_CurrentSchComponent methods.
+    summary: This property gets or sets the component as the current component in the library document.
   Description:
-    summary: This property gets or sets the description of the library document. This property is supported by its
-      GetState_Description and SetState_Description methods.
+    summary: This property gets or sets the description of the library document.
   ShowHiddenPins:
-    summary: This property gets or sets the visible property of hidden pins of the component in the library document. This
-      property is supported by its GetState_ShowHiddenPins and SetState_ShowHiddenPins methods.
+    summary: This property gets or sets the visible property of hidden pins of the component in the library document.

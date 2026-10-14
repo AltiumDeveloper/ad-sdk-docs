@@ -27,12 +27,8 @@ members:
   CurrentComponent:
     summary: This property determines the current component (footprint) that is in focus or displayed in the PCB library
       document in Altium Designer.
-    remarks: >-
-      When creating a new footprint programmatically, this footprint needs to be registered in the PCB library first
+    remarks: When creating a new footprint programmatically, this footprint needs to be registered in the PCB library first
       before setting it to be the current component.
-
-
-      This CurrentComponent property is supported by GetState_CurrentComponent and SetState_CurrentComponent methods.
     seeAlso:
       - PCB.IPCB_Group
       - PCB.IPCB_LibComponent

@@ -10,9 +10,6 @@ remarks: >-
 
 
   IServerDocument Methods and Properties Table
-
-
-  IServerDocument example
 members:
   AcquireDataFileHandle:
     summary: For internal use only.
@@ -27,6 +24,7 @@ members:
     summary: The BeingClosed property denotes that this design document is being closed before this design document can be
       successfully destroyed. This property is a read only property. You can check the status of the document before you
       attempt to modify or update the document before it is being closed.
+    remarks: This property is supported by the GetBeingClosed and SetBeingClosed methods.
     seeAlso:
       - DXP.IServerDocument.GetCanClose
       - DXP.IServerDocument.Modified
@@ -70,7 +68,8 @@ members:
     seeAlso:
       - DXP.IServerDocument.Modified
   FileName:
-    summary: The FileName property returns the filename for the server document (not the corresponding server panel).
+    summary: The FileName property returns the filename for the server document (not the corresponding server panel). This
+      property is a read-only property and is supported by the GetFileName method.
     remarks: Note a server document can be a document view or a panel view, and thus if it is a panel view, the FileName
       property is invalid.
     seeAlso:
@@ -106,7 +105,10 @@ members:
   GetCount:
     summary: The Count property returns the number of views (of the same type) in the IServerDocument container. Use in
       conjunction with the View property.
-    remarks: This method is used for the Count property.
+    remarks: |-
+      This method is used for the Count property.
+
+      This property is supported by the GetCount method.
     seeAlso:
       - DXP.IClient
   GetKind:
@@ -118,13 +120,14 @@ members:
   GetServerModule:
     summary: The ServerModule is a read-only property which returns the IServerModule interface that the document is
       associated with. The server module represents the server object installed and running in Altium Designer.
-    remarks: A server module manages its own documents and panels.
+    remarks: A server module manages its own documents and panels. This property is supported by the GetServerModule method.
     seeAlso:
       - DXP.IServerModule
       - DXP.IClient
   GetSupportsOwnSave:
     summary: The SupportsOwnSave property returns a boolean value whether a save routine has been provided to save these
-      documents associated with the server.
+      documents associated with the server. This is a read only property and is supported by the GetSupportsOwnSave
+      method.
     remarks: The SupportsOwnSave property returns a boolean value whether a save routine has been provided to save these
       documents associated with the server. Read only property.
     seeAlso:
@@ -133,9 +136,13 @@ members:
     summary: The View property is an indexed property and represents a document or panel view. The IServerDocument.Count
       method returns the list of views (which could be document or panel windows) as part of the IServerDocument
       container.
-    remarks: The View property is an indexed property and represents a document or panel view part of the IDocument
-      container associated with a specific IServerModule interface. The IServerDocument.Count method returns the list of
-      views (which could be document or panel windows) as part of the IServerDocument container.
+    remarks: >-
+      This property is supported by the GetView method.
+
+
+      The View property is an indexed property and represents a document or panel view part of the IDocument container
+      associated with a specific IServerModule interface. The IServerDocument.Count method returns the list of views
+      (which could be document or panel windows) as part of the IServerDocument container.
     seeAlso:
       - DXP.IClient
   GetViewByName:
@@ -143,12 +150,14 @@ members:
     seeAlso:
       - DXP.IServerDocumentView
   IsShown:
-    summary: This property denotes whether or not this document is displayed in Altium Designer.
+    summary: This property denotes whether or not this document is displayed in Altium Designer. This property is supported
+      by the GetIsShown and SetIsShown methods.
     seeAlso:
       - DXP.IClient
   Modified:
     summary: The Modified property denotes whether this document has been modified or not, and can be taken as a "dirty"
       flag, that is a document has been modified and it has been marked dirty.
+    remarks: This property is supported by the GetModified and SetModified methods.
     seeAlso:
       - DXP.IClient
   NotifyViews:

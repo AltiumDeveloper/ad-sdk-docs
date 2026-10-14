@@ -30,7 +30,8 @@ members:
   ModelDatafileTypeAt:
     summary: This method returns the data file types supported by Altium Designer. First data file type starts at 0. This
       method is used by the ModelDataFileTypes property.
-    remarks: This property returns the data file types supported by Altium Designer. First data file type starts at 0.
+    remarks: This property returns the data file types supported by Altium Designer. First data file type starts at 0. This
+      property is supported by the ModelDataFileTypeAt method.
     seeAlso:
       - SCH.IModelTypeManager.ModelDatafileTypeCount
       - SCH.IModelDatafileType
@@ -42,6 +43,8 @@ members:
   ModelTypeAt:
     summary: This method returns the indexed model type. First model type starts at 0. This method is used by the ModelTypes
       property.
+    remarks: This method returns the indexed model type. First model type starts at 0. This property is supported by the
+      ModelTypeAt method.
     seeAlso:
       - SCH.IModelTypeManager.ModelTypeCount
       - SCH.IModelType

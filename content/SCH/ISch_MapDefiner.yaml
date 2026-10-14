@@ -36,4 +36,3 @@ members:
   IsTrivial:
     summary: This property determines whether the mapping is trivial or not. Basically the mapping is trivial if there is no
       other possible mappings. For example if there is only 1 schematic pin and one PCB pad then the map is trivial.
-    remarks: This property implements the GetState_IsTrivial method.

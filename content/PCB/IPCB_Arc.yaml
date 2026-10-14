@@ -14,8 +14,7 @@ members:
   CenterY:
     summary: The YCenter property denotes the X coordinate of the center of the arc.
   EndAngle:
-    summary: The EndAngle property denotes the end angle of the arc. It is supported by the GetState_EndAngle /
-      SetState_EndAngle and complemented by the GetState_StartAngle/SetState_StartAngle methods.
+    summary: The EndAngle property denotes the end angle of the arc.
   EndX:
     summary: The EndX property denotes the end X coordinate of the arc.
   EndY:
@@ -28,8 +27,7 @@ members:
     summary: This method rotates an arc on the PCB document about the AX, AY coordinates with an angle in degrees. To ensure
       the arc rotates without moving about, pass in its XCenter and YCenter attributes for the AX,AY parameters.
   StartAngle:
-    summary: The StartAngle property denotes the initial angle of the arc. It is supported by the GetState_StartAngle /
-      SetState_StartAngle and complemented by the GetState_EndAngle/SetState_EndAngle methods.
+    summary: The StartAngle property denotes the initial angle of the arc.
   StartX:
     summary: The StartX property denotes the starting X coordinate of the arc.
   StartY:
