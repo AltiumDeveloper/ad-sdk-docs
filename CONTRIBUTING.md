@@ -44,7 +44,7 @@ Requires Node 22. For examples you also need the .NET SDK (8 or later) and the S
 ```bash
 npm ci
 npm run apidocs     # generate the reference (needed by most commands below)
-npm start           # live preview at http://localhost:3000/ad-sdk-api-reference/
+npm start           # live preview at http://localhost:3000/ad-sdk-docs/
 ```
 
 Two helpers you will use all the time:

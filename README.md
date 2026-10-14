@@ -1,6 +1,6 @@
 # Altium Designer SDK API reference
 
-Source for https://altiumdeveloper.github.io/ad-sdk-api-reference/: the .NET API reference for building Altium
+Source for https://altiumdeveloper.github.io/ad-sdk-docs/: the .NET API reference for building Altium
 Designer extensions, generated from the SDK assemblies and cross-linked with the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples).
 
@@ -161,3 +161,7 @@ npm ci
 npm run apidocs
 npm start
 ```
+
+## Licence
+
+[MIT](LICENSE).

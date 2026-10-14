@@ -2,8 +2,8 @@
 title: Altium Designer SDK
 tagline: .NET API reference for building Altium Designer extensions
 url: https://altiumdeveloper.github.io
-baseUrl: /ad-sdk-api-reference/
-repo: https://github.com/AltiumDeveloper/ad-sdk-api-reference
+baseUrl: /ad-sdk-docs/
+repo: https://github.com/AltiumDeveloper/ad-sdk-docs
 branch: main
 
 # SDK examples linked from reference pages (metadata/examples-index.json, built by `npm run examples:index`).

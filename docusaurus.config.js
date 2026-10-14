@@ -17,7 +17,7 @@ module.exports = async function createConfig() {
   url: site.url,
   baseUrl: site.baseUrl,
   organizationName: 'AltiumDeveloper',
-  projectName: 'ad-sdk-api-reference',
+  projectName: 'ad-sdk-docs',
   favicon: 'img/favicon.svg',
   onBrokenLinks: 'throw',
   // Reference pages are plain CommonMark (.md); guides and the home page are MDX (.mdx).
