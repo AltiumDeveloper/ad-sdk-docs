@@ -19,9 +19,10 @@ ad-sdk-examples ──(npm run examples:index)──▶ metadata/examples-index.
    the assembly (`SDK_ASSEMBLY=<path>`). The JSON is committed, so the site builds without either.
 2. `npm run examples:index` scans a checkout of the SDK examples (`--dir`) and records where each type and member is
    used: `metadata/examples-index.json` (committed).
-3. `npm run apidocs` builds the API model (`scripts/apidocs/lib/model.mjs`), renders one page per type and per
-   member into `docs/reference/` (git-ignored), writes the Reference sidebar to `.generated/sidebar.json` and the
-   search index to `static/search-index.json`.
+3. `npm run apidocs` builds the API model (`scripts/apidocs/lib/model.mjs`), renders one page per type into
+   `docs/reference/` (git-ignored; members are sections of their type's page, listed in its table of contents),
+   writes the Reference sidebar to `.generated/sidebar.json` and the search index to `static/search-index.json`.
+   `npm run search:check` (after the build) verifies that every search record's page and `#anchor` exist.
 4. `npm run build` builds the Docusaurus site; `npm run llms` then adds the LLM surface to `build/`.
 
 ### The model
@@ -32,7 +33,7 @@ methods (`GetState_SchDesignator(): ISch_Designator`). The model:
 
 - shows each method once, in its typed form; when the interface also declares an untyped overload, the member page
   lists both;
-- groups accessor pairs into one **property** page: `GetState_X`/`SetState_X` (also `GetProperty_`, `Get_`, and plain
+- groups accessor pairs into one **property** section: `GetState_X`/`SetState_X` (also `GetProperty_`, `Get_`, and plain
   `Get`/`Set` pairs whose types match). A lone `GetState_X` is a read-only property; a plain `GetX` alone stays a method;
 - resolves inheritance (direct bases, inherited members) and records, for every type, the members that return or
   accept it ("Returned by" / "Accepted by").
@@ -48,7 +49,7 @@ summary: One or two sentences; the first one is used in tables and search.
 remarks: |
   Longer explanation, in Markdown.
 members:
-  Orientation:            # the member's page name: the property name, or the method name
+  Orientation:            # the member's name: the property name, or the method name
     summary: ...
     remarks: ...
     seeAlso: [SCH.TRotationBy90, SCH.ISch_Component.OrientationWithoutRotating]
@@ -86,7 +87,7 @@ their accessor names, so `GetState_Orientation` finds the `Orientation` property
 
 1. Add it to `config/namespaces.yaml`.
 2. Add its sidebar areas to `config/categories.yaml`.
-3. Add a `.bc-<slug>` colour to `src/css/custom.css`.
+3. Add `.bc-<id>` icons for the namespace slug and every new area id to `src/css/custom.css` ("Sidebar icons").
 4. Run `npm run apidocs` and review the "other" area for types the categories miss.
 
 ## Local development
