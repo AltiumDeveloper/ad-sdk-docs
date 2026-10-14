@@ -6,6 +6,7 @@
 // over the heading text, in page order), computed here so tables, cross-links and search can point at them.
 import { createRequire } from 'node:module';
 import { inheritedMembers, namedTypes, orderBases } from './model.mjs';
+import { linkify } from './xref.mjs';
 
 const require = createRequire(import.meta.url);
 const GithubSlugger = require('github-slugger');
@@ -43,6 +44,18 @@ export function firstSentence(text, limit = 200) {
 }
 
 const paragraphs = (text) => escapeText(text).trim();
+
+// Description text with API names linked (xref.mjs). Before the cross-reference index exists (the anchor layout
+// pass), the text is only escaped.
+// `anchor`: the member whose section (or table row) the text belongs to; it is written as code, not linked.
+function prose(ctx, link, type, text, { anchor = null } = {}) {
+  const escaped = escapeText(text).trim();
+  if (!ctx.xref || !escaped) return escaped;
+  return linkify(escaped, ctx.xref, {
+    ns: type.namespace, current: ctx.xref.byId.get(type.id), currentAnchor: anchor, href: (e, a) => link.xrefHref(e, a),
+  });
+}
+const proseCell = (ctx, link, type, text, options) => prose(ctx, link, type, text, options).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
 
 // --- type names --------------------------------------------------------------------------------------------------
 // C# type text: namespaces dropped, `Nullable<int>` written `int?`.
@@ -82,6 +95,13 @@ export class Linker {
     const anchor = t?.anchors?.get(slug);
     if (!anchor) return null;
     return `${relativePath(this.fromFile, typeFile(t))}#${anchor}`;
+  }
+
+  // Target of a cross-reference index entry (xref.mjs), optionally a member anchor.
+  xrefHref(entry, anchor) {
+    const t = this.model.types.get(entry.id);
+    const path = relativePath(this.fromFile, typeFile(t));
+    return anchor ? `${path}#${anchor}` : path || '#';
   }
 
   // `SCH.ISch_Pin[]` → [ISch_Pin](./ISch_Pin.md)[]; types outside the documented namespaces stay qualified code.
@@ -187,7 +207,7 @@ export function renderType(model, type, ctx) {
     pagination_prev: 'null',
   }));
   page.heading(1, title);
-  page.push(content.summary ? paragraphs(content.summary) : gap, '');
+  page.push(content.summary ? prose(ctx, link, type, content.summary) : gap, '');
   page.push('```csharp', declaration(type), '```', '');
   page.push(`**Namespace:** ${type.namespace} · **Assembly:** ${type.assembly}`, '');
 
@@ -197,14 +217,14 @@ export function renderType(model, type, ctx) {
   }
   if (content.remarks) {
     page.heading(2, 'Remarks');
-    page.push(paragraphs(content.remarks), '');
+    page.push(prose(ctx, link, type, content.remarks), '');
   }
 
   if (type.kind === 'interface') renderMembers(page, model, type, link, ctx);
   if (type.kind === 'enum') {
     page.heading(2, 'Values');
     page.push('| Name | Value | Description |', '| --- | --- | --- |');
-    for (const v of type.values) page.push(`| \`${v.name}\` | ${v.value ?? ''} | ${cell(content.values?.[v.name] ?? '')} |`);
+    for (const v of type.values) page.push(`| \`${v.name}\` | ${v.value ?? ''} | ${proseCell(ctx, link, type, content.values?.[v.name] ?? '')} |`);
     page.push('');
   }
   if (type.genericParameters?.length) {
@@ -291,6 +311,8 @@ const accessText = (member) => {
   return `${member.isStatic ? 'static ' : ''}${readable && writable ? 'get; set' : readable ? 'get' : 'set'}`;
 };
 const extensionOf = (s) => (s?.extension ? shortType(s.extension) : null);
+// The helper class that provides an extension method: a link when the class has a page (`DXP.Utils`).
+const helperRef = (link, s) => (link.typeHref(s.extension) ? link.type(s.extension) : `\`${extensionOf(s)}\``);
 
 function renderMembers(page, model, type, link, ctx) {
   const content = ctx.content(type.id);
@@ -302,14 +324,14 @@ function renderMembers(page, model, type, link, ctx) {
   if (properties.length) {
     page.heading(2, 'Properties');
     page.push('| Property | Type | Access | Description |', '| --- | --- | --- | --- |');
-    for (const p of properties) page.push(`| ${anchorLink(p)} | ${link.type(p.type)} | ${accessText(p)} | ${cell(summary(p))} |`);
+    for (const p of properties) page.push(`| ${anchorLink(p)} | ${link.type(p.type)} | ${accessText(p)} | ${proseCell(ctx, link, type, summary(p), { anchor: type.anchors.get(p.slug) ?? null })} |`);
     page.push('');
     for (const p of properties) type.anchors.set(p.slug, renderProperty(page, type, p, link, ctx));
   }
   if (methods.length) {
     page.heading(2, 'Methods');
     page.push('| Method | Returns | Description |', '| --- | --- | --- |');
-    for (const m of methods) page.push(`| ${anchorLink(m)} | ${link.type(m.signature.returnType)} | ${cell(summary(m))} |`);
+    for (const m of methods) page.push(`| ${anchorLink(m)} | ${link.type(m.signature.returnType)} | ${proseCell(ctx, link, type, summary(m), { anchor: type.anchors.get(m.slug) ?? null })} |`);
     page.push('');
     for (const m of methods) type.anchors.set(m.slug, renderMethod(page, type, m, link, ctx));
   }
@@ -334,9 +356,9 @@ function renderMembers(page, model, type, link, ctx) {
 }
 
 // Details shared by property and method sections: remarks, see also, examples.
-function memberTail(page, type, member, link, ctx) {
+function memberTail(page, type, member, link, ctx, anchor) {
   const content = ctx.content(type.id).members?.[member.slug] ?? {};
-  if (content.remarks) page.push(paragraphs(content.remarks), '');
+  if (content.remarks) page.push(prose(ctx, link, type, content.remarks, { anchor }), '');
   const seeAlso = seeAlsoLinks(link, content.seeAlso);
   if (seeAlso.length) page.push(`**See also:** ${seeAlso.join(', ')}`, '');
   const examples = exampleLinks(ctx.examples.members[`${type.id}.${member.slug}`], ctx);
@@ -346,7 +368,7 @@ function memberTail(page, type, member, link, ctx) {
 function renderProperty(page, type, member, link, ctx) {
   const anchor = page.heading(3, member.name);
   const content = ctx.content(type.id).members?.[member.slug] ?? {};
-  page.push(content.summary ? paragraphs(content.summary) : gap, '');
+  page.push(content.summary ? prose(ctx, link, type, content.summary, { anchor }) : gap, '');
   const readable = member.native ? member.canRead : Boolean(member.getter);
   const writable = member.native ? member.canWrite : Boolean(member.setter);
   const code = member.native
@@ -359,9 +381,9 @@ function renderProperty(page, type, member, link, ctx) {
     facts.push(`**Index:** ${member.indexParameters.map((p) => `\`${p.name}\` (${link.type(p.type)})`).join(', ')}`);
   }
   page.push(facts.join(' · '), '');
-  const helper = extensionOf(member.getter) ?? extensionOf(member.setter);
-  if (helper) page.push(`The accessors are extension methods of \`${helper}\` (\`using ${type.namespace};\`).`, '');
-  memberTail(page, type, member, link, ctx);
+  const helperSig = member.getter?.extension ? member.getter : member.setter?.extension ? member.setter : null;
+  if (helperSig) page.push(`The accessors are extension methods of ${helperRef(link, helperSig)} (\`using ${type.namespace};\`).`, '');
+  memberTail(page, type, member, link, ctx, anchor);
   return anchor;
 }
 
@@ -369,7 +391,7 @@ function renderMethod(page, type, member, link, ctx) {
   const anchor = page.heading(3, member.name);
   const content = ctx.content(type.id).members?.[member.slug] ?? {};
   const s = member.signature;
-  page.push(content.summary ? paragraphs(content.summary) : gap, '');
+  page.push(content.summary ? prose(ctx, link, type, content.summary, { anchor }) : gap, '');
   const overloads = member.overloads ?? [s, s.alternate].filter(Boolean);
   const line = (x) => `${x.isStatic ? 'static ' : ''}${methodSignature(x)}`;
   page.push('```csharp', ...overloads.map(line), '```', '');
@@ -392,11 +414,11 @@ function renderMethod(page, type, member, link, ctx) {
     page.push(`**Returns:** ${returns(s)}`, '');
   }
   if (s.extension && s.alternate) {
-    page.push(`The first overload is an extension method of \`${extensionOf(s)}\` (\`using ${type.namespace};\`) with typed parameters; the second is declared by the interface.`, '');
+    page.push(`The first overload is an extension method of ${helperRef(link, s)} (\`using ${type.namespace};\`) with typed parameters; the second is declared by the interface.`, '');
   } else if (s.extension) {
-    page.push(`Extension method of \`${extensionOf(s)}\` (\`using ${type.namespace};\`).`, '');
+    page.push(`Extension method of ${helperRef(link, s)} (\`using ${type.namespace};\`).`, '');
   }
-  memberTail(page, type, member, link, ctx);
+  memberTail(page, type, member, link, ctx, anchor);
   return anchor;
 }
 
@@ -445,7 +467,8 @@ export function renderNamespace(model, ns, categories, ctx) {
     const inCat = types.filter((t) => t.category === c.id).sort((a, b) => a.name.localeCompare(b.name));
     if (!inCat.length) continue;
     out.push(`## ${c.title}`, '', '| Type | Description |', '| --- | --- |');
-    for (const t of inCat) out.push(`| ${link.ref(t.id)} | ${cell(firstSentence(ctx.content(t.id).summary, 160))} |`);
+    // The row's own type is linked in its summary too (the namespace page is nobody's "self").
+    for (const t of inCat) out.push(`| ${link.ref(t.id)} | ${proseCell(ctx, link, { namespace: ns.id, id: null }, firstSentence(ctx.content(t.id).summary, 160))} |`);
     out.push('');
   }
   return { file, text: out.join('\n') };

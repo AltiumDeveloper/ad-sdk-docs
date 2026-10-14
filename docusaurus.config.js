@@ -7,8 +7,11 @@ const site = parse(readFileSync('./config/site.yaml', 'utf8'));
 const DEVELOPER_CENTER = 'https://developer.altium.com/';
 const PLATFORM_API_DOCS = 'https://altiumdeveloper.github.io/platform-api-docs/';
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+/** @returns {Promise<import('@docusaurus/types').Config>} */
+module.exports = async function createConfig() {
+  // Links API names in code spans of the guides (.generated/xref.json from `npm run apidocs`).
+  const { default: remarkXref } = await import('./plugins/remark-xref.mjs');
+  return {
   title: site.title,
   tagline: site.tagline,
   url: site.url,
@@ -30,7 +33,12 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         blog: false,
-        docs: { routeBasePath: '/', sidebarPath: './sidebars.js', editUrl: `${site.repo}/edit/${site.branch}/` },
+        docs: {
+          routeBasePath: '/',
+          sidebarPath: './sidebars.js',
+          editUrl: `${site.repo}/edit/${site.branch}/`,
+          remarkPlugins: [remarkXref],
+        },
         theme: { customCss: './src/css/custom.css' },
       }),
     ],
@@ -71,6 +79,5 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Altium.`,
       },
     }),
+  };
 };
-
-module.exports = config;

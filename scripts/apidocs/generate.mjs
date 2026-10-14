@@ -7,6 +7,7 @@ import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
 import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
+import { buildXrefIndex, serializeXrefIndex } from './lib/xref.mjs';
 import {
   firstSentence, layoutAnchors, renderNamespace, renderReferenceIndex, renderType, typeRoute,
 } from './lib/render.mjs';
@@ -64,8 +65,10 @@ const ctx = {
   namespaces,
 };
 
-// Member anchors of every page, so links between pages can target member sections.
+// Member anchors of every page, so links between pages can target member sections; then the cross-reference index
+// that links API names in descriptions (lib/xref.mjs), also written for the guides' remark plugin and check-xrefs.
 layoutAnchors(model, ctx);
+ctx.xref = buildXrefIndex(model, { route: typeRoute });
 
 rmSync(OUT, { recursive: true, force: true });
 const write = ({ file, text }) => {
@@ -139,6 +142,7 @@ for (const ns of namespaces) {
 }
 
 mkdirSync(GENERATED, { recursive: true });
+writeFileSync(join(GENERATED, 'xref.json'), JSON.stringify(serializeXrefIndex(ctx.xref)));
 writeFileSync(join(GENERATED, 'sidebar.json'), JSON.stringify(sidebar.map(({ nsId, ...c }) => c)));
 writeFileSync(join(GENERATED, 'manifest.json'), JSON.stringify({
   assemblies: model.assemblies,

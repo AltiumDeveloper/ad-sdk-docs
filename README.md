@@ -65,6 +65,21 @@ silently dropped. Types and members without a description are still published, m
 
 `npm run check:content` (also run by CI) validates the YAML and the guides.
 
+## Cross-references
+
+API names in prose are linked automatically, so descriptions and guides are written as plain text:
+
+- **Descriptions** (`content/**`): the generator (`scripts/apidocs/lib/xref.mjs`) links type names (`ISch_MapDefiner`),
+  qualified names (`EDP.Utils`), members (`ISch_Component.Orientation`, accessor names such as
+  `GetState_Orientation`) and, on a type's page, its own member names. In plain text only code-like names are linked
+  (an `I`/`T` prefix, an underscore or a compound name); ordinary words such as "Parameter" are linked only when
+  written as `code` or qualified. Short names defined in several namespaces resolve to the page's namespace.
+- **The page's own type, and a member in its own section** (including a property's accessor names), are written as
+  code without a link.
+- **Guides** (`docs/guides/**`, `docs/index.mdx`): `plugins/remark-xref.mjs` links every code span that is exactly an
+  API name, so write `` `ISch_Iterator` `` or `` `SCH.TObjectId` `` (qualify names that exist in several namespaces).
+- `npm run check:xrefs` (part of `npm run apidocs`, so CI) fails when a page mentions an API name without a link.
+
 ## Open issues
 
 Questions the reference cannot answer from the assemblies (formats, supported setups, intended usage) are tracked
