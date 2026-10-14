@@ -21,7 +21,8 @@
     "test": "node --test \"test/**/*.test.mjs\" && node scripts/apidocs/check-content.mjs",
     "check:content": "node scripts/apidocs/check-content.mjs",
     "search:check": "node scripts/apidocs/search-check.mjs",
-    "check:xrefs": "node scripts/apidocs/check-xrefs.mjs"
+    "check:xrefs": "node scripts/apidocs/check-xrefs.mjs",
+    "check:examples": "node scripts/examples/check-examples.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.1",

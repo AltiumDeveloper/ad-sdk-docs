@@ -8,6 +8,7 @@ import { parse } from 'yaml';
 import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
 import { buildXrefIndex, serializeXrefIndex } from './lib/xref.mjs';
+import { loadExamples } from './lib/examples.mjs';
 import {
   firstSentence, layoutAnchors, renderNamespace, renderReferenceIndex, renderType, typeRoute,
 } from './lib/render.mjs';
@@ -53,6 +54,13 @@ if (problems.length) {
   process.exit(1);
 }
 
+// C# examples (examples/**), validated against the model like the content.
+const { examples: codeExamples, problems: exampleProblems } = loadExamples(model);
+if (exampleProblems.length) {
+  console.error(`apidocs: ${exampleProblems.length} example file(s) do not match the API:\n  ${exampleProblems.join('\n  ')}`);
+  process.exit(1);
+}
+
 const examples = existsSync('metadata/examples-index.json')
   ? JSON.parse(readFileSync('metadata/examples-index.json', 'utf8'))
   : { types: {}, members: {}, commit: null };
@@ -61,6 +69,7 @@ const ctx = {
   content: (id) => content.get(id) ?? {},
   editUrl: (type) => `${site.repo}/edit/${site.branch}/content/${type.namespace}/${type.file}.yaml`,
   examples,
+  codeExample: (key) => codeExamples.get(key) ?? null,
   examplesRepo: site.examples.repo,
   namespaces,
 };

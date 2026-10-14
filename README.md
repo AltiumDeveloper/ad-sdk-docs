@@ -65,6 +65,31 @@ silently dropped. Types and members without a description are still published, m
 
 `npm run check:content` (also run by CI) validates the YAML and the guides.
 
+## Examples
+
+C# examples live in `examples/<NS>/<Type>.cs` (an example for the type) and `examples/<NS>/<Type>.<Member>.cs` (for a
+member). Each file is a complete C# file that compiles on its own:
+
+```csharp
+// Count the pads on the current board          ← title (first comment line)
+using PCB;                                       ← shown with the example
+
+static partial class Examples
+{
+    static void IPCB_BoardIterator()
+    {
+        // <example>                             ← published code starts
+        IPCB_Board board = PCB.GlobalVars.PCBServer?.GetCurrentPCBBoard();
+        ...
+        // </example>                            ← and ends
+    }
+}
+```
+
+`npm run apidocs` fails when a file names a type or member that does not exist. `npm run check:examples` compiles
+every example against the SDK assemblies (`SDK_DIR=<folder with Altium.SDK.Interfaces.dll and Altium.SDK.dll>`; the
+assemblies are not in the repository, so run it locally before committing an example).
+
 ## Cross-references
 
 API names in prose are linked automatically, so descriptions and guides are written as plain text:

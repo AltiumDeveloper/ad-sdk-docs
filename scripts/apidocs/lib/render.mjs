@@ -219,6 +219,11 @@ export function renderType(model, type, ctx) {
     page.heading(2, 'Remarks');
     page.push(prose(ctx, link, type, content.remarks), '');
   }
+  const typeExample = ctx.codeExample?.(type.id);
+  if (typeExample) {
+    page.heading(2, 'Example');
+    page.push(...exampleBlock(ctx, link, type, typeExample));
+  }
 
   if (type.kind === 'interface') renderMembers(page, model, type, link, ctx);
   if (type.kind === 'enum') {
@@ -356,9 +361,17 @@ function renderMembers(page, model, type, link, ctx) {
 }
 
 // Details shared by property and method sections: remarks, see also, examples.
+// A C# example (lib/examples.mjs): its title as a lead-in, then the code.
+function exampleBlock(ctx, link, type, example, { anchor = null, label = null } = {}) {
+  const lead = [label, example.title ? prose(ctx, link, type, `${example.title.replace(/\.?$/, '.')}`, { anchor }) : null].filter(Boolean).join(' ');
+  return [...(lead ? [lead, ''] : []), '```csharp', example.code, '```', ''];
+}
+
 function memberTail(page, type, member, link, ctx, anchor) {
   const content = ctx.content(type.id).members?.[member.slug] ?? {};
   if (content.remarks) page.push(prose(ctx, link, type, content.remarks, { anchor }), '');
+  const example = ctx.codeExample?.(`${type.id}.${member.slug}`);
+  if (example) page.push(...exampleBlock(ctx, link, type, example, { anchor, label: '**Example:**' }));
   const seeAlso = seeAlsoLinks(link, content.seeAlso);
   if (seeAlso.length) page.push(`**See also:** ${seeAlso.join(', ')}`, '');
   const examples = exampleLinks(ctx.examples.members[`${type.id}.${member.slug}`], ctx);

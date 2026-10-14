@@ -1,0 +1,18 @@
+<!-- Compile check for the C# examples in examples/** (npm run check:examples). The SDK assemblies come from SDK_DIR
+     (not in the repository). -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>CS0168;CS0219;CS0162;CS8321</NoWarn>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../examples/**/*.cs" />
+    <Reference Include="Altium.SDK.Interfaces"><HintPath>$(SdkDir)/Altium.SDK.Interfaces.dll</HintPath></Reference>
+    <Reference Include="Altium.SDK"><HintPath>$(SdkDir)/Altium.SDK.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>
