@@ -36,9 +36,12 @@ for (const ns of namespaces) {
   const dir = join('content', ns.id);
   if (!existsSync(dir)) continue;
   for (const name of readdirSync(dir).filter((n) => n.endsWith('.yaml'))) {
-    const id = `${ns.id}.${name.replace(/\.yaml$/, '').replace(/-/g, '.')}`;
+    // File name = the type's page file name (the edit link): `ISch_Pin.yaml`, `NotificationCode-DocumentNotificationCode.yaml`,
+    // `SetHelper-T.yaml`.
+    const base = name.replace(/\.yaml$/, '');
+    const type = [...model.types.values()].find((t) => t.namespace === ns.id && t.file === base);
+    const id = type?.id ?? `${ns.id}.${base}`;
     const doc = parse(readFileSync(join(dir, name), 'utf8')) ?? {};
-    const type = model.types.get(id);
     if (!type) { problems.push(`content/${ns.id}/${name}: no type ${id}`); continue; }
     for (const slug of Object.keys(doc.members ?? {})) {
       if (!type.members?.some((m) => m.slug === slug)) problems.push(`content/${ns.id}/${name}: no member ${slug}`);

@@ -142,6 +142,12 @@ their accessor names, so `GetState_Orientation` finds the `Orientation` property
    namespace name shown under its title). `npm test` checks that every namespace and area has one.
 4. Run `npm run apidocs` and review the "other" area for types the categories miss.
 
+## Contributing
+
+Descriptions, examples, guides and answers to open questions are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md)
+for step-by-step recipes, what counts as evidence, the checks and the review checklist. `npm run coverage` lists the most
+valuable gaps; `npm run api -- "SCH.ISch_Pin"` shows what exists before you write about it.
+
 ## Working on this repository
 
 Read [AGENTS.md](AGENTS.md): conventions, required checks and the rules for content and examples.

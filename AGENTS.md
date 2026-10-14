@@ -2,6 +2,8 @@
 
 Instructions for anyone (coding agents and people) changing this repository. [README.md](README.md) explains how the
 pipeline works; this file says what you must and must not do, and how to check your work.
+[CONTRIBUTING.md](CONTRIBUTING.md) has the step-by-step recipes (descriptions, examples, guides, open questions,
+structure, SDK updates), the evidence rules and the review checklist; its "For AI agents" section applies to you.
 
 ## What this repository is
 
@@ -61,6 +63,8 @@ Requires Node 22. The .NET SDK (8 or later) and the SDK assemblies are needed on
 npm ci                     # install
 npm test                   # unit tests + check:content
 npm run apidocs            # generate reference + search index + check:xrefs
+npm run api -- "NS.Type:regex"  # look up what exists (members, accessors, overloads, enum values, constants)
+npm run coverage           # most valuable documentation gaps; --ns <NS>, --type <Type>
 npm run build              # Docusaurus build (~2 min, ~240 MB)
 npm run search:check       # after build: every search record's page and #anchor exist
 npm run llms               # after build: LLM files and Markdown twins in build/
