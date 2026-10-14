@@ -16,7 +16,6 @@
     "examples:index": "node scripts/examples/index-examples.mjs",
     "apidocs": "node scripts/apidocs/generate.mjs && npm run search:index && npm run check:xrefs",
     "search:index": "node scripts/apidocs/search-index.mjs",
-    "search:eval": "node scripts/apidocs/search-eval.mjs",
     "llms": "node scripts/apidocs/llms.mjs",
     "test": "node --test \"test/**/*.test.mjs\" && node scripts/apidocs/check-content.mjs",
     "check:content": "node scripts/apidocs/check-content.mjs",

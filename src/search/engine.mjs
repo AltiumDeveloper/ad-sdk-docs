@@ -1,5 +1,5 @@
 // Schema-aware search engine shared by the browser (src/theme/SearchBar), the index build
-// (scripts/apidocs/search-index.mjs) and the ranking eval (scripts/apidocs/search-eval.mjs).
+// (scripts/apidocs/search-index.mjs). There is no ranking evaluation script yet.
 //
 // Records come from the schema, not from rendered HTML: one per operation, type, field, input field, enum value,
 // guide section and bounded-context overview. MiniSearch finds candidates (BM25 over boosted fields); `search` then

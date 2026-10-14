@@ -12,9 +12,11 @@ namespaces left out on purpose (interface implementation classes, plumbing) are 
 ## How it works
 
 ```
-SDK assembly ──(npm run metadata)──▶ metadata/Altium.SDK.Interfaces.json ─┐
-content/<NS>/*.yaml (descriptions) ───────────────────────────────────────┼─(npm run apidocs)─▶ docs/reference/**  ─(npm run build)─▶ build/
-ad-sdk-examples ──(npm run examples:index)──▶ metadata/examples-index.json ┘                       static/search-index.json        (npm run llms)
+SDK assemblies ──(npm run metadata)──▶ metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json ─┐
+content/<NS>/*.yaml (descriptions) ──────────────────────────────────────────────────────────────────┤
+examples/<NS>/*.cs (C# examples) ────────────────────────────────────────────────────────────────────┼─(npm run apidocs)─▶ docs/reference/**
+ad-sdk-examples ──(npm run examples:index)──▶ metadata/examples-index.json ──────────────────────────┘   static/search-index.json
+                                                                       ─(npm run build)─▶ build/ ─(npm run llms)─▶ build/ + LLM files
 ```
 
 1. `npm run metadata` reads the public API of `Altium.SDK.Interfaces.dll` and `Altium.SDK.dll` (metadata only; the
@@ -34,8 +36,8 @@ The SDK interfaces are COM dispatch interfaces. Their raw methods return `object
 (`Internal_GetState_SchDesignator`) and `int` for enumeration values; generated `*Helper` classes add typed extension
 methods (`GetState_SchDesignator(): ISch_Designator`). The model:
 
-- shows each method once, in its typed form; when the interface also declares an untyped overload, the member page
-  lists both;
+- shows each method once, in its typed form; when the interface also declares an untyped overload, the member
+  section lists both;
 - groups accessor pairs into one **property** section: `GetState_X`/`SetState_X` (also `GetProperty_`, `Get_`, and plain
   `Get`/`Set` pairs whose types match). A lone `GetState_X` is a read-only property; a plain `GetX` alone stays a method;
 - resolves inheritance (direct bases, inherited members) and records, for every type, the members that return or
@@ -76,7 +78,7 @@ using PCB;                                       ← shown with the example
 
 static partial class Examples
 {
-    static void IPCB_BoardIterator()
+    static void Example_IPCB_BoardIterator()   ← Example_<Type>[_<Member>]
     {
         // <example>                             ← published code starts
         IPCB_Board board = PCB.GlobalVars.PCBServer?.GetCurrentPCBBoard();
@@ -135,9 +137,14 @@ their accessor names, so `GetState_Orientation` finds the `Orientation` property
 
 1. Add it to `config/namespaces.yaml`.
 2. Add its sidebar areas to `config/categories.yaml`.
-3. Add `.bc-<id>` icons for the namespace slug and every new area id to `src/css/custom.css` ("Sidebar icons"),
-   with `--ns-name` (the namespace name shown under its title) on the namespace rule. `npm test` checks both.
+3. Add `.bc-<id>` icons for the namespace slug and every new area id to `src/css/custom.css` ("Sidebar icons"):
+   `--bc-bg` (colour), `--bc-img` (a 24×24 line-icon SVG as a data URL) and, on the namespace rule, `--ns-name` (the
+   namespace name shown under its title). `npm test` checks that every namespace and area has one.
 4. Run `npm run apidocs` and review the "other" area for types the categories miss.
+
+## Working on this repository
+
+Read [AGENTS.md](AGENTS.md): conventions, required checks and the rules for content and examples.
 
 ## Local development
 

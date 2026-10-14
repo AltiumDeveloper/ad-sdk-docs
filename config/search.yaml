@@ -1,5 +1,5 @@
 # Search ranking knobs, embedded into static/search-index.json by `npm run search:index` (the engine itself is in
-# src/search/engine.mjs). Check every change with `npm run search:eval`.
+# src/search/engine.mjs). There is no ranking evaluation yet: check a change by searching in `npm run serve`.
 
 # Leading name words that only say where a name comes from. Ranking ignores them, so "component" finds ISch_Component
 # and "iterator" ISch_Iterator first. camelCase entries are word sequences; the longest match is dropped.

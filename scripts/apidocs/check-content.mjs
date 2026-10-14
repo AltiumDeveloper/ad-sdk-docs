@@ -8,7 +8,7 @@ import { parse } from 'yaml';
 const BANNED = /\b(delphi(script)?|object pascal|borland)\b/i;
 // Declaration syntax of another language in prose (`Index : Integer;`, `X = Record`, `Read GetX`): content shows C#.
 const FOREIGN_SYNTAX = /\b\w+\s*:\s*(Integer|Boolean|WideString|TCoord|Cardinal|Word|Byte|Double|TDynamicString|String)\s*[;)\]]|=\s*Record\b|\bRead\s+Get\w+|:=|^\s*(Begin|End;|Try|Finally)\s*$|\b(MkSet|IntToStr|ShowMessage)\s*\(|\bI_ObjectAddress\b|^\s*[\w.]+\s*=\s*[^=]+;\s*$/;
-const roots = ['content', 'examples', 'docs/guides', 'docs/index.mdx', 'config', 'README.md', 'OPEN-ISSUES.md'];
+const roots = ['content', 'examples', 'docs/guides', 'docs/index.mdx', 'config', 'README.md', 'OPEN-ISSUES.md', 'AGENTS.md'];
 
 function files(path, out = []) {
   if (statSync(path).isDirectory()) for (const name of readdirSync(path)) files(join(path, name), out);
