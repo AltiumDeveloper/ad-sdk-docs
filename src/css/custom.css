@@ -1001,6 +1001,18 @@ h5:hover .hash-link {
   color: var(--ifm-color-emphasis-600);
 }
 
+/* The same two lines in the namespace table of the reference index (`[Schematic](…) `SCH``): title, technical name below. */
+.docs-doc-id-reference\/index table td:first-child code {
+  display: block;
+  margin-top: 0.1rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--ifm-color-emphasis-600);
+}
+
 .bc-grid .bc-icon {
   width: 1.5rem;
   height: 1.5rem;
