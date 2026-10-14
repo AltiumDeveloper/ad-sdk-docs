@@ -12,9 +12,9 @@ test('every namespace and sidebar area has an icon (.bc-<id> in custom.css)', ()
   assert.deepEqual(missing, []);
 });
 
-test('every namespace whose title differs from its name shows the name in the sidebar (--ns-name)', () => {
+test('every namespace shows its technical name in the sidebar (--ns-name)', () => {
   const css = readFileSync('src/css/custom.css', 'utf8');
-  const missing = loadNamespaces().filter((ns) => ns.title !== ns.id)
+  const missing = loadNamespaces()
     .filter((ns) => !new RegExp(`\\.bc-${ns.slug} \\{[^}]*--ns-name: "${ns.id.replace(/\./g, '\\.')}"`).test(css))
     .map((ns) => ns.id);
   assert.deepEqual(missing, []);
