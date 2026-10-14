@@ -30,6 +30,8 @@ jobs:
         run: npm run apidocs
       - name: Build site
         run: npm run build
+      - name: Check search links
+        run: npm run search:check
       - name: LLM surface
         run: npm run llms
       - uses: actions/upload-pages-artifact@v3

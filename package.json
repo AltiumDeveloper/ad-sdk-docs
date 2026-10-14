@@ -19,7 +19,8 @@
     "search:eval": "node scripts/apidocs/search-eval.mjs",
     "llms": "node scripts/apidocs/llms.mjs",
     "test": "node --test \"test/**/*.test.mjs\" && node scripts/apidocs/check-content.mjs",
-    "check:content": "node scripts/apidocs/check-content.mjs"
+    "check:content": "node scripts/apidocs/check-content.mjs",
+    "search:check": "node scripts/apidocs/search-check.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.1",

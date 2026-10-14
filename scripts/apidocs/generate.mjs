@@ -8,7 +8,7 @@ import { parse } from 'yaml';
 import { loadCategories, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
 import {
-  firstSentence, memberRoute, renderMember, renderNamespace, renderReferenceIndex, renderType, typeRoute,
+  firstSentence, layoutAnchors, renderNamespace, renderReferenceIndex, renderType, typeRoute,
 } from './lib/render.mjs';
 
 const OUT = 'docs/reference';
@@ -64,13 +64,10 @@ const ctx = {
   editUrl: (type) => `${site.repo}/edit/${site.branch}/content/${type.namespace}/${type.name}.yaml`,
   examples,
   examplesRepo: site.examples.repo,
-  // Breadcrumb trail of a member page (see src/theme/DocBreadcrumbs): Reference › namespace › area › type.
-  crumbs: (type) => {
-    const ns = namespaces.find((n) => n.id === type.namespace);
-    const area = categoriesByNs[type.namespace]?.find((c) => c.id === type.category);
-    return [['Reference', '/reference'], [`${ns.title} (${ns.id})`, `/reference/${ns.slug}`], ...(area ? [[area.title, null]] : []), [type.name, typeRoute(type)]];
-  },
 };
+
+// Member anchors of every page, so links between pages can target member sections.
+layoutAnchors(model, ctx);
 
 rmSync(OUT, { recursive: true, force: true });
 const write = ({ file, text }) => {
@@ -90,16 +87,23 @@ for (const ns of namespaces) {
   for (const c of categories) {
     const inCat = nsTypes.filter((t) => t.category === c.id);
     if (!inCat.length) continue;
+    // `bc-<area>` gives the category its icon (src/css/custom.css, "Sidebar icons").
     items.push({
       type: 'category',
       label: c.title,
       collapsed: true,
-      // Member pages are not listed (the type page links them all): the sidebar is rendered into every page, and
-      // listing thousands of members would multiply the size of the site.
+      className: `bc-${c.id}`,
       items: inCat.map((t) => ({ type: 'doc', id: docId(typeRoute(t)), label: t.name })),
     });
   }
-  sidebar.push({ type: 'category', label: `${ns.title} (${ns.id})`, collapsed: false, link: { type: 'doc', id: `reference/${ns.slug}/index` }, items });
+  sidebar.push({
+    type: 'category',
+    label: `${ns.title} (${ns.id})`,
+    collapsed: false,
+    className: `bc-${ns.slug}`,
+    link: { type: 'doc', id: `reference/${ns.slug}/index` },
+    items,
+  });
 
   for (const t of nsTypes) {
     write(renderType(model, t, ctx));
@@ -111,14 +115,13 @@ for (const ns of namespaces) {
       }
     }
     for (const m of t.members ?? []) {
-      write(renderMember(model, t, m, ctx));
       const md = doc.members?.[m.slug] ?? {};
       pages.push({
         kind: m.kind,
         ns: ns.id,
         name: m.name,
         parent: t.name,
-        route: memberRoute(t, m),
+        route: `${typeRoute(t)}#${t.anchors.get(m.slug)}`,
         summary: firstSentence(md.summary, 300),
         aliases: m.kind === 'property' ? [m.getter?.name, m.setter?.name].filter(Boolean) : [],
         signature: m.kind === 'property' ? m.type : m.signature.returnType,
@@ -137,7 +140,8 @@ writeFileSync(join(GENERATED, 'manifest.json'), JSON.stringify({
 const byKind = {};
 for (const p of pages) byKind[p.kind] = (byKind[p.kind] ?? 0) + 1;
 const described = pages.filter((p) => p.kind !== 'enumValue' && p.summary).length;
-console.log(`apidocs: ${pages.filter((p) => p.kind !== 'enumValue').length} pages (${described} with a description) -> ${OUT}`);
+const pageCount = pages.filter((p) => !p.parent).length;
+console.log(`apidocs: ${pageCount} type pages, ${pages.filter((p) => p.parent && p.kind !== 'enumValue').length} members (${described} entries described) -> ${OUT}`);
 console.log(`  ${Object.entries(byKind).map(([k, n]) => `${k} ${n}`).join(', ')}`);
 
 function docId(route) {

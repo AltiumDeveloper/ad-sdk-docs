@@ -1,17 +1,24 @@
 // Markdown rendering of the API model. Pages are CommonMark (`.md`, Docusaurus `markdown.format: 'detect'`), so they
 // double as the Markdown twins served to LLMs: no JSX, no raw HTML, links between pages are relative `.md` paths.
+//
+// One page per type. Members are `###` sections of their type's page (listed in the page's table of contents); a
+// property section covers both accessor methods. Anchors are the ids Docusaurus gives the headings (github-slugger
+// over the heading text, in page order), computed here so tables, cross-links and search can point at them.
+import { createRequire } from 'node:module';
 import { inheritedMembers, namedTypes, orderBases } from './model.mjs';
+
+const require = createRequire(import.meta.url);
+const GithubSlugger = require('github-slugger');
 
 const KIND_TITLE = { interface: 'interface', enum: 'enumeration', struct: 'structure', class: 'class' };
 
 // --- paths -----------------------------------------------------------------------------------------------------
-// docs/reference/<ns>/<Type>.md and docs/reference/<ns>/<Type>/<member>.md
+// docs/reference/<ns>/<Type>.md
 export const typeFile = (type) => `${type.namespace.toLowerCase()}/${type.name}.md`;
-export const memberFile = (type, member) => `${type.namespace.toLowerCase()}/${type.name}/${member.slug}.md`;
 export const typeRoute = (type) => `/reference/${typeFile(type).replace(/\.md$/, '')}`;
-export const memberRoute = (type, member) => `/reference/${memberFile(type, member).replace(/\.md$/, '')}`;
 
 function relativePath(from, to) {
+  if (from === to) return '';
   const a = from.split('/').slice(0, -1);
   const b = to.split('/');
   let i = 0;
@@ -23,6 +30,8 @@ function relativePath(from, to) {
 // --- text --------------------------------------------------------------------------------------------------------
 export const escapeText = (text) => String(text ?? '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const cell = (text) => escapeText(text).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
+// Heading text: a leading `_` (`_Finalize`) would start emphasis.
+const headingText = (text) => String(text).replace(/^_/, '\\_');
 
 // First sentence of a description, for tables and front-matter descriptions.
 export function firstSentence(text, limit = 200) {
@@ -52,16 +61,18 @@ export class Linker {
 
   typeHref(id) {
     const t = this.model.types.get(id);
-    return t ? relativePath(this.fromFile, typeFile(t)) : null;
+    if (!t) return null;
+    return relativePath(this.fromFile, typeFile(t)) || '#';
   }
 
   memberHref(typeId, slug) {
     const t = this.model.types.get(typeId);
-    const m = t?.members?.find((x) => x.slug === slug);
-    return m ? relativePath(this.fromFile, memberFile(t, m)) : null;
+    const anchor = t?.anchors?.get(slug);
+    if (!anchor) return null;
+    return `${relativePath(this.fromFile, typeFile(t))}#${anchor}`;
   }
 
-  // `SCH.ISch_Pin[]` → [ISch_Pin](../ISch_Pin.md)[]; types outside the documented namespaces stay qualified code.
+  // `SCH.ISch_Pin[]` → [ISch_Pin](./ISch_Pin.md)[]; types outside the documented namespaces stay qualified code.
   type(typeName) {
     const text = String(typeName);
     const named = namedTypes(text);
@@ -89,7 +100,8 @@ export class Linker {
     const slug = id.slice(dot + 1);
     const t = this.model.types.get(typeId);
     const m = t?.members?.find((x) => x.slug === slug);
-    return m ? `[${t.name}.${m.name}](${this.memberHref(typeId, slug)})` : null;
+    const href = m && this.memberHref(typeId, slug);
+    return href ? `[${t.name}.${m.name}](${href})` : null;
   }
 }
 const codeIfAny = (text) => (text.trim() ? `\`${text.trim()}\`` : '');
@@ -108,78 +120,116 @@ function frontMatter(fields) {
 
 const gap = '*No description yet.*';
 
-function examplesSection(refs, examplesRepo, commit) {
+function exampleLinks(refs, ctx) {
   if (!refs?.length) return [];
-  const base = `${examplesRepo}/blob/${commit ?? 'main'}`;
-  const lines = ['## Examples', '', 'Used in the SDK examples:', ''];
-  for (const r of refs) {
-    const url = `${base}/${r.file.split('/').map(encodeURIComponent).join('/')}#L${r.line}`;
-    lines.push(`- [${r.example}](${url}): \`${r.file.split('/').slice(1).join('/')}\``);
-  }
-  lines.push('');
-  return lines;
+  const base = `${ctx.examplesRepo}/blob/${ctx.examples.commit ?? 'main'}`;
+  return refs.map((r) => `[${r.example}](${base}/${r.file.split('/').map(encodeURIComponent).join('/')}#L${r.line})`);
 }
 
-function seeAlsoSection(link, refs) {
-  const items = (refs ?? []).map((id) => link.ref(id)).filter(Boolean);
-  return items.length ? ['## See also', '', ...items.map((i) => `- ${i}`), ''] : [];
+function seeAlsoLinks(link, refs) {
+  return (refs ?? []).map((id) => link.ref(id)).filter(Boolean);
+}
+
+// --- page writer: tracks heading anchors the way Docusaurus assigns them -----------------------------------------
+class Page {
+  constructor() {
+    this.lines = [];
+    this.slugger = new GithubSlugger();
+  }
+
+  push(...lines) {
+    this.lines.push(...lines);
+  }
+
+  heading(level, text) {
+    this.lines.push(`${'#'.repeat(level)} ${headingText(text)}`, '');
+    return this.slugger.slug(text);
+  }
+
+  text() {
+    return this.lines.join('\n');
+  }
 }
 
 // --- type pages ----------------------------------------------------------------------------------------------------
+// Two passes: `layoutAnchors` renders every page once to learn its member anchors (headings never depend on links),
+// then `renderType` renders the final pages with all cross-page member links resolvable.
+export function layoutAnchors(model, ctx) {
+  for (const type of model.types.values()) type.anchors = new Map();
+  for (const type of model.types.values()) renderType(model, type, ctx);
+}
+
 export function renderType(model, type, ctx) {
   const file = typeFile(type);
   const link = new Linker(model, file);
   const content = ctx.content(type.id);
   const title = `${type.name} ${KIND_TITLE[type.kind]}`;
-  const out = [frontMatter({
+  const page = new Page();
+  page.push(frontMatter({
     title,
     sidebar_label: type.name,
     description: firstSentence(content.summary) || `${type.name} ${KIND_TITLE[type.kind]} in the ${type.namespace} namespace.`,
     custom_edit_url: ctx.editUrl(type),
+    toc_max_heading_level: 3,
     pagination_next: 'null',
     pagination_prev: 'null',
-  })];
-  out.push(`# ${title}`, '');
-  out.push(content.summary ? paragraphs(content.summary) : gap, '');
-  out.push('```csharp', declaration(type), '```', '');
-  out.push(`**Namespace:** ${type.namespace} · **Assembly:** ${type.assembly}`, '');
+  }));
+  page.heading(1, title);
+  page.push(content.summary ? paragraphs(content.summary) : gap, '');
+  page.push('```csharp', declaration(type), '```', '');
+  page.push(`**Namespace:** ${type.namespace} · **Assembly:** ${type.assembly}`, '');
 
   if (type.kind === 'interface') {
-    const bases = orderBases(model, type);
-    if (bases.length) out.push(`**Inherits:** ${inheritanceChain(model, type, link)}`, '');
-    if (type.derived.length) out.push(`**Derived:** ${type.derived.map((d) => link.type(d)).join(', ')}`, '');
+    if (orderBases(model, type).length) page.push(`**Inherits:** ${inheritanceChain(model, type, link)}`, '');
+    if (type.derived.length) page.push(`**Derived:** ${type.derived.map((d) => link.type(d)).join(', ')}`, '');
   }
-  if (content.remarks) out.push('## Remarks', '', paragraphs(content.remarks), '');
+  if (content.remarks) {
+    page.heading(2, 'Remarks');
+    page.push(paragraphs(content.remarks), '');
+  }
 
-  if (type.kind === 'interface') renderMembers(out, model, type, link, ctx);
+  if (type.kind === 'interface') renderMembers(page, model, type, link, ctx);
   if (type.kind === 'enum') {
-    out.push('## Values', '', '| Name | Value | Description |', '| --- | --- | --- |');
-    for (const v of type.values) out.push(`| \`${v.name}\` | ${v.value ?? ''} | ${cell(content.values?.[v.name] ?? '')} |`);
-    out.push('');
+    page.heading(2, 'Values');
+    page.push('| Name | Value | Description |', '| --- | --- | --- |');
+    for (const v of type.values) page.push(`| \`${v.name}\` | ${v.value ?? ''} | ${cell(content.values?.[v.name] ?? '')} |`);
+    page.push('');
   }
-  if (type.kind === 'struct' || type.kind === 'class') renderClassMembers(out, type, link);
-  renderUsedBy(out, model, type, link);
-  out.push(...seeAlsoSection(link, content.seeAlso));
-  out.push(...examplesSection(ctx.examples.types[type.id], ctx.examplesRepo, ctx.examples.commit));
-  return { file, text: out.join('\n') };
+  if (type.kind === 'struct' || type.kind === 'class') renderClassMembers(page, type, link);
+  renderUsedBy(page, model, type, link);
+  const seeAlso = seeAlsoLinks(link, content.seeAlso);
+  if (seeAlso.length) {
+    page.heading(2, 'See also');
+    page.push(...seeAlso.map((s) => `- ${s}`), '');
+  }
+  const examples = exampleLinks(ctx.examples.types[type.id], ctx);
+  if (examples.length) {
+    page.heading(2, 'Examples');
+    page.push(`Used in the SDK examples: ${examples.join(', ')}.`, '');
+  }
+  return { file, text: page.text() };
 }
 
-function renderClassMembers(out, type, link) {
+function renderClassMembers(page, type, link) {
   if (type.constructors.length) {
-    out.push('## Constructors', '', '```csharp', ...type.constructors.map((c) => methodSignature({ ...c, returnType: 'public' }, { name: type.name })), '```', '');
+    page.heading(2, 'Constructors');
+    page.push('```csharp', ...type.constructors.map((c) => methodSignature({ ...c, returnType: 'public' }, { name: type.name })), '```', '');
   }
   if (type.fields.length) {
-    out.push('## Fields', '', '| Name | Type | Value |', '| --- | --- | --- |');
-    for (const f of type.fields) out.push(`| \`${f.name}\` | ${link.type(f.type)} | ${f.value ?? ''} |`);
-    out.push('');
+    page.heading(2, 'Fields');
+    page.push('| Name | Type | Value |', '| --- | --- | --- |');
+    for (const f of type.fields) page.push(`| \`${f.name}\` | ${link.type(f.type)} | ${f.value ?? ''} |`);
+    page.push('');
   }
   if (type.properties.length) {
-    out.push('## Properties', '', '| Name | Type | Access |', '| --- | --- | --- |');
-    for (const p of type.properties) out.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.canRead && p.canWrite ? 'get; set' : p.canRead ? 'get' : 'set'} |`);
-    out.push('');
+    page.heading(2, 'Properties');
+    page.push('| Name | Type | Access |', '| --- | --- | --- |');
+    for (const p of type.properties) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.canRead && p.canWrite ? 'get; set' : p.canRead ? 'get' : 'set'} |`);
+    page.push('');
   }
   if (type.methods.length) {
-    out.push('## Methods', '', '```csharp', ...type.methods.map((m) => `${m.isStatic ? 'static ' : ''}${methodSignature(m)}`), '```', '');
+    page.heading(2, 'Methods');
+    page.push('```csharp', ...type.methods.map((m) => `${m.isStatic ? 'static ' : ''}${methodSignature(m)}`), '```', '');
   }
 }
 
@@ -195,7 +245,7 @@ function declaration(type) {
   return `public struct ${type.name}`;
 }
 
-// Single inheritance (the usual case): root → … → parent. Several bases: the direct ones, then the rest.
+// Single inheritance (the usual case): root → … → parent. Several bases: all of them, nearest first.
 function inheritanceChain(model, type, link) {
   const chain = [];
   let current = type;
@@ -203,126 +253,121 @@ function inheritanceChain(model, type, link) {
     chain.unshift(current.bases[0]);
     current = model.types.get(current.bases[0]);
   }
-  if (current && current !== type && current.bases?.length > 1) return orderBases(model, type).map((b) => link.type(b)).join(', ');
-  if (type.bases.length > 1) return orderBases(model, type).map((b) => link.type(b)).join(', ');
+  if (type.bases.length > 1 || (current && current !== type && current.bases?.length > 1)) {
+    return orderBases(model, type).map((b) => link.type(b)).join(', ');
+  }
   return chain.map((b) => link.type(b)).join(' → ');
 }
 
-function memberSummary(ctx, type, member) {
-  return firstSentence(ctx.content(type.id).members?.[member.slug]?.summary);
-}
+const accessText = (member) => (member.getter && member.setter ? 'get; set' : member.getter ? 'get' : 'set');
+const extensionOf = (s) => (s?.extension ? shortType(s.extension) : null);
 
-function accessText(member) {
-  return member.getter && member.setter ? 'get; set' : member.getter ? 'get' : 'set';
-}
-
-function renderMembers(out, model, type, link, ctx) {
+function renderMembers(page, model, type, link, ctx) {
+  const content = ctx.content(type.id);
   const properties = type.members.filter((m) => m.kind === 'property');
   const methods = type.members.filter((m) => m.kind === 'method');
+  const summary = (m) => firstSentence(content.members?.[m.slug]?.summary);
+  const anchorLink = (m) => (type.anchors.has(m.slug) ? `[${m.name}](#${type.anchors.get(m.slug)})` : m.name);
+
   if (properties.length) {
-    out.push('## Properties', '', '| Property | Type | Access | Description |', '| --- | --- | --- | --- |');
-    for (const p of properties) {
-      out.push(`| [${p.name}](${link.memberHref(type.id, p.slug)}) | ${link.type(p.type)} | ${accessText(p)} | ${cell(memberSummary(ctx, type, p))} |`);
-    }
-    out.push('');
+    page.heading(2, 'Properties');
+    page.push('| Property | Type | Access | Description |', '| --- | --- | --- | --- |');
+    for (const p of properties) page.push(`| ${anchorLink(p)} | ${link.type(p.type)} | ${accessText(p)} | ${cell(summary(p))} |`);
+    page.push('');
+    for (const p of properties) type.anchors.set(p.slug, renderProperty(page, type, p, link, ctx));
   }
   if (methods.length) {
-    out.push('## Methods', '', '| Method | Returns | Description |', '| --- | --- | --- |');
-    for (const m of methods) {
-      out.push(`| [${m.name}](${link.memberHref(type.id, m.slug)}) | ${link.type(m.signature.returnType)} | ${cell(memberSummary(ctx, type, m))} |`);
-    }
-    out.push('');
+    page.heading(2, 'Methods');
+    page.push('| Method | Returns | Description |', '| --- | --- | --- |');
+    for (const m of methods) page.push(`| ${anchorLink(m)} | ${link.type(m.signature.returnType)} | ${cell(summary(m))} |`);
+    page.push('');
+    for (const m of methods) type.anchors.set(m.slug, renderMethod(page, type, m, link, ctx));
   }
-  if (!properties.length && !methods.length) out.push('This interface declares no members of its own.', '');
+  if (!properties.length && !methods.length) page.push('This interface declares no members of its own.', '');
+
   const inherited = inheritedMembers(model, type);
   if (inherited.some((g) => g.members.length || g.external)) {
-    out.push('## Inherited members', '');
+    page.heading(2, 'Inherited members');
     for (const g of inherited) {
       if (g.external) {
-        out.push(`- From ${link.type(g.base)}`);
+        page.push(`- From ${link.type(g.base)}`);
         continue;
       }
-      const items = g.members.map((m) => `[${m.name}](${link.memberHref(g.base, m.slug)})`);
-      out.push(`- From ${link.type(g.base)}: ${items.join(', ')}`);
+      const items = g.members.map((m) => {
+        const href = link.memberHref(g.base, m.slug);
+        return href ? `[${m.name}](${href})` : m.name;
+      });
+      page.push(`- From ${link.type(g.base)}: ${items.join(', ')}`);
     }
-    out.push('');
+    page.push('');
   }
+}
+
+// Details shared by property and method sections: remarks, see also, examples.
+function memberTail(page, type, member, link, ctx) {
+  const content = ctx.content(type.id).members?.[member.slug] ?? {};
+  if (content.remarks) page.push(paragraphs(content.remarks), '');
+  const seeAlso = seeAlsoLinks(link, content.seeAlso);
+  if (seeAlso.length) page.push(`**See also:** ${seeAlso.join(', ')}`, '');
+  const examples = exampleLinks(ctx.examples.members[`${type.id}.${member.slug}`], ctx);
+  if (examples.length) page.push(`**Examples:** ${examples.join(', ')}`, '');
+}
+
+function renderProperty(page, type, member, link, ctx) {
+  const anchor = page.heading(3, member.name);
+  const content = ctx.content(type.id).members?.[member.slug] ?? {};
+  page.push(content.summary ? paragraphs(content.summary) : gap, '');
+  page.push('```csharp', ...[member.getter, member.setter].filter(Boolean).map((s) => methodSignature(s)), '```', '');
+  const access = member.getter && member.setter ? 'read/write' : member.getter ? 'read-only' : 'write-only';
+  const facts = [`**Type:** ${link.type(member.type)}`, `**Access:** ${access}`];
+  if (member.indexParameters.length) {
+    facts.push(`**Index:** ${member.indexParameters.map((p) => `\`${p.name}\` (${link.type(p.type)})`).join(', ')}`);
+  }
+  page.push(facts.join(' · '), '');
+  const helper = extensionOf(member.getter) ?? extensionOf(member.setter);
+  if (helper) page.push(`The accessors are extension methods of \`${helper}\` (\`using ${type.namespace};\`).`, '');
+  memberTail(page, type, member, link, ctx);
+  return anchor;
+}
+
+function renderMethod(page, type, member, link, ctx) {
+  const anchor = page.heading(3, member.name);
+  const content = ctx.content(type.id).members?.[member.slug] ?? {};
+  const s = member.signature;
+  page.push(content.summary ? paragraphs(content.summary) : gap, '');
+  page.push('```csharp', ...[s, s.alternate].filter(Boolean).map((x) => methodSignature(x)), '```', '');
+  if (s.parameters.length) {
+    page.push('| Parameter | Type | Passing |', '| --- | --- | --- |');
+    for (const p of s.parameters) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
+    page.push('');
+  }
+  page.push(`**Returns:** ${s.returnType === 'void' ? 'nothing (`void`)' : link.type(s.returnType)}`, '');
+  if (s.extension && s.alternate) {
+    page.push(`The first overload is an extension method of \`${extensionOf(s)}\` (\`using ${type.namespace};\`) with typed parameters; the second is declared by the interface.`, '');
+  } else if (s.extension) {
+    page.push(`Extension method of \`${extensionOf(s)}\` (\`using ${type.namespace};\`).`, '');
+  }
+  memberTail(page, type, member, link, ctx);
+  return anchor;
 }
 
 const USED_BY_LIMIT = 40;
-function renderUsedBy(out, model, type, link) {
+function renderUsedBy(page, model, type, link) {
   const list = (role) => {
     const seen = new Set();
     return type.usedBy.filter((r) => r.role === role && r.member && !seen.has(`${r.type}.${r.member}`) && seen.add(`${r.type}.${r.member}`));
   };
-  for (const [role, heading] of [['returns', 'Returned by'], ['accepts', 'Accepted by']]) {
+  for (const [role, title] of [['returns', 'Returned by'], ['accepts', 'Accepted by']]) {
     const refs = list(role);
     if (!refs.length) continue;
-    out.push(`## ${heading}`, '');
-    const shown = refs.slice(0, USED_BY_LIMIT)
-      .map((r) => `[${model.types.get(r.type).name}.${r.name}](${link.memberHref(r.type, r.member)})`);
-    out.push(shown.join(', ') + (refs.length > USED_BY_LIMIT ? `, and ${refs.length - USED_BY_LIMIT} more.` : ''), '');
+    page.heading(2, title);
+    const shown = refs.slice(0, USED_BY_LIMIT).map((r) => {
+      const href = link.memberHref(r.type, r.member);
+      const label = `${model.types.get(r.type).name}.${r.name}`;
+      return href ? `[${label}](${href})` : label;
+    });
+    page.push(shown.join(', ') + (refs.length > USED_BY_LIMIT ? `, and ${refs.length - USED_BY_LIMIT} more.` : ''), '');
   }
-}
-
-// --- member pages --------------------------------------------------------------------------------------------------
-export function renderMember(model, type, member, ctx) {
-  const file = memberFile(type, member);
-  const link = new Linker(model, file);
-  const content = ctx.content(type.id).members?.[member.slug] ?? {};
-  const kindWord = member.kind === 'property' ? 'property' : 'method';
-  const title = `${type.name}.${member.name} ${kindWord}`;
-  const out = [frontMatter({
-    title,
-    sidebar_label: member.name,
-    displayed_sidebar: 'docs',
-    crumbs: ctx.crumbs(type),
-    description: firstSentence(content.summary) || `${member.name} ${kindWord} of the ${type.name} interface.`,
-    custom_edit_url: ctx.editUrl(type),
-    pagination_next: 'null',
-    pagination_prev: 'null',
-  })];
-  // The H1 is the member alone (long `Type.Member` names wrap badly); the owner is in the breadcrumbs and below.
-  out.push(`# ${member.name} ${kindWord}`, '');
-  out.push(content.summary ? paragraphs(content.summary) : gap, '');
-
-  const accessors = member.kind === 'property'
-    ? [member.getter, member.setter].filter(Boolean)
-    : [member.signature, member.signature.alternate].filter(Boolean);
-  out.push('```csharp', ...accessors.map((s) => methodSignature(s)), '```', '');
-  out.push(`**Declared in:** [${type.name}](${relativePath(file, typeFile(type))}) · **Namespace:** ${type.namespace}`, '');
-
-  if (member.kind === 'property') {
-    out.push(`**Type:** ${link.type(member.type)} · **Access:** ${member.getter && member.setter ? 'read/write' : member.getter ? 'read-only' : 'write-only'}`, '');
-    out.push('## Accessors', '', '| Accessor | Method |', '| --- | --- |');
-    if (member.getter) out.push(`| Get | \`${member.getter.name}\`${extensionNote(member.getter)} |`);
-    if (member.setter) out.push(`| Set | \`${member.setter.name}\`${extensionNote(member.setter)} |`);
-    out.push('');
-    if (member.indexParameters.length) {
-      out.push('## Index parameters', '', ...parameterTable(member.indexParameters, link), '');
-    }
-  } else {
-    const s = member.signature;
-    if (s.parameters.length) out.push('## Parameters', '', ...parameterTable(s.parameters, link), '');
-    out.push('## Returns', '', s.returnType === 'void' ? 'Nothing (`void`).' : link.type(s.returnType), '');
-    if (s.extension && s.alternate) {
-      out.push(`The first overload is an extension method of \`${shortType(s.extension)}\` (available with \`using ${type.namespace};\`) with typed parameters; the second is declared by the interface itself.`, '');
-    } else if (s.extension) {
-      out.push(`This method is an extension method of \`${shortType(s.extension)}\`; it is available with \`using ${type.namespace};\`.`, '');
-    }
-  }
-  if (content.remarks) out.push('## Remarks', '', paragraphs(content.remarks), '');
-  out.push(...seeAlsoSection(link, content.seeAlso));
-  out.push(...examplesSection(ctx.examples.members[`${type.id}.${member.slug}`], ctx.examplesRepo, ctx.examples.commit));
-  return { file, text: out.join('\n') };
-}
-
-const extensionNote = (s) => (s.extension ? ` (extension method of \`${shortType(s.extension)}\`)` : '');
-
-function parameterTable(parameters, link) {
-  const rows = ['| Name | Type | Passing |', '| --- | --- | --- |'];
-  for (const p of parameters) rows.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
-  return rows;
 }
 
 // --- namespace and reference index pages -------------------------------------------------------------------------
@@ -338,9 +383,9 @@ export function renderNamespace(model, ns, categories, ctx) {
     pagination_prev: 'null',
   })];
   out.push(`# ${ns.id} namespace`, '', escapeText(ns.description), '');
-  const counts = { interface: 0, enum: 0, struct: 0 };
+  const counts = { interface: 0, enum: 0, struct: 0, class: 0 };
   for (const t of types) counts[t.kind] += 1;
-  out.push(`${counts.interface} interfaces, ${counts.enum} enumerations and ${counts.struct} structures.`, '');
+  out.push(`${counts.interface} interfaces, ${counts.enum} enumerations and ${counts.struct + counts.class} structures and classes.`, '');
   for (const c of categories) {
     const inCat = types.filter((t) => t.category === c.id).sort((a, b) => a.name.localeCompare(b.name));
     if (!inCat.length) continue;

@@ -29,7 +29,7 @@ const frontMatter = (text) => {
 // Relative `.md`/`.mdx` links → absolute `.md` URLs of the twins; `pathname:///x` → absolute URL.
 function absoluteLinks(markdown, fileRoute) {
   return markdown
-    .replace(/\]\((pathname:\/\/)?(\/[^)\s]*)\)/g, (m, pathname, path) => (pathname ? `](${absolute(path)})` : m))
+    .replace(/\]\((?:pathname:\/\/)?(\/[^)\s]*)\)/g, (_, path) => `](${absolute(path)})`)
     .replace(/\]\((\.{1,2}\/[^)\s#]+?)\.mdx?(#[^)\s]*)?\)/g, (_, path, hash = '') => {
       const route = posix.normalize(posix.join(posix.dirname(fileRoute), path)).replace(/\/index$/, '');
       return `](${absolute(`${route === '/' ? '/index' : route}.md`)}${hash})`;

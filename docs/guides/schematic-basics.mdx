@@ -8,7 +8,7 @@ description: Find, change and create schematic objects - the current document, i
 
 ## The current document
 
-[`ISch_ServerInterface.GetCurrentSchDocument`](../reference/sch/ISch_ServerInterface/GetCurrentSchDocument.md) returns
+[`ISch_ServerInterface.GetCurrentSchDocument`](../reference/sch/ISch_ServerInterface.md#getcurrentschdocument) returns
 the active schematic document, or `null` when the active document is not a schematic. Schematic sheets are
 [`ISch_Sheet`](../reference/sch/ISch_Sheet.md) and schematic libraries [`ISch_Lib`](../reference/sch/ISch_Lib.md);
 both are [`ISch_Document`](../reference/sch/ISch_Document.md):
@@ -63,7 +63,7 @@ wire.GraphicallyInvalidate();
 
 ## Creating objects
 
-[`ISch_ServerInterface.SchObjectFactory`](../reference/sch/ISch_ServerInterface/SchObjectFactory.md) creates a design
+[`ISch_ServerInterface.SchObjectFactory`](../reference/sch/ISch_ServerInterface.md#schobjectfactory) creates a design
 object of a [`TObjectId`](../reference/sch/TObjectId.md) kind. Position it, then add it to its owner: a document, or
 a component for pins and graphical primitives.
 

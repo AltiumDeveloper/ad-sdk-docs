@@ -17,6 +17,8 @@ function searchIndexPlugin(context, { source = 'static/search-index.json' } = {}
     getPathsToWatch: () => [path],
     async loadContent() {
       if (!existsSync(path)) return { file: null, bytes: null };
+      // The dev server only serves static/ as-is: there the SearchBar must use the plain name.
+      if (process.env.NODE_ENV !== 'production') return { file: null, bytes: null };
       const bytes = readFileSync(path);
       return { file: hashedName(bytes), bytes };
     },

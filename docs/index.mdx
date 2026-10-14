@@ -1,39 +1,76 @@
 ---
-title: Altium Designer SDK
-sidebar_label: Overview
-description: .NET API reference for building Altium Designer extensions with the Altium Designer SDK.
+id: index
 slug: /
+title: Altium Designer SDK
+description: .NET API reference for building Altium Designer extensions with the Altium Designer SDK.
+sidebar_label: Overview
+hide_table_of_contents: false
 pagination_next: null
 pagination_prev: null
 ---
 
-# Altium Designer SDK
+The **Altium Designer SDK** lets you build extensions that run inside Altium Designer: commands, panels and document
+editors that read and change schematic, PCB and project data. This site is the reference for the SDK's .NET API,
+generated from the SDK assemblies.
 
-The Altium Designer SDK lets you build extensions that run inside Altium Designer: commands, panels and document
-editors that read and change schematic, PCB and project data. Extensions are written in C# against the SDK assemblies:
+<div className="hero-actions">
 
-- `Altium.SDK.Interfaces.dll` defines the API: the interfaces, enumerations and structures documented in this reference.
-- `Altium.SDK.dll` provides the extension hosting classes (`ServerModule`, `CommandLauncher`) and the entry points to
-  the editors (`SCH.GlobalVars.SchServer`, `PCB.GlobalVars.PCBServer`, `DXP.GlobalVars.Client`).
+[Quick start](https://www.altium.com/documentation/altium-developer-center/quick-starts/ad-sdk)
+[Browse the reference](/reference/sch)
+[SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples)
 
-## Where to start
+</div>
+
+## Get started
+
+Installing the SDK and building and running a first extension are covered in the Altium Developer Center
+[quick start](https://www.altium.com/documentation/altium-developer-center/quick-starts/ad-sdk). On this site:
 
 - [Getting started](./guides/getting-started.mdx): the structure of an extension and how Altium Designer loads it.
-- [API conventions](./guides/api-conventions.mdx): namespaces, properties, typed helpers and enumerations.
+- [API conventions](./guides/api-conventions.mdx): namespaces, entry points, properties, typed helpers and enumerations.
 - [Working with schematics](./guides/schematic-basics.mdx): finding, changing and creating schematic objects.
-- [API reference](./reference/index.md): every type and member, generated from the SDK assemblies.
 
-The [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository has complete extensions; reference
+Extensions are C# class libraries that reference two SDK assemblies: `Altium.SDK.Interfaces.dll`, the API documented
+here, and `Altium.SDK.dll`, the extension hosting classes and the entry points to the editors
+(`SCH.GlobalVars.SchServer`, `PCB.GlobalVars.PCBServer`, `DXP.GlobalVars.Client`).
+
+## How this reference is organised
+
+The API is grouped by **namespace**, and each namespace by area. Each type has one page with all of its properties
+and methods; a property covers its `GetState_`/`SetState_` accessor pair. This first release documents the
+**Schematic (SCH)** namespace; the PCB, project (EDP) and system (DXP) namespaces will follow.
+
+<div className="bc-grid">
+
+[<i className="bc-icon bc-objects"></i><strong>Design objects</strong> <span>Components, pins, wires, ports, parameters, text and graphical primitives</span>](/reference/sch#design-objects)
+
+[<i className="bc-icon bc-documents"></i><strong>Documents and iteration</strong> <span>Schematic sheets and libraries, iterators, hit testing, connections</span>](/reference/sch#documents-and-iteration)
+
+[<i className="bc-icon bc-server"></i><strong>Server and preferences</strong> <span>The schematic server, robot manager, preferences, fonts and grids</span>](/reference/sch#server-and-preferences)
+
+[<i className="bc-icon bc-harness"></i><strong>Harness design</strong> <span>Harness connectors, entries, wires, cables and layout drawings</span>](/reference/sch#harness-design)
+
+[<i className="bc-icon bc-library"></i><strong>Libraries, components and models</strong> <span>Integrated libraries, model types and datafiles, library reports</span>](/reference/sch#libraries-components-and-models)
+
+[<i className="bc-icon bc-supply-chain"></i><strong>Supply chain and parts</strong> <span>Suppliers, part choices, part catalogs, prices and stock</span>](/reference/sch#supply-chain-and-parts)
+
+[<i className="bc-icon bc-simulation"></i><strong>Simulation and signal integrity</strong> <span>Simulation profiles and probes, waveforms and charts, IBIS models</span>](/reference/sch#simulation-and-signal-integrity)
+
+[<i className="bc-icon bc-rendering"></i><strong>Painting and views</strong> <span>Component and document painters, geometry export, graphical views</span>](/reference/sch#painting-and-views)
+
+[<i className="bc-icon bc-embedded"></i><strong>Embedded, FPGA and device programming</strong> <span>Devices, JTAG and Nexus drivers, cores, vendor tools, OpenBus</span>](/reference/sch#embedded-fpga-and-device-programming)
+
+[<i className="bc-icon bc-enums"></i><strong>Enumerations</strong> <span>Object kinds, creation modes, styles and other value sets</span>](/reference/sch#enumerations)
+
+</div>
+
+Every type and member is listed even when it has no description yet; such entries say *No description yet.* Each
+page has an edit link to its description file, and contributions are welcome. The
+[SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository has complete extensions; reference
 pages link to the places where the examples use a type or member.
-
-## Coverage
-
-This first release documents the **SCH** (schematic) namespace. The PCB, project (EDP) and system (DXP) namespaces
-will follow. Reference pages are generated from the assemblies, so every type and member is listed even when it has
-no description yet; such pages say *No description yet.* Each page has an edit link to its description file, and
-contributions are welcome.
 
 ## For AI assistants
 
-Every page is also available as Markdown (add `.md` to its URL, or use **View as Markdown**), and
-[`llms.txt`](pathname:///llms.txt) indexes the site for coding assistants.
+Every page is also available as Markdown (add `.md` to its URL, or use **View as Markdown**).
+[`llms.txt`](pathname:///llms.txt) indexes the site, and each namespace has its whole API as compact C# declarations
+([`reference/sch/api.cs.txt`](pathname:///reference/sch/api.cs.txt)).
