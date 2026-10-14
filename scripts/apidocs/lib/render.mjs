@@ -463,6 +463,7 @@ export function renderNamespace(model, ns, categories, ctx) {
     title: ns.title,
     sidebar_label: ns.title,
     description: ns.description,
+    custom_edit_url: ctx.namespacesEditUrl,
     pagination_next: 'null',
     pagination_prev: 'null',
   })];
@@ -487,10 +488,11 @@ export function renderNamespace(model, ns, categories, ctx) {
   return { file, text: out.join('\n') };
 }
 
-export function renderReferenceIndex(namespaces, model) {
+export function renderReferenceIndex(namespaces, model, ctx) {
   const out = [frontMatter({
     title: 'API reference',
     description: 'Namespaces of the Altium Designer SDK .NET API.',
+    custom_edit_url: ctx.namespacesEditUrl,
     pagination_next: 'null',
     pagination_prev: 'null',
   })];

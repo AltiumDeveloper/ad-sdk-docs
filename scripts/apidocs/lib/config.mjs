@@ -34,6 +34,17 @@ export function loadCategories(namespace, path = 'config/categories.yaml') {
   return [...configured, ...fallbacks];
 }
 
+// "Edit this page" of a type page: its description file content/<NS>/<file>.yaml. Most types have no file yet; for
+// those the link opens GitHub's new-file form with the file name and a starter template filled in (an edit link to a
+// missing file is a 404).
+export function editUrl(site, type, exists) {
+  const dir = `content/${type.namespace}`;
+  const file = `${type.file}.yaml`;
+  if (exists) return `${site.repo}/edit/${site.branch}/${dir}/${file}`;
+  const template = `# Description of ${type.id}: see CONTRIBUTING.md, "Describe a type or member".\nsummary: \n`;
+  return `${site.repo}/new/${site.branch}/${dir}?filename=${encodeURIComponent(file)}&value=${encodeURIComponent(template)}`;
+}
+
 // The category of a type: the first configured category matching its name, else the fallback for its kind.
 export function categoryOf(type, categories) {
   const c = categories.find((x) => (!x.kinds || x.kinds.includes(type.kind)) && x.match.some((re) => re.test(type.name)));

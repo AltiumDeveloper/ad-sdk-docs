@@ -5,7 +5,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
-import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
+import { categoryOf, editUrl, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
 import { buildXrefIndex, serializeXrefIndex } from './lib/xref.mjs';
 import { loadExamples } from './lib/examples.mjs';
@@ -70,7 +70,9 @@ const examples = existsSync('metadata/examples-index.json')
 
 const ctx = {
   content: (id) => content.get(id) ?? {},
-  editUrl: (type) => `${site.repo}/edit/${site.branch}/content/${type.namespace}/${type.file}.yaml`,
+  editUrl: (type) => editUrl(site, type, content.has(type.id)),
+  // Namespace and reference index pages: their text comes from config/namespaces.yaml.
+  namespacesEditUrl: `${site.repo}/edit/${site.branch}/config/namespaces.yaml`,
   examples,
   codeExample: (key) => codeExamples.get(key) ?? null,
   examplesRepo: site.examples.repo,
@@ -90,7 +92,7 @@ const write = ({ file, text }) => {
 };
 
 const pages = [];
-write(renderReferenceIndex(namespaces, model));
+write(renderReferenceIndex(namespaces, model, ctx));
 const sidebar = [];
 for (const ns of namespaces) {
   const categories = categoriesByNs[ns.id];

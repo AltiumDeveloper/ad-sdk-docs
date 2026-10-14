@@ -92,8 +92,8 @@ Never put caveats such as "this is not documented" or "probably" into a page.
 ### Describe a type or member
 
 1. **Open the file.** Every reference page has an **Edit this page** link to its file `content/<NS>/<Type>.yaml`. If
-   the file does not exist yet, create it with the name the edit link shows (the type name; nested types
-   `Outer-Inner.yaml`, generic types `Name-T.yaml`).
+   the file does not exist yet, the link opens GitHub's new-file form with the file name and a starter template filled
+   in (the name is the type name; nested types `Outer-Inner.yaml`, generic types `Name-T.yaml`).
 2. **Find the key.** A member's key is its section name on the page: the property name for a `GetState_X`/`SetState_X`
    pair (`Orientation`), otherwise the method name (`SchIterator_Create`). Two special cases, matching the page
    anchors: a method with the same name as a property is `<Name>-method`, and a name starting with `_` is
