@@ -4,8 +4,6 @@ remarks: |-
   This IServerView interface also represents a global panel in Altium Designer, for example the Messages or ToDo panels.
 
   IServerView interface
-
-  IServerView Methods and Properties Table
 members:
   GetIsPanel:
     summary: The IsPanel property determines whether the IServerDocumentView object is a panel or not. A IServerDocument
@@ -49,9 +47,6 @@ members:
 
 
       This code snippet uses the Client.CurrentView.ViewName method to find out the current document's type name.
-
-
-      If StrPas(Client.CurrentView.ViewName) <> UpperCase('PCBLib') Then Exit;
     seeAlso:
       - DXP.IClient
       - DXP.IExternalForm

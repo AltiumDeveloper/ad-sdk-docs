@@ -46,41 +46,7 @@ members:
   SuperClass:
     summary: The SuperClass property denotes whether or not the interface contains all members of a particular kind. If this
       field is set to true, the members of the IPCB_ObjectClass object cannot be edited.
-    remarks: >-
-      By default, a super class contains all members of the same member kind - for example, if layer kind is selected,
-      then all layers is included for this Object Class.
-
-
-      Code Snippet Example
-
-
-      // AObjectClass is a IPCB_ObjectClass interface type
-
-
-      If AObjectClass.SuperClass Then
-
-
-      // is a super class!
-
-
-      Case AObjectClass.MemberKind Of
-
-
-      eClassMemberKind_Net : ARpt.Add('All Nets');
-
-
-      eClassMemberKind_Component : ARpt.Add('All Components');
-
-
-      eClassMemberKind_FromTo : ARpt.Add('All FromTos');
-
-
-      eClassMemberKind_Pad : ARpt.Add('All Pads');
-
-
-      eClassMemberKind_Layer : ARpt.Add('All Layers');
-
-
-      End;
+    remarks: By default, a super class contains all members of the same member kind - for example, if layer kind is
+      selected, then all layers is included for this Object Class.
     seeAlso:
       - PCB.TClassMemberKind

@@ -6,5 +6,3 @@ remarks: |-
   This interface and its methods are for internal use.
 
   The IHighlightedDocument interface is inherited from the IServerDocument interface.
-
-  IHighlightedDocument Methods and Properties Table

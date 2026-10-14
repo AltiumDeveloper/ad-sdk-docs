@@ -10,9 +10,6 @@ remarks: >-
 
 
   IServerDocumentView interface
-
-
-  IServerDocumentView Methods and Properties Table
 members:
   GetOwnerDocument:
     summary: The OwnerDocument property returns the IServerDocument interface that the IServerDocumentView itnerface is

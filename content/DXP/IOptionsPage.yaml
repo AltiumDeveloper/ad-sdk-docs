@@ -27,9 +27,6 @@ remarks: >-
 
 
   SetDefaultState
-
-
-  IOptionsPage Methods and Properties table
 members:
   GetNotificationCode:
     summary: Each server that handles Option notifications to its server panel and the system wide Preferences dialog in

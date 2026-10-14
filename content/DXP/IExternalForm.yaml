@@ -6,9 +6,6 @@ remarks: >-
 
   Therefore to work with windows in the Altium Designer platform, you use the IExternalForm interface to have access to
   windows and manipulate them.
-
-
-  IExternalForm Methods and Properties Table
 members:
   FocusFirstTabStop:
     seeAlso:

@@ -23,9 +23,6 @@ remarks: >-
 
 
   Invoke the ModelTypeManager method to fetch the IModelTypeManager interface.
-
-
-  IModelTypeManager Methods and Properties Table
 members:
   ModelDatafileTypeAt:
     summary: This method returns the data file types supported by Altium Designer. First data file type starts at 0. This
@@ -65,6 +62,8 @@ members:
     summary: "This method returns the model type interface based on the server name. The Server names can be:"
     remarks: |-
       PCB3D
+
+      PCB
 
       Sim
 

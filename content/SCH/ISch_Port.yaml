@@ -58,8 +58,7 @@ members:
   Name:
     summary: The Name property determines the name for the port object.
   OverrideDisplayString:
-    summary: End;
-    remarks: The OverrrideDisplayString property determines the override display string which overrides the Name string.
+    summary: The OverrrideDisplayString property determines the override display string which overrides the Name string.
   Style:
     summary: The Style property determines the style of the port object. This style is determined by the TPortArrowStyle
       type. This style defines the graphical style of the port object.

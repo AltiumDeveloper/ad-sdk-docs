@@ -10,7 +10,4 @@ remarks: >-
   reference.
 
 
-  For example SpatialIterator.AddFilter_ObjectSet( MkSet (eTrackObject,eFillObject));
-
-
   Methods (inherited from IPCB_AbstractIterator)

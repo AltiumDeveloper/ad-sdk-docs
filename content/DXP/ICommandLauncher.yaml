@@ -16,9 +16,6 @@ remarks: >-
   and the layout of user interface elements are defined in the resources file (which ends with a RCS extension).
 
 
-  ICommandLauncher Methods and Properties Table
-
-
   All the methods in a server available to the user, such as placing a primitive, changing the zoom level and so on are
   performed by commands which are pre-packaged process launchers. The pre-packaged process launchers bundle together the
   process that runs when the command is selected, plus any parameters, bitmaps (icons), captions (the name of an item

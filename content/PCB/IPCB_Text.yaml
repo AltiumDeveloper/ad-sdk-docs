@@ -86,36 +86,8 @@ members:
   FontName:
     summary: This property sets or gets the FontName property of the PCB string true Type text on a PCB document. For
       example one of the true Type font strings could be 'Arial', 'Arial Narrow', 'Courier New' and 'Verdana'.
-    remarks: >-
-      Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
       and TTTextOutline properties.
-
-
-      // notify that the pcb object is going to be modified
-
-
-      PCBServer.SendMessageToRobots(TextObj.I_ObjectAddress, c_Broadcast, PCBM_BeginModify, c_NoEventData);
-
-
-      // inverts the text object and a text boundary is created around the text
-
-
-      // The Inverted and InvertedTTTextBorder properties are useful for situations
-
-
-      // if text is to be placed on a copper region and create a cutout in the region.
-
-
-      // the color of the inverted border is the layer color and the text color itself
-
-
-      // is black.
-
-
-      // The InvertedTTextBorder property determines the distance between the boundary of the
-
-
-      // the text object itself to the inverted text border boundary.
   GetDesignatorDisplayString:
     summary: This method retrieves the designator string directly from a text object.
   InAutoDimension:
@@ -174,30 +146,7 @@ members:
       when output is generated.
   UseTTFonts:
     summary: This property toggles the true Type font property for the PCB string text on a PCB document.
-    remarks: >-
-      Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
       and TTTextOutline properties.
-
-
-      // notify that the pcb object is going to be modified
-
-
-      PCBServer.SendMessageToRobots(TextObj.I_ObjectAddress, c_Broadcast, PCBM_BeginModify, c_NoEventData);
-
-
-      // Can use Open true Type Fonts...
-
-
-      Board.AddPCBObject(TextObj);
-
-
-      // notify that the pcb object has been modified
-
-
-      PCBServer.SendMessageToRobots(TextObj.I_ObjectAddress, c_Broadcast, PCBM_EndModify , c_NoEventData);
-
-
-      PCBServer.SendMessageToRobots(Board.I_ObjectAddress, c_Broadcast,
-      PCBM_BoardRegisteration,TextObj.I_ObjectAddress);
   Width:
     summary: This method sets the Width attribute which represents the width used for this Text Object on a PCB document.

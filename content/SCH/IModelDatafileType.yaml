@@ -2,10 +2,7 @@
 summary: The IModelDatafileType interface represents the data file type for the specified model. Simulation Model has
   three model types and thus three data files, PCB LIB has one model type and one data file, PCB3DLib has one model type
   and one data file and SI has one model type and one data file.
-remarks: |-
-  The IModelDatafileType interface is used by the IModelTypeManager
-
-  IModelDatafileType Methods and Properties Table
+remarks: The IModelDatafileType interface is used by the IModelTypeManager
 members:
   Description:
     summary: "This method returns the description string for this IModelDatafiletype interface depending on the model's data

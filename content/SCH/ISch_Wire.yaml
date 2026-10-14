@@ -1,60 +1,8 @@
 # SCH.ISch_Wire: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: Wires are straight line segments which are placed on a schematic document to create the electrical connections.
 remarks: |-
-  If SchServer = null Then Exit;
-
-  If SchDoc = null Then Exit;
-
-  // Set up an iterator to look for port objects only.
-
-  Iterator.AddFilter_ObjectSet(MkSet(eWire));
-
-  ReportList.Add('Wires'' Vertex report:');
-
-  ReportList.Add('______________________');
-
-  ReportList.Add('');
-
-  // Using a Try Finally block to avoid exception errors.
-
-  Try
-
-  While Wire <> null Do
-
-  Inc(WireCount);
-
   ReportList.Add('Wire #'
-
-  + IntToStr(WireCount));
 
   ReportList.Add('X: '
 
-  + IntToStr(ALocation.X)
-
   + ', Y: '
-
-  + IntToStr(ALocation.Y));
-
-  End;
-
-  ReportList.Add('');
-
-  End;
-
-  Finally
-
-  SchDoc.SchIterator_Destroy(Iterator);
-
-  End;
-
-  ReportList.SaveToFile('C:\WireVertexReport.Txt');
-
-  ReportList.Free;
-
-  // Display the report containing parameters for each component found.
-
-  If Document <> null Then
-
-  Client.ShowDocument(Document);
-
-  End;

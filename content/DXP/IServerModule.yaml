@@ -56,9 +56,6 @@ remarks: >-
 
 
   However both servers also have this IServerModule interface.
-
-
-  IServerModule Methods and Properties Table
 members:
   AddServerView:
     summary: This method adds a panel in the Server Module where this new panel can be used by the module.

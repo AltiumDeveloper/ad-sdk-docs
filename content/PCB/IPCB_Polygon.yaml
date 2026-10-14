@@ -21,15 +21,6 @@ remarks: >-
   The segments property denotes the array of segments used to construct a polygon. Each segment consists of a record
   consisting of one group of points in X, Y coordinates as a line ( ePolySegmentline type) or an arc, a radius and two
   angles ( ePolySegmentArc type). Each segment record has a Kind field which denotes the type of segment it is.
-
-
-  {Vertex}
-
-
-  {Arc}
-
-
-  End;
 members:
   ArcApproximation:
     summary: The polygon drawn around a pad or via is drawn by line segments. The arc resolution value dictates how accurate

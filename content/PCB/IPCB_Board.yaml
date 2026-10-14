@@ -17,9 +17,6 @@ remarks: >-
   Check if the PCB server exists and if there is a PCB document before you invoke any PCB interface methods.
 
 
-  If PCBBoard = null Then Exit;
-
-
   Some properties are only read only, meaning you can only retrieve data from property but not modify the data.
 
 
@@ -181,6 +178,9 @@ members:
       The method returns the design object with the following parameters.
 
 
+      Parameters:
+
+
       The HitX parameter specifies the X coordinate value.
 
 
@@ -299,13 +299,8 @@ members:
       undone. Then with this TInterfaceList or TList object, you go thru the items one at a time, and for each item
       fetched, call the RemovePCBObject method from the IPCB_Board interface and call the SendMessageToRobots to
       remember this deleted track in the Undo system.
-    remarks: >-
-      It is generally not a good idea to delete objects while iterating for objects within a While or Repeat loop body
-      because it messes up the data structure that the iterator is traversing.
-
-
-      CurrentPCBBoard.ViewManager_FullUpdate; Client.SendMessage('PCB:Zoom', 'Action=Redraw' , 255, Client.CurrentView);
-      End;
+    remarks: It is generally not a good idea to delete objects while iterating for objects within a While or Repeat loop
+      body because it messes up the data structure that the iterator is traversing.
   SelectecObject:
     summary: This property represents the indexed selected object found on the PCB document. This is to be used in
       conjunction with the SelectecObjectCount property.

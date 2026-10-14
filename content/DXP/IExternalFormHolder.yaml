@@ -6,9 +6,6 @@ remarks: >-
 
   Therefore to work with windows in the Altium Designer platform, you use the IExternalForm interface to have access to
   windows and manipulate them.
-
-
-  IExternalFormHolder Methods and Properties Table
 members:
   GetParentWindow:
     summary: This method retrieves the THandle of the parent window that can be used in the IExternalForm interface.

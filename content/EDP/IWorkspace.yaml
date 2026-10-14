@@ -36,40 +36,7 @@ members:
       existing object in Altium Designer. Objects in Schematic have their own Unique IDs which are tracked by the
       synchronizator so that the objects on the PCB document are sychronized to their equivalents in a corresponding
       schematic project.
-    remarks: |-
-      Example - an incomplete example that assigns new UIDs to Schematic components
-
-      // get the workspace manager interface so you can
-
-      // generate unique ids...
-
-      If WSM = null Then Exit;
-
-      // get the schematic server interface
-
-      If SchServer = null Then Exit;
-
-      // get the current sch sheet
-
-      If CurrentSheet = null Then Exit;
-
-      // Set up an iterator to look for components
-
-      // on a schematic document.
-
-      Iterator.AddFilter_ObjectSet(MkSet(eSchComponent));
-
-      Try
-
-      While Compt <> null Do
-
-      DM_GenerateUniqueID;
-
-      End;
-
-      Finally
-
-      CurrentSheet.SchIterator_Destroy(Iterator);
+    remarks: Example - an incomplete example that assigns new UIDs to Schematic components
   DM_GetDocumentFromPath:
     summary: Retrieves the IDocument interface object by passing the full document path to this document. With this
       IDocument interface, you have access to its functionality, such as compiling the document itself.

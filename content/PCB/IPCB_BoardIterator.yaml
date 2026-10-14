@@ -7,6 +7,3 @@ remarks: >-
 
   The AddFilter_method controls how design objects are fetched. The TIterationMethod type has three different values;
   eProcessAll, eProcessFree, eProcessComponents.
-
-
-  For example BoardIterator.AddFilter_ObjectSet(MkSet(eTrackObject,eFillObject));

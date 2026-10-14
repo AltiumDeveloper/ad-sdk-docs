@@ -2,12 +2,9 @@
 summary: The IConnectionsArray represents the bus and wire connections in a schematic document. Bus and wire connections
   that have more than 3 connections could be connected by an automatic junction or a manual junction (placed by an
   user).
-remarks: >-
-  A schematic with valid buses and wires will have connections. An IConnectionsArray interface has all the connections
-  for this schematic sheet and each element in the IConnectionsArray interface is a IConnection interface type.
-
-
-  IConnectionsArray Methods and Properties Table
+remarks: A schematic with valid buses and wires will have connections. An IConnectionsArray interface has all the
+  connections for this schematic sheet and each element in the IConnectionsArray interface is a IConnection interface
+  type.
 members:
   AddConnection:
     summary: This method adds a connection with a location parameter into the IConnectionsArray object.

@@ -1,10 +1,7 @@
 # SCH.IIntegratedLibraryManager: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IIntegratedLibraryManager interface represents the integrated library manager that manages schematic
   components and its models from installed libraries in Altium Designer.
-remarks: |-
-  Invoke the IntegratedLibraryManager method to fetch the IIntegratedLibraryManager interface.
-
-  Integrated Library Manager Methods and Properties Table
+remarks: Invoke the IntegratedLibraryManager method to fetch the IIntegratedLibraryManager interface.
 members:
   AddRemoveLibraries:
     summary: This method invokes the Available Libraries dialog with a list of installed libraries if any and their
@@ -39,9 +36,6 @@ members:
 
 
       An installed library appears in the Installed tab of the Available Libraries dialog.
-
-
-      TLibraryType = (eLibIntegrated, eLibSource, eLibDatafile, eLibDatabase, eLibNone, eLibQuery, eLibDesignItems);
     seeAlso:
       - SCH.TLibraryType
   BrowseForComponent:
@@ -58,6 +52,8 @@ members:
       PCB3DLIB
 
       SIM
+
+      SI
   CreateIntegratedLibrary:
     summary: This CreateIntegratedLibrary method creates an integrated library from a project into the specified
       AnOutputPath path and depending on the Install parameter is installed in the Available Libraries dialog.
@@ -73,10 +69,6 @@ members:
       The ALibIdentifierKind parameter denotes which type of library the component is from.
 
 
-      TLibIdentifierKind = (eLibIdentifierKind_Any, eLibIdentifierKind_NameNoType, eLibIdentifierKind_NameWithType,
-      eLibIdentifierKind_FullPath);
-
-
       The ALIbraryIdentifier parameter is the library identifier string that the component is associated with.
 
 
@@ -86,10 +78,6 @@ members:
     summary: The method validates whether if the component symbol is available or not dependent on the supplied parameters.
     remarks: >-
       The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-
-      TLibIdentifierKind = (eLibIdentifierKind_Any, eLibIdentifierKind_NameNoType, eLibIdentifierKind_NameWithType,
-      eLibIdentifierKind_FullPath);
 
 
       The ALibraryIdentifier parameter is the library identifier string that the component is associated with.
@@ -107,14 +95,6 @@ members:
     summary: The method returns the path of the library the component is part of.
     remarks: |-
       The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-      TLibIdentifierKind = (eLibIdentifierKind_Any,
-
-      eLibIdentifierKind_NameNoType,
-
-      eLibIdentifierKind_NameWithType,
-
-      eLibIdentifierKind_FullPath);
 
       The ALibraryIdentifier parameter is the library identifier string that the component is associated with.
 
@@ -146,18 +126,6 @@ members:
       The ALibIdentifierKind parameter denotes which type of library the component is from.
 
 
-      TLibIdentifierKind = (eLibIdentifierKind_Any,
-
-
-      eLibIdentifierKind_NameNoType,
-
-
-      eLibIdentifierKind_NameWithType,
-
-
-      eLibIdentifierKind_FullPath);
-
-
       The ALIbraryIdentifier parameter is the library identifier string that the component is associated with. Normally
       a path to a library.
 
@@ -174,18 +142,6 @@ members:
     summary: The method returns the path of the library the model is part of.
     remarks: >-
       The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-
-      TLibIdentifierKind = (eLibIdentifierKind_Any,
-
-
-      eLibIdentifierKind_NameNoType,
-
-
-      eLibIdentifierKind_NameWithType,
-
-
-      eLibIdentifierKind_FullPath);
 
 
       The ALIbraryIdentifier parameter is the library identifier string that the component is associated with.

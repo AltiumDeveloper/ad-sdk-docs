@@ -2,10 +2,6 @@
 summary: An iterator object interface represents an existing iterator object which iterates through a design database to
   fetch specified objects within a specified region if necessary.
 remarks: >-
-  Therefore, to specify the object set or the layer set, you need to use the MkSet method to create a set of objects,
-  for example Iterator.AddFilter_ObjectSet(MkSet(ePort));
-
-
   The TIterationDepth type denotes how deep the iterator can look - look for first level objects (for example standalone
   system parameters of the document only, or all levels for example all parameters on the document including system
   parameters, objects' parameters such as component's parameters. By default, eIterateAllLevels value is used.
@@ -13,9 +9,6 @@ remarks: >-
 
   SetState_FilterAll denotes that all objects and the whole schematic document is to be searched within. Otherwise, use
   the following AddFilter_ObjectSet, AddFilter_Area etc methods to set up a restricted search.
-
-
-  ISch_Iterator Methods and Properties Table
 members:
   AddFilter_Area:
     summary: The AddFilter_Area method defines the rectangular bounds (X1,Y1 and X2,Y2) of the schematic/library document

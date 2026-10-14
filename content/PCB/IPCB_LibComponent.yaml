@@ -19,9 +19,6 @@ remarks: >-
 
   A PCB footprint is composed of child objects such as pads and tracks. Therefore the footprint has its own
   IPCB_GroupIterator to fetch its own child objects.
-
-
-  For example LibraryIterator.AddFilter_ObjectSet( MkSet (eTrackObject,eFillObject));
 members:
   Description:
     summary: The Description property denotes the footprint's description. This Description property is supported by the

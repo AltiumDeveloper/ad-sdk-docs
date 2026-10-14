@@ -179,17 +179,10 @@ members:
       occurring, ie one client's process occurring stacked on top of another active client's process - this is the
       process depth. If a process control's process depth is zero, it indicates that nothing is taking place in Altium
       Designer.
-    remarks: >-
-      This property returns the IProcessControl interface. This Process Control interface determines the number of
+    remarks: This property returns the IProcessControl interface. This Process Control interface determines the number of
       "re-entrant" processes occurring, ie one client's process occurring stacked on top of another active client's
       process - this is the process depth. If a process control's process depth is zero, it indicates that nothing is
       taking place in Altium Designer. Refer to the IProcessControl interface for details.
-
-
-      ProcessDepth Example
-
-
-      ShowMessage('Current process depth ',IntToStr(Client.ProcessControl.ProcessDepth));
     seeAlso:
       - DXP.IProcessControl
   GetRealMainWindowHandle:
@@ -350,9 +343,6 @@ members:
 
 
       Example of the StartServer method
-
-
-      Client.StartServer('PCB');
     seeAlso:
       - DXP.IClient.StopServer
   StopServer:
@@ -367,9 +357,6 @@ members:
 
 
       Example of the StopServer method
-
-
-      Client.StopServer('PCB');
     seeAlso:
       - DXP.IClient.StartServer
   UnregisterNotificationHandler:

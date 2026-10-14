@@ -22,9 +22,6 @@ remarks: >-
 
   A manual junction (placed by an user) may signify a forced connection of at least 3 or more connections on a schematic
   document.
-
-
-  IConnection Methods and Properties Table
 members:
   IsManualJunction:
     summary: This property retrieves or sets the IsManualJunction setting of Bus or Wire connection represented by the

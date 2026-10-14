@@ -44,7 +44,6 @@ members:
     seeAlso:
       - PCB.IPCB_LayerObject
   ShowBotDielectric:
-    summary: End;
-    remarks: This property enables or disables the dielectric layer for the bottom layer.
+    summary: This property enables or disables the dielectric layer for the bottom layer.
   ShowTopDielectric:
     summary: This property enables or disables the dielectric layer for the top layer.

@@ -5,8 +5,6 @@ remarks: |-
   The IModelDataFiletype interface uses the IModelType interface
 
   The IModelTypeManager interface uses the IModelType interface
-
-  IModelType Methods and Properties Table
 members:
   Description:
     summary: The method returns the description of the model type.

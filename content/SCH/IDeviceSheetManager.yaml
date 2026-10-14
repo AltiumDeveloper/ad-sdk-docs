@@ -1,7 +1,6 @@
 # SCH.IDeviceSheetManager: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IDeviceSheetManager interface represents the Device Sheets Folder dialog in Altium Designer. Invoke the
   DeviceSheetManager method to fetch the IDeviceSheetManager object interface.
-remarks: IDeviceSheetManager Methods and Properties Table
 members:
   AddDeviceFolder:
     summary: This method adds a new device folder into the existing top level Device Folder and whether sub folders can be

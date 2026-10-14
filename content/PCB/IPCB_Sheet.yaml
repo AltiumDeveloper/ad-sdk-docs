@@ -3,9 +3,8 @@ summary: The IPCB_Sheet interface represents the background workspace for the PC
   and assembly documentation as well as the board outline. The IPCB_Board interface has the IPCB_Sheet interface as an
   aggregation interface because a sheet is part of the PCB document.
 remarks: >-
-  The I_ObjectAddress property retrieves the pointer to the iterator object. This property is useful for situations
-  where you need to have references to objects (not to object interfaces) and store them in a TList container for
-  example.
+  This property is useful for situations where you need to have references to objects (not to object interfaces) and
+  store them in a TList container for example.
 
 
   The sheet behind the PCB can be shown or not.

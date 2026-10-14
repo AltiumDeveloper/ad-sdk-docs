@@ -24,6 +24,3 @@ remarks: >-
 
   IPCB_GroupIterator has methods inherited from the IPCB_AbstractIterator interface and is reproduced here for
   reference.
-
-
-  For example LibraryIterator.AddFilter_ObjectSet( MkSet (eTrackObject,eFillObject));

@@ -20,7 +20,3 @@ members:
   ProcessDepth:
     summary: Sets or gets the process depth. The depth value is an integer value.0 = inactive, and 1 onwards denotes the
       number of stacked processes.
-    remarks: |-
-      ProcessDepth Example
-
-      ShowMessage('Current process depth ',IntToStr(Client.ProcessControl.ProcessDepth));

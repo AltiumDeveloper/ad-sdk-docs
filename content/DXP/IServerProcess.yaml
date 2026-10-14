@@ -49,9 +49,6 @@ remarks: >-
   Updates = 'ADVPCB'
 
 
-  End
-
-
   Command Name = 'CountPads' LongSummary = 'Find how many pads on a PCB document' End
 
 

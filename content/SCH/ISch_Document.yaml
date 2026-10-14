@@ -15,9 +15,6 @@ remarks: >-
 
 
   You can check whether objects exist on a particular point on a schematic or library document.
-
-
-  ISch_Document Methods and Properties Table
 members:
   BorderOn:
     summary: This BorderOn property determines whether the border on around the outside of the current schematic document
@@ -104,16 +101,6 @@ members:
     summary: This method prevents the views of Schematic documents and panels from being refreshed or updated. This is
       especially used in the situations when a component is being created in the Schematic Library Editor. See the
       UnLockViewUpdate method.
-    remarks: |-
-      If SchServer = null Then Exit;
-
-      If Not Supports (SchServer.GetCurrentSchDocument, ISch_Lib, CurrentLib) Then Exit;
-
-      CurrentLib.LockViewUpdate;
-
-      CurrentLib.CurrentSchComponent.AddSchObject(SimModel);
-
-      CurrentLib.UnLockViewUpdate;
     seeAlso:
       - SCH.ISch_Document.UnLockViewUpdate
   ObjectReferenceZone:
@@ -125,13 +112,6 @@ members:
       - SCH.ISch_HitTest
   RedrawToDC:
     summary: The DC parameter is a Handle of the canvas (a encapsulation of a device context).
-    remarks: >-
-      PrintKind is an ordinal value of the TPrintKind type, TPrintKind =
-      (ePrintKind_FullColor,ePrintKind_GrayScale,ePrintKind_Monochrome);
-
-
-      PrintWhat is an ordinal value of the TPrintWhat type, TPrintWhat =
-      (ePrintAllDocuments,ePrintActiveDocument,ePrintSelection,ePrintScreenRegion);
   ReferenceZonesOn:
     summary: This property determines the number of regions or reference zones that are displayed along the horizontal and
       vertical borders. The reference zones form a reference grid along the border of your schematic. This reference
