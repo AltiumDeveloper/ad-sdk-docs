@@ -1,0 +1,2 @@
+# PCB.IPCB_SMDToCornerConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+remarks: The Distance property determines the distance between the SMD and a corner.

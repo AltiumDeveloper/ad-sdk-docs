@@ -1,0 +1,3 @@
+# EDP.IChangeManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IChangeManager interface represents the change manager where you can execute an ECO of pins to be swapped
+  for the target component of the target document.

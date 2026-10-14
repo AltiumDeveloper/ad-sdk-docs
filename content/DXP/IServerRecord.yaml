@@ -1,0 +1,56 @@
+# DXP.IServerRecord: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This interface extracts the servers installation files information from the \System folder which has a list of
+  server installation files. That is each server installation file (with an INS extension) correspond to a IServerRecord
+  itnerface.
+remarks: >-
+  Since this IServerRecord interface is inside the Client object, invoke the Client.GetServerRecordCount to get the
+  number of server installation files, and then assign the Client.GetServerRecord(RecordCount) to a IServerRecord
+  variable where you can retrieve data associated with an installation file.
+
+
+  To find more information about each server module installed in Altium Designer, invoke the IClient.GetServerModule
+  interface.
+members:
+  GetCommand:
+    summary: The method returns the IServerProcess interface. Used in conjunction with the GetCommandCount method.
+  GetCommandCount:
+    summary: The method returns the number of commands (Process launchers) this server supports. Used in
+    remarks: conjunction with the GetCommand method
+  GetCopyRight:
+    summary: The method returns the copyright string.
+  GetDate:
+    summary: The method returns the date string associated with the server installation file.
+  GetDescription:
+    summary: The method returns the description string.
+  GetExePath:
+    summary: The method returns the path to the server file.
+  GetGeneralInfo:
+    summary: The method returns the general info string for the server record associated with a server.
+  GetInsPath:
+    summary: The method returns the path to the installation file.
+  GetName:
+    summary: The method returns the name of the server.
+  GetPanelInfo:
+    summary: The method returns the indexed panel information. This is to be used in conjunction with the GetPanelInfoCount
+      method.
+  GetPanelInfoByName:
+    summary: The method returns the panel information interface by the panel name.
+  GetPanelInfoCount:
+    summary: The method returns the number of panels used for the server module. This is to be used in conjunction with the
+      GetPanelInfo method.
+  GetRCSFilePath:
+    summary: The method returns the path to the resources file.
+  GetServerFileExist:
+    summary: The method returns the Boolean value whether the server file (with a DLL) exists or not.
+  GetSystemExtension:
+    summary: The method returns the file system extension string.
+  GetVersion:
+    summary: The method returns the version string associated with the server installation file.
+  GetWindowKind:
+    summary: The method returns the IServerWindowKind interface. Used in conjunction with the GetWindowKindCount method.
+  GetWindowKindByName:
+    summary: The method returns the IServerWindowKind interface depending on the DocumentKind Name parameter.
+    seeAlso:
+      - DXP.IServerWindowKind
+  GetWindowKindCount:
+    summary: The method returns the number of document kinds the server supports.

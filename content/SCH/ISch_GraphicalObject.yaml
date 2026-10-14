@@ -45,13 +45,15 @@ members:
     summary: This Dimmed property is true when a parent object is not part of the navigation mechanism (Navigator panel).
       When objects are found by the Navigation mechanism, they stay as is (Dimmed is false), and the objects that are
       not part of the Navigation are dimmed (Dimmed is true).
-    remarks: ) will be also set to this state. Thus when the Disabled/Dimmed property of a child object is being queried,
-      the Disabled/Dimmed state of the parent object will be returned.
+    remarks: The Disabled / Dimmed states of a parent object (say a component), all its children (pins, lines, etc...) will
+      be also set to this state. Thus when the Disabled/Dimmed property of a child object is being queried, the
+      Disabled/Dimmed state of the parent object will be returned.
   Disabled:
     summary: The Disabled property determines whether the object is disabled (due to not being part of the collected objects
       by the filter mechanism ie the Filter panel)
-    remarks: ) will be also set to this state. Thus when the Disabled/Dimmed property of a child object is being queried,
-      the Disabled/Dimmed state of the parent object will be returned.
+    remarks: The Disabled / Dimmed states of a parent object (say a component), all its children (pins, lines, etc...) will
+      be also set to this state. Thus when the Disabled/Dimmed property of a child object is being queried, the
+      Disabled/Dimmed state of the parent object will be returned.
   DisplayError:
     summary: This property determines whether the DisplayError is displayed or not. When true, the red squiggly line
       underneath the graphical object appears when it is subject to a compilation error in Altium Designer.

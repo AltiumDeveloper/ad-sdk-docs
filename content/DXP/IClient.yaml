@@ -1,0 +1,395 @@
+# DXP.IClient: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A plug-in module loaded in Altium Designer has hooks to the single executable subsystem, so you have access to
+  the specific documents and launch commands on these documents.
+members:
+  AddServerView:
+    summary: This method adds a document view such as a custom panel in the Client object within Altium Designer. In the
+      TServerModule constructor, where the server commands are registered, this is the place to create global panel
+      views. The TServerModule.CreateServerViews method will have the global panel form and the view created from this
+      panel form. Then the view is added to the server module (TServerModule.AddView()) as well as in the client object
+      (Client.AddServerView).
+    seeAlso:
+      - DXP.IServerView
+  ApplicationIdle:
+    summary: When the ApplicationIdle method is invoked, the method puts the Altium Designer in a mode where it has a chance
+      to process Window and Altium Designer specific messages.
+  BeginDisableInterface:
+    summary: These BeginDisableInterface and EndDisableInterface methods are invoked when the User Interface of Client need
+      to be disabled, for example there might be extensive processing going on, and you do not want the user's
+      intervention.
+    seeAlso:
+      - DXP.IClient.EndDisableInterface
+  BeginDocumentLoad:
+    summary: The BeginDocumentLoad and EndDocumentLoad methods are used to load a group of documents in Altium Designer.
+    seeAlso:
+      - DXP.IClient.EndDocumentLoad
+  BeginRecoverySave:
+    summary: The BeginRecoverySave and EndRecoverySave properties can be used to suppress the client notification of
+      document name changes when doing a backup of a current design document in Altium Designer. To check if the
+      recovery save process is in progress, invoke the InRecoverySave method.
+    seeAlso:
+      - DXP.IClient.EndRecoverySave
+      - DXP.IClient.InRecoverySave
+  BroadcastNotification:
+    summary: This method broadcasts a notification message in Altium Designer where all active design documents / servers
+      have an opportunity to respond. A BoardcastNotification is a DispatchNotification (null, ANotification); There are
+      five types of Notification interfaces; ISystemNotification, IDocumentNotification, IDocumentFormNotification,
+      IViewNotification and IModuleNotification.
+    seeAlso:
+      - DXP.INotification
+  CloseDocument:
+    summary: This method fetches the IServerDocument parameter to close the specified document (if it is loaded and opened
+      in Altium Designer already). Note the document is not removed from Altium Designer, that is, the document still
+      exists on the Projects panel for example.
+    seeAlso:
+      - DXP.IClient.OpenDocument
+  CurrentView:
+    summary: This property returns the current document view interface which represents the current design document view in
+      Altium Designer.
+    remarks: |-
+      SendMessage Example
+
+      CurrentView example
+
+      ViewName example
+
+      This code snippet uses the Client.CurrentView.ViewName method to find out the current document's type.
+    seeAlso:
+      - DXP.IServerDocumentView
+  DispatchNotification:
+    summary: This method dispatches a notification message to the targeted server in Altium Designer. There are four types
+      of Notification interfaces; IDocumentNotification, IDocumentFormNotification, IViewNotification and
+      IModuleNotification.
+    seeAlso:
+      - DXP.INotification
+  EndDisableInterface:
+    summary: These BeginDisableInterface and EndDisableInterface methods are invoked when the User Interface of Client needs
+      to be disabled, for example there might be extensive
+    remarks: processing going on, and you do not want the user's intervention. This is a Altium Designer wide method.
+    seeAlso:
+      - DXP.IClient.BeginDisableInterface
+  EndDocumentLoad:
+    summary: The BeginDocumentLoad and EndDocumentLoad methods are used to load a group of documents in Altium Designer.
+    seeAlso:
+      - DXP.IClient.BeginDocumentLoad
+  EndRecoverySave:
+    summary: The BeginRecoverySave and EndRecoverySave methods can be used to suppress the client notification of document
+      name changes when doing a backup of a current design document in Altium Designer.
+    remarks: To check if the recovery save is in progress, invoke the InRecoverySave method.
+    seeAlso:
+      - DXP.IClient.BeginRecoverySave
+      - DXP.IClient.InRecoverySave
+  GetApplicationHandle:
+    summary: You can use the application handle into server code if dialogs need to be created dynamically from your server
+      and so that when a dialog that appears on Altium Designer will inherit Altium Designer's icon and appear as one
+      whole application on the task bar.
+    remarks: This ApplicationHandle property can be passed as a parameter for the create constructor of the dialog. The
+      GetMainWindowHandle method is its equivalent.
+    seeAlso:
+      - DXP.IClient.GetMainWindowHandle
+  GetCommandLauncher:
+    summary: This method fetches the ICommandLauncher interface which represents Client's process launcher which can be used
+      to launch a server process and its parameters. See the IProcessLauncher interface as well.
+    remarks: The CommandLauncher property returns the Command Launcher interface. This interface contains the table of
+      client's process launchers that can be used to launch a command.
+    seeAlso:
+      - DXP.ICommandLauncher
+      - DXP.IProcessLauncher
+  GetCount:
+    summary: This method returns the number of active (loaded) servers in a current session of Altium Designer. Use this
+      method (or the Count property) in conjunction with the ServerModule property to fetch Server Module interfaces.
+    remarks: This property returns the number of active servers in a current session of Altium Designer. Use this property
+      in conjunction with the ServerModule property to fetch Server Module interfaces.
+    seeAlso:
+      - DXP.IServerModule
+  GetDefaultExtensionForDocumentKind:
+    summary: This method returns the default extension for the specific document kind based on the document kind parameter.
+    remarks: IClient interface
+  GetDocumentByPath:
+    summary: This method fetches the full file path to a design document and if the path is valid, an IServerDocument object
+      interface is returned representing the whole design document and its panels.
+  GetDocumentKindFromDocumentPath:
+    summary: This method returns the document kind based on the valid and full document path.
+  GetDynamicHelpManager:
+    summary: The method returns the Dynamic Help manager which represents the Knowledge Center panel in Altium Designer.
+  GetGUIManager:
+    summary: Returns the GUI Manager interface. Use the GUIManager property instead. This Interface object deals with the
+      User Interface of Altium Designer such as controlling the status bars of Altium Designer, the locations and the
+      state of panels in Altium Designer.
+    remarks: The GUIManager property returns the GUIManager interface. This Interface object deals with the Altium
+      Designer's Graphical User Interface such as controlling the status bars, the locations and the state of panels.
+    seeAlso:
+      - DXP.IGUIManager
+  GetLicenseManager:
+    seeAlso:
+      - DXP.ILicenseManager
+  GetMainWindowHandle:
+    summary: You can use the application handle into server code if dialogs need to be created dynamically from your server
+      and so that when a dialog that appears on Altium Designer will inherit Altium Designer's icon and appear as one
+      whole application on the task bar. This ApplicationHandle property is also its equivalent.
+    remarks: The MainWindowHandle property returns the handle of the main window in Altium Designer which can be used for
+      addon dialogs that will be attached to Altium Designer and have a single Altium Designer icon on the Taskbar for
+      example.
+    seeAlso:
+      - DXP.IClient.GetApplicationHandle
+  GetNavigationSystem:
+    summary: The method returns the Navigation system interface.
+    remarks: The NavigationSystem property represents the Navigation system in Altium Designer. The navigation system is the
+      workhouse for the Navigation panel which is the center-piece for net connectivity for the design project. There
+      are three ways a design can be arranged - as a list of compiled sheets, flattened hierarchy and as a structural
+      tree.
+    seeAlso:
+      - DXP.INavigationSystem
+  GetOptionsManager:
+    summary: This method retrieves the IOptionsManager interface. With this interface, you can invoke the GetOptionsReader
+      or GetOptionsWriter to retrieve or write options (settings) for the target server. Each editor server has options
+      that manage its server documents.
+    remarks: >-
+      This is a read only property that returns the IOptionsManager interface. This interface is responsible for
+      managing (reading and writing) values to/from the system wide Preferences dialog in Altium Designer for the
+      specified server.
+
+
+      This interface is useful for server writers who wish to add their options pages in the system wide preferences
+      dialog and manage the controls on these options pages.
+    seeAlso:
+      - DXP.IOptionsManager
+  GetOptionsSet:
+    summary: This method returns you the indexed Options set (IDocumentOptionsSet type).
+    seeAlso:
+      - DXP.IClient.GetOptionsSetCount
+      - DXP.IClient.GetOptionsSetByName
+  GetOptionsSetByName:
+    summary: This method retrieves the IDocumentOptionsSet interface based on the valid Name string.
+    seeAlso:
+      - DXP.IClient.GetOptionsSetCount
+      - DXP.IClient.GetOptionsSet
+      - DXP.IDocumentOptionsSet
+  GetOptionsSetCount:
+    summary: This method returns you the number of Options Set.
+    seeAlso:
+      - DXP.IClient.GetOptionsSet
+      - DXP.IClient.GetOptionsSetByName
+  GetPanelInfoByName:
+    summary: This method obtains the IServerPanelInfo interface for the specified panel.
+    seeAlso:
+      - DXP.IServerPanelInfo
+  GetProcessControl:
+    summary: Returns the Process Control interface. This Process Control determines the number of "re-entrant" processes
+      occurring, ie one client's process occurring stacked on top of another active client's process - this is the
+      process depth. If a process control's process depth is zero, it indicates that nothing is taking place in Altium
+      Designer.
+    remarks: >-
+      This property returns the IProcessControl interface. This Process Control interface determines the number of
+      "re-entrant" processes occurring, ie one client's process occurring stacked on top of another active client's
+      process - this is the process depth. If a process control's process depth is zero, it indicates that nothing is
+      taking place in Altium Designer. Refer to the IProcessControl interface for details.
+
+
+      ProcessDepth Example
+
+
+      ShowMessage('Current process depth ',IntToStr(Client.ProcessControl.ProcessDepth));
+    seeAlso:
+      - DXP.IProcessControl
+  GetRealMainWindowHandle:
+    summary: The method returns the window handle of the main window in Altium Designer.
+  GetServerModule:
+    summary: The ServerModule property is used in conjunction with the Count property to retrieve active (loaded) servers.
+      The ServerModule property returns the IServerModule interface for the loaded server module in Altium Designer.
+    remarks: >-
+      Note, that PCB server and Schematic server have their own IPCB_ServerInterface and ISch_ServerInterface interfaces
+      respectively.
+
+
+      IServerModule example
+
+
+      This example gets the Schematic's IServerModule interface and returns the number of document views open in Altium
+      Designer
+    seeAlso:
+      - DXP.IServerModule
+  GetServerModuleByName:
+    summary: The method returns the server module interface depending on the validity of the AModuleName parameter. Examples
+      include 'PCB' or 'SCH'. Use the ServerModuleByName property instead to return the indexed server module.
+    remarks: >-
+      The ServerModuleByName property returns the IServerModule interface if the module name is found in the Client's
+      table of active servers. For a PCB editor, module name is PCB, for a Schematic Editor, the module name is SCH etc.
+
+
+      Server Names
+    seeAlso:
+      - DXP.IClient.GetServerModule
+      - DXP.IServerModule
+  GetServerNameByPLID:
+    summary: This method returns you the server name based on the PLID identifier string (a string extracted from the
+      server's resources file).
+  GetServerRecord:
+    summary: The GetServerRecord method reports the number of installed servers based on the installation *.INS files in the
+      System folder of Altium Designer installation). Use this in conjunction with the GetServerRecordCount method.
+    remarks: >-
+      The IClient interface has GetServerRecord and GetServerModule methods. The difference between these two methods is
+      that the GetServerRecord method reports the number of installed servers (*.INS files in the \System\ folder of
+      Altium Designer installation).
+
+
+      The GetServerModule merely returns the active (loaded) server in Altium Designer and to get each active server,
+      you need to invoke the GetCount method and pass the count parameter into the GetServerModule method.
+    seeAlso:
+      - DXP.IClient.GetServerRecordCount
+      - DXP.IClient.GetServerModule
+  GetServerRecordByName:
+    summary: This method returns the IServerRecord interface based on the AModuleName parameter. This IServerRecord
+      interface represents the installation file for the server (with an INS extension).
+    seeAlso:
+      - DXP.IServerRecord
+  GetServerRecordCount:
+    summary: This method returns the number of server records that represent the server installation files found in the
+      \System\ folder of the Altium Designer software installation. This is to be used in conjunction with the
+      GetServerRecord method.
+    seeAlso:
+      - DXP.IServerRecord
+  GetServerViewFromName:
+    summary: This method returns the server view object interface depending on the name of the server view. A IServerView
+      interface represents a panel view as well as an ancestor for a document view.
+    seeAlso:
+      - DXP.IExternalForm
+      - DXP.IServerView
+  GetTimerManager:
+    summary: This property returns the timer manager object interface.
+    seeAlso:
+      - DXP.ITimerManager
+  GetWindowKindByName:
+    summary: This method returns the IServerWindowKind interface based on the AWindowKindName parameter which denotes the
+      document kind. For example, there are two document kinds in the PCB editor - PCB and PCBLIB documents.
+    seeAlso:
+      - DXP.IServerWindowKind
+  HideDocument:
+    summary: This method hides the document, ie puts it out of focus but not closed or destroyed.
+    seeAlso:
+      - DXP.IClient.CloseDocument
+      - DXP.IClient.OpenDocument
+      - DXP.IClient.ShowDocument
+      - DXP.IServerDocument
+  InRecoverySave:
+    summary: This method checks whether Altium Designer is in the process of Recovery Save mode, before you can invoke the
+      BeginRecoverySave or EndRecoverySave methods.
+    seeAlso:
+      - DXP.IClient.BeginRecoverySave
+      - DXP.IClient.EndRecoverySave
+  IsDocumentOpen:
+    summary: Returns a boolean value whether the document is open in Altium Designer or not and is dependent on whether the
+      AFilePath parameter is valid or not.
+  IsQuitting:
+    summary: "Returns a boolean value that represents the state Altium Designer is in: true if Altium Designer is about to
+      quit or in the process of quitting, false if Altium Designer is still active."
+  LastActiveDocumentOfType:
+    summary: This method returns the last active loaded document in Altium Designer by the document type. Types include PCB,
+      SCH, TEXT, WAVE, PCBLIB, SCHLIB.
+  OpenDocument:
+    summary: The OpenDocument method returns the IServerDocument interface depending on the DocumentKind and FileName values
+      of this document are valid.
+    seeAlso:
+      - DXP.IClient.ShowDocument
+  OpenDocumentShowOrHide:
+    summary: This method opens a specific document but you can control how it is displayed in the Altium Designer workspace.
+  QuerySystemFont:
+    summary: Query the system font used.
+  RegisterNotificationHandler:
+    summary: The RegisterNotificationHandler method registers the notification handler in the Client module part of Altium
+      Designer once the server object is created and loaded in computer memory. The Handler parameter contains the
+      server module object.
+    remarks: >-
+      The INotificationHandler object interface is responsible for handling notifications raised in Altium Designer.
+
+
+      Each server object has a HandleNotification method to handle notifications when the options values have been
+      adjusted from the system wide Preferences dialog.
+
+
+      The HandleNotification method would involve calls to update the server preferences values on the server panel for
+      example every-time a specific server notification code is intercepted.
+
+
+      This method is normally used for in developing servers and not for extensions.
+    seeAlso:
+      - DXP.IClient.BroadcastNotification
+      - DXP.IClient.DispatchNotification
+      - DXP.INotificationHandler
+  RemoveServerView:
+    summary: This method removes a server view (representing a server document window) from Altium Designer.
+    seeAlso:
+      - DXP.IClient.CurrentView
+  ShowDocument:
+    summary: This method fetches the IServerDocument parameter which represents the Server Document loaded in Altium
+      Designer and then displays the design document in Altium Designer.
+    remarks: |-
+      IServerDocument example
+
+      This example gets the client interface and then opens and shows a document.
+    seeAlso:
+      - DXP.IClient.OpenDocument
+      - DXP.IServerDocument
+  ShowDocumentDontFocus:
+    summary: This method fetches the IServerDocument parameter and then displays this design document but leaves the
+      previously focussed document in focus. If there are not design documents open already, then this design document
+      will still be displayed but not focussed.
+    seeAlso:
+      - DXP.IClient.OpenDocument
+      - DXP.IClient.ShowDocument
+      - DXP.IServerDocument
+  StartServer:
+    summary: The StartServer and StopServer properties can be used to load a server in Altium Designer if it has not
+      already, before you can invoke this server's processes and to stop this server once you have done with these
+      server processes. This can be used to conserve computer's memory.
+    remarks: >-
+      The StartServer method is usually used if you need to load a design document and execute the server's processes or
+      its API methods if the server has not been loaded yet. Example, during a blank session of Altium Designer where
+      there are no PCB documents open, and you need to use the PCB API to manipulate the contents on a PCB document, you
+      would need to "start" the PCB server first so the PCB API is made active.
+
+
+      Example of the StartServer method
+
+
+      Client.StartServer('PCB');
+    seeAlso:
+      - DXP.IClient.StopServer
+  StopServer:
+    summary: The StartServer and StopServer properties can be used to load a server in Altium Designer if it has not loaded
+      already, before you can invoke this server's processes and to stop this server once you have done with these
+      server processes. This can be used to conserve computer's memory.
+    remarks: >-
+      The StartServer method is usually used if you need to load a design document and execute the server's processes or
+      its API methods if the server has not been loaded yet. Example, during a blank session of Altium Designer where
+      there are no PCB documents open, and you need to use the PCB API to manipulate the contents on a PCB document, you
+      would need to "start" the PCB server first so the PCB API is made active.
+
+
+      Example of the StopServer method
+
+
+      Client.StopServer('PCB');
+    seeAlso:
+      - DXP.IClient.StartServer
+  UnregisterNotificationHandler:
+    summary: The UnregisterNotificationHandler method un registers the notification handler from Client once the server
+      object goes out of scope (destroyed). The Handler parameter contains the server module object.
+    remarks: >-
+      The INotificationHandler object interface is responsible for handling notifications raised in Altium Designer.
+
+
+      Each server object has a HandleNotification method to handle notifications when the options values have been
+      adjusted from the system wide Preferences dialog.
+
+
+      The HandleNotification method would involve calls to update the server preferences values on the server panel for
+      example every-time a specific server notification code is intercepted.
+
+
+      This method is normally used for in developing servers and not for extensions.
+    seeAlso:
+      - DXP.IClient.BroadcastNotification
+      - DXP.IClient.DispatchNotification
+      - DXP.IClient.RegisterNotificationHandler
+      - DXP.INotificationHandler

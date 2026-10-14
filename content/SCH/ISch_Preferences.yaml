@@ -49,6 +49,7 @@ members:
   DefaultPowerGndName:
     summary: The DefaultPowerGndName property denotes the default power ground name to be used for objects on the schematic
       document. The default name is GND.
+    remarks: The Get_DefaultPowerGndName method retrieves the power ground name string.
   DefaultSheetStyle:
     summary: The DefaultSheetStyle property denotes the sheet style used for the workspace.
     remarks: There are various sheet styles; A4,A3,A2,A1,A0, A,C,D,E,Letter, Legal, Tabloid, Orcad A, Orcad B, Orcad C,
@@ -62,7 +63,8 @@ members:
     summary: The DisplayPrinterFonts property denotes whether the printer fonts can be displayed or not.
   DocMenuID:
     summary: The DocMenuID property determines which pop up menu to pop up depending on whether it is a schematic or a
-      library document. RCS file).
+      library document. The property returns a widestring format which can be either PUSCHMENU or PUSCHLIBMENU strings
+      and they correspond to the entries in the Schematic Editor's resources file (ADVSCH.RCS file).
   DocumentScope:
     summary: The DocumentScope property determines the scope for filtering and selection to be applied to the current
       document or to any open document in Altium Designer.
@@ -80,8 +82,9 @@ members:
     seeAlso:
       - SCH.TLibraryScope
   MaintainOrthogonal:
-    summary: e. corners at 90 degrees). If this option is disabled, wiring dragged with a component will be repositioned
-      obliquely.
+    summary: This property if set to true then when you drag components, any wiring that is dragged with the component is
+      kept orthogonal (i.e. corners at 90 degrees). If this option is disabled, wiring dragged with a component will be
+      repositioned obliquely.
   MarkManualParameters:
     summary: The MarkManualParameters property denotes whether the dots will be displayed or not when parameters of
       components for example are auto positioned. If true, the dot for the parameter will appear when its associated

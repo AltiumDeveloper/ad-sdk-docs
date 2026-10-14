@@ -1,0 +1,16 @@
+# PCB.IPCB_GerberOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The tolerance range used when matching apertures for each item in the plots. If no exact match for an item is
+  available in the current aperture list, the software checks to see if a larger aperture exists within this tolerance
+  range and uses it instead.
+remarks: >-
+  If no suitable aperture exists within the tolerance range, the software will attempt to "paint" with a larger aperture
+  to create the required shape. This requires that a suitable larger aperture is available, and that this aperture can
+  be used for "painting".
+
+
+  Note: Match tolerances are normally only used when you are targeting a vector photoplotter, which require a fixed, or
+  supplied aperture file. They will not be required if the apertures have been created from the PCB. If match tolerances
+  are not required they should be left at the default of 0.005 mil.
+
+
+  Derived from IPCB_AbstractOptions interface

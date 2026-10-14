@@ -1,0 +1,3 @@
+# PCB.IPCB_MaxMinWidthConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This routing width constraint interface defines the minimum, favored and maximum width of tracks and arcs on
+  copper layers.

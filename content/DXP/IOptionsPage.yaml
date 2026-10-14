@@ -1,0 +1,46 @@
+# DXP.IOptionsPage: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IOptionsPage interface represents the page of controls in the system wide Preferences dialog. For example,
+  in Altium Designer, the controls on this page in the Preferences dialog are mapped from the controls on a server panel
+  of this server. The controls on a page is represented by the TOptionsForm object and its IOptionsPage interface.
+remarks: >-
+  The server module (TServerModule class) has the RegisterOptionsPageClass method which takes in the TOptionsForm
+  object. The IOptionsPage interface represents this TOptionsForm object.
+
+
+  The TOptionsForm class has methods that you need to override to implement the OptionsPage, OptionsManager,
+  OptionsReader and OptionsWriter interfaces.
+
+
+  ClearModified
+
+
+  GetModified
+
+
+  GetStateControls
+
+
+  GetNotificationCode
+
+
+  DoSetStateControls
+
+
+  SetDefaultState
+
+
+  IOptionsPage Methods and Properties table
+members:
+  GetNotificationCode:
+    summary: Each server that handles Option notifications to its server panel and the system wide Preferences dialog in
+      Altium Designer will have its own Notification code which could be a value of 100 upwards.
+    remarks: A server module will have a TOptionsForm object registered and this object will have a GetNotificationCode
+      method overridden. This server module will have its own notification code value. Ensure these notification codes
+      are unique.
+  GetStateControls:
+    summary: This method
+  SetDefaultState:
+    summary: This method sets the controls on a page within the system wide Preferences dialog to their default values.
+    remarks: The SetDefaultState method is overridden in a server's TOptionsForm object.
+  SetStateControls:
+    summary: This method updates the controls on the form from a data structure in a server module.

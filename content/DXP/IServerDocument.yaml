@@ -1,0 +1,176 @@
+# DXP.IServerDocument: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IServerDocument interface represents the document container. Each IServerDocument interface is a document
+  container made up of views of the same kind.
+remarks: >-
+  A view can be a design document form or a panel form.
+
+
+  Every document editor server (encapsulated by the IServerModule interface) that supports creation of documents will
+  have a IServerDocument interface.
+
+
+  IServerDocument Methods and Properties Table
+
+
+  IServerDocument example
+members:
+  AcquireDataFileHandle:
+    summary: For internal use only.
+  AcquireFileOwnership:
+    summary: For internal use only.
+  AddView:
+    summary: This method adds a IServerDocumentView object in the server document. A IServerDocument object is a container
+      containing views of document views and panel views.
+    seeAlso:
+      - DXP.IServerDocumentView
+  BeingClosed:
+    summary: The BeingClosed property denotes that this design document is being closed before this design document can be
+      successfully destroyed. This property is a read only property. You can check the status of the document before you
+      attempt to modify or update the document before it is being closed.
+    seeAlso:
+      - DXP.IServerDocument.GetCanClose
+      - DXP.IServerDocument.Modified
+      - DXP.IServerDocument.FileName
+      - DXP.IServerDocument.DoFileSave
+      - DXP.IClient
+  DoFileLoad:
+    summary: This method allows the re-loading of the document. This is useful if the document has been modified and saved
+      and it needs to be re-loaded to ensure that the document is in the latest state.
+  DoFileSave:
+    summary: This method provides you an option to save the document in a different format if the document supported by the
+      specific document editor provides the option of saving in a different format other than the default format.
+      Normally these file formats are stored in the SaveFilters block within the EditorWindowKind section within a
+      server installation file (with an INS extension).
+    remarks: >-
+      For example with PCB documents in Altium Designer, you can save them as a PCB ASCII format, PCB Binary 3 format
+      etc - PCB Binary, PCB 3.0 Binary, PCB 4.0 Binary, PCB ASCII. By default its PCB Binary 5.0.
+
+
+      With Schematic documents, you can save them as a Advanced Schematic binary, Advanced Schematic ascii, Schematic
+      binary 4.0, Orcad SDT Schematic, Advanced Schematic template.
+
+
+      Server Installation files
+
+
+      The file formats supported by editors can be found in the server installation files within the SaveFilters - End
+      blocks.
+    seeAlso:
+      - DXP.IServerDocument.GetCanClose
+      - DXP.IServerDocument.Modified
+      - DXP.IServerDocument.FileName
+  DoSafeChangeFileNameAndSave:
+    summary: The method determines whether the current document can be saved with the new file name and new document type or
+      not.
+  DoSafeFileSave:
+    summary: The method determines whether the document can be saved of specified document type safely.
+  FileModifiedDate:
+    summary: This method returns the date and time of the modified file.
+    remarks: The method sets the modified date for the document if the document has been modified by an outside agent.
+    seeAlso:
+      - DXP.IServerDocument.Modified
+  FileName:
+    summary: The FileName property returns the filename for the server document (not the corresponding server panel).
+    remarks: Note a server document can be a document view or a panel view, and thus if it is a panel view, the FileName
+      property is invalid.
+    seeAlso:
+      - DXP.IClient
+  Focus:
+    summary: The method forces the document to be the focussed document in Altium Designer. A focussed document is the top
+      level document and in view in Altium Designer workspace that responds to commands etc.
+  GetCanClose:
+    summary: This method checks whether the document can be closed or not. This method is used for the CanClose property.
+    remarks: This CanClose property determines whether the document can be closed or not.
+    seeAlso:
+      - DXP.IServerDocument.Modified
+      - DXP.IServerDocument.FileName
+      - DXP.IServerDocument.DoFileSave
+      - DXP.IClient
+  GetContextHelpTopicName:
+    summary: The GetContextHelpTopicName method retrieves the help topic name for the document. Normally the returned string
+      would be the ServerModuleName.DocumentKind format for example 'SCH.SCH' Some servers provide more detailed
+      information, for example Schematic Editor server returns Sch.Sheet.Port when the mouse is over the Port object on
+      a schematic sheet.
+    remarks: >-
+      Third party developers can use this method to provide context sensitive help.
+
+
+      To implement the help for your server, you should have a .HELPID file in the Help folder where the link between
+      the string returned by the GetContextHelpTopicName and the actual help document is established.
+
+
+      For example the CXTSystemDesignCapture.HelpID contains a Sch.Sheet.Port =
+      CXTSystemDesignCapture.chm,Document_Objects\Port.htm. This means when the F1 key is pressed and the Sch.Sheet.Port
+      string is returned, it will use the CXTSystemDesignCapture.chm filename and display the Document_Objects\Port.htm
+      topic.
+  GetCount:
+    summary: The Count property returns the number of views (of the same type) in the IServerDocument container. Use in
+      conjunction with the View property.
+    remarks: This method is used for the Count property.
+    seeAlso:
+      - DXP.IClient
+  GetKind:
+    summary: This method returns the Kind string for this document and this method is used for the Kind property. Examples
+      include 'PCB', 'PCBLIB','SCH','SCHLIB' etc.
+    remarks: The Kind reports the type of the document opened in Altium Designer.
+    seeAlso:
+      - DXP.IClient
+  GetServerModule:
+    summary: The ServerModule is a read-only property which returns the IServerModule interface that the document is
+      associated with. The server module represents the server object installed and running in Altium Designer.
+    remarks: A server module manages its own documents and panels.
+    seeAlso:
+      - DXP.IServerModule
+      - DXP.IClient
+  GetSupportsOwnSave:
+    summary: The SupportsOwnSave property returns a boolean value whether a save routine has been provided to save these
+      documents associated with the server.
+    remarks: The SupportsOwnSave property returns a boolean value whether a save routine has been provided to save these
+      documents associated with the server. Read only property.
+    seeAlso:
+      - DXP.IClient
+  GetView:
+    summary: The View property is an indexed property and represents a document or panel view. The IServerDocument.Count
+      method returns the list of views (which could be document or panel windows) as part of the IServerDocument
+      container.
+    remarks: The View property is an indexed property and represents a document or panel view part of the IDocument
+      container associated with a specific IServerModule interface. The IServerDocument.Count method returns the list of
+      views (which could be document or panel windows) as part of the IServerDocument container.
+    seeAlso:
+      - DXP.IClient
+  GetViewByName:
+    summary: The GetViewByName method returns the View object which represents a document or panel view.
+    seeAlso:
+      - DXP.IServerDocumentView
+  IsShown:
+    summary: This property denotes whether or not this document is displayed in Altium Designer.
+    seeAlso:
+      - DXP.IClient
+  Modified:
+    summary: The Modified property denotes whether this document has been modified or not, and can be taken as a "dirty"
+      flag, that is a document has been modified and it has been marked dirty.
+    seeAlso:
+      - DXP.IClient
+  NotifyViews:
+    summary: This method sends a notification to all the views associated with the IServerDocument container.
+    seeAlso:
+      - DXP.INotification
+  OwnsFile:
+    summary: The OwnsFile method determines whether the document is owned by the Altium Designer product and thus this
+      document can be saved or not.
+  ReleaseDataFileHandle:
+    summary: For internal use only.
+  ReleaseFileOwnership:
+    summary: For internal use only.
+  SupportsReload:
+    summary: This method determines whether the document in Altium Designer can be re loaded or not (to refresh and to make
+      sure that the document state is the latest).
+    seeAlso:
+      - DXP.IServerDocument.DoFileLoad
+  UpdateModifiedDate:
+    summary: The method updates the modified document's date after this document has been modified.
+    seeAlso:
+      - DXP.IServerDocument.Modified
+  WarnIfOwnedByOther:
+    summary: This method determines whether the document is owned by another user. A document can be shared amongst other
+      users but the other users cannot save this document when this document is owned solely by one user.

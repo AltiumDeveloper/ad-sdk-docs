@@ -1,0 +1,10 @@
+# DXP.IProcessLauncher: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This IProcessLauncher interface is a mechanism that launches a server process in Altium Designer. See
+  ICommandLauncher and IServerProcess interfaces as well.
+remarks: >-
+  Since a server has a set of processes and these process identifiers are stored in an installation file (which ends
+  with an INS extension) and the process launchers that link to specific user interface elements (also called resources)
+  and the layout of user interface elements are defined in the resources file (which ends with a RCS extension).
+
+
+  IProcessLauncher Methods and Properties Table

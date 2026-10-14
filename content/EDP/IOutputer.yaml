@@ -1,0 +1,2 @@
+# EDP.IOutputer: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IOutputer interface represents the one of the outputs of an output job within a design project.

@@ -1,0 +1,16 @@
+# PCB.IPCB_SpatialIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_SpatialIterator interface iterates through a defined region on the loaded PCB document in Altium
+  Designer to fetch PCB design objects.
+remarks: >-
+  You will need to specify the object set, the layer set and the area for the spatial iterator to conduct its search
+  within a defined boundary. The following methods are AddFilter_ObjectSet, AddFilter_LayerSet and AddFilter_Area.
+
+
+  IPCB_SpatialIterator has only methods inherited from the IPCB_AbstractIterator interface and is reproduced here for
+  reference.
+
+
+  For example SpatialIterator.AddFilter_ObjectSet( MkSet (eTrackObject,eFillObject));
+
+
+  Methods (inherited from IPCB_AbstractIterator)

@@ -8,7 +8,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, posix, relative, sep } from 'node:path';
 import { parse } from 'yaml';
-import { loadCategories, loadNamespaces } from './lib/config.mjs';
+import { categoryOf, loadCategories, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
 import { methodSignature } from './lib/render.mjs';
 
@@ -90,7 +90,7 @@ const llms = [
   '',
   '## Namespaces',
   '',
-  ...manifest.namespaces.map((ns) => `- [${ns.title} (${ns.id})](${absolute(`/reference/${ns.slug}/llms.txt`)}): ${ns.description} Declarations: ${absolute(`/reference/${ns.slug}/api.cs.txt`)}`),
+  ...manifest.namespaces.map((ns) => `- [${ns.label}](${absolute(`/reference/${ns.slug}/llms.txt`)}): ${ns.description} Declarations: ${absolute(`/reference/${ns.slug}/api.cs.txt`)}`),
   '',
   '## Optional',
   '',
@@ -104,17 +104,14 @@ const short = (type) => String(type).replace(/\b(?:[A-Za-z_]\w*\.)+([A-Za-z_]\w*
 for (const ns of namespaces) {
   const types = [...model.types.values()].filter((t) => t.namespace === ns.id).sort((a, b) => a.name.localeCompare(b.name));
   const categories = loadCategories(ns.id);
-  const catOf = (t) => {
-    const c = categories.find((x) => (!x.kinds || x.kinds.includes(t.kind)) && x.match.some((re) => re.test(t.name)));
-    return c?.id ?? (t.kind === 'enum' ? 'enums' : ['struct', 'class'].includes(t.kind) ? 'structs' : 'other');
-  };
-  const index = [`# ${ns.title} (${ns.id}) namespace`, '', `> ${ns.description}`, '', `All declarations: ${absolute(`/reference/${ns.slug}/api.cs.txt`)}`, ''];
+  const catOf = (t) => categoryOf(t, categories);
+  const index = [`# ${ns.label} namespace`, '', `> ${ns.description}`, '', `All declarations: ${absolute(`/reference/${ns.slug}/api.cs.txt`)}`, ''];
   for (const c of categories) {
     const inCat = types.filter((t) => catOf(t) === c.id);
     if (!inCat.length) continue;
     index.push(`## ${c.title}`, '');
     for (const t of inCat) {
-      const route = `/reference/${ns.slug}/${t.name}`;
+      const route = `/reference/${ns.slug}/${t.file}`;
       index.push(`- [${t.name}](${absolute(`${route}.md`)})${summaries.get(t.id) ? `: ${oneLine(summaries.get(t.id))}` : ''}`);
     }
     index.push('');
@@ -146,8 +143,16 @@ for (const ns of namespaces) {
       cs.push('    }', '');
     } else if (t.kind === 'enum') {
       cs.push(`    public enum ${t.name} { ${t.values.map((v) => `${v.name} = ${v.value}`).join(', ')} }`, '');
+    } else if (t.kind === 'delegate') {
+      if (t.signature) cs.push(`    public delegate ${methodSignature(t.signature, { name: t.name })}`, '');
     } else {
-      cs.push(`    public ${t.kind} ${t.name}${t.baseType ? ` : ${short(t.baseType)}` : ''} { ${[...t.fields.map((f) => `${short(f.type)} ${f.name};`), ...t.methods.map((m) => methodSignature(m))].join(' ')} }`, '');
+      const parts = [
+        ...t.fields.map((f) => `${f.isStatic ? 'static ' : ''}${short(f.type)} ${f.name}${f.value !== null && f.value !== undefined ? ` = ${JSON.stringify(f.value)}` : ''};`),
+        ...t.properties.map((p) => `${p.isStatic ? 'static ' : ''}${short(p.type)} ${p.name} { ${p.canRead ? 'get; ' : ''}${p.canWrite ? 'set; ' : ''}}`),
+        ...t.methods.map((m) => `${m.isStatic ? 'static ' : ''}${methodSignature(m)}`),
+      ];
+      const bases = [t.baseType, ...(t.interfaces ?? [])].filter(Boolean).map(short);
+      cs.push(`    public ${t.kind} ${t.name.replace(/\./g, '_')}${bases.length ? ` : ${bases.join(', ')}` : ''} { ${parts.join(' ')} }`, '');
     }
   }
   cs.push('}', '');

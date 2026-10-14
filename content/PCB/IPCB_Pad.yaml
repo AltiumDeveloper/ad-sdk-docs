@@ -1,0 +1,174 @@
+# PCB.IPCB_Pad: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Pad objects are hole connectors for components and for connection to signal tracks. Pads can be either
+  multilayered or single layered. Pad shapes include circular, rectangular, rounded rectangular or octagonal with X, Y
+  sizes definable from 1 to 10000mils.
+remarks: >-
+  Hole size can range from 0 (SMD) to 1000mils.
+
+
+  Pads can be identified with a designator up to four characters long. On a multilayer pad, the Top layer, Mid layer and
+  Bottom layer pad shape and size can be independently assigned to define a pad stack. Note that the surface mount
+  components and edge connectors have single layer pads on the Top and/or Bottom layers.
+
+
+  Altium Designer supports a Full Stack Pad mode for ultimate control over the padstack. This allows different sizes and
+  shapes on all signal layers. Also pads and vias can be selectively tented on the top or bottom side. Altium Designer
+  also supports three types of pad definitions: Simple, Top-Mid-Bottom and Full Stack.
+
+
+  The Corner radius attribute of rounded pads is represented by the IPCB_Pad2 interface.
+
+
+  A Paste Mask expansion property for a pad object is currently relevant just for pads on top and bottom copper layers.
+
+
+  Vias do not have a paste mask layer. Paste mask layers are used to design stencils which will selectively place solder
+  paste on a blank PCB. Solder paste is only placed on pads where component leads are to be soldered to them. Vias
+  normally don't have anything soldered onto them.
+members:
+  BotShape:
+    summary: This property determines the bottom shape of the pad with a top-middle-bottom stack up.
+    seeAlso:
+      - PCB.TShape
+  BotXSize:
+    summary: This property determines the bottom X Size of the pad with a top-middle-bottom stack up.
+  BotYSize:
+    summary: This property determines the bottom Y Size of the pad with a top-middle-bottom stack up.
+  BoundingRectangleOnLayer:
+    summary: This method retrieves the bounding rectangle (of TCoordRect type) of the component on the specified layer of
+      the PCB document.
+  Cache:
+    summary: This Cache property represents the global cache that stores various design rule settings for pad and via objects.
+  DrillType:
+    summary: This method obtains the drill type used for this pad's hole on the PCB.
+    remarks: This method sets the drill type used to drill a hole on the PCB. This attribute is used by the manufacturing
+      output file such as the CAM files.
+  HoleRotation:
+    summary: This property defines the rotation attribute of the hole within a pad object. This applies to square and
+      slotted holes.
+  HoleSize:
+    summary: This property represents the hole size of a pad object where component pins or wires can be passed through and
+      soldered in place.
+  HoleType:
+    summary: This method obtains the hole type of the pad's hole.
+    remarks: This method sets the hole type of the pad's hole. There are three hole types - Round Hole, Square Hole and
+      Slotted Hole.
+  HoleWidth:
+    summary: This method obtains the hole width in TCoord units.
+    remarks: This method sets the hole width of a pad's hole on the PCB.
+  IsConnectedToPlane:
+    summary: This property determines whether the pad is connected to the specified plane (one of the power internal planes).
+    remarks: This property is supported by GetState_IsConnectedToPlane and SetState_IsConnectedToPlane methods.
+  IsPadStack:
+    summary: This method determines whether the pad is a full stack up pad or not. Use this method before you change the
+      properties of a pad stack. You can also use the Mode property to check what type of stack up the pad is.
+    seeAlso:
+      - PCB.TPadMode
+  IsSurfaceMount:
+    summary: The pad is a surface mount if the holesize is 0 in size and is on top and/or bottom layers only.
+  MidShape:
+    summary: This property determines the middle shape of the pad with a top-middle-bottom stack up.
+    seeAlso:
+      - PCB.TShape
+  MidXSize:
+    summary: This property determines the middle shape of the pad with a top-middle-bottom stack up.
+  MidYSize:
+    summary: This property determines the middle Y Size of the pad with a top-middle-bottom stack up.
+  Mode:
+    summary: The Mode property determines what type of pad it is - a simple pad, a pad with three Top, Middle and Bottom
+      layer stack up or a pad with a complex stack up.
+    remarks: >-
+      If Mode is Simple (ePadMode_Simple) then you only deal with X,Y locations and the TopXSize, TopYSize and TopShape
+      properties.
+
+
+      If Mode is Top-Mid-Bottom stack (ePadMode_LocalStack) then you deal with X,Y Locations, Top.., Mid.. and Bot..
+      properties.
+
+
+      If Mode is Full Stack (ePadMode_ExternalStack) then you deal with XStackSizeOnLayer, YStackSizeOnLayer and
+      StackShapeOnLayer properties.
+
+
+      This property is supported by GetState_mode and SetState_mode methods.
+    seeAlso:
+      - PCB.TPadMode
+      - PCB.IPCB_Pad.IsPadStack
+  Name:
+    summary: This Name property represents the designator of a pad object.
+  PinDescriptorString:
+    summary: This property obtains the description of the pin which represents the pad of a component.
+  PlaneConnectionStyleForLayer:
+    summary: Pads automatically connect to an internal power plane layer that is assigned the same net name. The pad will
+      connect to the plane depending on the applicable Power Plane Connect Style design rule. If you do not want pads to
+      connect to power planes, add another Power Plane Connect Style design rule targeting the specific pads required
+      and with a connection style of No Connect.
+    remarks: >-
+      The Connect Style defines the style of the connection from a pin of a component, targeted by the scope (Full
+      Query) of the rule, to a power plane.
+
+
+      The following three styles as per the TPlaneConnectionStyle type are available:
+
+
+      ePlaneNoConnect - do not connect a component pin to the power plane.
+
+
+      ePlaneReliefConnect - connect using solid copper to the pin.
+
+
+      ePlaneDirectConnect (default) - connect using a thermal relief connection.
+    seeAlso:
+      - PCB.TPlaneConnectionStyle
+  Plated:
+    summary: This property denotes whether the pad is plated or not.
+  RotateAroundXY:
+    summary: This method rotates a pad object on the PCB document about the AX, AY coordinates with an angle in degrees.
+    remarks: To ensure the pad rotates without moving about, pass in its midpoint (between X1,X2 and Y1, Y2) attributes for
+      the AX,AY parameters or use the Rotation property.
+  Rotation:
+    summary: This Rotation property deals with the rotation of the pad object in degrees (of TAngle type 0 -360 degrees).
+    remarks: This property is supported by GetState_Rotation and SetState_Rotation methods.
+  ShapeOnLayer:
+    summary: This property determines what shape the pad is on this specified layer.
+    seeAlso:
+      - PCB.TShape
+  StackShapeOnLayer:
+    summary: This property determines what shape the pad stack is on that layer. This property is supported by
+      GetState_StackShapeOnLayer and SetState_StackShapeOnLayer methods.
+    seeAlso:
+      - PCB.TShape
+  TopShape:
+    summary: This property determines the top layer shape of the pad with a top-middle-bottom stack up.
+    seeAlso:
+      - PCB.TShape
+  TopXSize:
+    summary: This property determines the Top layer X Size of the pad with a top-middle-bottom stack up.
+  TopYSize:
+    summary: This property determines the Top layer Y Size of the pad with a top-middle-bottom stack up.
+  WidthOnLayer:
+    summary: This property retrieves the width of the pad on the specified layer.
+  XLocation:
+    summary: The Properties X and Y set the location of the pad with respect to the PCB document it is on.
+    remarks: These properties are supported by GetState_XLocation, GetState_YLocation and SetState_XLocation,
+      SetState_YLocation methods.
+  XPadOffsetOnLayer:
+    summary: This property is not implemented.
+  XSizeOnLayer:
+    summary: This property determines what size in X direction the pad is on this specified layer.
+  XStackSizeOnLayer:
+    summary: This XStackSizeOnLayer property determines the size of the pad in X direction on the specified layer only if
+      the pad has an external stack (ePadMode_ExternalStack type).
+    seeAlso:
+      - PCB.TPadMode
+  YLocation:
+    summary: The Properties X and Y set the location of the pad with respect to the PCB document it is on.
+    remarks: These properties are supported by GetState_XLocation, GetState_YLocation and SetState_XLocation,
+      SetState_YLocation methods.
+  YPadOffsetOnLayer:
+    summary: This property is not implemented.
+  YSizeOnLayer:
+    summary: This property determines what size in Y direction the pad is on this specified layer.
+  YStackSizeOnLayer:
+    summary: This YStackSizeOnLayer property determines the size of the pad in Y direction on the specified layer only if
+      the pad has an external stack (ePadMode_ExternalStack type).

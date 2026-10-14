@@ -62,7 +62,8 @@ members:
       example) as a string of the following format: (SchematicPinNumber:ModelPinNumber) for example (1:1),(2:2), ...
       ,(X:X)"
   ModelName:
-    summary: "This property is implemented with GetState_ModelName : string and SetState_ModelName(AValue : string) methods."
+    summary: "The ModelName property fetches or sets the name of the indexed model name.This property is implemented with
+      GetState_ModelName : string and SetState_ModelName(AValue : string) methods."
   SchDatafileLink:
     summary: The DatafileLink property determines the indexed datafilelink of the model type linked to the component. A
       component can have multiple linked models and each model can have multiple external data file links.

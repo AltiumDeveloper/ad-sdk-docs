@@ -1,0 +1,88 @@
+# PCB.IPCB_Library: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Library interface represents the library document. A library document has a list of components
+  (footprints). The component in focus in the PCB library is always the current component. This current component is
+  represented by the IPCB_LibComponent interface.
+remarks: >-
+  To obtain the settings of the library document, you obtain the IPCB_Board interface, to obtain the primitives of a
+  component (footprint), you obtain the IPCB_LibComponent interface via the Library Iterator interface.
+
+
+  There is a three way relationship: the IPCB_Board , the IPCB_LibComponent and the IPCB_Library interfaces that all
+  work together for a PCB library document.
+
+
+  The IPCB_Library interface is a standalone interface.
+members:
+  Board:
+    summary: The property represents the board that the current component is residing on in the PCB library document. This
+      IPCB_Board interface also contains the system settings such as Snap Grid, Visible and Big Visible Grid Units and
+      Output Options for the PCB library document.
+    remarks: "There is a three way relationship: the IPCB_Board , the IPCB_LibComponent and the IPCB_Library interfaces that
+      all work together for a PCB library document."
+  CreateNewComponent:
+    summary: This method creates a new component and it is represented by the IPCB_LibComponent interface. This is
+      equivalent to the CreatePCBLibComp method from the IPCB_ServerInterface interface.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  CurrentComponent:
+    summary: This property determines the current component (footprint) that is in focus or displayed in the PCB library
+      document in Altium Designer.
+    remarks: >-
+      When creating a new footprint programmatically, this footprint needs to be registered in the PCB library first
+      before setting it to be the current component.
+
+
+      This CurrentComponent property is supported by GetState_CurrentComponent and SetState_CurrentComponent methods.
+    seeAlso:
+      - PCB.IPCB_Group
+      - PCB.IPCB_LibComponent
+  DeRegisterComponent:
+    summary: This method de-registers this component from the PCB library. That is, the library does not recognize this
+      component after it has been de-registered.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  GetComponentByName:
+    summary: This method returns you the IPCB_LibComponent of a PCB component (footprint) if the CompName string.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  GetUniqueCompName:
+    summary: This method returns you the unique component name and if the supplied component name parameter is taken, this
+      parameter is modified to guarantee its uniqueness.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  LibraryIterator_Create:
+    summary: This method creates a library iterator that fetches footprints in a PCB library. Each footprint fetched by the
+      iterator is a IPCB_LibComponent interface which is inherited by the IPCB_Group interface.
+    seeAlso:
+      - PCB.IPCB_LibraryIterator
+      - PCB.IPCB_LibComponent
+  LibraryIterator_Destroy:
+    summary: This LibraryIterator_Destroy method destroys the library iterator after it was used in iterating for footprints
+      in a PCB library document.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+      - PCB.IPCB_LibraryIterator
+  Navigate_FirstComponent:
+    summary: This method forces the library to navigate to the first component in the library and set the focus to it.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  RegisterComponent:
+    summary: The RegisterComponent method registers the new footprint in the PCB library document, so that the PCB system is
+      aware of this new footprint.
+    remarks: For example when creating a new footprint programmatically, this footprint needs to be registered in the PCB
+      library first before setting it to be the current component.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  RemoveComponent:
+    summary: This method removes a component from the current library.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  SetBoardToComponentByName:
+    summary: This method sets the current library to the specified component by its component name string. If it is
+      successful, a true value is returned.
+    seeAlso:
+      - PCB.IPCB_LibComponent
+  SetCurrentComponentReference:
+    summary: This method sets the component reference of the currently focused component as the center.
+    seeAlso:
+      - PCB.IPCB_LibComponent

@@ -1,0 +1,4 @@
+# PCB.IPCB_PermittedLayersRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_PermittedLayersRule method returns or sets the permitted layers rule which specifies the layers
+  components can be placed on during placement with the Cluster Placer. The Cluster Placer does not change the layer a
+  component is on, you must set the component layer prior to running the placer.

@@ -1,0 +1,3 @@
+# PCB.IPCB_ConfinementConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_ConfinementConstraint interface specifies a rectangular region in which a set of objects is either
+  allowed, or not allowed. Use this method to define a region that a class of components must be placed in.

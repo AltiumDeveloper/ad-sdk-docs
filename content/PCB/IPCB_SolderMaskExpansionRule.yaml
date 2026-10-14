@@ -1,0 +1,4 @@
+# PCB.IPCB_SolderMaskExpansionRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The solder mask expansion rule defines the shape that is created on the solder mask layer at each pad and via
+  site. This shape is expanded or contracted radially by the amount specified by this rule.
+remarks: Note, Tenting and solder mask are related. A negative value allows the solder mask to be reduced.

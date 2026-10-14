@@ -1,0 +1,29 @@
+# EDP.ISheetSymbol: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISheetSymbol interface is a sheet symbol interface to an existing sheet symbol object on the schematic.
+  Sheet symbols represent other schematic sheets (often referred to as a child sheet). The link between a sheet symbol
+  and other schematic sheets is the FileName attribute, which must be the same as the name of the child sheet.
+remarks: An equivalent Sheet Symbol object representation is the ISch_SheetSymbol class in Sch API Reference.
+members:
+  DM_CalculatedDesignator:
+    summary: This method returns the calculated designator string which contains the hierarchical path and the logical
+      designator strings. Only when a project is compiled and up to date, designators of sheet symbols are calculated
+      based on the physical documents they are on.
+  DM_ChildSheet:
+    summary: Returns the indexed child sheet associated with this sheet symbol object. Use in conjunction with the
+      DM_ChildSheetCount method.
+  DM_ChildSheetCount:
+    summary: Returns the number of child sheets associated with this sheet symbol object.
+  DM_LogicalDesignator:
+    summary: Returns the logical designator of this sheet symbol. A logical designator is not unique, since logical
+      designators are used in multi channel designs.
+  DM_PhysicalDesignator:
+    summary: Returns the designator of this sheet symbol. Every physical designator is unique.
+  DM_SheetEntries:
+    summary: Returns the number of sheet entries that are associated with this sheet symbol. Since a sheet entry is of a
+      INetItem type, thus a INetItem interface is returned.
+  DM_SheetEntryCount:
+    summary: Returns the number of sheet entries associated with this sheet symbol object.
+  DM_SheetSymbolFileName:
+    summary: Returns the filename which is a link between this sheet symbol object and the other schematic sheet.
+  DM_UniqueId:
+    summary: Returns the unique ID of this sheet symbol object.

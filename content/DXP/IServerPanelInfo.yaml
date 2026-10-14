@@ -1,0 +1,51 @@
+# DXP.IServerPanelInfo: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IServerPanelInfo interface encapsulates the details of a panel in Altium Designer and the details can be
+  Name, Bitmap, whether the panel can be docked horizontally or vertically and so on.
+remarks: This interface is used by the IServerRecord interface and the IClient interface.
+members:
+  GetBitmap:
+    summary: The method returns the name of the bitmap.
+  GetButtonVisible:
+    summary: The method returns whether the button on the panel is visible or not.
+  GetCanDockHorizontal:
+    summary: This method determines whether the panel can be docked horizontally to the Altium Designer User Interface.
+  GetCanDockVertical:
+    summary: This method determines whether the panel can be docked vertically to the Altium Designer User Interface.
+  GetCategory:
+    summary: This method returns the Category string, ie which module it is part of within Altium Designer. For example the
+      Favorites panel is part of the System.
+  GetCreationClassName:
+    summary: Internal use.
+  GetDocumentKindCount:
+    summary: This method reports how many document kinds this panel can be associated with. For example with Simulation
+      Breakpoints panel, it can be associated with VHDL and VHDTST documents.
+    remarks: >-
+      Use this method with the GetDocumentKinds method.
+
+
+      This property reports how many document kinds this panel can be associated with. For example with Simulation
+      Breakpoints panel, it can be associated with VHDL and VHDTST documents.
+
+
+      Use this property with the DocumentKinds property.
+  GetDocumentKinds:
+    summary: This method returns the indexed Document Kind string that this panel is associated with. For example with
+      Simulation Breakpoints panel, it can be associated with VHDL and VHDTST documents. This method is to be used in
+      conjunction with the GetDocumentKindCount method.
+    remarks: This property returns the indexed Document Kind string that this panel is associated with. For example with
+      Simulation Breakpoints panel, it can be associated with VHDL and VHDTST documents. This property is to be used in
+      conjunction with the GetDocumentKindCount method.
+  GetHotkey:
+    summary: The method returns the HotKey string that is used to render the panel visible or not.
+  GetMultipleCreation:
+    summary: Internal use.
+  GetName:
+    summary: This method returns the name of the panel. For example the PCB Library panel has a PCBLibPanel name.
+  GetProjectKindCount:
+    summary: Internal use.
+  GetProjectKinds:
+    summary: Internal use.
+  SupportsDocumentKind:
+    summary: This method determines whether the document kind is supported by the panel.
+  SupportsProjectKind:
+    summary: Internal use.

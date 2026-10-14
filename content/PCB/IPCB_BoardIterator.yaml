@@ -1,0 +1,12 @@
+# PCB.IPCB_BoardIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_BoardIterator iterates through a PCB document to fetch PCB design objects on this PCB.
+remarks: >-
+  With the iterator, you can control which objects on which layers and within specified regions with the
+  AddFilter_ObjectSet , AddFilter_LayerSet and AddFilter_Area methods to be fetched.
+
+
+  The AddFilter_method controls how design objects are fetched. The TIterationMethod type has three different values;
+  eProcessAll, eProcessFree, eProcessComponents.
+
+
+  For example BoardIterator.AddFilter_ObjectSet(MkSet(eTrackObject,eFillObject));

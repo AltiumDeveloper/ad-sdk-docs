@@ -1,0 +1,13 @@
+# EDP.ILine: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ILine interface is a line object interface for an existing line object on a Schematic document. A line is a
+  graphical drawing object with any number of joined segments.
+remarks: An equivalent Line object representation is the ISch_Line interface in the Schematic API reference.
+members:
+  DM_HX:
+    summary: This method returns the upper right coordinate of the line.
+  DM_HY:
+    summary: This method returns the upper right coordinate of the line.
+  DM_LX:
+    summary: This method returns the lower left coordinate of the line.
+  DM_LY:
+    summary: This method returns the lower left coordinate of the line.

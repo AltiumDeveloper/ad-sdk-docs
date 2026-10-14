@@ -1,0 +1,3 @@
+# PCB.IPCB_RuleSupplyNets: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This IPCB_RuleSupplyNets interface specifies the supply nets on the board. The signal integrity analyzer needs
+  to know each supply net name and voltage.

@@ -1,0 +1,4 @@
+# PCB.IPCB_RadialDiameterDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RadialDiameterDimension interface references the dimensioning of an arc or circle with respect to the
+  diameter, rather than the radius. The dimension can be placed either internally or externally with respect to the arc
+  or circle

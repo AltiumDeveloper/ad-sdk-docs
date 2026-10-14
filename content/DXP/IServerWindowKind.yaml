@@ -1,0 +1,72 @@
+# DXP.IServerWindowKind: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This IServerWindowKind interface reports the type of a design document in Altium Designer and it is a composite
+  object used in IServerRecord and IClient interface objects
+members:
+  FileLoadDescriptionCount:
+    summary: The method returns the number of File Load Descriptions for the document editor type of server. A document
+      editor can support multiple document types and thus facilitate multiple load methods.
+    seeAlso:
+      - DXP.IClient
+  FileSaveDescriptionCount:
+    summary: The method returns the number of File Save Descriptions for the document editor server. A document editor can
+      have multiple document types and thus have multiple corresponding file save methods.
+    seeAlso:
+      - DXP.IClient
+  GetFileLoadDescription:
+    summary: The method returns the indexed file load description. To be used in conjunction with the
+      FileLoadDescriptionCount method.
+    seeAlso:
+      - DXP.IClient
+  GetFileSaveDescription:
+    summary: The method returns the indexed file save description. To be used in conjunction with the
+      FileSaveDescriptionCount method.
+    seeAlso:
+      - DXP.IClient
+  GetIconName:
+    summary: The method returns the name of the icon associated with the server window of a document in DXP.
+    seeAlso:
+      - DXP.IClient
+  GetIsDocumentEditor:
+    summary: The method returns a Boolean value whether this server is a document editor or not. Addons are not document
+      editors. A document editor is a server that hosts its own documents and provide editing facilities. For example
+      the PCB Editor is a Document Editor.
+    seeAlso:
+      - DXP.IClient
+  GetIsDomain:
+    summary: The method returns the Boolean value for this Domain. Normally false.
+    seeAlso:
+      - DXP.IClient
+  GetName:
+    summary: Returns the name of the window kind.
+    seeAlso:
+      - DXP.IClient
+  GetNewWindowCaption:
+    summary: The GetNewWindowCaption method returns the new document caption string for the new document in Altium Designer.
+    seeAlso:
+      - DXP.IClient
+  GetNewWindowExtension:
+    summary: The method returns the new document's extension string in DXP.
+    seeAlso:
+      - DXP.IClient
+  GetServerRecord:
+    summary: Returns the IServerRecord interface that the IServerWindowKind interface is associated with. Since the server
+      installation file defines document kinds (window kinds) and the IServerRecord interface represents this
+      installation file.
+    seeAlso:
+      - DXP.IClient
+  GetWindowKindClass:
+    summary: The method returns the indexed window kind class.
+    seeAlso:
+      - DXP.IClient
+  GetWindowKindClassCount:
+    summary: The method returns the number of window kind classes.
+    seeAlso:
+      - DXP.IClient
+  GetWindowKindDescription:
+    summary: The method returns the window kind description string for a window in Altium Designer.
+    seeAlso:
+      - DXP.IClient
+  IsOfWindowKindClass:
+    summary: The method returns a boolean value whether the class string is part of a window kind class or not.
+    seeAlso:
+      - DXP.IClient

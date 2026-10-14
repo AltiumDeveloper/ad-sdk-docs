@@ -1,0 +1,54 @@
+# PCB.IPCB_Violation: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A Violation object captures the rule that has been violated between two PCB objects that are affected by a
+  binary design rule or a PCB object affected by a unary design rule detected in the PCB editor, with the description of
+  the violation and the type of rule used.
+remarks: A violation object has a name and its associated description properties, two primitive place holders for binary
+  rules or the first primitive (Primitive1) for unary rules. Check if the second Primitive2 is valid before invoking its
+  methods or properties.
+members:
+  Description:
+    summary: This property returns the violation description that the violation object is associated with. The corresponding
+      Name property returns the name of this violation. This property is supported by the GetState_ Description method.
+    remarks: This is a read only property.
+    seeAlso:
+      - PCB.IPCB_Violation.Name
+  IsRedundant:
+    summary: This method determines whether the object is redundant (unused object) on the PCB document or not.
+  Name:
+    summary: This property returns the violation name that the violation object is associated with. The corresponding
+      Description property returns the description of this violation (if any).
+    remarks: This is a read only property.
+    seeAlso:
+      - PCB.IPCB_Violation.Description
+  Primitive1:
+    summary: A Violation object captures the rule that has been violated between two PCB objects that are affected by a
+      binary design rule or a PCB object affected by a unary design rule detected in the PCB editor, with the
+      description of the violation and the type of rule used.
+    remarks: >-
+      A violation object that deals with unary rules only has a valid Primitive1 property.
+
+
+      The Primitive2 property is always void for unary rules, therefore check if the second Primitive2 is valid before
+      invoking its methods or properties.
+
+
+      A read only property
+  Primitive2:
+    summary: A Violation object captures the rule that has been violated between two PCB objects that are affected by a
+      binary design rule or a PCB object affected by a unary design rule detected in the PCB editor, with the
+      description of the violation and the type of rule used.
+    remarks: |-
+      A violation object that deals with unary rules only has a valid Primitive1 property.
+
+      The Primitive2 property is always void for unary rules.
+
+      Check if the second Primitive2 is valid before invoking its methods or properties.
+
+      A read only property.
+  Rule:
+    summary: This Rule property returns a rule object encapsulated by the IPCB_Primitive interface. However the
+      IPCB_Primitive interface actually represents a IPCB_Rule ancestor object interface.
+    seeAlso:
+      - PCB.IPCB_Rule
+  ShortDescriptorString:
+    summary: This method returns the shortened version of the description string.

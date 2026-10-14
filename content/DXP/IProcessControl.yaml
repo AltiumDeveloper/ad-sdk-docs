@@ -1,0 +1,26 @@
+# DXP.IProcessControl: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IProcessControl interface controls the process depth for each design document in Altium Designer. Every
+  time a process is launched on a document, the process depth is increased by one and once this same process has
+  finished executing, the process depth is decreased by one. When the process depth is zero, it denotes that nothing is
+  taking place on the current design document. This is necessary if you wish to keep the environment synchronized,
+  especially the Undo system.
+members:
+  PostProcess:
+    summary: This method performs a post processing within in a main server which could involve finalizing the states of the
+      environment of the server such as the Undo system. The AContext parameter is usually the focussed document in
+      Altium Designer such as the ISch_Document and IPCB_Board interfaces.
+    seeAlso:
+      - DXP.IProcessControl.PreProcess
+  PreProcess:
+    summary: Performs pre processing within in a main server which could involve resetting the environment of the server.
+      The AContext parameter is usually the focussed document in Altium Designer such as the ISch_Document and
+      IPCB_Board interfaces
+    seeAlso:
+      - DXP.IProcessControl.PostProcess
+  ProcessDepth:
+    summary: Sets or gets the process depth. The depth value is an integer value.0 = inactive, and 1 onwards denotes the
+      number of stacked processes.
+    remarks: |-
+      ProcessDepth Example
+
+      ShowMessage('Current process depth ',IntToStr(Client.ProcessControl.ProcessDepth));

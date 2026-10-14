@@ -1,0 +1,20 @@
+# EDP.IComponentVariation: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IComponentVariation interface represents the component variant on a PCB document. There is only one
+  physical document, but each component on this document can be specified to be a variant and when the output is
+  generated, a specific variant document is generated. This variant output is controlled by the Output Job files.
+members:
+  DM_AlternatePart:
+    summary: Returns the alternate part string for this component variant.
+  DM_PhysicalDesignator:
+    summary: Returns the full physical designator string for this component variant.
+  DM_ProjectVariant:
+    summary: This method returns the IProjectVariant interface which represents a container that stores the component
+      variants for the project.
+  DM_UniqueId:
+    summary: Returns the unique ID for this component variant.
+  DM_VariationCount:
+    summary: Returns the number of variations.
+  DM_VariationKind:
+    summary: This method returns the variation kind for this component.
+  DM_Variations:
+    summary: Returns the indexed parameter variation for this component variation.

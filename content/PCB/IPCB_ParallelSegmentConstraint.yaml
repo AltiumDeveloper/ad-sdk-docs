@@ -1,0 +1,5 @@
+# PCB.IPCB_ParallelSegmentConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This rule specifies the distance two track segments can run in parallel, for a given separation. Note that this
+  rule tests track segments, not collections of track segments. Apply multiple parallel segment constraints to a net to
+  approximate crosstalk characteristics that vary as a method of length and gap.
+remarks: The Gap and Limit properties concern the track segments.

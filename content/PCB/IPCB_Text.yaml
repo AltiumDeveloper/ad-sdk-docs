@@ -1,0 +1,205 @@
+# PCB.IPCB_Text: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: "Text strings can be placed on any layer with any height. There are two classes of text strings: Free text
+  strings and component text (designators and comments). Free text strings are standalone strings which could be used as
+  descriptors or labels for any application on the workspace. There are two component text objects- designator attribute
+  and comment attribute. Each component must have a unique designator and thus designators are not globally editable.
+  The comment attribute is globally editable though."
+remarks: >-
+  The PCB editor includes special strings which are interpreted when output (printing, plotting or generating gerber
+  files) is generated. For example, the string .PRINT_DATE will be replaced by the current date when output is
+  generated.
+
+
+  Text objects are not inherited from the IPCB_group interface, therefore fetching child objects within a text object is
+  not possible.
+
+
+  Text objects are rectangular primitives with rectangular coordinates properties and the rotation property.
+
+
+  Text objects can be converted into a series of strokes using the ConvertToStrokeArray method from the IPCB_Text
+  interface.
+members:
+  Bold:
+    summary: This property sets or gets the bold property of the PCB string true Type text on a PCB document.
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+  ConvertedString:
+    summary: This property converts a special string into a text based string. The PCB editor includes special strings which
+      are interpreted when output (printing, plotting or generating gerber files) is generated. For example, the string
+      .PRINT_DATE will be replaced by the current date when the ConvertedString method is invoked.
+    remarks: |-
+      The available special strings are;
+
+      .PRINT_TIME
+
+      .PRINT_SCALE
+
+      .LAYER_NAME
+
+      .PCB_FILE_NAME
+
+      .PCB_FILE_NAME_NO_PATH
+
+      .PLOT_FILE_NAME
+
+      .ARC_COUNT
+
+      .COMPONENT_COUNT
+
+      .FILL_COUNT
+
+      .HOLE_COUNT
+
+      .NET_COUNT
+
+      .PAD_COUNT
+
+      .STRING_COUNT
+
+      .TRACK_COUNT
+
+      .VIA_COUNT
+
+      .DESIGNATOR
+
+      .COMMENT
+
+      .LEGEND
+
+      .NET_NAMES_ON_LAYER
+    seeAlso:
+      - PCB.IPCB_SpecialStringConverter
+  ConvertToStrokeArray:
+    summary: Text objects can be converted into a series of strokes using the ConvertToStrokeArray method. This is useful
+      for rending text objects as standalone line objects to be used in external programs such as 3D modelling
+      applications.
+  FontID:
+    summary: The FontID property denotes which Font the text object is using. The property is supported by GetState_FontID
+      and SetState_FontID methods.
+    remarks: >-
+      The TFontID type defines the font ID for a text object. It is the index to an entry in the font table in the PCB
+      editor. Each font used in the PCB editor has its own FontID.
+
+
+      Thus when a new font is used (through a Change Font dialog of a Change object dialog), a new FontID is added to
+      the table in the PCB editor. The FontID value can be extracted from PCB text objects.
+  FontName:
+    summary: This property sets or gets the FontName property of the PCB string true Type text on a PCB document. For
+      example one of the true Type font strings could be 'Arial', 'Arial Narrow', 'Courier New' and 'Verdana'.
+    remarks: >-
+      Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+
+
+      // notify that the pcb object is going to be modified
+
+
+      PCBServer.SendMessageToRobots(TextObj.I_ObjectAddress, c_Broadcast, PCBM_BeginModify, c_NoEventData);
+
+
+      // inverts the text object and a text boundary is created around the text
+
+
+      // The Inverted and InvertedTTTextBorder properties are useful for situations
+
+
+      // if text is to be placed on a copper region and create a cutout in the region.
+
+
+      // the color of the inverted border is the layer color and the text color itself
+
+
+      // is black.
+
+
+      // The InvertedTTextBorder property determines the distance between the boundary of the
+
+
+      // the text object itself to the inverted text border boundary.
+  GetDesignatorDisplayString:
+    summary: This method retrieves the designator string directly from a text object.
+  InAutoDimension:
+    summary: This method tests whether this text object is used for the auto dimension object or not.
+  Inverted:
+    summary: This property sets or gets the Inverted property of the PCB string true Type text on a PCB document.
+    remarks: >-
+      The Inverted property inverts the text object and a text boundary is created around the text. The Inverted and
+      InvertedTTTextBorder properties are useful for situations if IPCB_Text object is to be placed on a copper region
+      and create a cutout in the region. The color of the inverted border is the layer color and the text color itself
+      is black.
+
+
+      Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+    seeAlso:
+      - PCB.IPCB_Text.InvertedTTTextBorder
+  InvertedTTTextBorder:
+    summary: This property sets or gets the InvertedTTTextBorder property of the PCB string true Type text on a PCB document.
+    remarks: >-
+      The Inverted property inverts the text object and a text boundary is created around the text. The Inverted and
+      InvertedTTTextBorder properties are useful for situations if IPCB_Text object is to be placed on a copper region
+      and create a cutout in the region. The color of the inverted border is the layer color and the text color itself
+      is black.
+
+
+      Once the UseTTFonts property is enabled, you can use the Bold , Italic , FontName , Inverted ,
+      InvertedTTTextBorder and TTTextOutline properties.
+    seeAlso:
+      - PCB.IPCB_Text.Inverted
+  IsComment:
+    summary: This method tests whether this text object is a comment object associated with a component object for example.
+  IsDesignator:
+    summary: This method tests whether this text object is a designator for a object, for example whether a pad object has a
+      designator.
+  Italic:
+    summary: The Italic property sets or gets the italic property of the PCB string true Type text on a PCB document.
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+  Mirror:
+    summary: This method sets the Mirror attribute which represents the mirrored state of this Text Object on a PCB
+      document. This property supports GetState_Mirror and SetState_Mirror methods.
+  RotationHandle:
+    summary: This method returns the rotation handle of the text object as a record of X and Y coordinates (TPoint).
+  Size:
+    summary: The Size property sets the height of the text. This property is supported by GetState_Size and SetState_Size
+      methods.
+  Text:
+    summary: The Text property contains the text for the Text object.
+    remarks: Note, the PCB editor includes special strings which are interpreted when output (printing, plotting or
+      generating gerber files) is generated. For example, the string .PRINT_DATE will be replaced by the current date
+      when output is generated.
+  UnderlyingString:
+    summary: This UnderlyingString property is equivalent to the Text property.
+    remarks: Note, the PCB editor includes special strings which are interpreted when output (printing, plotting or
+      generating gerber files) is generated. For example, the string .PRINT_DATE will be replaced by the current date
+      when output is generated.
+  UseTTFonts:
+    summary: This property toggles the true Type font property for the PCB string text on a PCB document.
+    remarks: >-
+      Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+
+
+      // notify that the pcb object is going to be modified
+
+
+      PCBServer.SendMessageToRobots(TextObj.I_ObjectAddress, c_Broadcast, PCBM_BeginModify, c_NoEventData);
+
+
+      // Can use Open true Type Fonts...
+
+
+      Board.AddPCBObject(TextObj);
+
+
+      // notify that the pcb object has been modified
+
+
+      PCBServer.SendMessageToRobots(TextObj.I_ObjectAddress, c_Broadcast, PCBM_EndModify , c_NoEventData);
+
+
+      PCBServer.SendMessageToRobots(Board.I_ObjectAddress, c_Broadcast,
+      PCBM_BoardRegisteration,TextObj.I_ObjectAddress);
+  Width:
+    summary: This method sets the Width attribute which represents the width used for this Text Object on a PCB document.

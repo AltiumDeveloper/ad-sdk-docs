@@ -1,0 +1,8 @@
+# PCB.IPCB_RoutingCornerStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This routing corners rule specifies the corner style to be used during autorouting a PCB document.
+remarks: >-
+  • The TCornerStyle type sets or returns the corner style which can be a 45 degree camfer or rounded using an arc.
+
+
+  • The minsetback and maxsetback properties specify the minimum and maximum distance from the corner location to the
+  start of the corner chamfer or arc.

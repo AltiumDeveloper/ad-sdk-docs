@@ -1,0 +1,7 @@
+# PCB.IPCB_RadialDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RadialDimension object interface allows for the dimensioning of a radius with respect to an arc or a
+  circle. The dimension can be placed internally or externally on an arc or a circle.
+remarks: This field shows the current angular step setting for the dimension. This is the rotation step used when
+  placing the arrow portion of the dimension. Moving the arrow around the circle or arc during placement of the
+  dimension, the number and position of possible places to anchor the dimension are determined by this angular step
+  value.

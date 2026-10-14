@@ -1,0 +1,176 @@
+# EDP.IPart: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPart interface is the interface of an existing schematic part on a Schematic sheet. A part object is
+  "part" of a component, that is, a multi-part component consists of part objects. For example a multiple gate
+  integrated circuit has duplicate gates, and that a component represents the multi-part gate and a part represents the
+  gate itself.
+remarks: An equivalent component object representation is the ISch_Component class in Schematic API. The ISch_Component
+  interface represents a component that can contain links to different model implementations such as PCB, Signal
+  Integrity and Simulation models. Only one model of a particular model type (PCB footprint, SIM, SI, EDIF Macro and
+  VHDL) can be enabled as the currently linked model, at any one time.
+members:
+  DM_AddConfigurationParameters:
+    summary: The method adds configuration parameters to this part object.
+  DM_AssignedDesignator:
+    summary: The method denotes the assigned designator for this part which is equivalent to the DM_CalculatedDesignator
+      method. The DM_AssignedDesignator method returns a string that contains the designator and multi channel
+      information but does not include multi part id information.
+    remarks: This method returns the calculated designator string which contains the hierarchical path and the logical
+      designator strings. Only when a project is compiled and up to date, designators of parts are calculated based on
+      the compiled documents they are on.
+    seeAlso:
+      - EDP.IPart.DM_CalculatedDesignator
+  DM_CalculatedDesignator:
+    summary: The method denotes the system compiled designator for this part. The assigned designator for this part is
+      equivalent to the DM_CalculatedDesignator method. A DM_CalculatedDesignator method returns a string that contains
+      the designator and multi channel information but does not include multi part information.
+    remarks: This method returns the calculated designator string which contains the hierarchical path and the logical
+      designator strings. Only when a project is compiled and up to date, designators of parts are calculated based on
+      the compiled documents they are on.
+  DM_CenterLocationX:
+    summary: The method returns the central location X of the designator associated with this component.
+  DM_CenterLocationY:
+    summary: The method returns the central location Y of the designator associated with this component.
+  DM_ChannelOffset:
+    summary: The offset represents which part is offset in relation to the reference channel and the associated channels are
+      also affected. The method returns the ChannelOffset value.
+  DM_ChildProjectSheet:
+    summary: The method denotes the IDocument interface representing the child project sheet associated with this part.
+  DM_ChildVHDLEntity:
+    summary: The method returns the Child VHDL entity string representing the VHDL document that the part (component) is
+      linked to.
+  DM_Comment:
+    summary: The method denotes the comment string for this part.
+  DM_ComponentKind:
+    summary: The method denotes the component kind that this part is represented as. in the BOM and are maintained during
+      synchronization.
+    remarks: >-
+      A component kind can be one of the following:
+
+
+      eComponentKind_Standard : These components possess standard electrical properties, are always synchronized and are
+      the type most commonly used on a board.
+
+
+      eComponentKind_Mechanical: These components do not have electrical properties and will appear in the BOM. They are
+      synchronized if the same components exist on both the Schematic and PCB documents. An example is a heatsink.
+
+
+      eComponentKind_Graphical: These components are not used during synchronization or checked for electrical errors.
+      These components are used, for example, when adding company logos to documents.
+
+
+      eComponentKind_NetTie_BOM: These components short two or more different nets for routing and these components will
+      appear.
+
+
+      eComponentKind_NetTie_NoBOM: These components short two or more different nets for routing and these components
+      will NOT appear in the BOM and are maintained during synchronization.
+
+
+      unit.
+    seeAlso:
+      - EDP.TComponentKind
+  DM_CurrentImplementation:
+    summary: The method returns the current implementation which is usually a PCB footprint.
+    seeAlso:
+      - EDP.IComponentImplementation
+  DM_Description:
+    summary: The method denotes the description of the reference link to a source component or as a device name.
+  DM_DesignatorLocationX:
+    summary: The method returns the location X of the designator associated with this component.
+  DM_DesignatorLocationY:
+    summary: The method returns the location Y of the designator associated with this component.
+  DM_DesignatorLocked:
+    summary: The method denotes whether or not the designator string is locked (unmoveable).
+  DM_DisplayMode:
+    summary: The method Denotes one of the 255 display modes. The mode 0 is the normal graphical display for this part
+      object. The other 254 modes are alternative graphical displays of this same part object.
+  DM_FirstPinLocationX:
+    summary: The method denotes the reference X location of the first pin of a part object.
+  DM_FirstPinLocationY:
+    summary: The method denotes the reference Y location of the first pin of a part object.
+  DM_Footprint:
+    summary: The method denotes the footprint string that this part is associated with.
+  DM_FullLogicalDesignator:
+    summary: The method denotes the full logical designator which includes the part designator and part id information.
+  DM_FullPhysicalDesignator:
+    summary: The method denotes the full physical designator of a part which includes the calculated designator and the part
+      id information on compiled schematic sheets.
+  DM_Height:
+    summary: The method denotes the height property of the part object. A part object is "part" of a multi-part component.
+  DM_ImplementationCount:
+    summary: The method returns the number of implementations of this schematic component.
+  DM_Implementations:
+    summary: The method returns the particular IComponentImplementation for the specified indexed implementations of a
+      Schematic component.
+  DM_InstanceCount:
+    summary: The method returns the number of instances of this part.
+  DM_Layer:
+    summary: The method denotes which layer this part is on.
+  DM_LibraryReference:
+    summary: The method denotes the name of the component from the library
+  DM_LogicalDesignator:
+    summary: The method denotes the logical designator of this part on a schematic sheet.
+  DM_LogicalOwnerDocument:
+    summary: The method denotes the IDocument representing the logical owner document that this part is associated to a
+      schematic component.
+  DM_MaxPartCount:
+    summary: The method returns the maximum part count for this part object.
+  DM_NewDesignator:
+    summary: The method denotes the new designator for this part.
+  DM_NewPartId:
+    summary: The method denotes the new part id for this part.
+  DM_PartID:
+    summary: The method denotes the PartID for this part. A multi-part component references each part by its PartID, for
+      example a four part component has four unique PartIDs.
+  DM_PartIdLocked:
+    summary: The method denotes whether or not the part id string is locked (unmoveable).
+  DM_PartType:
+    summary: The method denotes the part type for this part. (Footprint type).
+  DM_PhysicalDesignator:
+    summary: The method denotes the physical designator string of a part. Note, a logical designator doesn't include the
+      channel instance string.
+  DM_PinCount:
+    summary: The method returns the number of pins for this schematic component.
+  DM_Pins:
+    summary: The method returns the INetItem interface for the specified indexed Pin of a Schematic Component.
+  DM_ReferenceLocationX:
+    summary: The method returns the reference location X of the designator associated with this component.
+  DM_ReferenceLocationY:
+    summary: The method returns the reference location Y of the designator associated with this component.
+  DM_Rotation:
+    summary: The method denotes the rotation property of a part (orientation) in degrees.
+  DM_SourceDesignator:
+    summary: The method denotes the current designator of the source component from the corresponding schematic.
+  DM_SourceHierarchicalPath:
+    summary: The method denotes the source reference path to the PCB component. The path can be multi level depending on
+      whether it is a multi channel or a bormal design. When a schematic is transferred to a blank PCB using the Update
+      command, the source reference links for each PCB footprint is populated with source library path names.
+  DM_SourceLibraryName:
+    summary: The method denotes the name of the source library where the schematic component and its associated part come from.
+  DM_SourceUniqueId:
+    summary: Unique IDs (UIDs) are used to match each schematic component to the corresponding PCB component. When a
+      schematic is transferred to a blank PCB using the Update command, the source reference links for each PCB
+      footprint is populated with source library pathnames. The UID is a system generated value that uniquely identifies
+      the source component.
+    remarks: The method returns the UniqueID for this part.
+  DM_SubProject:
+    summary: The method returns the sub project string of this part. A part can represent a schematic sheet, like a sheet
+      symbol.
+  DM_UniqueId:
+    summary: The method returns the Unique ID string for this component so this component can be synchronized on the source
+      document and the primary implementation document (PCB).
+    remarks: The method denotes the Unique ID for this part. Unique IDs are used in Schematic - PCB documents
+      synchronization so that Sch components and its corresponding PCB components are in sync.
+    seeAlso:
+      - EDP.IComponent
+  DM_UniqueIdName:
+    summary: The method returns the unique name portion of the Unique ID for this component.
+    remarks: The method denotes the Unique ID name of this part.
+    seeAlso:
+      - EDP.IComponent
+  DM_UniqueIdPath:
+    summary: The method returns the unique path portion of the Unique ID for this component. Includes the back slash.
+    remarks: The method denotes the Unique ID path of this part (includes the back slash).
+    seeAlso:
+      - EDP.IComponent

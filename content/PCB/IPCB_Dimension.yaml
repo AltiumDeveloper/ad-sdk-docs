@@ -1,0 +1,21 @@
+# PCB.IPCB_Dimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Dimension objects are used for dimensional details of a PCB board in either imperial or metric units and can be
+  placed on any layer. To create an original Dimension objects, use the IPCB_OriginalDimension class which is used in
+  P99SE and earlier versions.
+remarks: >-
+  Altium Designer introduced several new dimension styles - Linear, Angular, Radial, Leader, Datum, Baseline, Center,
+  Linear Diameter and Radial Diameter objects
+
+
+  The IPCB_Dimension interface is the ancestor interface for IPCB_OriginalDimension, IPCB_LinearDImension,
+  IPCB_AngularDimension, IPCB_RadialDimension, IPCB_LeaderDimension, IPCB_DatumDimension, IPCB_BaselineDimension,
+  IPCB_CenterDimension, IPCB_LinearDiameterDimension, IPCB_RadialDiameterDimension interfaces.
+
+
+  The DimensionKind property determines the type a dimension object is.
+
+
+  A dimension object especially a baseline or a leader dimension has multiple reference points. The references (a
+  reference consists of a record of an object along with its x and y coordinate point, an anchor and is a start or end
+  marker). A reference point is either the start or end marker and the length of two reference points is the dimensional
+  length.

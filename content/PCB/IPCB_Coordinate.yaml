@@ -1,0 +1,40 @@
+# PCB.IPCB_Coordinate: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Coordinate markers are used to indicate the coordinates of specific points in a PCB workspace. A coordinate
+  marker consists of a point marker and the X and Y coordinates of the position
+members:
+  Bold:
+    summary: This property sets or gets the bold property of the PCB string true Type text on a PCB document.
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+  FontName:
+    summary: This property sets or gets the FontName property of the PCB string true Type text on a PCB document. For
+      example one of the true Type font strings could be 'Arial', 'Arial Narrow', 'Courier New' and 'Verdana'.
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+    seeAlso:
+      - PCB.IPCB_Primitive
+      - PCB.IPCB_Group
+      - PCB.IPCB_GroupIterator
+  Italic:
+    summary: The Italic property sets or gets the italic property of the PCB string true Type text on a PCB document.
+    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
+      and TTTextOutline properties.
+  LineWidth:
+    summary: The LineWidth property determines the line width or the outline of the coordinate object.
+  Rotation:
+    summary: The Rotation property determines the coordinate object's orientation of TAngle type.
+  Size:
+    summary: The Size property determines the size of the coordinate object.
+  Style:
+    summary: The Style property determines the style used for the measurement units of the coordinate object. Display no
+      units, show units as Mils or MM or show Units with parenthesises.
+    seeAlso:
+      - PCB.TUnitStyle
+  TextFont:
+    summary: The TextFont property determines the font id of TFontID type used for the coordinate object.
+  TextHeight:
+    summary: The TextHeight property determines the text height of the coordinate object.
+  TextWidth:
+    summary: The TextHeight property determines the text width of the coordinate object.
+  UseTTFonts:
+    summary: The UseTTFonts property determines whether the text of the coordinate object is of true Type Font type.

@@ -1,0 +1,4 @@
+# PCB.IPCB_ShortCircuitConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The short circuit constraint rule includes a constraint to test for short circuits between primitive objects on
+  the copper layers. A short circuit exists when two objects that have different net names touch.
+remarks: The Allowed property sets or returns the boolean value whether or not the short circuit constraint rule is allowed.

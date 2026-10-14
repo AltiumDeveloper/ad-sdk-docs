@@ -1,0 +1,36 @@
+# PCB.IPCB_Arc: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Arcs are circular track segments with a definable width and can be placed on any layer. Arcs can have
+  resizeable angles. You can set the angles to 0 and 360 respectively to obtain a circle object. Arcs have a variety of
+  uses in the PCB design layout.
+remarks: >-
+  For example, arcs can be used to outline component shapes. Arcs can also be placed on a signal layer and be
+  electrically connected to tracks.
+
+
+  You can use IPCB_Primitive methods and properties that are relevant to the IPCB_Arc interface.
+members:
+  CenterX:
+    summary: The XCenter property denotes the X coordinate of the center of the arc.
+  CenterY:
+    summary: The YCenter property denotes the X coordinate of the center of the arc.
+  EndAngle:
+    summary: The EndAngle property denotes the end angle of the arc. It is supported by the GetState_EndAngle /
+      SetState_EndAngle and complemented by the GetState_StartAngle/SetState_StartAngle methods.
+  EndX:
+    summary: The EndX property denotes the end X coordinate of the arc.
+  EndY:
+    summary: The EndY property denotes the end Y coordinate of the arc.
+  LineWidth:
+    summary: The LineWidth property denotes the line thickness or width of the arc.
+  Radius:
+    summary: The Radius property denotes the radius of the arc.
+  RotateAroundXY:
+    summary: This method rotates an arc on the PCB document about the AX, AY coordinates with an angle in degrees. To ensure
+      the arc rotates without moving about, pass in its XCenter and YCenter attributes for the AX,AY parameters.
+  StartAngle:
+    summary: The StartAngle property denotes the initial angle of the arc. It is supported by the GetState_StartAngle /
+      SetState_StartAngle and complemented by the GetState_EndAngle/SetState_EndAngle methods.
+  StartX:
+    summary: The StartX property denotes the starting X coordinate of the arc.
+  StartY:
+    summary: The StartY property denotes the end Y coordinate of the arc.

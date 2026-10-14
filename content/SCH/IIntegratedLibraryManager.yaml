@@ -58,8 +58,6 @@ members:
       PCB3DLIB
 
       SIM
-
-      SI
   CreateIntegratedLibrary:
     summary: This CreateIntegratedLibrary method creates an integrated library from a project into the specified
       AnOutputPath path and depending on the Install parameter is installed in the Available Libraries dialog.
@@ -263,15 +261,12 @@ members:
   PlaceLibraryComponent:
     summary: This method places a component from a specified library with Library Reference and Parameters that
       describe/define this component.
-    remarks: >-
+    remarks: |-
       The ALIbReference parameter defines the component. For example 'Res2'
 
+      The ALibraryPath parameter defines the path to the library that the component is from. For example 'Miscellaneous Devices.IntLib'
 
-      The ALibraryPath parameter defines the path to the library that the component is from. IntLib'
-
-
-      The Parameters parameter defines the parameters needed for the component to be able to be placed on the schematic
-      sheet. Y=20000000'. Y parameters at the least to be able to place this component on the schematic sheet.
+      The Parameters parameter defines the parameters needed for the component to be able to be placed on the schematic sheet. For example 'ModelType=SIM|ModelParameterName0=Value|ModelParameterValue0=1K|Orientation=1|Location.X=10000000|Location.Y=20000000'. Normally you will need Location.X and Location.Y parameters at the least to be able to place this component on the schematic sheet.
   UninstallLibrary:
     summary: This method removes the specified library (full path) in the Available Libraries dialog (in the Installed page)
       in Altium Designer

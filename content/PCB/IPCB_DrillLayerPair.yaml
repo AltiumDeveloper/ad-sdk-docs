@@ -1,0 +1,6 @@
+# PCB.IPCB_DrillLayerPair: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_DrillLayerPair interface represents the paired drill layer for the layer stack up for the PCB document.
+remarks: |-
+  The IPCB_DrillLayerPair interface is a standalone interface
+
+  The IPCB_DrillLayerPair interface is a DrillLayerPair property from the IPCB_Board interface

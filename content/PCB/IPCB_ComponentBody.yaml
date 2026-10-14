@@ -1,0 +1,6 @@
+# PCB.IPCB_ComponentBody: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A component body is a body that encapsulates a component in 3 dimensions on a PCB document. Component bodies
+  are handled in the same way as other primitives, and they are contained in the component itself, whether in a library
+  or on a board.
+remarks: A component body object is a group object that contain child objects, thus in order to retrieve component
+  bodies from within a component, use an iterator on this component.

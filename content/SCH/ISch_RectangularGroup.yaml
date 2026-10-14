@@ -18,5 +18,7 @@ members:
       - SCH.ISch_RectangularGroup.YSize
   YSize:
     summary: This method sets the YSize dimension of the rectangular group object such as the sheet symbol.
+    remarks: This method retrieves the YSize dimension of the rectangular group object such as the sheet symbol. THis method
+      is used by the YSize property.
     seeAlso:
       - SCH.ISch_RectangularGroup.XSize

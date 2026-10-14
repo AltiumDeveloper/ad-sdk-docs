@@ -1,0 +1,3 @@
+# EDP.IConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IConstraint interface represents the data entry in a constraint file represented by the IConstraintGroup interface.
+remarks: Inherited from IDMObject interface

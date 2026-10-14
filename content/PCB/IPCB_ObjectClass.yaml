@@ -1,0 +1,86 @@
+# PCB.IPCB_ObjectClass: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A class is defined as a group or set of objects, identified by its unique class name. The PCB editor in the
+  Altium Designer supports Net Classes, Component Classes and From-To Classes.
+remarks: >-
+  An object can belong to more than one class. You can create classes (or groups) of objects. Classes of Components,
+  Nets and From-Tos can be created, and multiple membership is permitted. Classes are used to quickly identify a group
+  of objects. For example, you could create a class of components called Surface Mount.
+
+
+  When you set up a paste mask expansion rule for the surface mount components, you simply set the rule scope to
+  Component Class and select the Surface Mount class. Or you may have a set of nets, such as the power nets, which have
+  different clearance requirements from the signal nets. You can create a Net Class which includes all these nets, and
+  then use the Net Class scope when you define the clearance design rule for these nets.
+
+
+  An ObjectClass object can be created from the PCBClassFactoryByClassMember or PCBObjectFactory methods from the
+  IPCB_ServerInterface interface.
+members:
+  AddLayerMember:
+    summary: This AddLayerMember method adds a layer to the object class of eClassMemberKind_Layer type.
+  AddMember:
+    summary: The AddMember method adds a primitive that belongs to the same member kind in the Object Class.
+  AddMemberByName:
+    summary: This AddMemberByName adds a member by its name of the member kind in the object class.
+  IsLayerMember:
+    summary: This method checks if this layer is part of the Object Class that is hosting layer classes only (of
+      eClassMemberKind_Layer type).
+  IsMember:
+    summary: This method checks if the member (by name) is part of the Object Class.
+  IsValidObjectKind:
+    summary: This method checks if the PCB design object is a valid object kind for this object class.
+  MemberKind:
+    summary: This property denotes which particular objects can be stored in the list.
+    seeAlso:
+      - PCB.TClassMemberKind
+  MemberName:
+    summary: This property denotes the member name from the list of members in the IPCB_Object class interface.
+  Name:
+    summary: This property denotes the name of this Object Class object for the PCB document.
+  RemoveAllMembers:
+    summary: This method removes all the members for this object class.
+  RemoveLayerMember:
+    summary: This method removes the specified layer from the Object Class that hosts the layer classes only.
+  RemoveMember:
+    summary: This method removes the specified PCB design object from the list of members in this Object class.
+  SuperClass:
+    summary: The SuperClass property denotes whether or not the interface contains all members of a particular kind. If this
+      field is set to true, the members of the IPCB_ObjectClass object cannot be edited.
+    remarks: >-
+      By default, a super class contains all members of the same member kind - for example, if layer kind is selected,
+      then all layers is included for this Object Class.
+
+
+      Code Snippet Example
+
+
+      // AObjectClass is a IPCB_ObjectClass interface type
+
+
+      If AObjectClass.SuperClass Then
+
+
+      // is a super class!
+
+
+      Case AObjectClass.MemberKind Of
+
+
+      eClassMemberKind_Net : ARpt.Add('All Nets');
+
+
+      eClassMemberKind_Component : ARpt.Add('All Components');
+
+
+      eClassMemberKind_FromTo : ARpt.Add('All FromTos');
+
+
+      eClassMemberKind_Pad : ARpt.Add('All Pads');
+
+
+      eClassMemberKind_Layer : ARpt.Add('All Layers');
+
+
+      End;
+    seeAlso:
+      - PCB.TClassMemberKind

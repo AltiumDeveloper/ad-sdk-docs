@@ -1,0 +1,14 @@
+# DXP.INotification: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The INotification interface is used by the IClient, IServerView, IServerDocument, IServerModule,
+  INotificationHandler interfaces.
+remarks: >-
+  The notifications could be a document loading notification, workspace being loaded, an object being navigated, and a
+  server module being loaded.
+
+
+  Notifications as event messages can be broadcasted by the Client system, and any open server documents can receive
+  them and act on them accordingly.
+
+
+  The Broadcast Notification is a system wide notification, and the Dispatch Notification is a server specific
+  notification.

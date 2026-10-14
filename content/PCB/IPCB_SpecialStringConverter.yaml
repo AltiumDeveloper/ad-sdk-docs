@@ -1,0 +1,13 @@
+# PCB.IPCB_SpecialStringConverter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_SpecialStringConverter interface provides a way to fetch special strings in a PCB Project. You would
+  need to pass the document as a parameter in the Convert method and obtain the special strings.
+members:
+  Convert:
+    summary: The convert method converts a special string as a formatted string and returns a boolean result whether the
+      conversion is a success or not.
+  FirstSpecialStringName:
+    summary: This method obtains the first special string name used in a design project (for example a PCB Project).
+    seeAlso:
+      - PCB.IPCB_SpecialStringConverter.NextSpecialStringName
+  NextSpecialStringName:
+    summary: This method obtains the next special string name used in a design project (for example a PCB Project).

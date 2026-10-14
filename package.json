@@ -12,7 +12,7 @@
     "build": "docusaurus build",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
-    "metadata": "dotnet run --project tools/AssemblyMetadata -c Release -- \"${SDK_ASSEMBLY:-internal/assemblies/Altium.SDK.Interfaces.dll}\" metadata/Altium.SDK.Interfaces.json",
+    "metadata": "for a in Altium.SDK.Interfaces Altium.SDK; do dotnet run --project tools/AssemblyMetadata -c Release -- \"${SDK_DIR:-internal/assemblies}/$a.dll\" metadata/$a.json || exit 1; done",
     "examples:index": "node scripts/examples/index-examples.mjs",
     "apidocs": "node scripts/apidocs/generate.mjs && npm run search:index",
     "search:index": "node scripts/apidocs/search-index.mjs",

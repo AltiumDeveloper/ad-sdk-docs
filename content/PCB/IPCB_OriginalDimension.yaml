@@ -1,0 +1,4 @@
+# PCB.IPCB_OriginalDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_OriginalDimension interface represents the dimensioning information on the current PCB layer. The
+  dimension value is the distance between the start and end markers, measured in the default units. Note that the
+  original dimension object has been superseded by a new set of dimension objects

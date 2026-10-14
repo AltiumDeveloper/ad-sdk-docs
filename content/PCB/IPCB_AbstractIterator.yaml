@@ -1,0 +1,5 @@
+# PCB.IPCB_AbstractIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An abstract iterator object interface which is the ancestor interface for a board, spatial, group and library
+  Iterators.
+remarks: An iterator object iterates through a PCB database representing the PCB document to fetch specified objects
+  within a specified region on a specified layer if necessary.

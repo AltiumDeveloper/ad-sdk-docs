@@ -4,7 +4,8 @@ Source for https://altiumdeveloper.github.io/ad-sdk-api-reference/: the .NET API
 Designer extensions, generated from the SDK assemblies and cross-linked with the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples).
 
-The first release documents the `SCH` (schematic) namespace; `PCB`, `EDP` and `DXP` follow.
+It covers every namespace of both SDK assemblies: `SCH`, `PCB`, `EDP`, `DXP`, `ComponentLib`, `Embedded`,
+`DXP.EDMS` and the small `Altium.*` namespaces (`config/namespaces.yaml`).
 
 ## How it works
 
@@ -14,9 +15,9 @@ content/<NS>/*.yaml (descriptions) ───────────────
 ad-sdk-examples ──(npm run examples:index)──▶ metadata/examples-index.json ┘                       static/search-index.json        (npm run llms)
 ```
 
-1. `npm run metadata` reads the public API of `Altium.SDK.Interfaces.dll` (metadata only; the assembly is never
-   loaded) with `tools/AssemblyMetadata` and writes `metadata/Altium.SDK.Interfaces.json`. It needs the .NET SDK and
-   the assembly (`SDK_ASSEMBLY=<path>`). The JSON is committed, so the site builds without either.
+1. `npm run metadata` reads the public API of `Altium.SDK.Interfaces.dll` and `Altium.SDK.dll` (metadata only; the
+   assemblies are never loaded) with `tools/AssemblyMetadata` and writes `metadata/<assembly>.json`. It needs the
+   .NET SDK and the assemblies (`SDK_DIR=<folder>`). The JSON is committed, so the site builds without either.
 2. `npm run examples:index` scans a checkout of the SDK examples (`--dir`) and records where each type and member is
    used: `metadata/examples-index.json` (committed).
 3. `npm run apidocs` builds the API model (`scripts/apidocs/lib/model.mjs`), renders one page per type into

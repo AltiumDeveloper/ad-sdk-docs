@@ -1,0 +1,5 @@
+# PCB.IPCB_RuleFlightTime_FallingEdge: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RuleFlightTime_FallingEdge interface returns or sets values for the flight time of the falling edge of
+  a signal. The flight time is the signal delay introduced by the interconnect structure. It is calculated as the time
+  it takes to drive the actual input to the threshold voltage, less the time it would take to drive a reference load
+  (connected directly to the output) to the threshold voltage.

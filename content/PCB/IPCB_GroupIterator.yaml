@@ -1,0 +1,29 @@
+# PCB.IPCB_GroupIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_GroupIterator interface deals with group objects such as board layouts, polygons, components,
+  footprints in a PCB library, coordinates and dimensions that have child objects within.
+remarks: >-
+  When you need to fetch child objects of a group object such as tracks and arcs of a footprint in a PCB library, you
+  need to create a Group Iterator for that group object.
+
+
+  The sequence is basically as follows;
+
+
+  Set up a board iterator to fetch design objects from the PCB/Library document
+
+
+  For each design object that is a group object (such as polygons and components), setup a group iterator and fetch
+  child objects for that group object.
+
+
+  Destroy the group iterator when finished iterating child objects for that group object
+
+
+  Destroy the board/library iterator when finished iterating
+
+
+  IPCB_GroupIterator has methods inherited from the IPCB_AbstractIterator interface and is reproduced here for
+  reference.
+
+
+  For example LibraryIterator.AddFilter_ObjectSet( MkSet (eTrackObject,eFillObject));

@@ -1,0 +1,5 @@
+# PCB.IPCB_PasteMaskExpansionRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_PasteMaskExpansionRule method returns or sets values for a paste mask expansion rule object. The Paste
+  Mask Expansion Rule specifies the amount of radial expansion or radial contraction of each pad site.
+remarks: The Expansion property sets or returns the radial expansion or contraction value (a negative value denotes
+  contraction).

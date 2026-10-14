@@ -11,7 +11,7 @@ remarks: >-
 
 
   1. Create an object and pass in the filename of a schematic library file. This object is represented by the
-  ILibCompInfoReader interface. CreateLibCompInfoReader(LibraryFileName);
+  ILibCompInfoReader interface. This object is created by the SchServer.CreateLibCompInfoReader(LibraryFileName);
 
 
   2. Invoke the ReadAllComponentInfo method to load the components specified by the library name.

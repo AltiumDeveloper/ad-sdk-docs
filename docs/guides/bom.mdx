@@ -1,0 +1,133 @@
+---
+title: Working with bills of materials
+sidebar_position: 4
+description: Read and configure project and document BOMs with the BOM engine - the BOM manager factory, BOM schema, rows, columns and ActiveBOM documents.
+---
+
+# Working with bills of materials
+
+The BOM engine creates and manages the bill of materials (BOM) of a project or document and its parameters. Its
+entry point is the [`IBomManagerFactory`](../reference/edp/IBomManagerFactory.md), returned by
+`EDP.Utils.GetBomManagerFactory()`.
+
+## Getting a BOM
+
+The BOM is an [`IBomManager`](../reference/edp/IBomManager.md), or an
+[`IActiveBomManager`](../reference/edp/IActiveBomManager.md) for an ActiveBOM document. The factory creates it:
+
+| Source of components | Call |
+| --- | --- |
+| A document (schematic, PCB or BomDoc) | `factory.GetManagerForDocument(document)` |
+| A schematic or BomDoc, with a PCB document as an additional source of PCB parameters | `factory.GetManagerForDocumentPcb(document, pcbDocument)` |
+| A whole project | `factory.GetManagerForProject(project)` |
+| A whole project, with a PCB document as an additional source of PCB parameters | `factory.GetManagerForProjectPcb(project, pcbDocument)` |
+
+To find out which kind of manager you have, cast it:
+
+```csharp
+IBomManagerFactory factory = EDP.Utils.GetBomManagerFactory();
+IBomManager bomManager = factory.GetManagerForProject(project);
+var activeBomManager = bomManager as IActiveBomManager; // null unless the source is an ActiveBOM document
+```
+
+## Reading the BOM
+
+The rows of the BOM are the components of its schema:
+
+```csharp
+IBomComponentList rows = bomManager.GetSchema().GetComponents();
+```
+
+A row can be a group of several components. Check with `IsGroup()` and get the group's components with
+`AsGroup().GetComponents()`.
+
+The column values of a row are in its parameter dictionary, an
+[`IBomParameterDictionary`](../reference/edp/IBomParameterDictionary.md):
+
+```csharp
+IBomParameterDictionary parameters = row.GetParameters();
+if (parameters.TryGetParameter("Comment", out IBomParameter comment))
+{
+    // ...
+}
+```
+
+The dictionary also reads values directly, with `GetStrValue` and `GetIntValue`.
+
+All columns (parameters) of the BOM are in its schema:
+
+```csharp
+IBomParameterDefinitionList columns = bomManager.GetSchema().GetParameterDefinitions();
+```
+
+An ActiveBOM document can define column aliases (custom column names) and custom columns. Custom columns are in the
+same parameter definition list as the generated columns; to get them separately, and to read the aliases, use the
+ActiveBOM options:
+
+```csharp
+string aliases = activeBomManager.GetOptions().GetColumnsAliases();
+var customColumns = activeBomManager.GetOptions().GetCustomColumns();
+```
+
+The aliases are one string: `|`-separated pairs, each pair `=`-separated.
+
+## Configuring the BOM
+
+The BOM is configured through its options, [`IBomManagerOptions`](../reference/edp/IBomManagerOptions.md), or
+[`IActiveBomManagerOptions`](../reference/edp/IActiveBomManagerOptions.md) for ActiveBOM:
+
+```csharp
+IBomManagerOptions options = bomManager.GetOptions();
+```
+
+| View | Settings |
+| --- | --- |
+| Flat (one row per component) | `options.SetAutoGroup(false); options.SetGroupOrder("");` and, for ActiveBOM, `SetMultiVariant(false)` |
+| Consolidated | `options.SetAutoGroup(true); options.SetGroupOrder("");` and, for ActiveBOM, `SetMultiVariant(true)` |
+
+Sorting is set with `SetSortOrder` and `SetAutoSort`. The sort order is a `string`; its format is not documented yet.
+
+The options are shared with the rest of Altium Designer. Save them before changing them and restore them when you
+are done, so other BOMs are not affected:
+
+```csharp
+object savedState = options.GetState();
+try
+{
+    // configure the options and read the BOM
+}
+finally
+{
+    options.RestoreState(savedState);
+}
+```
+
+## Changing an ActiveBOM document
+
+Line numbers can be set for ActiveBOM only, on the catalog item of a row:
+
+```csharp
+string catalogId = row.GetParameters().GetStrValue("%CATALOGID%");
+IActiveBomCatalog catalog = activeBomManager.GetCatalog();
+IActiveBomCatalogItem catalogItem = catalog.FindItem(catalogId);
+catalogItem.SetLineNumber("10");
+```
+
+A custom row is added to the catalog:
+
+```csharp
+IActiveBomCatalogItem customRow = activeBomManager.GetCatalog().AddCustomRow();
+customRow.SetComment("...");
+customRow.SetDescription("...");
+customRow.SetLineNumber("...");
+```
+
+After changing line numbers or adding rows, call `bomManager.UpdateSchema(...)` to rebuild the BOM schema (this
+recreates the whole schema).
+
+To save the ActiveBOM document (`*.BomDoc`) after a change, save its server document:
+
+```csharp
+IServerDocument serverDocument = document.DM_ServerDocument();
+serverDocument.DoFileSave(document.DM_DocumentKind());
+```

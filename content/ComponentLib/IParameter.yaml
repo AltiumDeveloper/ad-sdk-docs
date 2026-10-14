@@ -1,0 +1,18 @@
+# ComponentLib.IParameter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IParameter interface is a parameter object interface to an existing parameter object on a schematic sheet.
+  There are two types of parameters - system parameters which are owned by a schematic document and parameters owned by
+  certain schematic design objects.
+remarks: >-
+  A parameter is a child object of a Parameter Set, Part, Pin, Port, or Sheet Symbol object. A Parameter object has a
+  Name property and Value property which can be used to store information, thus the parameters are a way of defining and
+  associating information and could include strings that identify component manufacturer, date added to the document and
+  also a string for the component's value (e.g. 100K for a resistor or 10PF for a capacitor).
+
+
+  Each parameter has a Unique Id assigned to it. This is used for those parameters that have been added as design rule
+  directives. When transferring the design to the PCB document, any defined rule parameters will be used to generate the
+  relevant design rules in the PCB. These generated rules will be given the same Unique Ids, allowing you to change rule
+  constraints in either schematic or PCB and push the change across when performing a synchronization.
+
+
+  An equivalent object representation is the ISch_Parameter class in the Sch API reference.

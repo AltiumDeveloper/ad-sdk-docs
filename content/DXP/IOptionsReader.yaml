@@ -1,0 +1,35 @@
+# DXP.IOptionsReader: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IOptionsReader interface reads values for options on a page in the system wide Preferences dialog or
+  Project options dialog from the registry storage.
+members:
+  ReadBoolean:
+    summary: This ReadBoolean method retrieves a boolean value for the specified server and the setting name that are
+      represented by the system wide Preferences dialog.
+    remarks: >-
+      The DefaultValue parameter for the ReadBoolean method returns a default Boolean value if the specific control on
+      the Preferences dialog is not returning a valid Boolean value.
+
+
+      The section name represents the target server's page in the system wide preferences dialog.
+  ReadDouble:
+    summary: This ReadDouble method retrieves a double value for the specified server and the setting name that are
+      represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  ReadInteger:
+    summary: This ReadInteger method retrieves an integral value for the specified server and the setting name that are
+      represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  ReadSection:
+    summary: This method retrieves the data for the section which is the targetted page in the system wide Preferences dialog.
+    remarks: Note the section name is the targetted page in the system wide preferences dialog.
+  ReadString:
+    summary: This ReadString method retrieves a string value for the specified server and the setting name that are
+      represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  SectionExists:
+    summary: This method checks whether the section (or the targetted page) exists or not.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  ValueExists:
+    summary: This method determines whether the value name exists for this section name. This is useful if you need to check
+      if a value name exists in the registry storage before you commit a value to this location.
+    remarks: The section name is the targetted page in the system wide preferences dialog.

@@ -1,0 +1,9 @@
+# PCB.IPCB_OutputOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_OutputOptions interface represents the options for the generation of PCB output such as including
+  mechanical layers in plots etc.
+remarks: |-
+  Parameters:
+
+  PChar);
+
+  Derived from IPCB_AbstractOptions interface

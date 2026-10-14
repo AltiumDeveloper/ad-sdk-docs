@@ -1,0 +1,3 @@
+# PCB.IPCB_ECOOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_ECOOptions represents an existing Engineering Change Order options object in a PCB document.
+remarks: Derived from IPCB_AbstractOptions interface

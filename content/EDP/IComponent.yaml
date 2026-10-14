@@ -1,0 +1,24 @@
+# EDP.IComponent: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IChannelClass interface is a PCB Channel class object interface for an existing Channel Class on a PCB
+  document. An existing Channel (room) class contains members of specific components.
+remarks: >-
+  Each component within a Channel Class object can either be a member or not. The 'All Components' Channel Class exists
+  in every PCB document by default, it includes all Components in the document.
+
+
+  It is not possible to change which components are members of that Channel class, but the user has full control over
+  which components are members of any other Channel classes (which are created and named by the User)
+members:
+  DM_PhysicalComponentCount:
+    summary: The method returns the number of physical components.
+  DM_PhysicalComponents:
+    summary: The method returns the indexed physical component. Use this in conjunction with the DM_PhysicalComponentCount
+      method.
+  DM_PhysicalPath:
+    summary: The method returns the full physical path for this component. For example the string can consist of the
+      schematic filename \ channel name and instance.
+  DM_SubPartCount:
+    summary: The method returns the number of parts for this multi-part component. A standalone component returns 1 (only
+      one part for a standalone component).
+  DM_SubParts:
+    summary: The method returns the indexed sub-part of a multi-part component. Use the DM_SubPartCount method.

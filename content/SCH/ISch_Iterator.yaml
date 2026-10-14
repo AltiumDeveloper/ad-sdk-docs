@@ -2,7 +2,8 @@
 summary: An iterator object interface represents an existing iterator object which iterates through a design database to
   fetch specified objects within a specified region if necessary.
 remarks: >-
-  AddFilter_ObjectSet(MkSet(ePort));
+  Therefore, to specify the object set or the layer set, you need to use the MkSet method to create a set of objects,
+  for example Iterator.AddFilter_ObjectSet(MkSet(ePort));
 
 
   The TIterationDepth type denotes how deep the iterator can look - look for first level objects (for example standalone
@@ -27,6 +28,8 @@ members:
       can be composed of multiple parts and each part is identified by its PartID value.
   AddFilter_ObjectSet:
     summary: This method defines which objects the iterator will look for on a schematid document or a library document.
+    seeAlso:
+      - SCH.TObjectSet
   AddFilter_PartPrimitives:
     summary: This method sets up the filter of the iterator to look for primitives of a part (of a component). A component
       can be a multi-part component, for example a 74LS04 can have four parts and they are identified by the PartID
@@ -39,6 +42,13 @@ members:
       - SCH.ISch_Iterator.NextSchObject
   IterationDepth:
     summary: The TIterationDepth type denotes how deep the iterator can look on a document.
+    remarks: >-
+      Look for first level objects, for example standalone system parameters of the document only, or all levels for
+      example all parameters on the document including system parameters, objects' parameters such as component's
+      parameters.
+
+
+      By default, eIterateAllLevels value is used.
     seeAlso:
       - SCH.TIterationDepth
   NextSchObject:

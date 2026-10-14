@@ -1,0 +1,10 @@
+# EDP.IHighlightedDocument: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This IHighlightedDocument interface represents a mechanism that deals with highlighting of objects on a design
+  document (especially Schematic and PCB documents) in Altium Designer when objects are being selected or deselected and
+  when being masked or not.
+remarks: |-
+  This interface and its methods are for internal use.
+
+  The IHighlightedDocument interface is inherited from the IServerDocument interface.
+
+  IHighlightedDocument Methods and Properties Table

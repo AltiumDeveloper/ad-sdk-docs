@@ -1,0 +1,3 @@
+# EDP.IAbstractVHDLProject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IAbstractVHDLProject interface represents a project that hosts VHDL documents.
+remarks: Inherited from IProject interface

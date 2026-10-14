@@ -1,0 +1,3 @@
+# PCB.IPCB_RuleMinSignalTopValue: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RuleMinSignalTopValue method specifies the minimum allowable signal top value. The top value is the
+  voltage that a signal settles into the minimum top state.

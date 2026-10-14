@@ -40,3 +40,99 @@ SCH:
   - id: other
     title: Other interfaces
     match: []
+
+PCB:
+  - id: server
+    title: Server and options
+    match: ['^IPCB_(ServerInterface|SystemOptions|InteractiveRoutingOptions|AdvancedPlacerOptions|SpecctraRouterOptions|DesignRuleCheckerOptions|ECOOptions|GerberOptions|OutputOptions|PrinterOptions|AbstractOptions|OptionsList|ModelOptions|BoardRoutingOptions|Factory|ParametersFactory|TTFontsCache|LettersCache|TTFontData|ExpressionManager|AutoTestSupport|AsyncTask|AsyncCompleteCallback|AsyncProgressCallback|SpecialStringConverter)$', '^IPlotterPen$', '^ISerialParameters$']
+  - id: documents
+    title: Boards, libraries and iteration
+    match: ['^IPCB_(Board|BoardEx\d*|Library|LibComponent|LibraryLoaderSaver|Sheet|PadViaLibrary\w*|PrimitiveList|PrimitiveCounter|PrimitiveComparator|GroupComparisionResult|SingleLayerMode|BoardOutline|BoardRegion|BoardRegionsManager|SplitBoardRegion\w*|DesignVariants?)$', 'Iterator']
+  - id: rules
+    title: Design rules
+    match: ['Rule', 'Constraint', '^IPCB_(MinimumAnnularRing|Max(Over|Under)shoot\w+|ShortCircuit\w*|Violation|ImpedanceProfile|TraceImpedance)$']
+  - id: layers
+    title: Layers and stackup
+    match: ['Layer', '^IPCB_(StackObject|DielectricObject|ViaStructure\w*|BackDrilling)$', '^ILsmSdk', '^IV7_', '^IDrillPairInfo$']
+  - id: geometry
+    title: Geometry, shapes and 3D
+    match: ['^IPCB_(Contour\w*|GeometricPolygon|Geometry\w*|Shape\w*|Shapes|RegionShape\w*|PolyRegShapesClipResult|3D\w*|Mesh\w*|ModelProperties\w*|Model|ComponentBody|CustomPadShape|CustomShape\w*|ConnectivityGraph|StrokeArray|AcuteAngle|AreaCalculation\w*|Axis|BendingLine|SharedUnion)$', '^IPCB3D_', '^IGeom', '^IMesh', '^ICoord', '^IPoint', '^IPolySegment$', '^ISpline', '^IOcc', '^IOCC', '^I_D3DVECTOR$', '^ID3DX', '^IStrokeRecord$', '^I(Double|Cardinal)List$', '^IDimensionReference$']
+  - id: manufacturing
+    title: Manufacturing and outputs
+    match: ['Manufactur', '^IPCB_(DrillTable\w*|Board3DModelExporter|SpecctraDSNFile|PrintedElectronics|TestPointUsage|CounterHole\w*|PadTemplate\w*|PadViaTemplate\w*|ViaTemplate\w*|ViaManager)$', '^ICounterHole', '^IPrintedElectronics$', '^IVcsBoardRevisionInfo$', '^IPadViaThermalReliefData$']
+  - id: import
+    title: Import
+    match: ['^IImporter', '^ILog(Report|Section)', '^IWizardPageObserver$', '^IHandler_Status$']
+  - id: rendering
+    title: Views, grids and painting
+    match: ['Painter', 'GraphicalView', '^IPCB_(LiveHandleContainer|ColorID|PlacementGuide\w*|RealPlacementGuide\w*|PlacementGrid\w*|CartesianGrid|PolarGrid|GridManager\w*|Viewport)$']
+  - id: objects
+    title: Design objects
+    match: ['^IPCB_']
+
+EDP:
+  - id: projects
+    title: Workspace and projects
+    match: ['^I(Workspace|WorkspacePreferences|Project|ProjectProperties|ProjectVariant|BoardProject|CoreProject|EmbeddedProject|FPGAProject|FreeDocumentsProject|IntegratedLibraryProject|SignalHarnessProject|AbstractVHDLProject|SearchPath|Configuration|BaseConfiguration|EmbeddedConfiguration|PCBConfiguration|DMObject|UserProfile\w*|ToDoManager|ChangeManager|ECO|Violation|NavigationHistory|DeviceSheet\w*|VariantOption|ComponentVariation|ParameterVariation)$']
+  - id: documents
+    title: Documents
+    match: ['^I(Document|LogicalDocument|DocumentStructure|DocumentOutputValues|ImportDocument|ExportDocument|HighlightedDocument|DatabaseLibDocument|SVNDatabaseLibDocument|DataBaseLibCommands|ReleaseViewDocument|ReleasesDocument|RevisionSchemeDocument|WSM_OutputJobDocument|TextCommands|TextPrint|TextFrame|CustomClipboardFormat)$']
+  - id: bom
+    title: Bill of materials
+    match: ['^IBom', '^IActiveBom', '^ISourceRelationship$', '^ISupplyInformationView$']
+  - id: outputs
+    title: Outputs and publishing
+    match: ['^IOutput', '^IPredefinedOutput$', '^I(WebDAV)?Publisher$', '^IGeneratedPage', '^IPrint', '^IPrinterOptionsRecord$', '^IPageOptionsRecord$', '^ITOC', '^ISymbolGenerator$', '^IInputValues$', '^IParallelPort']
+  - id: compare
+    title: Comparison
+    match: ['^ICMP_']
+  - id: draftsman
+    title: Draftsman
+    match: ['^IDraftsman_']
+  - id: mcad
+    title: Multi-board assembly and MCAD
+    match: ['^IMBA', '^ISpaceBall']
+  - id: comments
+    title: Comments
+    match: ['^IComment']
+  - id: release
+    title: Libraries, items and release
+    match: ['^IAltiumLibrary', '^IAutomaticReleas', '^I(Configuration)?ReleaseManager$', '^IVault', '^IDItem', '^IDM_FSM', '^IXLib', '^ILibraryInterface$', '^IUnifiedDataModel$', '^IUpdateParameterOptions$']
+  - id: wave
+    title: Waveforms
+    match: ['^IWave']
+  - id: netlist
+    title: Compiled design
+    match: ['^I(Net|NetItem|NetClass|NetProperties|SubNet|Bus|Component|ComponentClass|ComponentImplementation|Part|PartProperties|Pin|Parameter|ParameterProperties|ExternalParameter|ItemParameter|Port|EntityPort|Instance|InstancePort|SheetSymbol|CrossSheet|Line|Blanket|Signal|SignalLink|SignalManager|SignalNode|Room|Rule|DifferentialPair|ChannelClass|ObjectClass|ObjectClassCluster|Constraint|ConstraintGroup|InstalledConstraintFiles|HarnessDefinition\w*|Hyperlink|LocatedHyperlink\w*|VHDLEntity|ModelIdentifier|ComponentMappings|ComponentLibraryLink|ComponentSearch|DrawingItem|PolylineDrawingItem)$']
+
+DXP:
+  - id: client
+    title: Client and servers
+    match: ['^I(Client\d?|ClientAPI\w*|ServerModule\w*|ServerRecord|ServerProcess|ServerOptions|ServerSecurity|ServerLicense|ServerInternalOptions\w*|ServerPanelInfo|ServerWindowKind|ProcessControl|ProcessLauncher\w*|CommandLauncher|CommandGetState|ProductInfo|DXPProductBranding|DXPSplash|PluginsRegistry\w*|PluginsPlatformVersions|DXPExtensionManager\w*|LicenseManager|LicenseExpirationInfo|FeatureChecker|InternalOptions|TimerHandler|TimerManager|IdleHandler\w*|ThreadSynchronize|Macro\w*|ScriptDirective|AnalyticsMonitor|AnalyticsReporter|Log\w*|Logger|TranslationManager|SecurityManager|SecurityServerManager|SupportService|PluginFactory)$']
+  - id: documents
+    title: Documents and workspace
+    match: ['^I(ServerDocument\w*|DXPDocument|DXPProject|DXPWorkSpace|DXPWorkspaceHelper|DXPWorkspacePreferences|Document\w*|ClipboardDocument|CommentedDocument|EmbeddableDocument|FreeBinary\w*|TextDocument|ToDoDocument|NavigationDocument|PreviewableDocument|ReadonlySupportDocument|ReleasedItemDocument|VaultPropertiesSupportDocument|UndoRedoSupport|LocalHistoryManager|SaveLoadLayout|DXPBomReader|DXPFileBOM)$']
+  - id: notifications
+    title: Notifications and messages
+    match: ['Notification', '^IEventNavigated$', '^INotification', '^IDataFor', '^IValidateStateTransition', '^IDXPMessage', '^IMessage$']
+  - id: vcs
+    title: Version control
+    match: ['^I(Vcs|VCS|SVN|Git|CloudVCS)']
+  - id: data-management
+    title: Vaults, items and data management
+    match: ['^IEDMS', '^IEDM_', '^IEMDS_', '^IULB_', '^IEDesignData', '^IDMS_', '^IVault', '^IReleas', '^IBatch', '^IPublishing', '^IHRIDGenerator$', '^IGeneratorRegistry$', '^IItemRevisionPair$', '^ILastRevisions', '^IReservationResult$', '^IPartChoicesManager$', '^ITransportSet$', '^IDXPAltiumPortal$', '^IDragDropRevision$', '^IDragDropVault', '^IRevision', '^IFolder', '^IExternal(Folder|Revision)', '^ILinkToVaultFrame$', '^IVEN_', '^IAspect']
+  - id: ui
+    title: Views, panels and user interface
+    match: ['^I(ServerView|ServerDocumentView|ContextServerView|CategorizedServerView|ViewWithNotificationFilter|GUIManager\w*|StatusBarManager|UIDialogManager|UITheme\w*|ExternalForm\w*|ExternalPaint|SupportExternalPaint|CustomForm|FloatingWindow|SizedControl|OptionsPage|OptionsForm\w*|OptionsManager|OptionsReader|OptionsWriter|OptionsStorage|ToolChainOptionsStorage|KeywordHighlight|Menu\w*|HTMLView\w*|WebBrowser\w*|WebCookieManager|WebSessionManager|WebAppHostModule|CookieSetter|DynamicHelpManager|Scene\w*|PreviewImage|DocumentPreview\w*|DragDrop\w*|DocDataItemDragDropInfo|ModalAction\w*|ProjectDialogsFactory|ServerConnectionDialog|Navigat\w*|BackForwardNavigator|ParametricView\w*|Search(Manager|Provider|Results)|AssociatedWithBitmap|ExternalActionItem\w*)$']
+  - id: collections
+    title: Collections and values
+    match: ['^I(Strings|WideStrings|Integers|Interfaces|InterfaceList|GUID|Point|Rect|RectangleD|PercentState|ParameterValueConvertorFactory|ReportOutput\w*|ICustom)$', '^Itag']
+
+ComponentLib:
+  - id: templates
+    title: Component templates
+    match: ['^IComponentTemplate', '^IComponentType', '^IRequiredComponentType$']
+  - id: library
+    title: Libraries and component definitions
+    match: ['.']
+    kinds: [interface]

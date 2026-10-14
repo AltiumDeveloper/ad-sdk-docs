@@ -1,0 +1,3 @@
+# PCB.IPCB_MaxUndershootFall: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_MaxUndershootFall interface specifies the maximum allowable undershoot (ringing above the base value)
+  on the falling edge of the signal.

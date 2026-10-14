@@ -1,0 +1,3 @@
+# EDP.IConfiguration: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IConfiguration interface represents the configuration container that contains a group of constraints which
+  targets a specific FPGA device.

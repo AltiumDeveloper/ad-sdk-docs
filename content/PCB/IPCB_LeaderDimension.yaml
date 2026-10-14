@@ -1,0 +1,15 @@
+# PCB.IPCB_LeaderDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_LeaderDimension object interface allows for the labeling of an object, point or area. There are three
+  types of leader dimensions available which reflect the label text either being encapsulated by a circle or square or
+  not at all. The pointer can also be an arrow or a dot which is size -definable.
+remarks: >-
+  There are three types of leaders available: eNoShape = standard leader which means the dimension text is not enclosed
+  at all. eRectangular the label text is encapsulated by a square, and eRounded - the dimension text is encapsulated by
+  a circle.
+
+
+  The Dot property denotes the dot symbol attached to the pointer of the leader dimension object as a dot or as an
+  arrow.
+
+
+  If the Dot field is enabled, then you can specify the size of the dot as a TCoord value.

@@ -1,0 +1,4 @@
+# PCB.IPCB_TestPointStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The auto-router includes a testpoint generator, which can identify existing pads and vias as testpoints, as
+  well as adding testpoint pads to nets which can not be accessed at existing pads and vias. Generally the testpoint
+  types are used in bare board testing or are used for in-circuit testing.

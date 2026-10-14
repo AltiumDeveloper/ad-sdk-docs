@@ -91,20 +91,60 @@ members:
     seeAlso:
       - SCH.TUnitSystem
   Text:
-    summary: The Text property of the ISch_Label represents the actual text string entered by the user.
+    summary: The Text property represents the text information for the directive objects and the error marker objects.
+    remarks: The Text property of the ISch_Label represents the actual text string entered by the user.
     seeAlso:
       - SCH.ISch_Directive
       - SCH.ISch_ErrorMarker
       - SCH.ISch_Label
       - SCH.ISch_TextFrame
   UniqueId:
-    summary: The SetState_UniqueID property sets the new ID for the sheet symbol. All parameters, sheet symbols, ports,
-      pins, components, openbus links, openbus ports and openbus components have Unique IDs. Unique IDs are used to
-      maintain design synchronization in design projects.
-    remarks: The Unique ID (UID) is an system generated value that uniquely identifies this current component. It is used
+    summary: The UniqueID property sets the new ID for the component. All parameters, sheet symbols, ports, pins,
+      components, openbus links, openbus ports and openbus components have Unique IDs. Unique IDs are used to maintain
+      design synchronization in design projects.
+    remarks: >-
+      The Unique ID (UID) is an system generated value that uniquely identifies this current component. It is used for
+      linking to a PCB document and for project management. Enter a new UID value or click the Reset button to generate
+      a new UID for this design object from the Change Properties dialog. You can also globally reset UIDs of components
+      and sheet symbols from the Schematic Editor's Tools » Convert » Reset Component Unique IDs menu.
+
+
+      The UniqueID property sets the new ID for the parameter. All parameters, sheet symbols, ports, pins, components,
+      openbus links, openbus ports and openbus components have Unique IDs. Unique IDs are used to maintain design
+      synchronization in design projects.
+
+
+      The Unique ID (UID) is an system generated value that uniquely identifies this current parameter. It is used for
+      linking to a PCB document and for project management. Enter a new UID value or click the Reset button to generate
+      a new UID for this design object from the Change Properties dialog. You can also globally reset UIDs of components
+      and sheet symbols from the Schematic Editor's Tools » Convert » Reset Component Unique IDs menu.
+
+
+      The UniqueID property sets the new ID for the pin. All parameters, sheet symbols, ports, pins, components, openbus
+      links, openbus ports and openbus components have Unique IDs. Unique IDs are used to maintain design
+      synchronization in design projects.
+
+
+      The Unique ID (UID) is an system generated value that uniquely identifies this current sheet symbol. It is used
       for linking to a PCB document and for project management. Enter a new UID value or click the Reset button to
       generate a new UID for this design object from the Change Properties dialog. You can also globally reset UIDs of
       components and sheet symbols from the Schematic Editor's Tools » Convert » Reset Component Unique IDs menu.
+
+
+      The UniqueID property sets the new ID for the port. All parameters, sheet symbols, ports, pins, components,
+      openbus links, openbus ports and openbus components have Unique IDs. Unique IDs are used to maintain design
+      synchronization in design projects.
+
+
+      The Unique ID (UID) is an system generated value that uniquely identifies this current port. It is used for
+      linking to a PCB document and for project management. Enter a new UID value or click the Reset button to generate
+      a new UID for this design object from the Change Properties dialog. You can also globally reset UIDs of components
+      and sheet symbols from the Schematic Editor's Tools » Convert » Reset Component Unique IDs menu.
+
+
+      The SetState_UniqueID property sets the new ID for the sheet symbol. All parameters, sheet symbols, ports, pins,
+      components, openbus links, openbus ports and openbus components have Unique IDs. Unique IDs are used to maintain
+      design synchronization in design projects.
     seeAlso:
       - SCH.ISch_Component
       - SCH.ISch_Parameter

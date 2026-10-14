@@ -1,0 +1,168 @@
+# PCB.IPCB_Primitive: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Primitive interface is the ancestor interface object for all other PCB interface objects and therefore
+  the methods and properties declared in the IPCB_Primitive interface are also declared in the descendant interfaces.
+remarks: >-
+  Every PCB object has an unique object address stored in a PCB design database for that document this object resides
+  on. Each PCB object address has the TPCBObjectHandle type.
+
+
+  Every existing PCB design object on a PCB document has the Board owner which represents the specific board document.
+
+
+  Each existing PCB design object on a PCB document has Query Rule Properties which can be queried.
+
+
+  A primitive has a bounding rectangle which encapsulates the region of the primitive. There are two other bounding
+  rectangles which are for selection and for painting (refreshing and updating).
+members:
+  Board:
+    summary: The Board property determines the PCB document that the object itself is associated with.
+  BoundingRectangle:
+    summary: This method returns the coordinates of the bounding rectangle that encapsulates the design object on a PCB
+      document. There are other two bounding rectangle methods.
+  BoundingRectangleForPainting:
+    summary: The bounding rectangle of a design object for painting is potentially the largest of all bounding rectangles
+      because for example a component can have comment and designator objects as well.
+  BoundingRectangleForSelection:
+    summary: The bounding rectangle of a design object used for selection is a bit bigger than the bounding rectangle of a
+      design object itself.
+  Component:
+    summary: This property determines whether the object itself is associated with the component or not.
+  Coordinate:
+    summary: The Coordinate property returns the IPCB_Coordinate only if this object itself is part of the IPCB_Coordinate
+      type. A coordinate object is a group object and is composed of design object primitives such as tracks, arcs and
+      text objects.
+  DescriptorString:
+    summary: The Descriptor read only property fetches the Descriptor string.
+  DetailString:
+    summary: This property retrieves the Detail text string for this design object.
+  Dimension:
+    summary: The Coordinate property returns the IPCB_Dimension only if this object itself is part of the IPCB_Dimension
+      type. A dimension object is a group object and is composed of design object primitives such as tracks, arcs and
+      text objects.
+  DRCError:
+    summary: The DRCError property determines whether the object is affected by the Design Rule Checker and thus if the
+      object breaks one of the design rules, the DRCError is true.
+  FlipXY:
+    summary: This method flips the object about the axis depending on Axis and MirrOp parameters.
+    seeAlso:
+      - PCB.TMirrorOperation
+  GraphicallyInvalidate:
+    summary: This method renders the object graphically invalidate which forces a system graphical update /refresh on the
+      PCB document.
+  InBoard:
+    summary: This InBoard property determines whether the object itself is part of the board object or not.
+  InComponent:
+    summary: This InComponent property determines whether the object itself is part of the component object or not.
+  InCoordinate:
+    summary: This InCoordinate property determines whether the object itself is part of the coordinate object or not.
+  InDimension:
+    summary: This InDimension property determines whether the obejct itself is part of the dimension object or not.
+  InPolygon:
+    summary: This InPolygon property determines whether the object itself is part of the polygon object or not.
+  IsElectricalPrim:
+    summary: This property determines whether this PCB object possesses an electrical property- tracks, fills, polygons,
+      arcs, vias all have electrical properties - basically those objects that have a Net property will possess an
+      electrical property.
+    remarks: Embedded boards and Embedded objects etc don't have an electrical property for example.
+  IsFreePrimitive:
+    summary: This method determines whether the object is a free primitive (not connected to a net) or just a standalone object.
+  IsHidden:
+    summary: This method determines whether this object is hidden from view or not.
+    remarks: This method tests whether the text object is hidden or not.
+    seeAlso:
+      - PCB.IPCB_Text
+  IsKeepout:
+    summary: This property determines whether a PCB object is used as a keep-out object. Currently arc, track and fill
+      objects are used as keep out objects. The keepout layer generally defines areas on the PCB document that you don't
+      want automatically or manually routed, and this can include clearance areas around mounting hole pads or high
+      voltage components for example.
+  IsSaveable:
+    summary: This method determines whether this particular object can be saved in a specified file format version according
+      to the TAdvPCBFileFormatVersion type.
+    seeAlso:
+      - PCB.TAdvPCBFileFormatVersion
+  IsTenting:
+    summary: This property determines whether the solder mask of pad and via objects are tented on top and bottom layers. A
+      tenting closes an opening in the mask of pad or via objects.
+  IsTenting_Bottom:
+    summary: This property determines whether the solder mask of pad and via objects are tented or not on the bottom layer.
+      A tenting closes an opening in the mask of pad or via objects.
+  IsTenting_Top:
+    summary: This property determines whether the solder mask of pad and via objects are tented or not on the top layer. A
+      tenting closes an opening in the mask of pad or via objects.
+  Layer:
+    summary: This layer denotes which layer the object is on.
+  MiscFlag1:
+    summary: This property determines the boolean value from the MiscFlag1 property and can be used for custom purposes.
+  MiscFlag2:
+    summary: This property determines the boolean value from the MiscFlag2 property and can be used for custom purposes.
+  MiscFlag3:
+    summary: This property determines the boolean value from the MiscFlag3 property and can be used for custom purposes.
+  Moveable:
+    summary: This property determines whether this design object can be moved or not (by the autorouter for example).
+  MoveByXY:
+    summary: This method moves the design object by an offset in horizontal and vertical directions specified by the AX and
+      AY parameters.
+  MoveToXY:
+    summary: This method moves the design object to a new location specified by the AX and AY parameters.
+  Net:
+    summary: The Net property of an object denotes it has an electrical property, meaning it is connected from one node to
+      another.
+  ObjectIDString:
+    summary: This ObjectIDString property returns the Object Id string. For example eTrackObject type will yield a Track string.
+  Polygon:
+    summary: This method retrieves the IPCB_Polygon interface that the design object primitive is associated with. For
+      example, a polygon may contain arcs and tracks, and when you only have the arc, you can retreive the polygon the
+      arc is associated with.
+  PolygonOutline:
+    summary: This method determines whether the design object primitive is part of the polygon outline or not.
+  PowerPlaneConnectStyle:
+    seeAlso:
+      - PCB.TPlaneConnectStyle
+  ReliefAirGap:
+    summary: The ReliefAirGap property retrieves the relief air gap value for this pad/via object.
+  ReliefConductorWidth:
+    summary: The ReliefConductorWidth property retrieves the relief conductor width value for a this pad/via object.
+  ReliefEntries:
+    summary: This property retrieves the number of relief entries for a pad/via object.
+  Selected:
+    summary: This property determines whether this object is selected or not on the PCB document.
+  SolderMaskExpansion:
+    summary: The solder mask expansion property determines the shape that is created on the solder mask layer at each pad
+      and via site. This shape is expanded or contracted radially by the amount specified by this rule. This property
+      over-rides the solder mask expansion design rule.
+    remarks: >-
+      A Solder Mask expansion property for a pad object is currently relevant just for pads on top and bottom copper
+      layers.
+
+
+      Paste mask layers are used to design stencils which will selectively place solder paste on a blank PCB. Vias do
+      not have a paste mask layer.
+
+
+      Solder paste is only placed on pads where component leads are to be soldered to them. Vias normally don't have
+      anything soldered onto them.
+  SwapLayerPairs:
+    summary: This method swaps the current layer pair that the PCB design object (vias and pads only) has.
+  TearDrop:
+    summary: This property determines whether the PCB object (an arc or track object) is used for as a tear drop.
+  UnionIndex:
+    summary: The property denotes the union index. Unions are sets of components that will be manipulated as a block for the
+      PCB placement. Components in a union maintain their relative positions within the union as they are moved for
+      example.
+    seeAlso:
+      - PCB.IPCB_Component
+  ViewableObjectID:
+    summary: The read only property determines the ViewableObjectID of the design object. The TViewableObjectID type is a
+      more descriptive ID of a design object than the TObjectID type.
+    remarks: >-
+      For example any type of dimension object is a eDimension type according to the TObjectID but could be one of the
+      eViewableObject_LinearDimension...eViewableObject_RadialDiameterDimension value.
+
+
+      This TViewableObjectID type is mainly used by the Inspector and List views in Altium Designer and is an extension
+      of TObjectID type.
+    seeAlso:
+      - PCB.TViewableObjectID
+      - PCB.TObjectId

@@ -1,0 +1,14 @@
+# EDP.IObjectClass: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IObjectClass interface is the ancestor object class interface for Channel Class, Component Class and Net
+  Class interfaces.
+members:
+  DM_MemberCount:
+    summary: The method returns the number of members associated with the object class (one of its descendants ie Channel
+      Class, Component class or Net class).
+    remarks: This method is to be used in conjunction with the DM_Members(index) method.
+  DM_Members:
+    summary: The method returns the indexed member of the object class (one of its descendants that is, a channel class,
+      component class or a net class).
+  DM_Name:
+    summary: The method returns the name of the Object class (one of its descendants ie Channel Class, Component class or
+      Net class)

@@ -1,0 +1,4 @@
+# DXP.ITimerHandler: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Each timer object is represented by the ITimerHandler interface and all timer objects are managed by the
+  ITimerManager interface.
+remarks: This is for internal use.

@@ -1,0 +1,126 @@
+# EDP.IWorkspace: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IWorkspace interface represents the Work-Space manager in the Altium Designer which deals with project and
+  documents and their related attributes and options. This interface object is the starting point and upon querying this
+  object, it can return currently open projects, number of projects, installed libraries, and create a new document for
+  example.
+remarks: >-
+  Remember the projects need to be compiled first, before you can invoke the GetWorkSpace method to obtain the
+  IWorkSpace interface and its descendant interfaces which represent actual objects in Altium Designer.
+
+
+  It is highly recommended not to hold an interface of the Workspace manager, but re-query the work-space manager
+  every-time the access to the information within is required.
+members:
+  DM_AddDocumentToActiveProject:
+    summary: This method adds an existing document with its valid full path into an active project within Altium Designer.
+  DM_AddOutputLine:
+    summary: Outputs the line to the output's dialog. An Internal operation.
+  DM_ChangeManager:
+    summary: Returns the Engineering Change Order Manager interface object which compares with two projects and creates an
+      ECO to perform a pin swapping process to synchronize the specified two projects.
+  DM_ClearOutputLines:
+    summary: Clears out the Output Memo. An Internal operation.
+  DM_CreateNewDocument:
+    summary: This method creates a new document based on the Document Kind. The Kinds include -
+      'PCBLIB','PCB','SCH','SCHLIB' and so on depending on which document servers are installed in Altium Designer.
+  DM_FocusedDocument:
+    summary: Returns the focussed document interface object (if any) in Altium Designer. A focussed document is a document
+      that is currently open and in focus (this document is active).
+  DM_FocusedProject:
+    summary: Returns the focussed project (if any) in Altium Designer.
+  DM_FreeDocumentsProject:
+    summary: Returns the IProject interface that contains free documents. A free document is a standalone document that
+      lives in the Free Documents project.
+  DM_GenerateUniqueID:
+    summary: Invoke this method, and a generated Unique ID will be returned which can be used for any newly created or
+      existing object in Altium Designer. Objects in Schematic have their own Unique IDs which are tracked by the
+      synchronizator so that the objects on the PCB document are sychronized to their equivalents in a corresponding
+      schematic project.
+    remarks: |-
+      Example - an incomplete example that assigns new UIDs to Schematic components
+
+      // get the workspace manager interface so you can
+
+      // generate unique ids...
+
+      If WSM = null Then Exit;
+
+      // get the schematic server interface
+
+      If SchServer = null Then Exit;
+
+      // get the current sch sheet
+
+      If CurrentSheet = null Then Exit;
+
+      // Set up an iterator to look for components
+
+      // on a schematic document.
+
+      Iterator.AddFilter_ObjectSet(MkSet(eSchComponent));
+
+      Try
+
+      While Compt <> null Do
+
+      DM_GenerateUniqueID;
+
+      End;
+
+      Finally
+
+      CurrentSheet.SchIterator_Destroy(Iterator);
+  DM_GetDocumentFromPath:
+    summary: Retrieves the IDocument interface object by passing the full document path to this document. With this
+      IDocument interface, you have access to its functionality, such as compiling the document itself.
+  DM_GetOutputLineCount:
+    summary: Returns the number of output lines in the Output dialog. An Internal operation.
+  DM_GetProjectFromPath:
+    summary: Retrieves the IProject interface object by passing the full project path to this project. With this IProject
+      interface, you have access to its interface methods. A project is a container that has links to associated design
+      documents in an organized manner.
+  DM_GetRecoveryInterval:
+    summary: Returns the number of minutes as the interval when the recovery mechanism kicks in.
+  DM_GetRecoveryIsEnabled:
+    summary: Returns a Boolean value whether the recovery mechanism is active or not.
+  DM_ImageIndexForDocumentKind:
+    summary: Returns the image index depending on the document kind for example PCB, CAM etc.
+  DM_InstalledLibraries:
+    summary: Returns an indexed library (currently installed in Altium Designer only), to be used in conjunction with the
+      DM_InstalledLibraryCount.
+    seeAlso:
+      - EDP.IWorkspace.DM_InstalledLibraryCount
+  DM_InstalledLibraryCount:
+    summary: Returns the number of installed libraries in Altium Designer.
+  DM_MessagesManager:
+    summary: This method returns you the interface to the Messages panel in Altium Designer.
+  DM_OpenProject:
+    summary: Opens a project with the full project path and set this project in focus depending on its Show parameter.
+  DM_OptionsStorage:
+    summary: Represents a options storage container where Altium Designer can use to retrieve and store options for storing
+      parameters of EDE options such as Toolchain name, folder and default options and project options.
+  DM_Preferences:
+    seeAlso:
+      - EDP.IWorkspacePreferences
+  DM_ProjectCount:
+    summary: Returns the number of projects open in Altium Designer.
+  DM_Projects:
+    summary: Returns the indexed project (currently loaded in Altium Designer only), to be used in conjunction with the
+      DM_ProjectCount interface.
+  DM_SetRecoveryParameters:
+    summary: Set the interval when the autosave / recovery mechanism in Altium Designer kicks in. The interval is in
+      minutes, and whether to enable the recovery mechanism.
+  DM_ShowMessageView:
+    summary: Invoke this method to refresh the Message panel.
+  DM_ShowToDoList:
+    summary: This method displays the To Do List manager panel. This To Do List panel can be used to define your To Dos.
+  DM_ViolationTypeDescription:
+    summary: Returns the violation type description string with the error kind value passed in. Check the TErrorKind for its
+      range of values.
+  DM_ViolationTypeGroup:
+    summary: Returns the error group for which this error kind parameter belongs to. Check the TErrorGroup type for its
+      range of values.
+  DM_WorkspaceFileName:
+    summary: Returns the filename only of the workspace.
+  DM_WorkspaceFullPath:
+    summary: Returns the full path of the workspace.

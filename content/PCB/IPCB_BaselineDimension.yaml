@@ -1,0 +1,14 @@
+# PCB.IPCB_BaselineDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_BaselineDimension interface allows for the dimensioning of a linear distance of a collection of
+  references, relative to a single reference. The first reference point is the base reference and all the subsequent
+  points are relative to this base reference. The dimension value in each case is the distance between each reference
+  point and the base reference measured in default units. The references may be objects (tracks, arcs, pads, vias, text,
+  fills, polygons or components) or points in free space
+remarks: >-
+  The angle property denotes the angle or rotation of the IPCB_BaselineDimension object with respect to the horizontal
+  plane.
+
+
+  Since a baseline dimension allows for the dimensioning of a linear distance over a collection of references, thus for
+  each reference relative to the base reference, there is a text location. Use the TextLocationsCount field to obtain
+  the number of dimension labels.

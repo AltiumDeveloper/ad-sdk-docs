@@ -1,20 +1,21 @@
 # SCH.IModelTypeManager: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IModelTypeManager interface represents a repository of available model types in Altium Designer. IMP) from
-  the System folder of Altium Designer Installation are collected and processed by this manager.
+summary: The IModelTypeManager interface represents a repository of available model types in Altium Designer. The
+  Implementation files (*.IMP) from the System folder of Altium Designer Installation are collected and processed by
+  this manager.
 remarks: >-
   Each model that can be linked to a schematic component has a model type and model data file(s).
 
 
-  PCBLIB)
+  PCB Model has one model data file - footprints (*.PCBLIB)
 
 
-  PCB3DLib)
+  PCB 3D Model has one model data file -3D models (*.PCB3DLib)
 
 
   Signal Integrity Model has one model data file - pin model library.
 
 
-  LB).
+  Simulation has 3 model data files - Model File(.MDL), Subcircuit file (.CKT) and SIMetrix Model Library file (*.LB).
 
 
   This IModelTypeManager interface uses IModelType and IModelDataType interfaces to store different model types and
@@ -27,7 +28,9 @@ remarks: >-
   IModelTypeManager Methods and Properties Table
 members:
   ModelDatafileTypeAt:
-    summary: This property returns the data file types supported by Altium Designer. First data file type starts at 0.
+    summary: This method returns the data file types supported by Altium Designer. First data file type starts at 0. This
+      method is used by the ModelDataFileTypes property.
+    remarks: This property returns the data file types supported by Altium Designer. First data file type starts at 0.
     seeAlso:
       - SCH.IModelTypeManager.ModelDatafileTypeCount
       - SCH.IModelDatafileType
@@ -37,7 +40,8 @@ members:
   ModelDatafileTypeFromKind:
     summary: "This method returns the IModelDatafileType based on the datafile kind. The datafile kinds for:"
   ModelTypeAt:
-    summary: This method returns the indexed model type. First model type starts at 0.
+    summary: This method returns the indexed model type. First model type starts at 0. This method is used by the ModelTypes
+      property.
     seeAlso:
       - SCH.IModelTypeManager.ModelTypeCount
       - SCH.IModelType
@@ -58,8 +62,6 @@ members:
     summary: "This method returns the model type interface based on the server name. The Server names can be:"
     remarks: |-
       PCB3D
-
-      PCB
 
       Sim
 

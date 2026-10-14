@@ -1,0 +1,17 @@
+# PCB.IPCB_LayerObject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_LayerObject interface represents a layer used in a PCB document. Each layer has properties such as
+  layer id, name, used by primitives and whether it is displayed for example. This interface is a property in the
+  IPCB_LayerStack interface.
+remarks: >-
+  The layer stack for a PCB document only deals with copper based layers such as signal and internal plane layers. Each
+  layer in the layer stack can have dielectric information and layer pairs can be specified. However there is a
+  LayerObject property in the IPCB_LayerStack interface which allows you to access any PCB layer for the PCB board.
+
+
+  Iterating for any PCB layer of a PCB document
+
+
+  Although the IPCB_LayerStack interface basically deals with copper based layers that are used in the layer stack, this
+  Layer Stack interface can be used to look for other PCB layers that are not in the layer stack. The LayerObject
+  property from this layer stack interface obtains any PCB layer whether it is a keep out layer, top signal layer or a
+  mechanical 16 layer.

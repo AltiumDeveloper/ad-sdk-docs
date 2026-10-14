@@ -1,0 +1,145 @@
+# PCB.IPCB_Polygon: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Polygons are similar to area fills, except that they can fill irregular shaped areas of a board and can connect
+  to a specified net as they are poured. By adjusting the grid and track size, a polygon plane can be either solid
+  (copper) areas or a cross hatched lattice. Polygons can be poured on any layer, however if a polygon is placed on a
+  non signal layer, it will not be poured around existing objects.
+remarks: >-
+  Polygons are group objects, therefore they have child objects such as tracks and arcs. You can use the
+  IPCB_GroupIterator interface with the GroupIterator_Create and GroupIterator_Destroy methods from the IPCB_Polygon to
+  fetch child objects.
+
+
+  Polygons can be on internal planes. For example if there are multi layer pads on a PCB document, then all the internal
+  planes are connected to these multi-layer pads as split planes and are called split plane polygons. Check the
+  PolygonType property.
+
+
+  The grid property denotes the grid which the tracks within a polygon are placed. Ideally this grid is a fraction of
+  the component pin pitch, to allow the most effective placement of the polygon tracks.
+
+
+  The segments property denotes the array of segments used to construct a polygon. Each segment consists of a record
+  consisting of one group of points in X, Y coordinates as a line ( ePolySegmentline type) or an arc, a radius and two
+  angles ( ePolySegmentArc type). Each segment record has a Kind field which denotes the type of segment it is.
+
+
+  A segment of a polygon either as an arc or a track is encapsulated as a TPolySegment record as shown below;
+
+
+  TPolySegment = Record
+
+
+  Kind : TPolySegmentType;
+
+
+  {Vertex}
+
+
+  vx,vy : TCoord;
+
+
+  {Arc}
+
+
+  cx,cy : TCoord;
+
+
+  Radius : TCoord;
+
+
+  Angle1 : TAngle;
+
+
+  Angle2 : TAngle;
+
+
+  End;
+members:
+  ArcApproximation:
+    summary: The polygon drawn around a pad or via is drawn by line segments. The arc resolution value dictates how accurate
+      the polygon is drawn around a pad for example. The segments are drawn between a system defined outer circle and
+      inner circle with a radial distance between these two circles being equal to the arc resolution.
+    remarks: The default value is 0.5mil. The lower the value the more smooth the arc is and the higher the value, the more
+      coarse the arc is with longer line segments.
+  AreaSize:
+    summary: The AreaSize property returns the size of the polygon in Extended type. The GetState_AreaSize and
+      SetState_AreaSize are methods for this property.
+  DrawRemovedIslands:
+    summary: If this property is true, every time a polygon is created on a PCB document, islands are often created and
+      those islands that are less than the quoted area threshold are not created, otherwise if false, islands are left
+      drawn nonetheless.
+  Grid:
+    summary: The Grid property denotes the grid which the tracks within a polygon are placed. Ideally this grid is a
+      fraction of the component pin pitch, to allow the most effective placement of the polygon tracks.
+    remarks: This property is supported by GetState_Grid and SetState_Grid methods.
+  HitPrimitive:
+    summary: This method checks if a primitive that is not part of the board outline is touching or overlapping on the edge
+      of the outline (whether being touched or enclosed by the outline).
+    remarks: This primitive could be placed by the user or created and placed programmatically. If the result is false, it
+      means the primitive is definitely outside the outline.
+    seeAlso:
+      - PCB.IPCB_BoardOutline
+  IslandAreaThreshold:
+    summary: Every time a polygon is created on a PCB document, islands are often created and those islands that are less
+      than the quoted area threshold, these islands are not created.
+    remarks: This property represents a value in mils squared that defines the area of an island and the default value is
+      2500 mils sq.
+  NeckWidthThreshold:
+    summary: The minimum width threshold value for the regions of a polygon. Narrow regions that violate this under width
+      value will be removed by the system. The default value is 5 mils.
+  PolygonType:
+    summary: The PolygonType property defines what type the polygon is, whether it is a polygon on a signal layer, or a
+      split plane polygon.
+    seeAlso:
+      - PCB.TPolygonType
+  PolyHatchStyle:
+    summary: The property denotes the style of polygon hatching. If the hatching style ( ePolySolid ) is solid, then a
+      region object is used instead.
+    remarks: >-
+      ePolyHatch90, ePolyHatch45, ePolyVHatch, ePolyHHatch,
+
+
+      ePolyNoHatch type : the polygon is not filled at all. Only the boundary tracks will be present. You may wish to
+      use this option if you want to place a polygon during the design phase, but do not want it to slow system
+      performance. The polygon can be before re-poured with the desired hatching before generating output.
+
+
+      ePolySolid type: the polygon is filled in solid. You may wish to use this option if you want to place a solid
+      polygon during the design phase. There are further Solid Fill Options to define and control how a solid polygon is
+      drawn on the PCB document.
+    seeAlso:
+      - PCB.TPolyHatchStyle
+      - PCB.IPCB_Region
+  PourOver:
+    summary: The pourover property if true will indicate that any existing tracks and arcs within the polygon which are part
+      of the net being connected to will be covered by the polygon.
+    remarks: If this property is false, the polygon will pour around existing tracks on the same net.
+  PrimitiveInsidePoly:
+    summary: This method determines whether a primitive is indeed part of a polygon or not.
+  Rebuild:
+    summary: This Rebuild method is called by the Validate method. This method rebuilds the board outline after it has been
+      graphically altered which potentially could affect the internal/split planes that are connected to this outline.
+    remarks: This method forces a rebuild of the polygon especially after it has been poured.
+    seeAlso:
+      - PCB.IPCB_BoardOutline
+  RemoveDead:
+    summary: If the RemoveDead property is enabled, any regions of "dead" copper within the polygon will be removed. Dead
+      copper is created when an area of the polygon can not be connected to the selected net. You can view dead copper
+      as unconnected "islands" of copper within the polygon created when existing tracks, pads and vias prevent the
+      plane pouring as one continuous area.
+    remarks: >-
+      If this property is disabled, any areas of dead copper will not be removed.
+
+
+      Note: The entire polygon is removed if it does not enclose any pads on the selected net, as it is all viewed as
+      dead copper.
+  RemoveNarrowNecks:
+    summary: "Property Segments Integer : TPolySegment Read GetState_Segments Write SetState_Segments;"
+    remarks: If this property is true, thin sections (composing of tracks and arcs for example) are removed from this
+      polygon on the PCB document that violate the minimum width threshold value. If false, narrow necks are left alone.
+  RotateAroundXY:
+    summary: This method rotates the polygon about its reference point by an angle.
+  UseOctagons:
+    summary: The UseOctagons property determines that octagons are to surround pads if true. If false, pads are surrounded
+      by arcs. Octagons give smaller Gerber files and faster photoplotting.
+    remarks: This property is supported by GetState_UseOctagons and SetState_UseOctagons methods.

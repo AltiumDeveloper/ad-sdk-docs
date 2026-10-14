@@ -1,0 +1,4 @@
+# PCB.IPCB_InteractiveRoutingOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_InteractiveRoutingOptions interface represents the options for the interactive routing module in the
+  PCB editor.
+remarks: Derived from IPCB_AbstractOptions interface

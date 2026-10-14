@@ -1,0 +1,7 @@
+# PCB.IPCB_RuleMaxMinImpedance: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RuleMaxMinImpedance interface returns or sets values for a MaxMin Impedance rule object depending on
+  the query mode (eGetState or eSetState). This rule specifies the minimum and maximum net impedance allowed. Net
+  impedance is a method of the conductor geometry and conductivity, the surrounding dielectric material (the board base
+  material, multilayer insulation, solder mask, etc) and the physical geometry of the board (distance to other
+  conductors in the z-plane). This method defines the minimum and maximum impedance values allowed for the signal
+  integrity rule.

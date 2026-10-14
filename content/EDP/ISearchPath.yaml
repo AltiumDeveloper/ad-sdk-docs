@@ -1,0 +1,12 @@
+# EDP.ISearchPath: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISearchPath interface represents the paths of a project. This ISearchPath interface has a link to the
+  associated open project in Altium Designer.
+members:
+  DM_AbsolutePath:
+    summary: Returns the absolute path of the focussed project in Altium Designer.
+  DM_IncludeSubFolders:
+    summary: Returns whether sub folders are included in the focussed project in Altium Designer.
+  DM_Path:
+    summary: Returns the path of the focussed project in Altium Designer.
+  DM_Project:
+    summary: Returns the project in which this ISearchPath interface is associated with.

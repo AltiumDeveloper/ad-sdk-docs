@@ -1,0 +1,21 @@
+# PCB.IPCB_FromTo: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_FromTo interface represents a FromTo object on a PCB document, as a node to a node (a pad of a
+  component to a pad of another component for example) and has a NetName property.
+members:
+  FromPad:
+    summary: The FromTo object has two nodes, FromPad and ToPad. These have their Net Name properties.
+    remarks: This property represents the FromPad node and returns the name of the FromPad property.
+  GetFromPad:
+    summary: This method returns the pad interface associated with the FromPad of the FromTo object.
+  GetNet:
+    summary: This method returns the net interface associated with the net of the FromTo object.
+  GetToPad:
+    summary: This method returns the pad interface associated with the ToPad of the FromTo object.
+  NetName:
+    summary: The FromTo object has two nodes, FromPad and ToPad. These have their Net Name properties.
+    remarks: This property represents the net name of the FromTo object.
+  RoutedLength:
+    summary: This method returns the routed length of the FromTo object in TCoord units.
+  ToPad:
+    summary: The FromTo object has two nodes, FromPad and ToPad. These have their Net Name properties.
+    remarks: This property represents the ToPad node and returns the name of the ToPad property..

@@ -1,0 +1,210 @@
+# EDP.IDocument: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IDocument interface represents the existing document in Altium Designer. A document can be a Schematic,
+  PCB, VHDL, PCB Library document etc.
+remarks: >-
+  The DM_DocumentKind method of the IDocument interface when invoked returns you the document type. A document can be
+  part of a project or free documents project.
+
+
+  An existing document can be queried to return the project interface this document is associated with.
+
+
+  The IDocument interface is a standalone interface.
+members:
+  DM_BusCount:
+    summary: The method returns the number of bus objects from this document. Use this in conjunction with the
+      DM_Buses(Index) to go through each bus object.
+  DM_Buses:
+    summary: The method returns the indexed Bus instance from this document.
+  DM_ChannelClassCount:
+    summary: The method denotes the number of Channel Classes from this document. Use this Channel Class count in
+      conjunction with the DM_ChannelClasses(index) to go through each channel class.
+  DM_ChannelClasses:
+    summary: The method returns the indexed ChannelClass instance from this document. Use this in conjunction with the
+      DM_ChannelClassCount method
+  DM_ChannelIndex:
+    summary: The method returns the channel index of this document. This is especially for multi-channel designs where a
+      single source document can be referenced multiple times.
+  DM_ChannelPrefix:
+    summary: The method returns the channel prefix of this document. This is especially for multi-channel designs where a
+      single source document can be referenced multiple times.
+  DM_ChannelRoomNamingStyle:
+    summary: The method returns the channel room naming style value.
+  DM_ChildDocumentCount:
+    summary: The method returns the number of child documents relative to this document.
+  DM_ChildDocuments:
+    summary: The method returns the indexed child document. A hierarchical design consists of multi layered parent-child
+      documents.
+  DM_Compile:
+    summary: The method invokes the compiler to compile this document. If the compile was successful, a true value is returned.
+  DM_ComponentClassCount:
+    summary: The method denotes the number of component classes from this document. Use this Component class count in
+      conjunction with the DM_ComponentClasses(index) to go through each component class.
+  DM_ComponentClasses:
+    summary: The method returns the indexed ComponentClass instance from this document. Use this in conjuniton with the
+      DM_ComponentClassCount method.
+  DM_ComponentCount:
+    summary: The method returns the number of component instances on this document. Use this in conjunction with the
+      DM_Components(Index) method to go through each component object.
+  DM_Components:
+    summary: The method returns the indexed component instance from this document. This is to be used in conjunction with
+      the DM_ComponentCount method.
+  DM_ConstraintGroupCount:
+    summary: The method denotes the number of constraint groups.
+  DM_ConstraintGroups:
+    summary: The method returns the indexed constraint group. Use the DM_ConstraintGroupCount method to get the number of
+      constraint groups.
+  DM_CreateViolation:
+    summary: The method creates a violation based on the error kind and error string upon an incorrect design.
+  DM_CrossSheetConnectorCount:
+    summary: The method returns the number of cross sheet connectors on this document. Use this in conjunction with the
+      DM_CrossConnectors(index) to go through each cross connector object.
+  DM_CrossSheetConnectors:
+    summary: The method returns the indexed cross sheet connector instance from this document. This is to be used in
+      conjunction with the DM_CrossSheetConnectorCount method.
+  DM_CurrentInstanceNumber:
+    summary: The method returns the current instance number for this document (especially for multi-channel designs where a
+      design document can be referenced multiple times).
+  DM_DifferentialPairCount:
+    summary: This method returns the number of differential pairs used in a document in the project.
+    seeAlso:
+      - EDP.IDifferentialPair
+  DM_DifferentialPairs:
+    summary: This method returns an indexed differential pair from a document in the project.
+    seeAlso:
+      - EDP.IDifferentialPair
+  DM_DocumentIsLoaded:
+    summary: This method returns a boolean value whether this document has been loaded in Altium Designer or not.
+  DM_DocumentIsTextual:
+    summary: The method denotes whether the document is a text document.
+  DM_DocumentKind:
+    summary: This method returns the document kind for the current document. A document could be a Schematic document and
+      thus the string returned is 'SCH'. Check the installation file of each server for the Server Name.
+  DM_FileName:
+    summary: This method returns the file name string of this document.
+  DM_FullPath:
+    summary: This method returns the full path of where this document lives.
+  DM_IndentLevel:
+    summary: The method returns the indent level for this current document with respect to the current project.
+  DM_IsPhysicalDocument:
+    summary: This method returns a Boolean value whether this document is a physical document or not. There are logical and
+      physical documents; these terms are used to differentiate the documents in multi-channel projects. A multi channel
+      design means that a single sheet is referenced repeatedly for a channel design. This sheet is called a logical
+      document. A physical document (usually a PCB document) has components with unique names within a room which is
+      mapped to a channel on a Schematic sheet. So a multi channel design translates to multiple rooms with components
+      with unique physical designators on a PCB.
+    remarks: A physical designator of a PCB component is calculated to have the hierarchy path of a schematic project as
+      well as the logical designator of the associated Schematic component to ensure that this designator for the PCB
+      component is unique.
+  DM_IsPrimaryImplementationDocument:
+    summary: This method returns a Boolean value whether this document is a primary implementation document (namely a PCB
+      document for instance). A schematic document is a source document and is centric to a design project.
+  DM_LoadDocument:
+    summary: This method returns a Boolean value whether this document has been loaded or not.
+  DM_LogicalDocument:
+    summary: This method returns the logical document if valid. Otherwise a nil value is returned. There are logical and
+      physical documents; these terms are used to differentiate the documents in multi-channel projects. A multi channel
+      design means that a single sheet is referenced repeatedly for a channel design. This sheet is called a logical
+      document. A physical document (usually a PCB document) has components with unique names within a room which is
+      mapped to a channel on a Schematic sheet. So a multi channel design translates to multiple rooms with components
+      with unique physical designators on a PCB.
+    remarks: A physical designator of a PCB component is calculated to have the hierarchy path of a schematic project as
+      well as the logical designator of the associated Schematic component to ensure that this designator for the PCB
+      component is unique.
+  DM_ModelKind:
+    summary: The method returns the model kind string related to this document.
+  DM_NetClassCount:
+    summary: The method denotes the number of net classes on this document. Use this NetClass count in conjunction with the
+      DM_NetClasses(Index) method to go through each net class.
+  DM_NetClasses:
+    summary: The method returns the indexed NetClass instance from this document. Use this in conjunction with the
+      DM_NetClassCount method.
+  DM_NetCount:
+    summary: The method returns the number of nets from this document. Use this Net count in conjunction with the
+      DM_Nets(Index) to go through each sheet symbol object
+  DM_Nets:
+    summary: The method returns an indexed net associated with this document.
+  DM_ParentDocumentCount:
+    summary: The method returns the number of parent documents relative to this document.
+  DM_ParentDocuments:
+    summary: The method returns the indexed parent document. A hierarchical design consists of multi layered parent-child
+      documents.
+  DM_PartCount:
+    summary: The method returns the number of part objects from this document. Use this PartCount in conjunction with the
+      DM_Parts(Index) to go through each part object.
+  DM_Parts:
+    summary: The method returns an indexed part associated with this document.
+  DM_PhysicalDocumentCount:
+    summary: The method returns the number of physical documents associated with this document.
+  DM_PhysicalDocumentParent:
+    summary: The method returns the IDocument interface for a parent physical document. Could be a VHDL or a PCB document
+      for example.
+  DM_PhysicalInstanceName:
+    summary: The method returns the name of this physical document if valid. Otherwise an empty string is returned.
+  DM_PhysicalInstancePath:
+    summary: The method returns the path to the physical document instance if valid. Otherwise an empty string is returned.
+  DM_PhysicalRoomName:
+    summary: The method returns the name of the room on this physical document if valid. Otherwise a nil value is returned.
+  DM_PortCount:
+    summary: The method returns the number of port objects on this document. Use this in conjunction with the
+      DM_Ports(index) to go through each port object.
+  DM_Ports:
+    summary: The method returns the indexed port instance from this document. This is to be used in conjunction with the
+      DM_PortCount method
+  DM_Project:
+    summary: This method returns the IProject object interface that this document is associated with.
+  DM_RoomCount:
+    summary: The method denotes the number of rooms on this document. Use this RoomCount in conjunction with the
+      DM_Rooms(Index) to go through each room object.
+  DM_Rooms:
+    summary: The method returns the indexed room instance from this document. Use this in conjunction with the DM_RoomCount
+      method.
+  DM_RuleCount:
+    summary: The method returns the number of rules from this document. Use this Rule count in conjunction with the
+      DM_Rules(Index) to go through each sheet symbol object
+  DM_Rules:
+    summary: The method denotes the indexed rule from this document. Use this DM_RuleCount in conjunction with the DM_Rules
+      to go through each rule found from this document..
+  DM_ScrapCompile:
+    summary: The method invokes a scrap compile (by force or not). A scrap compile is the background compile in Altium
+      Designer on a design document and does all the auto - junctions for bus and wire objects. Also the scrap compile
+      does the online rule checks in schematics. It is totally separate from the main compile which compile projects.
+  DM_SheetSymbolCount:
+    summary: The method returns the number of sheet symbols from this document. Use this SheetSymbol count in conjunction
+      with the DM_SheetSymbols(Index) to go through each sheet symbol object.
+  DM_SheetSymbols:
+    summary: The method returns an indexed sheet symbol associated with this document.
+  DM_SignalManager:
+    summary: The method returns the signal manager interface.
+    seeAlso:
+      - EDP.ISignalManager
+  DM_TextFrameCount:
+    summary: The method returns the number of text frame objects from this document. Use this TextFrame count in conjunction
+      with the DM_TextFrames(Index) to go through each sheet symbol object
+  DM_TextFrames:
+    summary: The method returns an indexed textframe object associated with this document.
+  DM_UniqueComponentCount:
+    summary: The method returns the number of unique components according to the library (ies) they are placed from. A
+      duplicate of components of the same component kind is counted as one (1). Use this in conjunction with the
+      DM_UniqueComponents(Index) method to go through each unique component object.
+  DM_UniqueComponents:
+    summary: The method returns the indexed unique component instance from this document. This method is to be used in
+      conjunction with the DM_UniqueComponentCount method.
+  DM_UniquePartCount:
+    summary: The method denotes the number of unique parts from this document. Duplicates of the same part kind are only
+      returned as a count of one (1).
+  DM_UniqueParts:
+    summary: The method returns an indexed unique part associated with this document. Note, if multiple instances of the
+      same part exist, then only one of these parts will be recognized.
+  DM_UpdateDateModified:
+    summary: The method sets the modified date for this document.
+  DM_VHDLEntities:
+    summary: The method returns the indexed VHDL entity instance from this document. Use this in conjunction with the
+      DM_VHDLEntityCount method.
+    seeAlso:
+      - EDP.IDocument.DM_VHDLEntityCount
+  DM_VHDLEntityCount:
+    summary: The method denotes the number of VHDL entities from this document. Use this VHDL Entity count in conjunction
+      with the DM_VHDLEntities(Index) to go through each VHDL entity.
+    seeAlso:
+      - EDP.IDocument.DM_VHDLEntities

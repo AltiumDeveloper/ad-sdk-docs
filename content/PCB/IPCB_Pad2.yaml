@@ -1,0 +1,29 @@
+# PCB.IPCB_Pad2: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Pad objects are hole connectors for components and for connection to signal tracks. The IPCB_Pad2 interface
+  represents the extra attributes such as the Corner radius attribute of rounded rectangular pads.
+members:
+  CornerRadiusOnLayer:
+    summary: This property returns the corner radius of a rectangular pad on the specified layer in TCoord units. This
+      property is implemented by the GetState_CornerRadiusOnLayer method.
+  CRPercentageOnLayer:
+    summary: This method returns the percentage of the corner radius of a rectangular pad on the specified layer as a byte
+      value (0-100).
+    remarks: >-
+      The corner radius percentage of the rounded corners of a pad on the bottom layer and the radius percentage is per
+      layer and is a percentage of half of the shortest side of a pad object. The value of 0% corresponds to a
+      rectangular pad and 100% to a normal rounded pad shape. This value only applies when the Shape field is set to
+      Rounded Rectangle.
+
+
+      The Property uses GetState_CRPercentageOnLayer method.
+  StackCRPctOnLayer:
+    summary: This property returns the percentage of the corner radius of a stack up pad on the specified layer as a byte
+      value (0-100).
+    remarks: >-
+      The corner radius percentage of the rounded corners of a pad on the bottom layer and the radius percentage is per
+      layer and is a percentage of half of the shortest side of a pad object. The value of 0% corresponds to a
+      rectangular pad and 100% to a normal rounded pad shape. This value only applies when the Shape field is set to
+      Rounded Rectangle.
+
+
+      This property uses GetState_StackCRPctOnLayer and SetState_StackCRPctOnLayer methods.

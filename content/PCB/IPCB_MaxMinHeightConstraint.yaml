@@ -1,0 +1,4 @@
+# PCB.IPCB_MaxMinHeightConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_MaxMinHeightConstraint rule deals with heights of components, and you can set the maximum, minimum and
+  preferred height values for targeted components on a PCB document.
+remarks: MaxHeight, MinHeight and PreferedHeight properties.

@@ -1,0 +1,3 @@
+# EDP.IWorkspacePreferences: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IWorkspacePreferences interface represents the Preferences object in Altium Designer This interface details
+  with file ownership - that is the rights of access to a design document.

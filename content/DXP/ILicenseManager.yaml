@@ -1,0 +1,9 @@
+# DXP.ILicenseManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  ChangeToNetwork:
+    summary: This method changes from a standalone license to a networked license for a copy of Altium Designer that's
+      running on a computer. You will need to supply the server name as a string.
+    remarks: A standalone computer is a computer that is not connected to the internet.
+  ChangeToStandalone:
+    summary: This method changes from a networked license to a standalone license for a copy of Altium Designer that's
+      running on a computer. A standalone computer is a computer that is not connected to the internet.

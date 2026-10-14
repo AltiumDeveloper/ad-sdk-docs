@@ -98,7 +98,10 @@ foreach (var th in md.TypeDefinitions)
         .Select(f => new FieldInfo(S(f.Name), f.DecodeSignature(prov, null), ConstantValue(f.GetDefaultValue()),
             (f.Attributes & FieldAttributes.Static) != 0 ? true : null)).ToList();
 
-    types.Add(new TypeInfo(full, S(t.Namespace) is var ns && ns.Length > 0 ? ns : null, kind, baseType,
+    // Nested types have no namespace of their own: use the namespace of the outermost declaring type.
+    var outer = t;
+    while (!outer.GetDeclaringType().IsNil) outer = md.GetTypeDefinition(outer.GetDeclaringType());
+    types.Add(new TypeInfo(full, S(outer.Namespace) is var ns && ns.Length > 0 ? ns : null, kind, baseType,
         t.GetInterfaceImplementations().Select(i => prov.Name(md.GetInterfaceImplementation(i).Interface)).ToList(),
         FirstStringArg(t.GetCustomAttributes(), "GuidAttribute"),
         attrs.Any(a => a.EndsWith("ExtensionAttribute")) ? true : null,

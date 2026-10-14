@@ -1,0 +1,2 @@
+# PCB.IPCB_ViasUnderSMDConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The Vias Under SMD constraint rule specifies if vias can be placed under SMD pads during autorouting.

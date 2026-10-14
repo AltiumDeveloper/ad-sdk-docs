@@ -1,0 +1,29 @@
+# PCB.IPCB_Connection: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Connection interface represents a connection between two nodes on a PCB document. The two nodes can be
+  on two different layers and the connection style can be a connected line or a broken specially marked connection.
+members:
+  IsRedundant:
+    summary: This method determines whether the object is redundant (unused object) on the PCB document or not.
+  Layer1:
+    summary: This property retrieves the Layer 1 attribute which represents a connection from the first layer to the second
+      layer on a PCB document.
+  Layer2:
+    summary: This property retrieves the Layer 2 attribute which represents a connection from the first layer to the second
+      layer on a PCB document.
+  Mode:
+    summary: The Mode property represents the connection mode type of the connection; whether it is part of the rats nest,
+      or as a broken net marker.
+    seeAlso:
+      - PCB.TConnectionMode
+  RotateAroundXY:
+    summary: This method rotates a connection object on the PCB document about the AX, AY coordinates with an angle in
+      degrees. To ensure the connection rotates without moving about, pass in its midpoint (between X1,X2 and Y1, Y2)
+      attributes for the AX,AY parameters.
+  X1:
+    summary: This property represents the X1 (initial X) coordinate of the connection object.
+  X2:
+    summary: This property represents the X2 (finall X) coordinate of the connection object.
+  Y1:
+    summary: This property represents the Y1 (initial Y) coordinate of the connection object.
+  Y2:
+    summary: This property represents the Y2 (final Y) coordinate of the connection object.

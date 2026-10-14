@@ -1,0 +1,6 @@
+# PCB.IPCB_PowerPlaneConnectStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This power plane connect style rule specifies the style of the connection from a component pin to a power
+  plane. There are two connection types - direct connections (the pin to solid copper) or thermal relief connection.
+remarks: The TPlaneConnectStyle type determines the connection style for a plane. If Thermal Relief connection is used,
+  then the thermal relief conductor width, the relief expansion, the width of the air gap and the number of relief
+  entries need to be determined. If direct connection style is used, then the previous parameters are not needed.

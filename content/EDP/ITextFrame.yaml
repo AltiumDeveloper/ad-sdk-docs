@@ -1,0 +1,7 @@
+# EDP.ITextFrame: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ITextFrame interface is a text frame object for an existing text frame on a schematic document. It is a
+  container holding lines of text like a memo.
+remarks: An equivalent TextFrame object representation is the ISch_TextFrame interface in the Schematic API reference.
+members:
+  DM_Text:
+    summary: This method returns the text string from this current TextFrame object.

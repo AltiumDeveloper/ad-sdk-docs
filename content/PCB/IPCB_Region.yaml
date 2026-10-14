@@ -1,0 +1,11 @@
+# PCB.IPCB_Region: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Region interface represents a solid polygon pour as the region object. This region object allows the
+  creation of multi sided polygon regions on the PCB. The region object can also be used to create polygonal shaped
+  fills in PCB footprints.
+remarks: You can use IPCB_Primitive methods and properties that are relevant to the IPCB_Region interface.
+members:
+  GetHoleCount:
+    summary: "Property Holes [I : Integer] : Pgpc_vertex_list Read GetHole;"
+  Kind:
+    seeAlso:
+      - PCB.TRegionKind

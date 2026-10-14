@@ -1,0 +1,57 @@
+# DXP.ICommandLauncher: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ICommandLauncher interface encapsulates the functionality of launching a command (which is a pre packaged
+  process) in Altium Designer. A command is associated with a user interface item in the server (Text Editor, Schematic
+  Editor etc) such as a hot key button, menu item or a toolbar bitmap. In essence, a server is supported by its set of
+  processes and the processes act as a link between Altium Designer and this server.
+remarks: >-
+  The LaunchCommand method launches a process from the server that this ICommandLauncher interface method is associated
+  with.
+
+
+  The GetCommandState method retrieves information for the specified command.
+
+
+  Since a server has a set of processes and these process identifiers are stored in an installation file (which ends
+  with an INS extension) and the process launchers that link to specific user interface elements (also called resources)
+  and the layout of user interface elements are defined in the resources file (which ends with a RCS extension).
+
+
+  ICommandLauncher Methods and Properties Table
+
+
+  All the methods in a server available to the user, such as placing a primitive, changing the zoom level and so on are
+  performed by commands which are pre-packaged process launchers. The pre-packaged process launchers bundle together the
+  process that runs when the command is selected, plus any parameters, bitmaps (icons), captions (the name of an item
+  that displays on a resource), descriptions and associated shortcut keys.
+
+
+  When you select a menu item or click on a toolbar button, you are launching a process. Processes are launched by
+  passing the process identifier to the appropriate server and the server then executes the process. Processes are
+  defined and implemented in the Commands unit of a server source code project. The processes are declared in an
+  Installation File (with an INS extension).
+
+
+  Each process has a process identifier. The process identifier is made up of two parts separated by a colon. The first
+  part of the process identifier indicates the server that defines the process, and the second part is the process name.
+
+
+  For example, the process Sch:ZoomIn is provided by Schematic server. When this process is launched, either by
+  selecting a menu item, pressing a hot key or activating a toolbar button (which are all defined as process launchers
+  in the Altium Designer), it will perform the task of zooming in on the currently active schematic sheet.
+
+
+  When a server is started up for the first time in Altium Designer, process methods or commands registered in the
+  CommandLauncher object within the server module are loaded in Altium Designer.
+members:
+  GetCommandState:
+    summary: The GetCommandState method fetches the current snapshot of the server command (internal server process) and the
+      parameters are returned for the specified server command name.
+    seeAlso:
+      - DXP.IServerModule
+  LaunchCommand:
+    summary: This method launches a command from a server module or from Client. (Client also has its own command launcher
+      table since Client has its own processes as well).
+    remarks: The AContext parameter denotes which IServerDocumentView interface to launch the process onto. If the command
+      can be launched, the method returns a true value.
+    seeAlso:
+      - DXP.IServerDocumentView

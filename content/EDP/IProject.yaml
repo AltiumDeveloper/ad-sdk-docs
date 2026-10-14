@@ -1,0 +1,190 @@
+# EDP.IProject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IProject interface deals with an open project in Altium Designer. There are project and document variants,
+  that is actually a project or document can be specified to have project or document variants (actual project /
+  document variants do not exist) and on these document variants have component variants.
+remarks: >-
+  To have access to the data of a project, you need to do a compile first. Projects deal with logical and physical
+  documents. Logical documents are the connected documents which are part of a design which include a PCB document
+  associated with this design. Physical documents are source documents expanded by the Altium Designer compiler as in a
+  flattened design project.
+
+
+  Thus, a project contains source documents and implementation documents. To have access to the most current data of a
+  project, you need to compile the project first. The compiler maps (or expands) all the logical source documents into
+  physical documents.
+
+
+  Normally there is a one logical document to a one physical document for a simple flat design project, but for
+  hierarchical design projects (for example multi channel projects), the documents that have sheet symbols with a Repeat
+  statement, then logical documents are expanded into multiple physical documents.
+
+
+  There are Output jobs consisting of available output generators installed in Altium Designer.
+members:
+  DM_AddConfigurationParameters:
+    summary: A configuration is a list of constraints file which manages the mapping of pins to ports of a FPGA project.
+      Invoke this method to add parameters of a specified configuration file for a FPGA project.
+  DM_AddConfigurationParameters_Physical:
+    summary: A configuration is a list of constraints file which manages the mapping of pins to ports of a FPGA project.
+      Invoke this method to add parameters of a specified configuration file for a FPGA project.
+  DM_AddControlPanel:
+    summary: The method adds a document to the main section of the the panel which could be part of a project or free documents.
+  DM_AddGeneratedDocument:
+    summary: This method adds a new generated document referenced by its filename parameter in this current project, and
+      this document appears in theGenerated folder of this project on Altium Designer Projects panel.
+  DM_AddSearchPath:
+    summary: This method adds a new serach path for the current project.
+  DM_AddSourceDocument:
+    summary: The method adds a source document referenced by its filename parameter in the current project.
+  DM_ChannelDesignatorFormat:
+    summary: This method returns the formatted channel designator string. This string is basedon the settings defined in the
+      Multi-Channel page of the Options for Project dialog from the Project » Project Options menu item.
+  DM_ChannelRoomLevelSeperator:
+    summary: The method returns the separator character for the Channel Room Level string. The default is an underline
+      character used for room naming styles when there are paths (based on hierarchical designs).
+  DM_ChannelRoomNamingStyle:
+    summary: The method returns the TChannelRoomNamingStyle type. There are alternative styles for naming rooms on a PCB
+      document.
+  DM_ClearViolations:
+    summary: The method clears all existing violations within the project.
+  DM_Compile:
+    summary: Invoke this method to compile the current project. Once the project is compiled, navigation of nets and
+      comparing the differences of documents and other tasks can be performed.
+  DM_CompileEx:
+    summary: Invoke this method to compile all documents of all opened projects in Altium Designer. Pass a Boolean parmeter
+      in to cancel the compiling process.
+  DM_ComponentMappings:
+    summary: The method returns the IComponentMapping interface which details which PCB components are linked to Schematic
+      components. Check the IComponentMappings interface.
+  DM_ConfigurationCount:
+    summary: The method returns the number of configurations for the current project. To be used in conjunction with
+      DM_Configurations method.
+  DM_Configurations:
+    summary: The method returns the indexed configuration of a FPGA project. A configuration can have a list of different
+      constraint files.
+  DM_CurrentProjectVariant:
+    summary: The method returns the current project variant from this current project. Check out the IProjectVariant interface.
+  DM_DoCrossSelection:
+    summary: Activates the cross probing method where you can jump from a Schematic object to its corresponding PCB object
+      (both source and primary implementation documents need to be open in Altium Designer).
+  DM_DocumentFlattened:
+    summary: The method returns the flattened document. A flattened document is part of a flattened hierarchy of a project
+      and all objects of this project appear in the Instance list of the Navigator panel.
+  DM_ErrorLevels:
+    summary: The method returns the error level for the specified error type. For each violation type, you can have up to
+      four different error levels, No Report, Warning, Error and Fatal Error with four different colored folders.
+  DM_GeneratedDocumentCount:
+    summary: The method returns the number of generated documents such as those documents generated by the OutPut generator
+      (from a OutJob document). Use this method in conjunction with the DM_GeneratedDocuments method.
+  DM_GeneratedDocuments:
+    summary: The method returns the indexed generated document which is generated by the Output Generator.
+  DM_GetAllowPortNetNames:
+    summary: Invoke this method to check whether port net names are used for navigation in Altium Designer or not.
+  DM_GetAllowSheetEntryNetNames:
+    summary: Invoke this method to check whether sheet entry net anmes are used for navigation in Altium Designer or not.
+  DM_GetAppendSheetNumberToLocalNets:
+    summary: Invoke this method to check whether sheet numbers are appended to local nets or not.
+  DM_GetConfigurationByName:
+    summary: The method returns you the configuration object for the project (normally for FPGA projects) if configuration
+      parameter is valid. A configuration file contains mapping information to link from a FPGA project to a linked PCB
+      project.
+  DM_GetDefaultConfiguration:
+    summary: The method returns the default configuration for a FPGA project.
+  DM_GetDefaultConfigurationName:
+    summary: Returns the name of the default configuration for a FPGA project
+  DM_GetDocumentFromPath:
+    summary: This method returns the IDocument interface associated with the document path parameter. Otherwise a null value
+      is returned.
+  DM_GetOutputPath:
+    summary: The method returns the output path for generated documents for the current project.
+  DM_GetScrapDocument:
+    summary: Returns the scrap document for the project. A scrap document is a temporary document used when creating a new
+      document and once a document is saved, the contents of the scrap document is copied and freed.
+  DM_HierarchyMode:
+    summary: This method returns the hierarchy mode as a TFlattenMode parameter.
+  DM_IndexOfSourceDocument:
+    summary: The method returns the index of the source document based on the filename of this document. This is for
+      hierarchical or connected schematic documents.
+  DM_InitializeOutputPath:
+    summary: The method returns the output path for the Output Generator based on the AnOutputType parameter.
+  DM_LogicalDocumentCount:
+    summary: The method returns the number of logical documents which represent the actual documents of a design project
+      (documents that exist in the design project but are not part of the design are not logical documents). Use this
+      method in conjunction with the DM_LogicalDocuments method.
+  DM_LogicalDocuments:
+    summary: The method returns the indexed logical document of a project.
+  DM_MoveSourceDocument:
+    summary: The method re-assigns the source document referenced by the filename a new index number.
+  DM_Outputers:
+    summary: The method returns the indexed Output Generator. An output generator could be a Simple BOM.
+  DM_PhysicalDocumentCount:
+    summary: The method returns the number of physical source documents (which are expanded logical documents of the design
+      project). Source documents are usually schematic documents. Use this method in conjunction with the
+      DM_PhysicalDocuments method.
+  DM_PhysicalDocuments:
+    summary: The method returns the indexed physical document of a project.
+  DM_PrimaryImplementationDocument:
+    summary: The method returns the primary implementation document for example PCB documents. Source documents are
+      Schematic documents for example.
+  DM_ProjectFileName:
+    summary: This method returns the file name of this current project in Altium Designer.
+  DM_ProjectFullPath:
+    summary: This method returns the full path of this current project in Altium Designer.
+  DM_ProjectVariantCount:
+    summary: The method returns the number of project variants for this current project.
+  DM_ProjectVariants:
+    summary: The method returns the indexed IProjectVariant interface. A project variant interface is only a conceptual
+      representation of a project that can have project variants. That is there is only one physical board but this same
+      board can have certain components disabled or enabled leading to document variants. The variations of a PCB board
+      are referred to as the IDocumentVariant and to check which components are enabled or not for this particular
+      document variant, check out the IComponentVariant interface.
+    remarks: This is to be used in conjunction with the DM_ProjectVariantCount method.
+  DM_RemoveSourceDocument:
+    summary: This method removes a source document referenced by its filename from this current project.
+  DM_SearchPathCount:
+    summary: The method returns the number of search paths for this current project. Use this method in conjunction with the
+      DM_SearchPaths method.
+  DM_SearchPaths:
+    summary: The method returns the indexed search path object defined for this project.
+  DM_SetAllowPortNetNames:
+    summary: Invoke this method to allow port net names be used for navigation.
+  DM_SetAllowSheetEntryNetNames:
+    summary: Invoke this method to allow sheet entry net names be used for navigation in Altium Designer.
+  DM_SetAppendSheetNumberToLocalNets:
+    summary: Invoke this method to have the ability to append sheet numbers to local nets on a document / project.
+  DM_SetAsCurrentProject:
+    summary: Invoke this method to set the project as the current project in Altium Designer.
+  DM_SetDefaultConfigurationName:
+    summary: The method sets the name for the default configuration of a FPGA project.
+  DM_SetHierarchyMode:
+    summary: "Invoke this method to set which hierarchy mode for this project. It can be one of the following modes:
+      eFlatten_Smart,eFlatten_Flat,eFlatten_Hierarchical,eFlatten_Global"
+  DM_SetOutputPath:
+    summary: Sets the output path for generated documents to go in by the Altium Designer output generator.
+  DM_StartCrossProbing:
+    summary: This method invokes the cross probing method. Both source and primary implementation documents need to be open
+      in Altium Designer in order for the cross probing to work.
+  DM_StartNavigation:
+    summary: This method invokes the navigation panel for the current project. The project needs to be compiled first.
+  DM_ToDoManager:
+    summary: Invoke this method to have access to the IToDoManager object. This ToDo manager allows you to define to dos for
+      your current project.
+  DM_TopLevelLogicalDocument:
+    summary: This method returns the top level logical document of this current project. A logical document is usually a
+      Schematic document and can represent a document of a multi channel project for example.
+  DM_TopLevelPhysicalDocument:
+    summary: This method returns the top level physical document of this current project. A physical document usually is a
+      PCB document.
+  DM_UpdateConstraints:
+    summary: Invoke this method to update the constraint files used for a FPGA project and for corresponding PCB projects
+      with FPGA components.
+  DM_UserID:
+    summary: The method returns a value that represents the UserID of the project.
+  DM_ViolationCount:
+    summary: This method returns the number of violations reported by Altium Designer for this current project.
+  DM_Violations:
+    summary: Returns the indexed violation for a current project. This is to be used in conjunction with the
+      DM_ViolationCount method.
+  GetNavigationHistory:
+    summary: This method returns the status of the navigation buttons on the Navigator panel for the current project in
+      Altium Designer. Check out INavigationHistory interface for details.

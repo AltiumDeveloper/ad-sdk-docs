@@ -1,0 +1,43 @@
+# DXP.IExternalForm: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This IExternalForm interface object has low level methods such as resizing and displaying the form.
+remarks: >-
+  For example VCL technology is not compatible with MS C++ toolkit.
+
+
+  Therefore to work with windows in the Altium Designer platform, you use the IExternalForm interface to have access to
+  windows and manipulate them.
+
+
+  IExternalForm Methods and Properties Table
+members:
+  FocusFirstTabStop:
+    seeAlso:
+      - DXP.IClient
+  GetBounds:
+    summary: This method retrieves the four bounds (left, top, width and height) of the form.
+    seeAlso:
+      - DXP.IClient
+  Hide:
+    summary: This Hide method hides the form from view in Altium Designer.
+    seeAlso:
+      - DXP.IClient
+  ParentWindowCreated:
+    seeAlso:
+      - DXP.IClient
+  ParentWindowDestroyed:
+    seeAlso:
+      - DXP.IClient
+  SetBounds:
+    summary: This method sets the bounds of the external form.
+    seeAlso:
+      - DXP.IClient
+  SetFocus:
+    seeAlso:
+      - DXP.IClient
+  SetParentWindow:
+    seeAlso:
+      - DXP.IClient
+  Show:
+    summary: This method displays the hidden form.
+    seeAlso:
+      - DXP.IClient

@@ -1,0 +1,17 @@
+# PCB.IPCB_PolygonConnectStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The Polygon Connect Style Rule returns or sets the polygon connect style rule which specifies how the polygon
+  is connected to the power plane.
+remarks: >-
+  • The TPlaneConnectStyle type specifies the polygon connect style rule which is relief connection to a polygon, or
+  direct connection to a polygon from a component pin. That is, the type of connection from a component pin to the
+  polygon.
+
+
+  • The relief conductor width property denotes the width of the conductor between two air gaps.
+
+
+  • The relief entries property specifies the number of relief entries (2 or 4) for the relief connection of the polygon
+  connection. For other types of connection, this field is irrelevant.
+
+
+  • The PolygonReliefAngle type specifies the angle of relief connections in 45 or 90 degrees.

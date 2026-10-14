@@ -1,0 +1,28 @@
+# PCB.IPCB_Sheet: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Sheet interface represents the background workspace for the PCB document and can include fabrication
+  and assembly documentation as well as the board outline. The IPCB_Board interface has the IPCB_Sheet interface as an
+  aggregation interface because a sheet is part of the PCB document.
+remarks: >-
+  The I_ObjectAddress property retrieves the pointer to the iterator object. This property is useful for situations
+  where you need to have references to objects (not to object interfaces) and store them in a TList container for
+  example.
+
+
+  The sheet behind the PCB can be shown or not.
+
+
+  The coordinates of the PCB sheet can be defined programmatically.
+members:
+  LockSheet:
+    summary: The LockSheet property represents whether the objects on a mechanical layer linked to the sheet is locked or not.
+  SheetHeight:
+    summary: The SheetHeight property represents the sheet's height.
+  SheetWidth:
+    summary: The SheetWidth property represents the width of the sheet.
+  SheetX:
+    summary: The SheetX property represents the X coordinate of the sheet.
+  SheetY:
+    summary: The SheetY property represents the Y coordinate of the sheet.
+  ShowSheet:
+    summary: This property retrieves or sets the boolean value. The Sheet property represents the bounds where a board
+      outline and assembly / fabrication details are included within.

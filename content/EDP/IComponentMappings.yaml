@@ -1,0 +1,22 @@
+# EDP.IComponentMappings: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IComponentMappings interface represents the mapping of source components and target components in schematic
+  and PCB documents.
+members:
+  DM_MatchedComponentCount:
+    summary: Returns the number of matched components.
+  DM_MatchedSourceComponent:
+    summary: Returns the indexed matched source component (that has been matched with a target component). Use the
+      DM_MatchedSourceComponentCount method.
+  DM_MatchedTargetComponent:
+    summary: Returns the indexed matched source component (that has been matched with a target component). Use the
+      DM_MatchedTargetComponentCount method.
+  DM_UnmatchedSourceComponent:
+    summary: Returns the indexed unmatched source component, that is, a target component could not be found to map to this
+      source component. Use the DM_UnmatchedSourceComponentCount method.
+  DM_UnmatchedSourceComponentCount:
+    summary: Returns the number of unmatched source components.
+  DM_UnmatchedTargetComponent:
+    summary: Returns the indexed unmatched target component, that is, a source component could not be found to map to the
+      target component. Use the DM_UnmatchedTargetComponentCount method.
+  DM_UnmatchedTargetComponentCount:
+    summary: Returns the number of unmatched target components.

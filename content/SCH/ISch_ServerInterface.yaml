@@ -40,8 +40,10 @@ members:
       - SCH.IDocumentPainterView
   CreateLibCompInfoReader:
     summary: The method returns a ILibCompInfoReader interface that represents a library component information reader object.
-    remarks: NumComponentsInfos method and then to obtain the information for each component in this library invoke the
-      ComponentInfos[] method. When you are done, invoke the DestroyCompInfoReader method.
+    remarks: Invoke the CreateLibCompInfoReader method with the path to a schematic library and to obtain the number of
+      components in this library, invoke the ILibCompInfoReader.NumComponentsInfos method and then to obtain the
+      information for each component in this library invoke the ComponentInfos[] method. When you are done, invoke the
+      DestroyCompInfoReader method.
     seeAlso:
       - SCH.ILibCompInfoReader
   DestroyCompInfoReader:

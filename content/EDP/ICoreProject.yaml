@@ -1,0 +1,4 @@
+# EDP.ICoreProject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ICoreProject interface represents the project that hosts core designs. A core project is typically created
+  to develop pre-synthesized user models whose EDIF output becomes the model for these user defined components.
+remarks: Inherited from IAbstractVHDLProject interface

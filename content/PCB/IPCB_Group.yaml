@@ -1,0 +1,37 @@
+# PCB.IPCB_Group: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Group interface is an immediate ancestor for IPCB_Net , IPCB_LibComponent , IPCB_Polygon ,
+  IPCB_Coordinate , IPCB_Dimension and its descendant interfaces.
+remarks: >-
+  The IPCB_Group interface is a composite object interface which means it can store objects. Thus a group object is an
+  object composed of primitives such as arcs, tracks and fills. For example a polygon consists of child tracks and arcs.
+  A footprint in a PCB library consists of child objects such as arcs, pads and tracks.
+
+
+  To fetch objects of a group object, you employ the Group Iterator with the GroupIterator_Create and
+  GroupIterator_Destroy methods.
+
+
+  To add or remove child objects from a group object, you employ the AddPCBObject or the RemovePCBObject methods.
+
+
+  To fetch the reference coordinates of a group object, the X,Y properties define the reference point.
+members:
+  GetPrimitiveAt:
+    summary: The GroupIterator_Create method creates a group iterator for the group object, so that the child objects can be
+      searched from within the group object. This group iterator searches for child objects of a group object, such as a
+      component, footprint, polygon, dimension, board layout and so on.
+    seeAlso:
+      - PCB.IPCB_Group.GroupIterator_Create
+      - PCB.IPCB_GroupIterator
+      - PCB.IPCB_Group.GroupIterator_Destroy
+  PrimitiveLock:
+    summary: The PrimitiveLock property denotes whether the primitives of the group object can be edited individually or
+      not. Normally all the child objects or primitives of a group can only be accessed as a group object.
+  SetState_XSizeYSize:
+    summary: This method sets the X and Y size of the polygon.
+    seeAlso:
+      - PCB.IPCB_Polygon
+  XLocation:
+    summary: The X property defines the reference point of the group object.
+  YLocation:
+    summary: The Y property defines the reference point of the group object.

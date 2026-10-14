@@ -1,0 +1,18 @@
+# EDP.IRoom: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IRoom interface is a PCB room object. A room is controlled by the room design rule. This room serves as a
+  boundary constraint for a group of specified components as a component or channel class.
+members:
+  DM_HX:
+    summary: Returns the higher X coordinate of the room object.
+  DM_HY:
+    summary: Returns the higher Y coordinate of the room object.
+  DM_Layer:
+    summary: Returns the PCB Layer value of the room object that it is on.
+  DM_LX:
+    summary: Returns the lower X coordinate of the room object.
+  DM_LY:
+    summary: Returns the lower Y coordinate of the room object.
+  DM_RoomName:
+    summary: The method returns the room name.
+  DM_Scope1Expression:
+    summary: The method returns the scope 1 expression which describes the scope of this room object.

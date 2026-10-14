@@ -1,0 +1,52 @@
+# EDP.IRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IRule interface represents the one of the rules attached to a parameter within the PCB Layout directive (as
+  a Parameter Set object with a small flag symbol) on a net aware object on a schematic object. A parameter set object
+  can be placed on the schematic sheet by the Place » Directives » PCB Layout menu item.
+remarks: This PCB Layout directive allows you to assign PCB layout information to a net in the schematic. When a PCB is
+  created from the schematic, the information in the PCB layout directive is used to create relevant PCB design rules.
+members:
+  DM_Attributes:
+    summary: The method denotes the attributes of the IRule interface.
+  DM_Description:
+    summary: The method denotes the description of this IRule interface.
+  DM_MaxViaHole:
+    summary: The method denotes the max Via Hole rule property of a Routing Via style PCB Rule.
+  DM_MaxViaWidth:
+    summary: The method denotes the max Via width rule property of a Routing Via style PCB Rule.
+  DM_MaxWidth:
+    summary: The method denotes the Maximum Width rule property of a PCB rule.
+  DM_MinViaHole:
+    summary: The method denotes the min Via Hole rule property of a Routing Via style PCB Rule.
+  DM_MinViaWidth:
+    summary: The method denotes the min Via width rule property of a Routing Via style PCB Rule.
+  DM_MinWidth:
+    summary: The method denotes the Minimum Width rule property of a PCB Rule.
+  DM_PreferedWidth:
+    summary: The method denotes the preferred Width rule property of a PCB Rule.
+  DM_Priority:
+    summary: The method denotes the priority of the PCB Design Rule. The priority value of 1 denotes the highest priority.
+  DM_RoutingLayers:
+    summary: The method denotes the indexed routing layer rule property (Top layer, Mid1-Mid30, Bottom Layer) of a Routing
+      Layers PCB rule.
+  DM_RuleKind:
+    summary: The method denotes the type of PCB Rule.
+  DM_RuleName:
+    summary: The method denotes the name of this IRule interface representing a PCB rule.
+  DM_Scope1Expression:
+    summary: The method denotes the first scope expression string. The scope of Design rules are determined by the defined
+      boundary or objects.
+  DM_Scope2Expression:
+    summary: The method denotes the second scope expression string. The scope of Design rules are determined by the defined
+      boundary or objects.
+  DM_Topology:
+    summary: The method Denotes the topology (Shortest, Horizontal, Vertical, Daisy-Simple, Daisy-MidDriven, Daisy-Balanced
+      and Daisy-StarBurst) rule property of a Routing Topology PCB Rule.
+  DM_UniqueId:
+    summary: Each rule has a Unique ID assigned so that when Schematic and PCB documents are synchronized, the ECO knows
+      which rules to update or apply to/from.
+  DM_ViaHole:
+    summary: Denotes the Via Hole rule property of a Routing Via style PCB Rule.
+  DM_ViaStyle:
+    summary: This method denotes the via style rule property of a Routing Via style PCB Rule.
+  DM_ViaWidth:
+    summary: The method denotes the Via width rule property of a Routing Via style PCB Rule.

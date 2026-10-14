@@ -1,0 +1,5 @@
+# PCB.IPCB_RoutingViaStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This routing via style rule specifies the via object to be used during autorouting. Vias can be through-hole,
+  Blind (from a surface layer to an inner layer) or Buried (between two inner layers).
+remarks: The ViaStyle property sets or returns the via style. Vias can be thru-hole, blind (from a surface layer to an
+  inner layer) or buried (between two inner layers).

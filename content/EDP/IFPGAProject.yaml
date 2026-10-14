@@ -1,0 +1,3 @@
+# EDP.IFPGAProject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IFPGAProject interface represents the project that hosts FPGA designs.
+remarks: Inherited from IAbstractVHDLProject interface

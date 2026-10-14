@@ -1,0 +1,50 @@
+# PCB.IPCB_LayerStack: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_LayerStack interface represents the layer stack for the current PCB document. This Layer Stack
+  interface is a property within in the IPCB_Board interface.
+remarks: >-
+  Strictly speaking, the IPCB_LayerStack interface represents the layer stack and therefore only has copper based layers
+  such as top, mid1-30, bottom layers and internal planes. However you can use the LayerObject property with the
+  IPCB_Board parameter passed in to obtain any PCB layer for the PCB document.
+
+
+  Iterating copper layers within the Layer Stack
+
+
+  To query for existing copper layers (signal layers and internal players) within the layer stack, you can use the
+  FirstLayer and NextLayer properties of the IPCB_LayerStack interface to iterate for such layers.
+
+
+  Each layer can be represented as a IPCB_LayerObject, IPCB_InternalPlane, IPCB_DrillLayerPair or
+  IPCB_MechanicalLayerPairs interfaces.
+
+
+  A layer can have dielectric properties which is represented by a IPCB_DielectricObject interface.
+
+
+  To have access to other layers of the PCB document, use the LayerObject property of the IPCB_LayerStack interface.
+members:
+  Board:
+    summary: This property returns the PCB document that is represented by the IPCB_Board interface, that the layer stack is
+      associated with.
+    seeAlso:
+      - PCB.IPCB_Board
+  DielectricBottom:
+    summary: This property returns the IPCB_DielectricObject interface associated with the dielectric information for the
+      bottom layer of the layer stack.
+    seeAlso:
+      - PCB.IPCB_DielectricObject
+  DielectricTop:
+    summary: This property returns the IPCB_DielectricObject interface associated with the dielectric information for the
+      top layer of the layer stack.
+    seeAlso:
+      - PCB.IPCB_DielectricObject
+  LayerObject:
+    summary: The LayerObject property retrieves the layer object interface for the specified layer, L of TLayer type. It is
+      a read only property.
+    seeAlso:
+      - PCB.IPCB_LayerObject
+  ShowBotDielectric:
+    summary: End;
+    remarks: This property enables or disables the dielectric layer for the bottom layer.
+  ShowTopDielectric:
+    summary: This property enables or disables the dielectric layer for the top layer.

@@ -1,0 +1,4 @@
+# PCB.IPCB_RuleMaxSignalBaseValue: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RuleMaxSignalBaseValue method specifies the maximum allowable base value. The base value is the
+  voltage that a signal settles to in the low state.
+remarks: IPCB_ RuleMaxSignalBaseValue Properties

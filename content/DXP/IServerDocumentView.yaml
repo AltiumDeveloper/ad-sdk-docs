@@ -1,0 +1,33 @@
+# DXP.IServerDocumentView: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IServerDocumentView represents either the document view or one of the associated panel views in Altium
+  Designer. This interface is inherited from the IServerView interface.
+remarks: >-
+  The IServerDocument interface contains IServerDocumentView interfaces, that is, a design document open in Altium
+  Designer contains links to a document view and at least one panel view.
+
+
+  IServerView interface
+
+
+  IServerDocumentView interface
+
+
+  IServerDocumentView Methods and Properties Table
+members:
+  GetOwnerDocument:
+    summary: The OwnerDocument property returns the IServerDocument interface that the IServerDocumentView itnerface is
+      associated with. An IServerDocument container stores IServerDocumentView interfaces which represent a document or
+      panel view.
+    remarks: This property returns the IServerDocument interface that the IServerDocumentView interface is associated with.
+      An IServerDocument container stores IServerDocumentView interfaces which represent a document or panel view.
+    seeAlso:
+      - DXP.IClient
+      - DXP.IExternalForm
+  PerformAutoZoom:
+    summary: This method forces a refresh or repaint of the document / panel view.
+    seeAlso:
+      - DXP.IClient
+  UpdateStatusBar:
+    summary: This method forces an update of the status bar when a string is submitted to the status bar.
+    seeAlso:
+      - DXP.IClient

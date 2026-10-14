@@ -1,18 +1,24 @@
 # SCH.IComponentInfo: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IComponentInfo interface is an item within the ILibCompInfoReader interface. This IComponentInfo interface
   represents a schematic symbol in a specified schematic library file with a SchLib extension.
-remarks: |-
+remarks: >-
   The steps required to load a schematic library and its components.
 
-  1. Create an object and pass in the filename of a schematic library file. CreateLibCompInfoReader(FileName);
+
+  1. Create an object and pass in the filename of a schematic library file. This object is represented by the
+  ILibCompInfoReader interface by the SchServer.CreateLibCompInfoReader(FileName);
+
 
   2. Invoke the ReadAllComponentInfo method to load the library and its components.
 
+
   3. Invoke the NumComponentInfos method to obtain the number of components for this library
+
 
   4. Obtain the indexed ComponentInfos method. This ComponentInfos method returns the indexed IComponentInfo interface.
 
-  ComponentInfos method.
+
+  The IComponentInfo interface is extracted from the ILibCompInfoReader.ComponentInfos method.
 members:
   AliasName:
     summary: This property returns the alias name for this component. Ie a component can be referred to by one of its

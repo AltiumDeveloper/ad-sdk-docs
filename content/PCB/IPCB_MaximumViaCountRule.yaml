@@ -1,0 +1,3 @@
+# PCB.IPCB_MaximumViaCountRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The maximum via count rule specifies the maximum number of vias permitted on a PCB document.
+remarks: Set or return the maximum number of vias for the Limit property

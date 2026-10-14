@@ -1,0 +1,13 @@
+# PCB.IPCB_ComponentClearanceConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: "The Component Clearance Constraint PCB Design rule has available Check Mode setting:"
+remarks: >-
+  Quick Check - uses a components' bounding rectangle to define its shape. The bounding rectangle is the smallest
+  rectangle that encloses all the primitives that make up a component.
+
+
+  Multi Layer Check - also uses a component bounding rectangle, but considers through-hole component pads on a board
+  with components on both sides, allowing surface mount components to be placed under a through-hole component.
+
+
+  Full Check - uses the exact shape that encloses all the primitives that make up each component. Use this option if the
+  design includes a large number of circular or irregular shaped components.

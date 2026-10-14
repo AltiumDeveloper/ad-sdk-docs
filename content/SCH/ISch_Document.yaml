@@ -42,6 +42,8 @@ members:
       search within.
   CountContextMenuObjects:
     summary: The method counts the contextual objects based on the AObjectSet parameter of TObjectSet type.
+    seeAlso:
+      - SCH.TObjectSet
   CreateHitTest:
     summary: The CreateHitTest method creates an hit test object which is represented by the ISch_HitTest interface with the
       ATestMode and ALocation parameters.
@@ -106,15 +108,13 @@ members:
     remarks: |-
       If SchServer = null Then Exit;
 
-      GetCurrentSchDocument, ISch_Lib, CurrentLib) Then Exit;
+      If Not Supports (SchServer.GetCurrentSchDocument, ISch_Lib, CurrentLib) Then Exit;
 
-      LockViewUpdate;
+      CurrentLib.LockViewUpdate;
 
-      CurrentSchComponent;
+      CurrentLib.CurrentSchComponent.AddSchObject(SimModel);
 
-      AddSchObject(SimModel);
-
-      UnLockViewUpdate;
+      CurrentLib.UnLockViewUpdate;
     seeAlso:
       - SCH.ISch_Document.UnLockViewUpdate
   ObjectReferenceZone:

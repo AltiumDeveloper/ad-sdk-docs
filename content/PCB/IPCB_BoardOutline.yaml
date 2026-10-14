@@ -1,0 +1,41 @@
+# PCB.IPCB_BoardOutline: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The board outline object represents the board shape which defines the extents or boundary of the board in the
+  PCB Editor. A board outline object is essentially a closed polygon and is inherited from the IPCB_Polygon interface.
+remarks: >-
+  The PCB Editor uses the board outline shape to determine the extents of the power planes for plane edge pull back,
+  used when splitting power planes and for calculating the board edge when design data is exported to other tools such
+  as the 3D viewer tool.
+
+
+  A board outline is a group object therefore it is composed of pull back primitives namely tracks and arcs as the
+  vertices for the closed polygon of the board outline. Although the board outline object interface is inherited from
+  the IPCB_Polygon interface, you cannot use layer, net assignment and repour polygon behaviours for a board outline.
+
+
+  The IPCB_BoardOutline interface is inherited from IPCB_Polygon interface and in turn from IPCB_Group interface.
+
+
+  To iterate the board outline for the pullback primitives, you create and use a group iterator because the board
+  outline is a group object which in turn is composed of child objects.
+
+
+  The IPCB_BoardOutline interface is used by the BoardOutline property from the IPCB_Board interface.
+
+
+  Each new PCB document in Altium Designer is created with a board outline, so if you wish to update a board outline of
+  a PCB document, you modify the existing board outline by massaging the board outline's vertices and then update the
+  board outline..
+members:
+  Invalidate:
+    summary: This method renders the board outline in an invalidated state. This state needs to be rebuilt and validated by
+      the system.
+    seeAlso:
+      - PCB.IPCB_BoardOutline.Validate
+  InvalidatePlane:
+    summary: This method invalidates the specified layer the board outline is connected to, because the outline has been
+      modified and this particular layer needs to be rebuilt.
+  Validate:
+    summary: The Validate method refreshes and updates the board outline object and its connections to the internal/split
+      planes after it has been altered programmatically (layers or the coordinates of the outline).
+    remarks: The Rebuild method is called implicitly by the Validate method, so executing the Invalidate then the Valid
+      methods are sufficient when the coordinates of a board outline has been modified programmatically.

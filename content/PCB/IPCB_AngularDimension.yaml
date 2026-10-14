@@ -1,0 +1,10 @@
+# PCB.IPCB_AngularDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_AngularDimension object interface allows for the dimensioning of angular distances. There are four
+  references (two reference points associated with two reference objects) which need to be defined and the dimension
+  text is then placed. The references may be tracks, fills, or polygons.
+remarks: >-
+  The Radius property denotes the radius size of the IPCB_AngularDimension object.
+
+
+  The Sector property denotes which sector the IPCB_AngularDimension is using. Sector 1 is the angle between 0 - 90
+  degrees. 2 = 90 - 180 degrees. 3 = 180 =270 degrees. 4 = 270 = 360 or 0 degrees.

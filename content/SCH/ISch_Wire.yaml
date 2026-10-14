@@ -21,74 +21,58 @@ remarks: |-
 
   If SchServer = null Then Exit;
 
-  GetCurrentSchDocument;
-
   If SchDoc = null Then Exit;
 
   // Set up an iterator to look for port objects only.
 
-  SchIterator_Create;
+  Iterator.AddFilter_ObjectSet(MkSet(eWire));
 
-  AddFilter_ObjectSet(MkSet(eWire));
+  ReportList.Add('Wires'' Vertex report:');
 
-  Create;
+  ReportList.Add('______________________');
 
-  Add('Wires'' Vertex report:');
-
-  Add('______________________');
-
-  Add('');
+  ReportList.Add('');
 
   // Using a Try Finally block to avoid exception errors.
 
   Try
 
-  FirstSchObject;
-
   While Wire <> null Do
 
   Inc(WireCount);
 
-  Add('Wire #'
+  ReportList.Add('Wire #'
 
   + IntToStr(WireCount));
 
-  VerticesCount Do
+  ReportList.Add('X: '
 
-  Vertex;
-
-  Add('X: '
-
-  X)
+  + IntToStr(ALocation.X)
 
   + ', Y: '
 
-  Y));
+  + IntToStr(ALocation.Y));
 
   End;
 
-  Add('');
-
-  NextSchObject;
+  ReportList.Add('');
 
   End;
 
   Finally
 
-  SchIterator_Destroy(Iterator);
+  SchDoc.SchIterator_Destroy(Iterator);
 
   End;
 
-  Txt');
+  ReportList.SaveToFile('C:\WireVertexReport.Txt');
 
-  Free;
+  ReportList.Free;
 
   // Display the report containing parameters for each component found.
 
-  txt');
-
   If Document <> null Then
 
-  ShowDocument(Document);
+  Client.ShowDocument(Document);
 
   End;

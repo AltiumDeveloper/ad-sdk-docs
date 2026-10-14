@@ -1,0 +1,5 @@
+# PCB.IPCB_MaxOvershootFall: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_MaxOvershootFall interface specifies the maximum allowable overshoot (ringing below the base value) on
+  the falling edge of the signal.
+remarks: The IPCB_MaxOvershootRise interface specifies the maximum allowable overshoot (ringing above the base value) on
+  the rising edge of the signal.

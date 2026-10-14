@@ -1,0 +1,8 @@
+# PCB.IPCB_InternalPlane: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: This IPCB_InternalPlane interface represents an existing internal plane used on a PCB document. 16 internal
+  planes are supported, and a net can be assigned to each of these layers or share a power plane between a number of
+  nets by splitting the it into two or more isolated areas.
+remarks: |-
+  Pad and via connections to power planes are controlled by the Plane design rules.
+
+  The IPCB_InternalPlane interface is used by the IPCB_LayerStack interface.

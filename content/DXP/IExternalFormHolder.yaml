@@ -1,0 +1,16 @@
+# DXP.IExternalFormHolder: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IExternalFormHolder interface represents the TExternalFormComponent object and holds the IExternalForm interface.
+remarks: >-
+  For example VCL technology is not compatible with MS C++ toolkit.
+
+
+  Therefore to work with windows in the Altium Designer platform, you use the IExternalForm interface to have access to
+  windows and manipulate them.
+
+
+  IExternalFormHolder Methods and Properties Table
+members:
+  GetParentWindow:
+    summary: This method retrieves the THandle of the parent window that can be used in the IExternalForm interface.
+  SetDialogHandle:
+    summary: This method sets the dialog handle for this external form.

@@ -1,0 +1,6 @@
+# EDP.IIntegratedLibraryProject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IIntegratedLibraryProject interface represents the project that deals with integrated libraries.
+remarks: |-
+  IImportant notes
+
+  Inherited from IProject interface

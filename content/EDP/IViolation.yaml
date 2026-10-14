@@ -1,0 +1,21 @@
+# EDP.IViolation: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IViolation interface represents a violation object on a design document in the Workspace Manager of Altium
+  Designer.
+members:
+  DM_AddRelatedObject:
+    summary: This method adds the object that is part of the violation.
+  DM_CompilationStage:
+    summary: "This method returns the status of the complation stage: during compilation or during flattening process."
+  DM_DescriptorString:
+    summary: This method returns the description string for this violation interface.
+  DM_DetailString:
+    summary: This method returns the detailed description stirng of this violation interface.
+  DM_ErrorKind:
+    summary: Returns the kind of error this violation has been assigned to.
+  DM_ErrorLevel:
+    summary: "Returns the level of error this violation has been assigned to. Various error levels include :
+      eErrorLevelNoReport,eErrorLevelWarning,eErrorLevelError,eErrorLevelFatal"
+  DM_RelatedObjectCount:
+    summary: This method returns the number of related objects of the violation.
+  DM_RelatedObjects:
+    summary: This method returns the indexed related object of the violation.

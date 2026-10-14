@@ -1,0 +1,5 @@
+# PCB.IPCB_ComponentRotationsRule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: "The IPCB_ComponentRotationsRule specifies allowable component orientations. Multiple orientations are
+  permitted, allowing the autoplacer to use any of the enabled orientations. The allowed component orientations are:
+  0,90,180, 270, or AllRotations. It is possible to have multiple settings, for example setting at 0 and 270 degrees
+  rotations only."

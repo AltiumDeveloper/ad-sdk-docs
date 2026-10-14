@@ -1,8 +1,48 @@
 # Namespaces documented by the site, in sidebar order. `metadata` lists the extracted assembly files the types come
-# from (tools/AssemblyMetadata). Add a namespace here, a category block in config/categories.yaml and a `.ns-<slug>`
-# colour in src/css/custom.css to publish it.
+# from (tools/AssemblyMetadata). Add a namespace here, its areas in config/categories.yaml and `.bc-<slug>` /
+# `.bc-<area>` icons in src/css/custom.css ("Sidebar icons") to publish it.
 namespaces:
   - id: SCH
     title: Schematic
     description: Schematic and schematic library documents, design objects, the schematic server and its services.
+    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
+  - id: PCB
+    title: PCB
+    description: PCB and PCB library documents, design objects, design rules, layer stacks, the PCB server and its services.
+    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
+  - id: EDP
+    title: Projects and design data
+    description: The workspace, projects and documents, compiled design data, bills of materials, outputs and comparisons.
+    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
+  - id: DXP
+    title: System
+    description: The client application, servers and server modules, documents and views, commands, notifications, data management and version control.
+    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
+  - id: ComponentLib
+    title: Component libraries
+    description: Component library documents, component definitions, templates, parameters and model links.
+    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
+  - id: Embedded
+    title: Embedded
+    description: Embedded software support - memories, stacks, toolchains and interrupt management.
     metadata: [metadata/Altium.SDK.Interfaces.json]
+  - id: DXP.EDMS
+    title: Data management types
+    description: Constants and value types used by the data management services, such as content and folder type identifiers.
+    metadata: [metadata/Altium.SDK.Interfaces.json]
+  - id: Altium.Dxp.Interfaces
+    title: Image service
+    description: The image service interface and its enumerations.
+    metadata: [metadata/Altium.SDK.Interfaces.json]
+  - id: Altium.Dxp.Classes
+    title: System helper classes
+    description: Helper classes of the system API.
+    metadata: [metadata/Altium.SDK.json]
+  - id: Altium.Edp.Classes
+    title: Output generation
+    description: The output generator class and its options.
+    metadata: [metadata/Altium.SDK.json]
+  - id: Altium.SDK
+    title: Service clients
+    description: The base class for service clients.
+    metadata: [metadata/Altium.SDK.json]

@@ -1,0 +1,26 @@
+# PCB.IPCB_Net: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A net object can store net information from a PCB document. The net object contains information about the
+  components used in the design, and the connectivity created in the design, stored in the form of nets. A net object is
+  a list of pin to pin connections that are electrically connected in the design. The arrangement of the pin to pin
+  connections is called the net topology.
+remarks: >-
+  The net objects are system generated objects, which means, you can retrieve the net names of PCB objects that have a
+  net property on a PCB document.
+
+
+  By default the PCB editor arranges the pin to pin connections of each net to give the shortest overall connection
+  length. To have control of the arrangement of the pin to pin connections in a net, the PCB editor allows the user to
+  define a set of From-Tos.
+
+
+  The ConnectsVisible property denotes the visibility of a net. If true, connections are visible.
+
+
+  IPCB_Group table
+
+
+  IPCB_Net table
+members:
+  Name:
+    summary: "Property PadByName string : IPCB_Primitive Read Getstate_PadByName; Property PadByPinDescription string :
+      IPCB_Primitive Read Getstate_PadByPinDescription;"

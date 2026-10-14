@@ -1,0 +1,10 @@
+# EDP.ICrossSheet: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ICrossSheet interface is a cross sheet connector object interface. Cross sheet connector objects can be
+  used to link a net from a sheet to other sheets within a project. This method defines global connections between
+  sheets within a project. An active cross sheet object is associated with a net.
+remarks: >-
+  An equivalent Cross Sheet Connector object representation is the ISch_CrossSheetConnector interface in Schematic API
+  Reference.
+
+
+  ICrossSheet interface is inherited from INetItem interface.

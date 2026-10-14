@@ -1,0 +1,8 @@
+# DXP.IGUIManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IGUIManager interface represents the Graphical User interface portions of the Altium Designer application
+  such as resizing panels, checking for certain hot key maps and status bars.
+members:
+  CanResizePanel:
+    summary: This method determines whether the panel can be resized or not. The name of the panel need to be supplied.
+  CurrentProcessLauncherAvailable:
+    summary: This method determines whether the current process launcher is available or not to use.

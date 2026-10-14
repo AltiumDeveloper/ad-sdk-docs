@@ -10,11 +10,11 @@ import { inheritedMembers, namedTypes, orderBases } from './model.mjs';
 const require = createRequire(import.meta.url);
 const GithubSlugger = require('github-slugger');
 
-const KIND_TITLE = { interface: 'interface', enum: 'enumeration', struct: 'structure', class: 'class' };
+const KIND_TITLE = { interface: 'interface', enum: 'enumeration', struct: 'structure', class: 'class', delegate: 'delegate' };
 
 // --- paths -----------------------------------------------------------------------------------------------------
-// docs/reference/<ns>/<Type>.md
-export const typeFile = (type) => `${type.namespace.toLowerCase()}/${type.name}.md`;
+// docs/reference/<ns-slug>/<Type>.md (nested types: `Outer-Inner.md`)
+export const typeFile = (type) => `${type.nsSlug}/${type.file}.md`;
 export const typeRoute = (type) => `/reference/${typeFile(type).replace(/\.md$/, '')}`;
 
 function relativePath(from, to) {
@@ -83,7 +83,7 @@ export class Linker {
       const at = rest.indexOf(name);
       out += codeIfAny(rest.slice(0, at));
       const href = this.typeHref(name);
-      const display = name.startsWith('System.') || href ? name.slice(name.lastIndexOf('.') + 1) : name;
+      const display = href ? this.model.types.get(name).name : name.startsWith('System.') ? name.slice(name.lastIndexOf('.') + 1) : name;
       out += href ? `[${display}](${href})` : `\`${display}\``;
       rest = rest.slice(at + name.length);
     }
@@ -195,6 +195,18 @@ export function renderType(model, type, ctx) {
     for (const v of type.values) page.push(`| \`${v.name}\` | ${v.value ?? ''} | ${cell(content.values?.[v.name] ?? '')} |`);
     page.push('');
   }
+  if ((type.kind === 'struct' || type.kind === 'class') && type.interfaces.length) {
+    page.push(`**Implements:** ${type.interfaces.map((i) => link.type(i)).join(', ')}`, '');
+  }
+  if (type.kind === 'delegate' && type.signature) {
+    if (type.signature.parameters.length) {
+      page.heading(2, 'Parameters');
+      page.push('| Parameter | Type | Passing |', '| --- | --- | --- |');
+      for (const p of type.signature.parameters) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
+      page.push('');
+    }
+    page.push(`**Returns:** ${type.signature.returnType === 'void' ? 'nothing (`void`)' : link.type(type.signature.returnType)}`, '');
+  }
   if (type.kind === 'struct' || type.kind === 'class') renderClassMembers(page, type, link);
   renderUsedBy(page, model, type, link);
   const seeAlso = seeAlsoLinks(link, content.seeAlso);
@@ -224,7 +236,7 @@ function renderClassMembers(page, type, link) {
   if (type.properties.length) {
     page.heading(2, 'Properties');
     page.push('| Name | Type | Access |', '| --- | --- | --- |');
-    for (const p of type.properties) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.canRead && p.canWrite ? 'get; set' : p.canRead ? 'get' : 'set'} |`);
+    for (const p of type.properties) page.push(`| \`${p.name}\`${p.isStatic ? ' (static)' : ''} | ${link.type(p.type)} | ${p.canRead && p.canWrite ? 'get; set' : p.canRead ? 'get' : 'set'} |`);
     page.push('');
   }
   if (type.methods.length) {
@@ -234,6 +246,9 @@ function renderClassMembers(page, type, link) {
 }
 
 function declaration(type) {
+  if (type.kind === 'delegate') {
+    return type.signature ? `public delegate ${methodSignature(type.signature, { name: type.name })}` : `public delegate ${type.name}`;
+  }
   if (type.kind === 'class') {
     return `public class ${type.name}${type.baseType ? ` : ${shortType(type.baseType)}` : ''}`;
   }
@@ -377,15 +392,17 @@ export function renderNamespace(model, ns, categories, ctx) {
   const types = [...model.types.values()].filter((t) => t.namespace === ns.id);
   const out = [frontMatter({
     title: `${ns.id} namespace`,
-    sidebar_label: `${ns.title} (${ns.id})`,
+    sidebar_label: ns.label,
     description: ns.description,
     pagination_next: 'null',
     pagination_prev: 'null',
   })];
   out.push(`# ${ns.id} namespace`, '', escapeText(ns.description), '');
-  const counts = { interface: 0, enum: 0, struct: 0, class: 0 };
+  const counts = { interface: 0, enum: 0, struct: 0, class: 0, delegate: 0 };
   for (const t of types) counts[t.kind] += 1;
-  out.push(`${counts.interface} interfaces, ${counts.enum} enumerations and ${counts.struct + counts.class} structures and classes.`, '');
+  const parts = [[counts.interface, 'interfaces'], [counts.enum, 'enumerations'], [counts.struct + counts.class, 'structures and classes'], [counts.delegate, 'delegates']]
+    .filter(([n]) => n).map(([n, w]) => `${n} ${w}`);
+  out.push(`${parts.join(', ')}.`, '');
   for (const c of categories) {
     const inCat = types.filter((t) => t.category === c.id).sort((a, b) => a.name.localeCompare(b.name));
     if (!inCat.length) continue;
@@ -407,7 +424,7 @@ export function renderReferenceIndex(namespaces, model) {
   out.push('| Namespace | Types | Description |', '| --- | --- | --- |');
   for (const ns of namespaces) {
     const n = [...model.types.values()].filter((t) => t.namespace === ns.id).length;
-    out.push(`| [${ns.title} (${ns.id})](./${ns.slug}/index.md) | ${n} | ${cell(ns.description)} |`);
+    out.push(`| [${ns.label}](./${ns.slug}/index.md) | ${n} | ${cell(ns.description)} |`);
   }
   out.push('');
   return { file: 'index.md', text: out.join('\n') };

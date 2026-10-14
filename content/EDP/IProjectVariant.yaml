@@ -1,0 +1,16 @@
+# EDP.IProjectVariant: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IProjectVariation interface represents the project that contains component variations. Physically, there is
+  only one PCB document with components that are specified. So for each output requirement, each document variant is
+  generated, although there is only one PCB design document.
+members:
+  DM_Description:
+    summary: Returns the description of this variant.
+  DM_Name:
+    summary: Returns the name of this variant.
+  DM_Project:
+    summary: Returns the IProject interface this variant is associated with.
+  DM_VariationCount:
+    summary: Returns the count of variants. To be used in conjunction with the DM_Variations(index) method.
+  DM_Variations:
+    summary: Returns the indexed component variation for this project. To be used in conjunction with the DM_VariationCount
+      method.

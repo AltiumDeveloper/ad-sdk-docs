@@ -1,0 +1,8 @@
+# EDP.IComponentClass: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IComponentClass interface is a PCB Component class object interface for an existing Component Class on a
+  PCB document. An existing Component class contains members of specific Components. Each Component within a
+  ComponentClass object can either be a member or not. The 'All Components' Component Class exists in every PCB document
+  by default, it includes all Components in the document. It is not possible to change which components are members of
+  that Component class, but the user has full control over which components are members of any other Component classes
+  (which are created and named by the User).
+remarks: Inherited from IObjectClass interface.

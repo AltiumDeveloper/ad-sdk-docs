@@ -1,0 +1,8 @@
+# PCB.IPCB_Rule: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_Rule interface object encapsulates an existing PCB design rule in an opened PCB document in Altium
+  Designer. Each design rule has its own Unique ID. To set the scope of a rule, unary or binary scope expressions are
+  defined.
+remarks: The PCB editor incorporates a large set of design rules to help define compliance/constraints regarding the
+  placement of PCB objects, routing methods, and netlists. These rules include clearances, object geometry, impedance
+  control, routing priority, routing topology and parallelism. Rule scope is the extent of each rule determined. The
+  scope allows you to define the set of target objects that a particular instance of a rule is to be applied to.

@@ -1,0 +1,4 @@
+# EDP.IWrapper: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  DM_GroupedSchObject:
+    summary: End;

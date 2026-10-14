@@ -1,0 +1,22 @@
+# DXP.IOptionsManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IOptionsManager interface deals with the options of a system wide Preferences dialog or project centric
+  Project Options dialog.
+remarks: A server needs to register its own options pages within the Client module of Altium Designer. The TServerModule
+  class from the RT_ServerImplementation unit within the Altium Designer RTL has a RegisterOptionsPageClass method for
+  you to override. You need to pass in the name of the options page and the Options Form of TOptionsForm type. Normally
+  this form is the same as the server panel form with the controls on it.
+members:
+  GetOptionsReader:
+    summary: This method retrieves the IOptionsReader method which enables you to read setting values for the Options of the
+      specified server.
+    seeAlso:
+      - DXP.IOptionsWriter
+      - DXP.IOptionsReader
+  GetOptionsWriter:
+    summary: This method retrieves the IOptionsWriter method which enables you to write setting values for the Options of
+      the specified server.
+    seeAlso:
+      - DXP.IOptionsWriter
+      - DXP.IOptionsReader
+  OptionsExist:
+    summary: This method checks if the options for the specified server exist on the system wide Preference dialog.

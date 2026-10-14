@@ -7,5 +7,6 @@ members:
       Navigation system after the project has been compiled.
     remarks: An inferred property denotes whether the object is an inferred object with respect to connective objects. Bus
       and Sheet Symbols can be defined in ranges using the NetLabel [] and Repeat statements respectively and once the
-      project has been compiled, inferred objects created in memory for navigation/connective purposes. A5 net labels
-      (only in memory). This property is useful for multi - channel projects and for sheets that have Bus objects.
+      project has been compiled, inferred objects created in memory for navigation/connective purposes. For example, a
+      Bus with a range of A ends up with five wires with A0...A5 net labels (only in memory). This property is useful
+      for multi - channel projects and for sheets that have Bus objects.

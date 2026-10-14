@@ -1,0 +1,22 @@
+# DXP.IOptionsWriter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IOptionsWriter interface writes values for options on a page in the system wide Preferences or Project
+  options dialog to a registry storage.
+members:
+  EraseSection:
+    summary: This method removes all the option values for the section (targetted page in the system wide preferences dialog).
+  WriteBoolean:
+    summary: This WriteBoolean method writes a boolean option value for the option name used by the specified server
+      (SectionName) which is represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  WriteDouble:
+    summary: This WriteDouble method writes a double value for the option name used by the specified server (SectionName)
+      which is represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  WriteInteger:
+    summary: This WriteInteger method writes an integral value for the option name used by the specified server
+      (SectionName) which is represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.
+  WriteString:
+    summary: This WriteString method writes a string option value for the option name used by the specified server
+      (SectionName) which is represented by the system wide Preferences dialog.
+    remarks: The section name is the targetted page in the system wide preferences dialog.

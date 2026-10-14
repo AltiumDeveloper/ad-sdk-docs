@@ -1,0 +1,47 @@
+# EDP.IBus: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IBus interface represents a bus object on the schematic sheet. Buses are special graphical elements that
+  represent a common pathway for multiple signals on a schematic document. Buses have no electrical properties, and they
+  must be correctly identified by net labels and ports.
+remarks: When a schematic document is compiled, bus objects have inferred objects (wires with netlabels on them) in
+  memory that aids the connectivity and navigation features within Altium Designer.
+members:
+  DM_BusKind:
+    summary: The method returns the bus kind which is one of the following enumerated values; eBusKindUndefined,
+      eBusKindLowValueFirst, eBusKindHighValueFirst, eBusKindGeneric.
+  DM_BusName:
+    summary: This method returns the full bus name of this bus interface.
+  DM_BusRange1:
+    summary: This method returns the Bus range 1 value. Eg. A1..6, the bus range1 is 1.
+  DM_BusRange2:
+    summary: The method returns the Bus range 2 value. Eg. A1..6, the bus range2 is 6.
+  DM_BusRangeValue1:
+    summary: The method returns the Bus range 1 value.
+  DM_BusRangeValue2:
+    summary: The method returns the Bus range 2 value.
+  DM_BusWidth:
+    summary: The method returns the bus width.
+  DM_Electric:
+    summary: The method returns the electrical property for this bus. Various values include :eElectricInput, eElectricIO,
+      eElectricOutput, eElectricOpenCollector, eElectricPassive, eElectricHiZ, eElectricOpenEmitter, eElectricPower
+    seeAlso:
+      - EDP.TPinElectrical
+  DM_FullBusName:
+    summary: The method returns the full bus name of this bus interface.
+  DM_IsLocal:
+    summary: The method returns a Boolean value whether this bus is a local object or not.
+  DM_RangeDefinedByValue:
+    summary: The method returns a Boolean value whether this range is defined by a two specific range values or not.
+  DM_Scope:
+    summary: The method denotes the net scope of this IBus interface.
+    seeAlso:
+      - EDP.TNetScope
+  DM_SectionCount:
+    summary: The method returns the number of sections for this IBus interface. This is used for the DM_Sections method.
+  DM_Sections:
+    summary: The method returns the indexed section of the bus. Used in conjunction with the DM_SectionCount method.
+  DM_SignalType:
+    summary: The method returns the signal type string for this bus.
+  DM_WireCount:
+    summary: The method returns the number of wires for this IBus interface. This is used for the DM_Wires method.
+  DM_Wires:
+    summary: The method returns the indexed wire. Used in conjunction with the DM_WireCount method.

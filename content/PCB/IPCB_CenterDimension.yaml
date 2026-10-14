@@ -1,0 +1,4 @@
+# PCB.IPCB_CenterDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_CenterDimension object interface allows for the center of an arc or circle to be marked
+remarks: The angle property denotes the angle or rotation of the IPCB_CenterDimension object with respect to the
+  horizontal plane.

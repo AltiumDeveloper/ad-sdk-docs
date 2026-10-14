@@ -1,0 +1,3 @@
+# PCB.IPCB_RuleMaxSlopeRisingEdge: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RuleMaxSlope_RisingEdge interface specifies the maximum allowable slope on the rising edge of the
+  signal. The slope is the time it takes for a signal to rise from the threshold voltage to a valid high voltage.

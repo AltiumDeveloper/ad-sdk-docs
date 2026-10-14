@@ -1,0 +1,35 @@
+# PCB.IPCB_LibComponent: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_LibComponent object represents the current footprint in a PCB library document. The footprints of a
+  PCB library is equivalent to "pages" of a library.
+remarks: >-
+  The library document is represented by two interfaces - the current footprint and the IPCB_Library document.
+
+
+  The IPCB_LibraryIterator object interface iterates through a loaded PCB library in Altium Designer to fetch PCB
+  footprints which are represented by the IPCB_LibComponent interfaces. The IPCB_LibraryIterator interface is used in
+  the IPCB_Library interface - LibraryIterator_Create and LibraryIterator_Destory methods.
+
+
+  A library is represented by the IPCB_Library interface.
+
+
+  A PCB footprint (as a page of the library) is represented by its IPCB_LibComponent interface which is inherited from
+  the IPCB_Group object interface.
+
+
+  A PCB footprint is composed of child objects such as pads and tracks. Therefore the footprint has its own
+  IPCB_GroupIterator to fetch its own child objects.
+
+
+  For example LibraryIterator.AddFilter_ObjectSet( MkSet (eTrackObject,eFillObject));
+members:
+  Description:
+    summary: The Description property denotes the footprint's description. This Description property is supported by the
+      GetState_ Description and SetState_ Description methods.
+    remarks: Note, the IPCB_LibComponent interface represents the current footprint in the PCB Library editor workspace.
+  Height:
+    summary: The Height property denotes the footprint's height.
+    remarks: Note, the IPCB_LibComponent interface represents the current footprint in the PCB Library editor workspace.
+  Pattern:
+    summary: The Name property denotes the pattern name of the footprint.
+    remarks: Note, the IPCB_LibComponent interface represents the current footprint in the PCB Library editor workspace.

@@ -1,0 +1,14 @@
+# PCB.IPCB_LinearDiameterDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_LinearDimension interface references the dimensioning information on the current layer with respect to
+  a linear distance. The dimension value is the distance between the start and end markers (reference points) measured
+  in the default units. The references may be objects (tracks, arcs, pads, vias, text fills, polygons or components) or
+  points in free space.
+remarks: >-
+  Immediate ancestor IPCB_LinearDimension Methods
+
+
+  Immediate ancestor IPCB_LinearDimension Properties
+
+
+  The angle property denotes the angle or rotation of the TPCBLinearDimension object with respect to the horizontal
+  plane.

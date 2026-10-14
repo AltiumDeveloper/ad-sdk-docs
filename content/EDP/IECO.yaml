@@ -1,0 +1,21 @@
+# EDP.IECO: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IECO interface represents an Engineering Change Order interface in the Work Space Manager. Basically an
+  Engineering Change Order attempts to keep a project containing source documents and its corresponding primary
+  implementation documents synchronized. For example a schematic project and its PCB document, every time something
+  changes in a schematic project, it is necessary to bring the changes forward to the PCB document via the Engineering
+  Change Order feature.
+members:
+  DM_AddMemberToObject:
+    summary: Adds a specific action in the ECO manager.
+  DM_AddObject:
+    summary: Adds a reference object for the ECO to compare the target document against this reference document.
+  DM_Begin:
+    summary: Denotes that the ECO manager has started.
+  DM_ChangeObject:
+    summary: Changes a specific action in the ECO manager.
+  DM_End:
+    summary: Denotes that the ECO manager has ended.
+  DM_RemoveMemberFromObject:
+    summary: Removes a specific action in the ECO manager.
+  DM_RemoveObject:
+    summary: Removes a reference object depending on what ECO mode is.

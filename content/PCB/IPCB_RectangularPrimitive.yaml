@@ -1,0 +1,35 @@
+# PCB.IPCB_RectangularPrimitive: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_RectangularPrimitive interface is the ancestor interface for IPCB_Fill and IPCB_Text interfaces and
+  contains the rectangular coordinates as well as the rotation property.
+members:
+  IsRedundant:
+    summary: This method determines whether the object is redundant (unused object) on the PCB document or not.
+  RotateAroundXY:
+    summary: This method rotates a rectangular primitive object such as a fill or a text object on the PCB document about
+      the AX, AY coordinates with an angle in degrees.
+    remarks: To ensure the rectangular primitive rotates without moving about, pass in its midpoint (between X1,X2 and Y1,
+      Y2) attributes for the AX,AY parameters or use the Rotation property.
+  Rotation:
+    summary: This Rotation property deals with the rotation of the rectangular primitive (fill, text, embedded board for
+      example) object in degrees (of TAngle type 0 -360 degrees).
+    remarks: This property is supported by GetState_Rotation and SetState_Rotation methods.
+  SetState_XSizeYSize:
+    summary: This method sets the XSize and YSize of the rectangular primitive.
+  X1Location:
+    summary: The X1Location property determines the initial X1 location of the rectangular primitive. The X1,Y1 and X2,Y2
+      coordinates define the boundary of the rectangular primitive.
+  X2Location:
+    summary: The X2Location property determines the final X2 location of the rectangular primitive. The X1,Y1 and X2,Y2
+      coordinates define the boundary of the rectangular primitive.
+  XLocation:
+    summary: The XLocation property determines the reference X location of the rectangular primitive. The X,Y coordinates
+      define the reference point of the rectangular primitive.
+  Y1Location:
+    summary: The Y1Location property determines the initial Y1 location of the rectangular primitive. The X1,Y1 and X2,Y2
+      coordinates define the boundary of the rectangular primitive.
+  Y2Location:
+    summary: The Y2Location property determines the final Y2 location of the rectangular primitive. The X1,Y1 and X2,Y2
+      coordinates define the boundary of the rectangular primitive.
+  YLocation:
+    summary: The YLocation property determines the reference Y location of the rectangular primitive. The X,Y coordinates
+      define the reference point of the rectangular primitive.

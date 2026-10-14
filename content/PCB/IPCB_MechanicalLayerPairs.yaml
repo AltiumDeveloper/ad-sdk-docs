@@ -1,0 +1,24 @@
+# PCB.IPCB_MechanicalLayerPairs: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: There are 16 general purpose mechanical layers for defining the board layout, placing dimensions on, including
+  fabrication details on, or any other mechanical details the design requires.
+remarks: >-
+  The purpose of the IPCB_MechanicalLayerPairs Interface is to provide which Mechanical layers are paired to one
+  another.
+
+
+  When a component incorporates objects on one or more Mechanical layers which have been paired, the Layer property of
+  those objects changes when the Layer property of the component is toggled (between the Top and Bottom layers), just
+  like objects on the non-Mechanical layers which have always been paired to one another, to wit the Top and Bottom
+  (copper) layers, the Top and Bottom Overlay layers, the Top and Bottom Paste Mask layers, and the Top and Bottom
+  Solder Mask layers.
+
+
+  The IPCB_MechanicalLayerPairs interface is a MechanicalPairs property of the IPCB_Board interface.
+
+
+  Invoke the Count method to obtain the number of mechanical layer pairs for the existing PCB document. Indexed
+  mechanical layer pairs which is a LayerPair[] property can be returned. This property returns a TMechanicalLayerPair
+  record of two PCB layers.
+members:
+  Clear:
+    summary: "LayerPair [I : Integer] : TMechanicalLayerPair"

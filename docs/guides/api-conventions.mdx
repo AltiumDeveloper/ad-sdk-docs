@@ -11,19 +11,19 @@ description: How the SDK API is organised - namespaces, entry points, properties
 | Namespace | Area |
 | --- | --- |
 | [`SCH`](../reference/sch/index.md) | Schematic and schematic library documents, design objects, the schematic server. |
-| `PCB` | PCB and PCB library documents, design objects, the PCB server. |
-| `EDP` | Projects, documents and the workspace (the project manager). |
-| `DXP` | The client application, servers, commands, views and notifications. |
+| [`PCB`](../reference/pcb/index.md) | PCB and PCB library documents, design objects, the PCB server. |
+| [`EDP`](../reference/edp/index.md) | Projects, documents and the workspace (the project manager). |
+| [`DXP`](../reference/dxp/index.md) | The client application, servers, commands, views and notifications. |
 
 ## Entry points
 
-Each editor is reached through a static property of `GlobalVars` in `Altium.SDK.dll`:
+Each editor is reached through a static property of `GlobalVars` in `Altium.SDK.dll` ([`SCH.GlobalVars`](../reference/sch/GlobalVars.md), [`PCB.GlobalVars`](../reference/pcb/GlobalVars.md), [`DXP.GlobalVars`](../reference/dxp/GlobalVars.md)):
 
 | Entry point | Type | Use |
 | --- | --- | --- |
 | `SCH.GlobalVars.SchServer` | [`ISch_ServerInterface`](../reference/sch/ISch_ServerInterface.md) | Schematic documents, object creation, schematic preferences. |
-| `PCB.GlobalVars.PCBServer` | `IPCB_ServerInterface` | PCB documents and objects. |
-| `DXP.GlobalVars.Client` | `IClient` | The application: documents, views, commands. |
+| `PCB.GlobalVars.PCBServer` | [`IPCB_ServerInterface`](../reference/pcb/IPCB_ServerInterface.md) | PCB documents and objects. |
+| `DXP.GlobalVars.Client` | [`IClient`](../reference/dxp/IClient.md) | The application: documents, views, commands. |
 
 An entry point is `null` when its server is not loaded, so check before use.
 
@@ -78,4 +78,4 @@ objectSet.Add(SCH.TObjectId.eWire);
 ## Coordinates
 
 Coordinates are integers in internal units. `EDP.Utils` converts between internal units and mils or millimetres
-(`MilsToCoord`, `CoordToMils`, `MMsToCoord`, `CoordToMMs`).
+(`MilsToCoord`, `CoordToMils`, `MMsToCoord`, `CoordToMMs`); see [`EDP.Utils`](../reference/edp/Utils.md).

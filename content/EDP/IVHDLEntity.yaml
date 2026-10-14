@@ -1,0 +1,8 @@
+# EDP.IVHDLEntity: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IVhdlEntity interface represents the existing VHDL entity object on a VHDL document. Basically a VHDL
+  document can contain many VHDL entities and each entity corresponds to a schematic document.
+remarks: Since every object interface (inherited from the IDMObject interface) has a DM_VHDLEntity method. This method
+  can be useful in cases such as determining which ports correspond to VHDL entities.
+members:
+  DM_Name:
+    summary: Returns the name of the VHDL entity.

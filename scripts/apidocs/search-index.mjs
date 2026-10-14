@@ -60,13 +60,13 @@ export function runSearchIndex({ manifestPath = '.generated/manifest.json', docs
   if (!existsSync(manifestPath)) throw new Error(`search-index: ${manifestPath} not found; run node scripts/apidocs/generate.mjs first`);
   const config = existsSync(configPath) ? parse(readFileSync(configPath, 'utf8')) ?? {} : {};
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
-  const contexts = manifest.namespaces.map((ns) => ({ id: ns.id, title: `${ns.title} (${ns.id})`, slug: ns.slug, weight: config.contextWeights?.[ns.slug] }));
+  const contexts = manifest.namespaces.map((ns) => ({ id: ns.id, title: ns.label, slug: ns.slug, weight: config.contextWeights?.[ns.slug] }));
   const nsIndex = new Map(manifest.namespaces.map((ns, i) => [ns.id, i]));
   const records = [];
   const push = (record) => records.push({ i: records.length, ...Object.fromEntries(Object.entries(record).filter(([, v]) => v !== undefined && v !== '' && !(Array.isArray(v) && !v.length))) });
 
   for (const ns of manifest.namespaces) {
-    push({ n: ns.id, k: 'overview', c: nsIndex.get(ns.id), u: `/reference/${ns.slug}`, t: `${ns.title} (${ns.id})`, d: clip(ns.description, DESCRIPTION_LIMIT) });
+    push({ n: ns.id, k: 'overview', c: nsIndex.get(ns.id), u: `/reference/${ns.slug}`, t: ns.label, d: clip(ns.description, DESCRIPTION_LIMIT) });
   }
   for (const page of manifest.pages) {
     const member = ['property', 'method', 'enumValue'].includes(page.kind);

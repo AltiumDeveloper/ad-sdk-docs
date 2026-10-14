@@ -1,0 +1,34 @@
+# PCB.IPCB_Track: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Tracks can be placed on any layer and their widths can range from 0.001 to 10000 mils wide. Tracks are used to
+  create polygon planes and are also used in coordinates, dimensions and components.
+remarks: |-
+  Tracks that carry either signals or power supply can be placed on:
+
+  • Top (component side) signal layer.
+
+  • Any of the thirty mid signal layers.
+
+  • Bottom (solder side) signal layer.
+
+  Non-electrical tracks can also be placed on:
+
+  • Any of the silk screen overlays (normally used for component package outlines).
+
+  • Any of the sixteen internal plane layers (used as voids in these solid copper planes).
+
+  • The keep out layer to define the board perimeter for autorouting and auto component placement
+
+  • Any of the sixteen mechanical layers for mechanical details.
+
+  • Solder or paste mask layers for any special openings required in the masks
+members:
+  Width:
+    summary: The property represents the width attribute of a track object on the PCB document.
+  X1:
+    summary: The property represents the X1 or the initial X coordinate of a track object on the PCB document.
+  X2:
+    summary: The property represents the X2 or the final X coordinate of a track object on the PCB document.
+  Y1:
+    summary: The property represents the Y1 or the initial Y coordinate of a track object on the PCB document.
+  Y2:
+    summary: The property represents the Y2 or the final Y coordinate of a track object on the PCB document.

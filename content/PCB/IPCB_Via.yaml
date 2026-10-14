@@ -1,0 +1,69 @@
+# PCB.IPCB_Via: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: When tracks from two layers need to be connected, vias are placed to carry a signal from one layer to the
+  other. Vias are like round pads, which are drilled and usually through-plated when the board is fabricated. Vias can
+  be multi-layered, blind or buried.
+remarks: >-
+  A multi-layer via passes through the board from the Top layer to the Bottom layer and allows connections to all other
+  signal layers.
+
+
+  A blind via connects from the surface of the board to an internal layer, a buried via connects from one internal layer
+  to another internal layer. In Altium Designer, Vias, including blind and buried, can connect to internal planes.
+
+
+  Vias do not have a paste mask layer.
+members:
+  Cache:
+    summary: This Cache property represents the global cache that stores various design rule settings for pad and via objects.
+  HighLayer:
+    summary: The HighLayer property denotes the top layer.
+  HoleSize:
+    summary: This HoleSize property denotes the hole size of the via object.
+  IsConnectedToPlane:
+    summary: This property determines whether the via is connected to this specified plane or not by returning a boolean value.
+  LowLayer:
+    summary: The LowLayer property denotes the bottom layer.
+  PlaneConnectionStyleForLayer:
+    summary: Vias automatically connect to an internal power plane layer that is assigned the same net name. The via will
+      connect to the plane depending on the applicable Power Plane Connect Style design rule. If you do not want vias to
+      connect to power planes, add another Power Plane Connect Style design rule targeting the specific vias required
+      and with a connection style of No Connect.
+    remarks: >-
+      The Connect Style defines the style of the connection from a pin of a component, targeted by the scope (Full
+      Query) of the rule, to a power plane. The following three styles as per the TPlaneConnectionStyle type are
+      available:
+
+
+      No Connect - do not connect a component pin to the power plane.
+
+
+      Direct Connect - connect using solid copper to the pin.
+
+
+      Relief Connect (default) - connect using a thermal relief connection.
+    seeAlso:
+      - PCB.TPlaneConnectionStyle
+  RotateAroundXY:
+    summary: This method rotates a via object on the PCB document about the AX, AY coordinates with an angle in degrees. To
+      ensure the via rotates without moving about, pass in its midpoint (between X1,X2 and Y1, Y2) attributes for the
+      AX,AY parameters.
+  ShapeOnLayer:
+    summary: The via can have different shapes on layers that the via is connected to.
+    seeAlso:
+      - PCB.TShape
+  Size:
+    summary: The Size property denotes the size of the via object (the full diamater of the via).
+  SizeOnLayer:
+    summary: This property denotes the size of the via on a specified layer.
+  StartLayer:
+    summary: This property fetches the start layer of IPCB_LayerObject type that the via is connected to.
+    seeAlso:
+      - PCB.IPCB_LayerObject
+  StopLayer:
+    summary: This property fetches the last layer of IPCB_LayerObject type that the via is connected to.
+    seeAlso:
+      - PCB.IPCB_LayerObject
+  XLocation:
+    summary: The X and Y properties define the location of the Via object with respect to the PCB document.
+  YLocation:
+    summary: The X and Y properties define the location of the Via object with respect to the PCB document.

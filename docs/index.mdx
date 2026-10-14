@@ -16,7 +16,7 @@ generated from the SDK assemblies.
 <div className="hero-actions">
 
 [Quick start](https://www.altium.com/documentation/altium-developer-center/quick-starts/ad-sdk)
-[Browse the reference](/reference/sch)
+[Browse the reference](/reference)
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples)
 
 </div>
@@ -29,6 +29,7 @@ Installing the SDK and building and running a first extension are covered in the
 - [Getting started](./guides/getting-started.mdx): the structure of an extension and how Altium Designer loads it.
 - [API conventions](./guides/api-conventions.mdx): namespaces, entry points, properties, typed helpers and enumerations.
 - [Working with schematics](./guides/schematic-basics.mdx): finding, changing and creating schematic objects.
+- [Working with bills of materials](./guides/bom.mdx): reading and configuring BOMs with the BOM engine.
 
 Extensions are C# class libraries that reference two SDK assemblies: `Altium.SDK.Interfaces.dll`, the API documented
 here, and `Altium.SDK.dll`, the extension hosting classes and the entry points to the editors
@@ -37,32 +38,29 @@ here, and `Altium.SDK.dll`, the extension hosting classes and the entry points t
 ## How this reference is organised
 
 The API is grouped by **namespace**, and each namespace by area. Each type has one page with all of its properties
-and methods; a property covers its `GetState_`/`SetState_` accessor pair. This first release documents the
-**Schematic (SCH)** namespace; the PCB, project (EDP) and system (DXP) namespaces will follow.
+and methods; a property covers its `GetState_`/`SetState_` accessor pair. Types come from both SDK assemblies:
+`Altium.SDK.Interfaces.dll` (the interfaces) and `Altium.SDK.dll` (hosting classes, entry points and constants).
 
 <div className="bc-grid">
 
-[<i className="bc-icon bc-objects"></i><strong>Design objects</strong> <span>Components, pins, wires, ports, parameters, text and graphical primitives</span>](/reference/sch#design-objects)
+[<i className="bc-icon bc-sch"></i><strong>Schematic (SCH)</strong> <span>Schematic sheets and libraries, design objects, harnesses, supply chain, simulation, the schematic server</span>](/reference/sch)
 
-[<i className="bc-icon bc-documents"></i><strong>Documents and iteration</strong> <span>Schematic sheets and libraries, iterators, hit testing, connections</span>](/reference/sch#documents-and-iteration)
+[<i className="bc-icon bc-pcb"></i><strong>PCB</strong> <span>Boards and PCB libraries, design objects, design rules, layer stacks, geometry and 3D, manufacturing</span>](/reference/pcb)
 
-[<i className="bc-icon bc-server"></i><strong>Server and preferences</strong> <span>The schematic server, robot manager, preferences, fonts and grids</span>](/reference/sch#server-and-preferences)
+[<i className="bc-icon bc-edp"></i><strong>Projects and design data (EDP)</strong> <span>Workspace, projects and documents, compiled design, BOMs, outputs, comparison, Draftsman, MCAD</span>](/reference/edp)
 
-[<i className="bc-icon bc-harness"></i><strong>Harness design</strong> <span>Harness connectors, entries, wires, cables and layout drawings</span>](/reference/sch#harness-design)
+[<i className="bc-icon bc-dxp"></i><strong>System (DXP)</strong> <span>Client and server modules, documents and views, commands, notifications, data management, version control</span>](/reference/dxp)
 
-[<i className="bc-icon bc-library"></i><strong>Libraries, components and models</strong> <span>Integrated libraries, model types and datafiles, library reports</span>](/reference/sch#libraries-components-and-models)
+[<i className="bc-icon bc-componentlib"></i><strong>Component libraries</strong> <span>Component library documents, component definitions and templates</span>](/reference/componentlib)
 
-[<i className="bc-icon bc-supply-chain"></i><strong>Supply chain and parts</strong> <span>Suppliers, part choices, part catalogs, prices and stock</span>](/reference/sch#supply-chain-and-parts)
+[<i className="bc-icon bc-embedded"></i><strong>Embedded</strong> <span>Embedded memories, stacks, toolchains and interrupts</span>](/reference/embedded)
 
-[<i className="bc-icon bc-simulation"></i><strong>Simulation and signal integrity</strong> <span>Simulation profiles and probes, waveforms and charts, IBIS models</span>](/reference/sch#simulation-and-signal-integrity)
-
-[<i className="bc-icon bc-rendering"></i><strong>Painting and views</strong> <span>Component and document painters, geometry export, graphical views</span>](/reference/sch#painting-and-views)
-
-[<i className="bc-icon bc-embedded"></i><strong>Embedded, FPGA and device programming</strong> <span>Devices, JTAG and Nexus drivers, cores, vendor tools, OpenBus</span>](/reference/sch#embedded-fpga-and-device-programming)
-
-[<i className="bc-icon bc-enums"></i><strong>Enumerations</strong> <span>Object kinds, creation modes, styles and other value sets</span>](/reference/sch#enumerations)
+[<i className="bc-icon bc-dxp-edms"></i><strong>Data management types</strong> <span>Content and folder type identifiers and other data management constants</span>](/reference/dxp-edms)
 
 </div>
+
+The [API reference](/reference) also lists four small namespaces: `Altium.Dxp.Interfaces`, `Altium.Dxp.Classes`,
+`Altium.Edp.Classes` and `Altium.SDK`.
 
 Every type and member is listed even when it has no description yet; such entries say *No description yet.* Each
 page has an edit link to its description file, and contributions are welcome. The
@@ -73,4 +71,4 @@ pages link to the places where the examples use a type or member.
 
 Every page is also available as Markdown (add `.md` to its URL, or use **View as Markdown**).
 [`llms.txt`](pathname:///llms.txt) indexes the site, and each namespace has its whole API as compact C# declarations
-([`reference/sch/api.cs.txt`](pathname:///reference/sch/api.cs.txt)).
+(for example [`reference/sch/api.cs.txt`](pathname:///reference/sch/api.cs.txt)).

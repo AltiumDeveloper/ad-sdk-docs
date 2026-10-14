@@ -7,8 +7,8 @@ remarks: >-
   (models of the same type and/or different types as well).
 
 
-  DefinerByInterfaceDesignator returns you theISch_MapDefiner interface with the Designator string representing the
-  component's designator text string.
+  The ISch_Implementation.DefinerByInterfaceDesignator returns you theISch_MapDefiner interface with the Designator
+  string representing the component's designator text string.
 
 
   A model represents all the information needed for a component in a given domain, while a datafile entity (or link) is

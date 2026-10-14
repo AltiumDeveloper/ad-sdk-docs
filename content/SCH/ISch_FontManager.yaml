@@ -1,10 +1,7 @@
 # SCH.ISch_FontManager: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The ISch_FontManager interface represents the internal font manager in Schematic Editor that manages fonts for
   text based objects on schematic documents.
-remarks: |-
-  To have access to the ISch_FontManager interface, you need to invoke the SchServer method;
-
-  FontManager;
+remarks: To have access to the ISch_FontManager interface, you need to invoke the SchServer method;
 members:
   Bold:
     summary: This Bold property determines the Bold style for the font.

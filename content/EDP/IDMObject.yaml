@@ -1,0 +1,72 @@
+# EDP.IDMObject: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IDMObject interface is the base object interface for all object interfaces used in the Work Space Manager
+  system extension server for Altium Designer.
+members:
+  DM_CurrentSheetInstanceNumber:
+    summary: The method returns the current sheet instance number of the schematic document.
+  DM_FullCrossProbeString:
+    summary: The method returns the full cross probe string.
+  DM_GeneralField:
+    summary: The method can returns an integral value for this general field. This General Field can be used for any purpose
+      - as a tag property, as an index property or as a flag to denote something.
+  DM_ImageIndex:
+    summary: The method returns the image index depending on what type of object the image represents.
+  DM_IsInferredObject:
+    summary: The method denotes whether the object is an inferred object with respect to connective objects. Bus and Sheet
+      Symbols can be defined in ranges using the NetLabel [] and Repeat statements respectively and once the project has
+      been compiled, inferred objects are created in memory for navigation/connective purposes. For example, a Bus with
+      a range of A0..4 ends up with five wires with A0...A5 net labels (only in memory). This property is useful for
+      multi - channel projects and for sheets that have Bus objects.
+  DM_LocationString:
+    summary: "The method returns the Location string formatted as a X,Y format or if the object kind is a Text Documnt set,
+      then the string returned is a formatted Line: LocationY Offset: XLocation string."
+  DM_LocationX:
+    summary: The method returns the location of this interface object on the X axis.
+  DM_LocationY:
+    summary: The method returns the location of this interface object on the Y axis.
+  DM_LongDescriptorString:
+    summary: The method returns the long description version string.
+  DM_NetIndex_Flat:
+    summary: The method returns the net index for a flattened design.
+  DM_NetIndex_Sheet:
+    summary: The method returns the netindex for a schematic sheet.
+  DM_NetIndex_SubNet:
+    summary: The method returns the net index within a sub net.
+  DM_ObjectKindString:
+    summary: The method returns the object kind string which denotes the design document type.
+  DM_ObjectKindStringForCrossProbe:
+    summary: The method returns the specially formatted object kind string for the cross probing mechanism.
+  DM_OwnerDocument:
+    summary: The method returns the document interface object. Refer to IDocument interface for details.
+  DM_OwnerDocumentFullPath:
+    summary: The method returns the full path of the document.
+  DM_OwnerDocumentName:
+    summary: The method returns the name of the document that this object interface is part of.
+  DM_ParameterCount:
+    summary: The method returns the number of parameters this object has.
+  DM_Parameters:
+    summary: The method returns the indexed parameter object with the index parameter. Use the IParameter interface to wrap
+      the returned result.
+  DM_PCBObjectHandle:
+    summary: The method returns the object handle of a PCB object. If void, a null value is returned.
+  DM_PrimaryCrossProbeString:
+    summary: The method returns the primary cross probe string.
+  DM_SCHObjectHandle:
+    summary: The method returns the object handle of a Schematic object. If void, a zero value is returned.
+  DM_SecondaryCrossProbeString:
+    summary: The method returns the secondary cross probe string.
+  DM_SheetIndex_Logical:
+    summary: The method returns the sheet index for a logical design (multi - channel designs for example).
+  DM_SheetIndex_Physical:
+    summary: The method returns the sheet index for a physical design. (that have unique designators)
+  DM_ShortDescriptorString:
+    summary: The method returns the short description version string.
+  DM_ValidForNavigation:
+    summary: The method toggles whether navigation is valid for this object. Navigation is performed on net aware objects
+      such as components, nets and busses.
+  DM_VHDLEntity:
+    summary: The method returns the VHDL entity interface object if it exists on a VHDL document. Basically every object
+      interface has an access to this VHDL entity interface, so to check whether VHDL entity exists for this particular
+      object, you can check out the Name field within the IVHDLEntity interface.
+    seeAlso:
+      - EDP.IDMObject.DM_GetVCSProject

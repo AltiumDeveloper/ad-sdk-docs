@@ -126,6 +126,10 @@ export function assignSlugs(members) {
 }
 
 const shortName = (fullName) => fullName.slice(fullName.lastIndexOf('.') + 1);
+// A type's name within its namespace: `ISch_Component`, or `NotificationCode.DocumentNotificationCode` for nested types.
+const nameInNamespace = (t) => (t.namespace && t.name.startsWith(`${t.namespace}.`) ? t.name.slice(t.namespace.length + 1) : t.name);
+// URL segment of a namespace: `SCH` → `sch`, `DXP.EDMS` → `dxp-edms`.
+export const namespaceSlug = (namespace) => namespace.toLowerCase().replace(/\./g, '-');
 
 // Public classes that only carry COM plumbing (interface GUIDs, service names, pointer helpers): not documented.
 const INFRASTRUCTURE_CLASSES = /^(InterfaceGuids|ServiceNames|UIntPtrHelper|DispConsts)$/;
@@ -151,16 +155,23 @@ export function buildModel({ metadataPaths, namespaces, categories = [] }) {
     }
   }
 
+  // Typed helper classes (`ISch_ComponentHelper`: only extension methods) are folded into their interfaces; static
+  // classes that also have a few extension methods (`EDP.Utils`) are documented as classes.
+  const isTypedHelper = (t) => t.isExtensionClass && /Helper$/.test(t.name)
+    && t.methods.every((m) => m.isExtension || m.isSpecialName || m.name === '.ctor');
   const inScope = (t) => namespaces.includes(t.namespace)
-    && !t.isExtensionClass
-    && (['interface', 'enum', 'struct'].includes(t.kind) || (t.kind === 'class' && !INFRASTRUCTURE_CLASSES.test(shortName(t.name))));
+    && !isTypedHelper(t)
+    && (['interface', 'enum', 'struct', 'delegate'].includes(t.kind) || (t.kind === 'class' && !INFRASTRUCTURE_CLASSES.test(shortName(t.name))));
   const types = new Map();
   for (const t of all.values()) {
     if (!inScope(t)) continue;
     const record = {
       id: t.name,
       namespace: t.namespace,
-      name: shortName(t.name),
+      name: nameInNamespace(t),
+      // File name: nested `Outer.Inner` → `Outer-Inner`; Docusaurus ignores files starting with `_` (`_D3DVECTOR`).
+      file: nameInNamespace(t).replace(/\./g, '-').replace(/^_+(.*)$/, `$1-${t.kind}`),
+      nsSlug: namespaceSlug(t.namespace),
       kind: t.kind,
       assembly: t.assembly,
       category: categoryOf(t, categories),
@@ -177,7 +188,13 @@ export function buildModel({ metadataPaths, namespaces, categories = [] }) {
       record.fields = (t.fields ?? []).map((f) => ({ name: f.name, type: f.type, value: f.value ?? null, isStatic: Boolean(f.isStatic) }));
       record.constructors = t.methods.filter((m) => m.name === '.ctor').map((m) => signatureOf(m));
       record.methods = t.methods.filter((m) => !m.isSpecialName && m.name !== '.ctor').map((m) => ({ ...signatureOf(m), isStatic: Boolean(m.isStatic) }));
-      record.properties = (t.properties ?? []).map((p) => ({ ...p }));
+      // Static properties (`GlobalVars.SchServer`): their accessor methods are static.
+      const staticAccessors = new Set(t.methods.filter((m) => m.isSpecialName && m.isStatic).map((m) => m.name));
+      record.properties = (t.properties ?? []).map((p) => ({ ...p, isStatic: staticAccessors.has(`get_${p.name}`) || staticAccessors.has(`set_${p.name}`) }));
+      record.interfaces = (t.interfaces ?? []).slice();
+    } else if (t.kind === 'delegate') {
+      const invoke = t.methods.find((m) => m.name === 'Invoke');
+      record.signature = invoke ? signatureOf(invoke) : null;
     }
     types.set(t.name, record);
   }
@@ -224,8 +241,10 @@ function categoryOf(t, categories) {
     if (c.kinds && !c.kinds.includes(t.kind)) continue;
     if (c.match.some((re) => re.test(name))) return c.id;
   }
-  return t.kind === 'enum' ? 'enums' : ['struct', 'class'].includes(t.kind) ? 'structs' : 'other';
+  return defaultCategory(t.kind);
 }
+
+export const defaultCategory = (kind) => (kind === 'enum' ? 'enums' : kind === 'delegate' ? 'delegates' : ['struct', 'class'].includes(kind) ? 'structs' : 'other');
 
 // Members a type inherits, grouped by the base interface that declares them (nearest first), skipping names the
 // type itself (or a nearer base) redeclares.

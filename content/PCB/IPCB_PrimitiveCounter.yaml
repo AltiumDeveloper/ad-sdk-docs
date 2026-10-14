@@ -1,0 +1,16 @@
+# PCB.IPCB_PrimitiveCounter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IPCB_PrimitiveCounter interface gives you the means of obtaining the hole count and string count for the
+  focussed PCB document via the IPCB_Board's PrimitiveCounter property.
+members:
+  GetCount:
+    summary: The GetCount method counts the objects of a set of object types specified by the ObjectSet parameter.
+    seeAlso:
+      - PCB.TObjectSet
+  GetHoleCount:
+    summary: This method counts the holes (pads and vias) on the current PCB document.
+    remarks: This property obtains the hole count from the PCB document (Pads and Vias).
+  GetObjectCount:
+    summary: This method counts objects of a specific object type.
+  GetStringCount:
+    summary: This method counts text strings on the PCB document.
+    remarks: This property obtains string (text object) count from the PCB document.

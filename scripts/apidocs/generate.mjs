@@ -5,7 +5,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
-import { loadCategories, loadNamespaces } from './lib/config.mjs';
+import { categoryOf, loadCategories, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
 import {
   firstSentence, layoutAnchors, renderNamespace, renderReferenceIndex, renderType, typeRoute,
@@ -24,11 +24,7 @@ const model = buildModel({
   categories: [],
 });
 // Categories are per namespace; assign after the build.
-for (const t of model.types.values()) {
-  const cats = categoriesByNs[t.namespace] ?? [];
-  const c = cats.find((x) => (!x.kinds || x.kinds.includes(t.kind)) && x.match.some((re) => re.test(t.name)));
-  t.category = c?.id ?? (t.kind === 'enum' ? 'enums' : ['struct', 'class'].includes(t.kind) ? 'structs' : 'other');
-}
+for (const t of model.types.values()) t.category = categoryOf(t, categoriesByNs[t.namespace] ?? []);
 
 // Editorial content, validated against the model so a renamed member never silently loses its text.
 const content = new Map();
@@ -37,7 +33,7 @@ for (const ns of namespaces) {
   const dir = join('content', ns.id);
   if (!existsSync(dir)) continue;
   for (const name of readdirSync(dir).filter((n) => n.endsWith('.yaml'))) {
-    const id = `${ns.id}.${name.replace(/\.yaml$/, '')}`;
+    const id = `${ns.id}.${name.replace(/\.yaml$/, '').replace(/-/g, '.')}`;
     const doc = parse(readFileSync(join(dir, name), 'utf8')) ?? {};
     const type = model.types.get(id);
     if (!type) { problems.push(`content/${ns.id}/${name}: no type ${id}`); continue; }
@@ -61,7 +57,7 @@ const examples = existsSync('metadata/examples-index.json')
 
 const ctx = {
   content: (id) => content.get(id) ?? {},
-  editUrl: (type) => `${site.repo}/edit/${site.branch}/content/${type.namespace}/${type.name}.yaml`,
+  editUrl: (type) => `${site.repo}/edit/${site.branch}/content/${type.namespace}/${type.file}.yaml`,
   examples,
   examplesRepo: site.examples.repo,
 };
@@ -98,8 +94,9 @@ for (const ns of namespaces) {
   }
   sidebar.push({
     type: 'category',
-    label: `${ns.title} (${ns.id})`,
-    collapsed: false,
+    label: ns.label,
+    // Collapsed: Docusaurus expands the active namespace, and every expanded item is rendered into every page.
+    collapsed: true,
     className: `bc-${ns.slug}`,
     link: { type: 'doc', id: `reference/${ns.slug}/index` },
     items,
@@ -134,7 +131,7 @@ mkdirSync(GENERATED, { recursive: true });
 writeFileSync(join(GENERATED, 'sidebar.json'), JSON.stringify(sidebar));
 writeFileSync(join(GENERATED, 'manifest.json'), JSON.stringify({
   assemblies: model.assemblies,
-  namespaces: namespaces.map(({ id, title, slug, description }) => ({ id, title, slug, description })),
+  namespaces: namespaces.map(({ id, title, slug, label, description }) => ({ id, title, slug, label, description })),
   pages,
 }));
 const byKind = {};

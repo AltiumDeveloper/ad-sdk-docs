@@ -1,0 +1,48 @@
+# EDP.IParameter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The IParameter interface is a parameter object interface to an existing parameter object on a schematic sheet.
+  There are two types of parameters - system parameters which are owned by a schematic document and parameters owned by
+  certain schematic design objects.
+remarks: >-
+  A parameter is a child object of a Parameter Set, Part, Pin, Port, or Sheet Symbol object. A Parameter object has a
+  Name property and Value property which can be used to store information, thus the parameters are a way of defining and
+  associating information and could include strings that identify component manufacturer, date added to the document and
+  also a string for the component's value (e.g. 100K for a resistor or 10PF for a capacitor).
+
+
+  Each parameter has a Unique Id assigned to it. This is used for those parameters that have been added as design rule
+  directives. When transferring the design to the PCB document, any defined rule parameters will be used to generate the
+  relevant design rules in the PCB. These generated rules will be given the same Unique Ids, allowing you to change rule
+  constraints in either schematic or PCB and push the change across when performing a synchronization.
+
+
+  An equivalent object representation is the ISch_Parameter class in the Sch API reference.
+members:
+  DM_ConfigurationName:
+    summary: The method returns the configuration name, that the parameter object is associated with.
+  DM_Description:
+    summary: The method denotes the description of this parameter object.
+  DM_Kind:
+    summary: The method denotes the specific kind that can be assigned to this parameter object. String, Boolean, Integer or
+      float.
+    seeAlso:
+      - EDP.TParameterKind
+  DM_Name:
+    summary: The method denotes the name of the parameter object.
+  DM_NewName:
+    summary: The method denotes the New Name for the parameter object, especially when there is an ECO change. You can then
+      compare the original and new names.
+  DM_NewValue:
+    summary: The method denotes the New Value for the parameter object, especially when there is an ECO change. You can then
+      compare the original and new values.
+  DM_OriginalOwner:
+    summary: This method returns the interface of the owner object this parameter object is associated with.
+  DM_RawText:
+    summary: The method returns the raw text for this parameter object.
+  DM_UniqueId:
+    summary: Any parameter that is configured as a container for design rule directives need to have a unique ID that will
+      be ported onto the corresponding PCB implementation document.
+    remarks: The method returns the Unique ID value for the parameter object.
+  DM_Value:
+    summary: The method denotes the value placeholder for this parameter object.
+  DM_Visible:
+    summary: The method denotes whether this parameter object is visible or not.

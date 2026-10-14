@@ -32,8 +32,10 @@ members:
       - SCH.TPortConnectedEnd
   CrossRef:
     summary: Port Cross References are text that show which schematic sheets the ports are linked to with the zone reference
-      information in brackets. SchDoc. The string in the [] bracket is dependent on the Port Cross References options in
-      the Schematic
+      information in brackets. For example a port with A[0..2] name on 4 Port UART and Line Drivers.SchDoc will have a
+      string with "ISA and Address Decoding" and the 4C string represents the location (reference zone markers around
+      the schematic sheet) of the matching port on ISA and Address Decoding.SchDoc. The string in the [] bracket is
+      dependent on the Port Cross References options in the Schematic
     remarks: >-
       - General page of the Preferences dialog.
 
@@ -72,3 +74,6 @@ members:
   Width:
     summary: This SetState_Width method sets the width of the port object in a TCoord value. Use one of the following
       conversion methods to convert from a unit value to a TCoord value. For example MilsToCoord or DXPsToCoord methods.
+    remarks: The GetState_Width method gets the width of the port in TCoord type. Use one of the following conversion
+      methods to convert from a TCoord value to one of these Unit values. For example CoordToMils or CoordToDxps
+      methods.
