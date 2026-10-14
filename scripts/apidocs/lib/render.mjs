@@ -498,7 +498,9 @@ export function renderReferenceIndex(namespaces, model, ctx) {
   })];
   out.push('# API reference', '', 'The reference is generated from the SDK assemblies. Each namespace page lists its types by area.', '');
   out.push('| Namespace | Types | Description |', '| --- | --- | --- |');
-  for (const ns of namespaces) {
+  // Sidebar order: top-level namespaces as configured, each followed by the namespaces nested under it.
+  const ordered = namespaces.filter((ns) => !ns.parent).flatMap((ns) => [ns, ...namespaces.filter((n) => n.parent === ns.id)]);
+  for (const ns of ordered) {
     const n = [...model.types.values()].filter((t) => t.namespace === ns.id).length;
     out.push(`| [${escapeText(ns.title)}](./${ns.slug}/index.md) \`${ns.id}\` | ${n} | ${cell(ns.description)} |`);
   }

@@ -12,13 +12,13 @@ namespaces:
     title: PCB
     description: PCB and PCB library documents, design objects, design rules, layer stacks, the PCB server and its services.
     metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
-  - id: EDP
-    title: Projects and design data
-    description: The workspace, projects and documents, compiled design data, bills of materials, outputs and comparisons.
-    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
   - id: DXP
     title: System
     description: The client application, servers and server modules, documents and views, commands, notifications, data management and version control.
+    metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
+  - id: EDP
+    title: Projects and design data
+    description: The workspace, projects and documents, compiled design data, bills of materials, outputs and comparisons.
     metadata: [metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json]
   - id: ComponentLib
     title: Component libraries
