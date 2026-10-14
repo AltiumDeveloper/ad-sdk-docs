@@ -29,6 +29,7 @@ const sameParameters = (a, b) => a.length === b.length
 
 const signatureOf = (method, { extension = null, dropThis = false } = {}) => ({
   name: method.name,
+  ...(method.genericParameters?.length ? { genericParameters: method.genericParameters } : {}),
   returnType: method.returnType,
   parameters: (dropThis ? method.parameters.slice(1) : method.parameters).map((p) => ({ ...p })),
   ...(extension ? { extension } : {}),
@@ -127,14 +128,19 @@ export function assignSlugs(members) {
 
 const shortName = (fullName) => fullName.slice(fullName.lastIndexOf('.') + 1);
 // A type's name within its namespace: `ISch_Component`, or `NotificationCode.DocumentNotificationCode` for nested types.
-const nameInNamespace = (t) => (t.namespace && t.name.startsWith(`${t.namespace}.`) ? t.name.slice(t.namespace.length + 1) : t.name);
+// Generic types: the arity marker becomes the type parameter list, BaseClientService`1 → BaseClientService<T>.
+const nameInNamespace = (t) => {
+  const name = t.namespace && t.name.startsWith(`${t.namespace}.`) ? t.name.slice(t.namespace.length + 1) : t.name;
+  const params = (t.genericParameters ?? []).map((g) => g.name);
+  return name.replace(/`\d+/, params.length ? `<${params.join(', ')}>` : '');
+};
 // URL segment of a namespace: `SCH` → `sch`, `DXP.EDMS` → `dxp-edms`.
 export const namespaceSlug = (namespace) => namespace.toLowerCase().replace(/\./g, '-');
 
 // Public classes that only carry COM plumbing (interface GUIDs, service names, pointer helpers): not documented.
 const INFRASTRUCTURE_CLASSES = /^(InterfaceGuids|ServiceNames|UIntPtrHelper|DispConsts)$/;
 
-export function buildModel({ metadataPaths, namespaces, categories = [] }) {
+export function buildModel({ metadataPaths, namespaces, categories = [], hidden = new Set() }) {
   const all = new Map();
   const assemblies = [];
   for (const path of metadataPaths) {
@@ -160,6 +166,7 @@ export function buildModel({ metadataPaths, namespaces, categories = [] }) {
   const isTypedHelper = (t) => t.isExtensionClass && /Helper$/.test(t.name)
     && t.methods.every((m) => m.isExtension || m.isSpecialName || m.name === '.ctor');
   const inScope = (t) => namespaces.includes(t.namespace)
+    && !hidden.has(t.name)
     && !isTypedHelper(t)
     && (['interface', 'enum', 'struct', 'delegate'].includes(t.kind) || (t.kind === 'class' && !INFRASTRUCTURE_CLASSES.test(shortName(t.name))));
   const types = new Map();
@@ -170,10 +177,11 @@ export function buildModel({ metadataPaths, namespaces, categories = [] }) {
       namespace: t.namespace,
       name: nameInNamespace(t),
       // File name: nested `Outer.Inner` → `Outer-Inner`; Docusaurus ignores files starting with `_` (`_D3DVECTOR`).
-      file: nameInNamespace(t).replace(/\./g, '-').replace(/^_+(.*)$/, `$1-${t.kind}`),
+      file: nameInNamespace(t).replace(/<([^>]*)>/g, (_, ps) => `-${ps.replace(/,\s*/g, '-')}`).replace(/\./g, '-').replace(/^_+(.*)$/, `$1-${t.kind}`),
       nsSlug: namespaceSlug(t.namespace),
       kind: t.kind,
       assembly: t.assembly,
+      genericParameters: t.genericParameters ?? [],
       category: categoryOf(t, categories),
     };
     if (t.kind === 'interface') {

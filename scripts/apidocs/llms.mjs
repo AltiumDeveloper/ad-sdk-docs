@@ -8,9 +8,9 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, posix, relative, sep } from 'node:path';
 import { parse } from 'yaml';
-import { categoryOf, loadCategories, loadNamespaces } from './lib/config.mjs';
+import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
-import { methodSignature } from './lib/render.mjs';
+import { methodSignature, typeParameterList, whereClauses } from './lib/render.mjs';
 
 const BUILD = process.argv[2] ?? 'build';
 const site = parse(readFileSync('config/site.yaml', 'utf8'));
@@ -73,7 +73,7 @@ for (const file of walk('docs/reference')) {
 // Indexes and declaration files.
 const manifest = JSON.parse(readFileSync('.generated/manifest.json', 'utf8'));
 const namespaces = loadNamespaces();
-const model = buildModel({ metadataPaths: [...new Set(namespaces.flatMap((n) => n.metadata))], namespaces: namespaces.map((n) => n.id) });
+const model = buildModel({ metadataPaths: [...new Set(namespaces.flatMap((n) => n.metadata))], namespaces: namespaces.map((n) => n.id), hidden: loadHidden() });
 const summaries = new Map(manifest.pages.filter((p) => !p.parent).map((p) => [`${p.ns}.${p.name}`, p.summary]));
 const memberSummaries = new Map(manifest.pages.filter((p) => p.parent).map((p) => [`${p.ns}.${p.parent}.${p.name}`, p.summary]));
 
@@ -100,7 +100,7 @@ const llms = [
 writeFileSync(join(BUILD, 'llms.txt'), llms.join('\n'));
 
 const oneLine = (text) => String(text ?? '').replace(/\s+/g, ' ').trim();
-const short = (type) => String(type).replace(/\b(?:[A-Za-z_]\w*\.)+([A-Za-z_]\w*)/g, '$1');
+const short = (type) => String(type).replace(/\b(?:[A-Za-z_]\w*\.)+([A-Za-z_]\w*)/g, '$1').replace(/\bNullable<([^<>]+)>/g, '$1?');
 for (const ns of namespaces) {
   const types = [...model.types.values()].filter((t) => t.namespace === ns.id).sort((a, b) => a.name.localeCompare(b.name));
   const categories = loadCategories(ns.id);
@@ -152,7 +152,9 @@ for (const ns of namespaces) {
         ...t.methods.map((m) => `${m.isStatic ? 'static ' : ''}${methodSignature(m)}`),
       ];
       const bases = [t.baseType, ...(t.interfaces ?? [])].filter(Boolean).map(short);
-      cs.push(`    public ${t.kind} ${t.name.replace(/\./g, '_')}${bases.length ? ` : ${bases.join(', ')}` : ''} { ${parts.join(' ')} }`, '');
+      const g = t.genericParameters ?? [];
+      const head = `${t.name.replace(/<.*$/, '').replace(/\./g, '_')}${typeParameterList(g, { variance: true })}`;
+      cs.push(`    public ${t.kind} ${head}${bases.length ? ` : ${bases.join(', ')}` : ''}${whereClauses(g)} { ${parts.join(' ')} }`, '');
     }
   }
   cs.push('}', '');

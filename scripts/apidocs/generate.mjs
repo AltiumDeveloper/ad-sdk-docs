@@ -5,7 +5,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
-import { categoryOf, loadCategories, loadNamespaces } from './lib/config.mjs';
+import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
 import { buildModel } from './lib/model.mjs';
 import {
   firstSentence, layoutAnchors, renderNamespace, renderReferenceIndex, renderType, typeRoute,
@@ -22,6 +22,7 @@ const model = buildModel({
   metadataPaths,
   namespaces: namespaces.map((ns) => ns.id),
   categories: [],
+  hidden: loadHidden(),
 });
 // Categories are per namespace; assign after the build.
 for (const t of model.types.values()) t.category = categoryOf(t, categoriesByNs[t.namespace] ?? []);
@@ -60,6 +61,7 @@ const ctx = {
   editUrl: (type) => `${site.repo}/edit/${site.branch}/content/${type.namespace}/${type.file}.yaml`,
   examples,
   examplesRepo: site.examples.repo,
+  namespaces,
 };
 
 // Member anchors of every page, so links between pages can target member sections.
@@ -92,15 +94,24 @@ for (const ns of namespaces) {
       items: inCat.map((t) => ({ type: 'doc', id: docId(typeRoute(t)), label: t.name })),
     });
   }
-  sidebar.push({
+  // `ns-root` shows the namespace name under the title (src/css/custom.css, `--ns-name` of `.bc-<slug>`).
+  const category = {
     type: 'category',
-    label: ns.label,
+    label: ns.title,
     // Collapsed: Docusaurus expands the active namespace, and every expanded item is rendered into every page.
     collapsed: true,
-    className: `bc-${ns.slug}`,
+    className: `bc-${ns.slug} ns-root`,
     link: { type: 'doc', id: `reference/${ns.slug}/index` },
     items,
-  });
+  };
+  if (ns.parent) {
+    // A small namespace nested under its parent's areas (config/namespaces.yaml `parent`).
+    const parent = sidebar.find((c) => c.nsId === ns.parent);
+    if (!parent) throw new Error(`apidocs: namespace ${ns.id}: parent ${ns.parent} must be listed before it`);
+    parent.items.push(category);
+  } else {
+    sidebar.push({ ...category, nsId: ns.id });
+  }
 
   for (const t of nsTypes) {
     write(renderType(model, t, ctx));
@@ -128,7 +139,7 @@ for (const ns of namespaces) {
 }
 
 mkdirSync(GENERATED, { recursive: true });
-writeFileSync(join(GENERATED, 'sidebar.json'), JSON.stringify(sidebar));
+writeFileSync(join(GENERATED, 'sidebar.json'), JSON.stringify(sidebar.map(({ nsId, ...c }) => c)));
 writeFileSync(join(GENERATED, 'manifest.json'), JSON.stringify({
   assemblies: model.assemblies,
   namespaces: namespaces.map(({ id, title, slug, label, description }) => ({ id, title, slug, label, description })),

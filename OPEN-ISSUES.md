@@ -21,4 +21,4 @@ Pages and members without a description are not listed: the reference marks them
 | # | Topic | Question | Affects |
 | --- | --- | --- | --- |
 | 7 | Untyped overloads | Several interfaces declare an untyped method (`object` or `int` parameters) next to a typed extension method of the same name, e.g. `ISch_RobotManager.SendMessage`. Are both supported, or is one preferred? | Member sections listing two overloads |
-| 8 | Public implementation classes | `Altium.SDK.dll` exposes classes that implement SDK interfaces (for example `SCH.Supplier`, `SCH.PartChoice2`, `DXP.ADStrings`) and Windows/crypto helpers (`DXP.WindowsAPI`, `DXP.NativeMd5`). Are these meant for extension developers? | Classes in the SCH, DXP and EDP namespaces |
+| 8 | Public implementation classes | `Altium.SDK.dll` exposes classes that implement SDK interfaces (for example `SCH.Supplier`, `SCH.PartChoice2`, `DXP.ADStrings`) and Windows/crypto helpers (`DXP.WindowsAPI`, `DXP.NativeMd5`). Are these meant for extension developers? They are not published for now (`config/hidden-types.yaml`). | Classes in the SCH, DXP, EDP and Altium.Edp.Classes namespaces |

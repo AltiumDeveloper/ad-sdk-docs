@@ -55,13 +55,41 @@ bool IsPublic(TypeDefinition t)
     return IsPublic(md.GetTypeDefinition(t.GetDeclaringType()));
 }
 
+// Generic parameters of a type or method: names, constraints, variance and special constraints.
+List<GenericParamInfo> GenericParameters(GenericParameterHandleCollection handles, GenericContext context)
+{
+    if (handles.Count == 0) return null;
+    return handles.Select(md.GetGenericParameter).Select(g =>
+    {
+        var a = g.Attributes;
+        var constraints = new List<string>();
+        if ((a & GenericParameterAttributes.ReferenceTypeConstraint) != 0) constraints.Add("class");
+        if ((a & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0) constraints.Add("struct");
+        foreach (var ch in g.GetConstraints())
+        {
+            var type = prov.NameIn(md.GetGenericParameterConstraint(ch).Type, context);
+            if (type != "System.ValueType") constraints.Add(type);
+        }
+        if ((a & GenericParameterAttributes.DefaultConstructorConstraint) != 0 && (a & GenericParameterAttributes.NotNullableValueTypeConstraint) == 0) constraints.Add("new()");
+        var variance = (a & GenericParameterAttributes.VarianceMask) switch
+        {
+            GenericParameterAttributes.Covariant => "out",
+            GenericParameterAttributes.Contravariant => "in",
+            _ => null,
+        };
+        return new GenericParamInfo(S(g.Name), constraints.Count > 0 ? constraints : null, variance);
+    }).ToList();
+}
+
 var types = new List<TypeInfo>();
 foreach (var th in md.TypeDefinitions)
 {
     var t = md.GetTypeDefinition(th);
     if (!IsPublic(t)) continue;
+    var typeParams = t.GetGenericParameters().Select(h => S(md.GetGenericParameter(h).Name)).ToArray();
+    var typeContext = new GenericContext(typeParams, Array.Empty<string>());
     var full = prov.GetTypeFromDefinition(md, th, 0);
-    var baseType = t.BaseType.IsNil ? null : prov.Name(t.BaseType);
+    var baseType = t.BaseType.IsNil ? null : prov.NameIn(t.BaseType, typeContext);
     var kind = (t.Attributes & TypeAttributes.Interface) != 0 ? "interface"
         : baseType switch { "System.Enum" => "enum", "System.ValueType" => "struct", "System.MulticastDelegate" => "delegate", _ => "class" };
     var attrs = t.GetCustomAttributes().Select(md.GetCustomAttribute).Select(AttrName).ToList();
@@ -71,7 +99,11 @@ foreach (var th in md.TypeDefinitions)
     {
         var m = md.GetMethodDefinition(mh);
         if ((m.Attributes & MethodAttributes.MemberAccessMask) != MethodAttributes.Public) continue;
-        var sig = m.DecodeSignature(prov, null);
+        // Compiler-generated members (lambdas, `<get_Channel>b__8_0`) are not part of the API.
+        if (S(m.Name).Contains('<')) continue;
+        var methodParams = m.GetGenericParameters().Select(h => S(md.GetGenericParameter(h).Name)).ToArray();
+        var methodContext = new GenericContext(typeParams, methodParams);
+        var sig = m.DecodeSignature(prov, methodContext);
         var ps = m.GetParameters().Select(md.GetParameter).Where(p => p.SequenceNumber > 0).OrderBy(p => p.SequenceNumber).ToList();
         var pars = sig.ParameterTypes.Select((pt, i) =>
         {
@@ -81,7 +113,7 @@ foreach (var th in md.TypeDefinitions)
             return new ParamInfo(i < ps.Count ? S(p.Name) : $"arg{i}", byRef ? pt[4..] : pt, dir);
         }).ToList();
         var mAttrs = m.GetCustomAttributes().Select(md.GetCustomAttribute).Select(AttrName).ToList();
-        methods.Add(new MethodInfo(S(m.Name), sig.ReturnType, pars,
+        methods.Add(new MethodInfo(S(m.Name), sig.ReturnType, pars, GenericParameters(m.GetGenericParameters(), methodContext),
             (m.Attributes & MethodAttributes.Static) != 0 ? true : null,
             (m.Attributes & MethodAttributes.SpecialName) != 0 ? true : null,
             mAttrs.Any(a => a.EndsWith("ExtensionAttribute")) ? true : null));
@@ -90,19 +122,20 @@ foreach (var th in md.TypeDefinitions)
     var props = t.GetProperties().Select(md.GetPropertyDefinition).Select(p =>
     {
         var acc = p.GetAccessors();
-        return new PropInfo(S(p.Name), p.DecodeSignature(prov, null).ReturnType, !acc.Getter.IsNil, !acc.Setter.IsNil);
+        return new PropInfo(S(p.Name), p.DecodeSignature(prov, typeContext).ReturnType, !acc.Getter.IsNil, !acc.Setter.IsNil);
     }).ToList();
 
     var fields = t.GetFields().Select(md.GetFieldDefinition)
         .Where(f => (f.Attributes & FieldAttributes.FieldAccessMask) == FieldAttributes.Public && (f.Attributes & FieldAttributes.SpecialName) == 0)
-        .Select(f => new FieldInfo(S(f.Name), f.DecodeSignature(prov, null), ConstantValue(f.GetDefaultValue()),
+        .Select(f => new FieldInfo(S(f.Name), f.DecodeSignature(prov, typeContext), ConstantValue(f.GetDefaultValue()),
             (f.Attributes & FieldAttributes.Static) != 0 ? true : null)).ToList();
 
     // Nested types have no namespace of their own: use the namespace of the outermost declaring type.
     var outer = t;
     while (!outer.GetDeclaringType().IsNil) outer = md.GetTypeDefinition(outer.GetDeclaringType());
     types.Add(new TypeInfo(full, S(outer.Namespace) is var ns && ns.Length > 0 ? ns : null, kind, baseType,
-        t.GetInterfaceImplementations().Select(i => prov.Name(md.GetInterfaceImplementation(i).Interface)).ToList(),
+        t.GetInterfaceImplementations().Select(i => prov.NameIn(md.GetInterfaceImplementation(i).Interface, typeContext)).ToList(),
+        GenericParameters(t.GetGenericParameters(), typeContext),
         FirstStringArg(t.GetCustomAttributes(), "GuidAttribute"),
         attrs.Any(a => a.EndsWith("ExtensionAttribute")) ? true : null,
         methods, props.Count > 0 ? props : null, fields.Count > 0 ? fields : null));
@@ -126,23 +159,26 @@ Console.WriteLine($"{result.Name} {result.Version} ({result.FileVersion}): {type
 return 0;
 
 record AssemblyInfo(string Name, string Version, string FileVersion, string InformationalVersion, List<TypeInfo> Types);
-record TypeInfo(string Name, string Namespace, string Kind, string BaseType, List<string> Interfaces, string Guid, bool? IsExtensionClass,
+record TypeInfo(string Name, string Namespace, string Kind, string BaseType, List<string> Interfaces, List<GenericParamInfo> GenericParameters, string Guid, bool? IsExtensionClass,
     List<MethodInfo> Methods, List<PropInfo> Properties, List<FieldInfo> Fields);
-record MethodInfo(string Name, string ReturnType, List<ParamInfo> Parameters, bool? IsStatic, bool? IsSpecialName, bool? IsExtension);
+record MethodInfo(string Name, string ReturnType, List<ParamInfo> Parameters, List<GenericParamInfo> GenericParameters, bool? IsStatic, bool? IsSpecialName, bool? IsExtension);
+record GenericParamInfo(string Name, List<string> Constraints, string Variance);
+record GenericContext(string[] TypeParameters, string[] MethodParameters);
 record ParamInfo(string Name, string Type, string Direction);
 record PropInfo(string Name, string Type, bool CanRead, bool CanWrite);
 record FieldInfo(string Name, string Type, object Value, bool? IsStatic);
 
 // Renders signature types as C#-style names: primitives as keywords, nested types as Outer.Inner, generics as T<A,B>.
-class TypeNameProvider : ISignatureTypeProvider<string, object>, ICustomAttributeTypeProvider<string>
+class TypeNameProvider : ISignatureTypeProvider<string, GenericContext>, ICustomAttributeTypeProvider<string>
 {
     readonly MetadataReader md;
     public TypeNameProvider(MetadataReader md) { this.md = md; }
-    public string Name(EntityHandle h) => h.Kind switch
+    public string Name(EntityHandle h) => NameIn(h, null);
+    public string NameIn(EntityHandle h, GenericContext context) => h.Kind switch
     {
         HandleKind.TypeDefinition => GetTypeFromDefinition(md, (TypeDefinitionHandle)h, 0),
         HandleKind.TypeReference => GetTypeFromReference(md, (TypeReferenceHandle)h, 0),
-        HandleKind.TypeSpecification => GetTypeFromSpecification(md, null, (TypeSpecificationHandle)h, 0),
+        HandleKind.TypeSpecification => GetTypeFromSpecification(md, context, (TypeSpecificationHandle)h, 0),
         _ => h.Kind.ToString(),
     };
     public string GetArrayType(string e, ArrayShape s) => $"{e}[{new string(',', s.Rank - 1)}]";
@@ -153,8 +189,8 @@ class TypeNameProvider : ISignatureTypeProvider<string, object>, ICustomAttribut
         var tick = g.IndexOf('`');
         return $"{(tick >= 0 ? g[..tick] : g)}<{string.Join(", ", a)}>";
     }
-    public string GetGenericMethodParameter(object c, int i) => $"TM{i}";
-    public string GetGenericTypeParameter(object c, int i) => $"T{i}";
+    public string GetGenericMethodParameter(GenericContext c, int i) => c != null && i < c.MethodParameters.Length ? c.MethodParameters[i] : $"TM{i}";
+    public string GetGenericTypeParameter(GenericContext c, int i) => c != null && i < c.TypeParameters.Length ? c.TypeParameters[i] : $"T{i}";
     public string GetModifiedType(string m, string u, bool r) => u;
     public string GetPinnedType(string e) => e;
     public string GetPointerType(string e) => e + "*";
@@ -185,7 +221,7 @@ class TypeNameProvider : ISignatureTypeProvider<string, object>, ICustomAttribut
         var ns = r.GetString(t.Namespace);
         return ns.Length > 0 ? ns + "." + n : n;
     }
-    public string GetTypeFromSpecification(MetadataReader r, object c, TypeSpecificationHandle h, byte k) =>
+    public string GetTypeFromSpecification(MetadataReader r, GenericContext c, TypeSpecificationHandle h, byte k) =>
         r.GetTypeSpecification(h).DecodeSignature(this, c);
     public string GetSystemType() => "System.Type";
     public bool IsSystemType(string t) => t == "System.Type";

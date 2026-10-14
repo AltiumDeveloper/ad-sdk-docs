@@ -31,7 +31,7 @@ function relativePath(from, to) {
 export const escapeText = (text) => String(text ?? '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const cell = (text) => escapeText(text).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
 // Heading text: a leading `_` (`_Finalize`) would start emphasis.
-const headingText = (text) => String(text).replace(/^_/, '\\_');
+const headingText = (text) => escapeText(String(text).replace(/^_/, '\\_'));
 
 // First sentence of a description, for tables and front-matter descriptions.
 export function firstSentence(text, limit = 200) {
@@ -45,12 +45,23 @@ export function firstSentence(text, limit = 200) {
 const paragraphs = (text) => escapeText(text).trim();
 
 // --- type names --------------------------------------------------------------------------------------------------
-const shortType = (type) => String(type).replace(/\b(?:[A-Za-z_]\w*\.)+([A-Za-z_]\w*)/g, (_, last) => last);
+// C# type text: namespaces dropped, `Nullable<int>` written `int?`.
+const shortType = (type) => String(type)
+  .replace(/\b(?:[A-Za-z_]\w*\.)+([A-Za-z_]\w*)/g, (_, last) => last)
+  .replace(/\bNullable<([^<>]+)>/g, '$1?');
+
+// `<in T, out TResult>` and ` where T : class, new()` for a list of generic parameters.
+export const typeParameterList = (params = [], { variance = false } = {}) => (params.length
+  ? `<${params.map((g) => `${variance && g.variance ? `${g.variance} ` : ''}${g.name}`).join(', ')}>`
+  : '');
+export const whereClauses = (params = []) => params.filter((g) => g.constraints?.length)
+  .map((g) => ` where ${g.name} : ${g.constraints.map(shortType).join(', ')}`).join('');
 
 // C# signature text for code blocks: types without namespaces.
 export function methodSignature(signature, { name = signature.name } = {}) {
   const params = signature.parameters.map((p) => `${p.direction ? `${p.direction} ` : ''}${shortType(p.type)} ${p.name}`);
-  return `${shortType(signature.returnType)} ${name}(${params.join(', ')});`;
+  const generics = signature.genericParameters ?? [];
+  return `${shortType(signature.returnType)} ${name}${typeParameterList(generics)}(${params.join(', ')})${whereClauses(generics)};`;
 }
 
 export class Linker {
@@ -60,7 +71,8 @@ export class Linker {
   }
 
   typeHref(id) {
-    const t = this.model.types.get(id);
+    // A constructed generic (`SetHelper<TObjectId>`) links to its definition (`SetHelper`1`).
+    const t = this.model.types.get(id) ?? [1, 2, 3, 4].map((n) => this.model.types.get(`${id}\`${n}`)).find(Boolean);
     if (!t) return null;
     return relativePath(this.fromFile, typeFile(t)) || '#';
   }
@@ -83,7 +95,7 @@ export class Linker {
       const at = rest.indexOf(name);
       out += codeIfAny(rest.slice(0, at));
       const href = this.typeHref(name);
-      const display = href ? this.model.types.get(name).name : name.startsWith('System.') ? name.slice(name.lastIndexOf('.') + 1) : name;
+      const display = href ? name.slice(name.lastIndexOf('.') + 1) : name.startsWith('System.') ? name.slice(name.lastIndexOf('.') + 1) : name;
       out += href ? `[${display}](${href})` : `\`${display}\``;
       rest = rest.slice(at + name.length);
     }
@@ -195,6 +207,15 @@ export function renderType(model, type, ctx) {
     for (const v of type.values) page.push(`| \`${v.name}\` | ${v.value ?? ''} | ${cell(content.values?.[v.name] ?? '')} |`);
     page.push('');
   }
+  if (type.genericParameters?.length) {
+    page.heading(2, 'Type parameters');
+    page.push('| Parameter | Constraints |', '| --- | --- |');
+    for (const gp of type.genericParameters) {
+      const constraints = (gp.constraints ?? []).map((c) => (/^(class|struct|new\(\))$/.test(c) ? `\`${c}\`` : link.type(c)));
+      page.push(`| \`${gp.variance ? `${gp.variance} ` : ''}${gp.name}\` | ${constraints.join(', ') || 'none'} |`);
+    }
+    page.push('');
+  }
   if ((type.kind === 'struct' || type.kind === 'class') && type.interfaces.length) {
     page.push(`**Implements:** ${type.interfaces.map((i) => link.type(i)).join(', ')}`, '');
   }
@@ -246,18 +267,15 @@ function renderClassMembers(page, type, link) {
 }
 
 function declaration(type) {
+  // The name without its parameter list; the list is written with variance, the constraints as where clauses.
+  const g = type.genericParameters ?? [];
+  const head = `${type.name.replace(/<.*$/, '')}${typeParameterList(g, { variance: true })}`;
   if (type.kind === 'delegate') {
-    return type.signature ? `public delegate ${methodSignature(type.signature, { name: type.name })}` : `public delegate ${type.name}`;
+    return type.signature ? `public delegate ${methodSignature({ ...type.signature, genericParameters: [] }, { name: head }).replace(/;$/, '')}${whereClauses(g)};` : `public delegate ${head}`;
   }
-  if (type.kind === 'class') {
-    return `public class ${type.name}${type.baseType ? ` : ${shortType(type.baseType)}` : ''}`;
-  }
-  if (type.kind === 'interface') {
-    const bases = type.bases.map(shortType);
-    return `public interface ${type.name}${bases.length ? ` : ${bases.join(', ')}` : ''}`;
-  }
-  if (type.kind === 'enum') return `public enum ${type.name}`;
-  return `public struct ${type.name}`;
+  const bases = type.kind === 'interface' ? type.bases : [type.baseType, ...(type.interfaces ?? [])].filter(Boolean);
+  const keyword = { class: 'class', interface: 'interface', enum: 'enum', struct: 'struct' }[type.kind];
+  return `public ${keyword} ${head}${bases.length ? ` : ${bases.map(shortType).join(', ')}` : ''}${whereClauses(g)}`;
 }
 
 // Single inheritance (the usual case): root → … → parent. Several bases: all of them, nearest first.
@@ -391,13 +409,17 @@ export function renderNamespace(model, ns, categories, ctx) {
   const link = new Linker(model, file);
   const types = [...model.types.values()].filter((t) => t.namespace === ns.id);
   const out = [frontMatter({
-    title: `${ns.id} namespace`,
-    sidebar_label: ns.label,
+    title: ns.title,
+    sidebar_label: ns.title,
     description: ns.description,
     pagination_next: 'null',
     pagination_prev: 'null',
   })];
-  out.push(`# ${ns.id} namespace`, '', escapeText(ns.description), '');
+  out.push(`# ${escapeText(ns.title)}`, '', `**Namespace:** \`${ns.id}\``, '', escapeText(ns.description), '');
+  const nested = ctx.namespaces.filter((n) => n.parent === ns.id);
+  if (nested.length) {
+    out.push('Related namespaces:', '', ...nested.map((n) => `- [${escapeText(n.title)}](../${n.slug}/index.md) (\`${n.id}\`): ${escapeText(n.description)}`), '');
+  }
   const counts = { interface: 0, enum: 0, struct: 0, class: 0, delegate: 0 };
   for (const t of types) counts[t.kind] += 1;
   const parts = [[counts.interface, 'interfaces'], [counts.enum, 'enumerations'], [counts.struct + counts.class, 'structures and classes'], [counts.delegate, 'delegates']]
@@ -424,7 +446,7 @@ export function renderReferenceIndex(namespaces, model) {
   out.push('| Namespace | Types | Description |', '| --- | --- | --- |');
   for (const ns of namespaces) {
     const n = [...model.types.values()].filter((t) => t.namespace === ns.id).length;
-    out.push(`| [${ns.label}](./${ns.slug}/index.md) | ${n} | ${cell(ns.description)} |`);
+    out.push(`| [${escapeText(ns.title)}](./${ns.slug}/index.md) \`${ns.id}\` | ${n} | ${cell(ns.description)} |`);
   }
   out.push('');
   return { file: 'index.md', text: out.join('\n') };

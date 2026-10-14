@@ -1,0 +1,76 @@
+# Public types that are not published. Each group needs a reason; see OPEN-ISSUES.md ("Public implementation
+# classes") for the question to the SDK owners. Removing a name here publishes the type again.
+hidden:
+  # Altium.SDK.dll classes that implement SDK interfaces. Extensions use the interfaces; none of the SDK examples
+  # derive from or create these classes.
+  - Altium.Edp.Classes.OutputGenerator
+  - DXP.ADStrings
+  - DXP.ADWideStrings
+  - DXP.EDMS_DictionaryWideString
+  - DXP.EDMS_PairWideString
+  - EDP.SourceRelationship
+  - SCH.AggregatorSupplier
+  - SCH.AggregatorSupplierList
+  - SCH.AggregatorSupplierListResult
+  - SCH.CanChangeComponentPartChoicesData
+  - SCH.CanChangeComponentPartChoicesList
+  - SCH.CanChangeComponentPartChoicesListResult
+  - SCH.CanChangePartChoicesResult
+  - SCH.ComponentDynamicData
+  - SCH.ComponentDynamicDataList
+  - SCH.ComponentDynamicDataListAsyncResult
+  - SCH.PartCatalog2AsyncResult
+  - SCH.PartCatalog2Result
+  - SCH.PartChoice2
+  - SCH.PartChoice2ExtListResult
+  - SCH.PartChoice2List
+  - SCH.PartChoice2ListAsyncResult
+  - SCH.PartChoice2ListResult
+  - SCH.PartChoice3
+  - SCH.PartChoice4
+  - SCH.PartChoice5
+  - SCH.PartChoiceComponentID
+  - SCH.PartChoiceComponentIDList
+  - SCH.PartChoicesClientResult
+  - SCH.PartIdentifier
+  - SCH.PartParameter
+  - SCH.PartParameterList
+  - SCH.PartSourceData
+  - SCH.PartSourceList
+  - SCH.PartSourceListResult
+  - SCH.PriceItem
+  - SCH.PriceItemList
+  - SCH.ProviderSupplierOptions
+  - SCH.ProviderSupplierOptionsList
+  - SCH.ProviderSupplierOptionsListResult
+  - SCH.StockItem
+  - SCH.StockItemList
+  - SCH.Supplier
+  - SCH.SupplierAliases
+  - SCH.SupplierAliasesList
+  - SCH.SupplierCart
+  - SCH.SupplierCategory
+  - SCH.SupplierCategoryParameters
+  - SCH.SupplierComponent
+  - SCH.SupplierComponent2
+  - SCH.SupplierComponent3
+  - SCH.SupplierComponentList
+  - SCH.SupplierParameter
+  - SCH.SupplierParameterKind
+  - SCH.SupplierParameterValue
+  - SCH.SupplierSearchError
+  - SCH.SupplierSearchResults
+  - SCH.SupplierSearchStatistics
+  - SCH.SupplierSourceRelationship
+  - SCH.SupplierSourceRelationshipError
+  # Windows API, hashing, certificate and analytics plumbing of Altium.SDK.dll.
+  - DXP.WindowsAPI
+  - DXP.NativeMd5
+  - DXP.CertificateCheck
+  - EDP.Analytics
+  - EDP.PerformanceAnalytics
+
+# Namespaces not published (not listed in config/namespaces.yaml):
+#   Altium.SDK            BaseClientService<T>, the base of the web-service clients of Altium.SDK.dll.
+#   Altium.Dxp.Classes    AsyncHelper.RunSync, a helper that runs a task synchronously; not SDK functionality.
+#   Altium.Edp.Classes    OutputNotificationKind, used only by the hidden OutputGenerator class.

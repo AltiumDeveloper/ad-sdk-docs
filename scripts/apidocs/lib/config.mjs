@@ -10,6 +10,11 @@ export function loadNamespaces(path = 'config/namespaces.yaml') {
   return namespaces.map((ns) => ({ ...ns, slug: ns.slug ?? namespaceSlug(ns.id), label: ns.title === ns.id ? ns.id : `${ns.title} (${ns.id})` }));
 }
 
+// Types not published (config/hidden-types.yaml).
+export function loadHidden(path = 'config/hidden-types.yaml') {
+  return new Set(parse(readFileSync(path, 'utf8'))?.hidden ?? []);
+}
+
 // Areas every namespace can fall back to (types no configured category matches). A namespace without configured
 // interface areas shows its interfaces under one "Interfaces" area.
 const DEFAULTS = [

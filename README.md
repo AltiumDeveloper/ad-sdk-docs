@@ -4,8 +4,10 @@ Source for https://altiumdeveloper.github.io/ad-sdk-api-reference/: the .NET API
 Designer extensions, generated from the SDK assemblies and cross-linked with the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples).
 
-It covers every namespace of both SDK assemblies: `SCH`, `PCB`, `EDP`, `DXP`, `ComponentLib`, `Embedded`,
-`DXP.EDMS` and the small `Altium.*` namespaces (`config/namespaces.yaml`).
+It covers the SDK namespaces of both assemblies (`config/namespaces.yaml`): `SCH`, `PCB`, `EDP`, `DXP`,
+`ComponentLib` and `Embedded`, with `DXP.EDMS` and `Altium.Dxp.Interfaces` nested under System. Types and
+namespaces left out on purpose (interface implementation classes, plumbing) are listed with reasons in
+`config/hidden-types.yaml`.
 
 ## How it works
 
@@ -93,7 +95,8 @@ their accessor names, so `GetState_Orientation` finds the `Orientation` property
 
 1. Add it to `config/namespaces.yaml`.
 2. Add its sidebar areas to `config/categories.yaml`.
-3. Add `.bc-<id>` icons for the namespace slug and every new area id to `src/css/custom.css` ("Sidebar icons").
+3. Add `.bc-<id>` icons for the namespace slug and every new area id to `src/css/custom.css` ("Sidebar icons"),
+   with `--ns-name` (the namespace name shown under its title) on the namespace rule. `npm test` checks both.
 4. Run `npm run apidocs` and review the "other" area for types the categories miss.
 
 ## Local development

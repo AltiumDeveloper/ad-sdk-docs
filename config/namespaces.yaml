@@ -1,6 +1,8 @@
 # Namespaces documented by the site, in sidebar order. `metadata` lists the extracted assembly files the types come
-# from (tools/AssemblyMetadata). Add a namespace here, its areas in config/categories.yaml and `.bc-<slug>` /
-# `.bc-<area>` icons in src/css/custom.css ("Sidebar icons") to publish it.
+# from (tools/AssemblyMetadata). `parent` nests a small namespace under another one in the sidebar (its pages keep
+# their own URL). Add a namespace here, its areas in config/categories.yaml and a `.bc-<slug>` rule (icon and
+# `--ns-name`) in src/css/custom.css ("Sidebar icons") to publish it. Namespaces left out on purpose are listed in
+# config/hidden-types.yaml.
 namespaces:
   - id: SCH
     title: Schematic
@@ -27,22 +29,12 @@ namespaces:
     description: Embedded software support - memories, stacks, toolchains and interrupt management.
     metadata: [metadata/Altium.SDK.Interfaces.json]
   - id: DXP.EDMS
+    parent: DXP
     title: Data management types
     description: Constants and value types used by the data management services, such as content and folder type identifiers.
     metadata: [metadata/Altium.SDK.Interfaces.json]
   - id: Altium.Dxp.Interfaces
+    parent: DXP
     title: Image service
     description: The image service interface and its enumerations.
     metadata: [metadata/Altium.SDK.Interfaces.json]
-  - id: Altium.Dxp.Classes
-    title: System helper classes
-    description: Helper classes of the system API.
-    metadata: [metadata/Altium.SDK.json]
-  - id: Altium.Edp.Classes
-    title: Output generation
-    description: The output generator class and its options.
-    metadata: [metadata/Altium.SDK.json]
-  - id: Altium.SDK
-    title: Service clients
-    description: The base class for service clients.
-    metadata: [metadata/Altium.SDK.json]
