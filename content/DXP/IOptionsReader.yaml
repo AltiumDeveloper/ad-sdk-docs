@@ -5,12 +5,10 @@ members:
   ReadBoolean:
     summary: This ReadBoolean method retrieves a boolean value for the specified server and the setting name that are
       represented by the system wide Preferences dialog.
-    remarks: >-
-      The DefaultValue parameter for the ReadBoolean method returns a default Boolean value if the specific control on
-      the Preferences dialog is not returning a valid Boolean value.
-
-
-      The section name represents the target server's page in the system wide preferences dialog.
+    parameters:
+      argSectionName: The target server's page in the system wide preferences dialog.
+      argDefaultValue: The value returned if the specific control on the Preferences dialog is not returning a valid
+        Boolean value.
   ReadDouble:
     summary: This ReadDouble method retrieves a double value for the specified server and the setting name that are
       represented by the system wide Preferences dialog.

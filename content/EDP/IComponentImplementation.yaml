@@ -38,8 +38,12 @@ members:
     summary: The method returns the indexed data file entity (the name of the implementation model). Used in conjunction
       with the DM_DataFileCount method.
   DM_DatafileFullPath:
-    summary: The method returns you the full path to the data file via the FoundIn parameter, if the Entity name, the file
-      Kind are valid and Found In strings Used in conjunction with the DM_DataFileCount method.
+    summary: Returns the full path to the data file, if the entity name and the file kind are valid. Used in conjunction
+      with the DM_DataFileCount method.
+    parameters:
+      argEntityName: The entity name; must be valid.
+      argFileKind: The file kind; must be valid.
+      argFoundIn: Returns the full path to the data file.
   DM_DatafileKind:
     summary: The method returns the indexed data file kind (the model kind eg PCB etc)Used in conjunction with the
       DM_DataFileCount method.

@@ -19,7 +19,9 @@ members:
   ConnectionsCount:
     summary: This method returns the number of connections for wires or buses on the schematic sheet. For each
   GetConnectionAt:
-    summary: This method retrieves the connection of IConnection type based on the Location parameter.
+    summary: This method retrieves the connection of IConnection type based on a location.
+    parameters:
+      argLocation: The location the connection is retrieved for.
   GraphicallyInvalidate:
     summary: This method puts the group of design objects (bus or wire objects in an connection array) in an invalid state.
       A redraw is required to update the schematic sheet.

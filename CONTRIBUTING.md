@@ -109,11 +109,16 @@ Never put caveats such as "this is not documented" or "probably" into a page.
        summary: ...
        remarks: ...
        seeAlso: [SCH.TRotationBy90, SCH.ISch_Component.OrientationWithoutRotating]
+     GetObjectAtXYAskUserIfAmbiguous:
+       parameters:         # one entry per parameter, by the name in the parameter table
+         argHitX: The X coordinate, in internal units (10,000 per mil).
    values:                 # enumerations only, one entry per value
      eRotate90: ...
    ```
 
-   `seeAlso` entries are type ids (`SCH.TRotationBy90`) or `<type id>.<member key>`.
+   `seeAlso` entries are type ids (`SCH.TRotationBy90`) or `<type id>.<member key>`. Parameter keys are the names
+   in the page's parameter table (`argHitX`, often with an `arg` prefix); describe parameters only there, not in the
+   summary or remarks.
 4. **Check:** `npm test && npm run apidocs`, then look at the page in `npm start`.
 
 `npm run apidocs` fails if a key does not match a type or member: you mistyped it, or the API was renamed. Fix the key;

@@ -297,3 +297,28 @@ export function orderBases(model, type) {
   for (const id of type.allBases ?? []) if (!out.includes(id)) out.push(id);
   return out;
 }
+
+// Parameters of a member: every overload of a method, the index parameters of a property.
+export const parameterNames = (member) => [...new Set(member.kind === 'property'
+  ? member.indexParameters.map((p) => p.name)
+  : (member.overloads ?? [member.signature, member.signature?.alternate]).filter(Boolean).flatMap((s) => s.parameters.map((p) => p.name)))];
+
+// Content `parameters.<name>` keys must be real parameter names, and parameters are described there, not in the
+// summary or remarks ("The HitX parameter specifies …"): the parameter table shows them. Names in prose are matched by
+// their end, because the .NET names carry a prefix and are sometimes truncated (`Action` → `argction`).
+export function parameterProblems(where, entry, names) {
+  const out = [];
+  for (const key of Object.keys(entry.parameters ?? {})) {
+    if (!names.includes(key)) out.push(`${where}: no parameter ${key} (parameters: ${names.join(', ') || 'none'})`);
+  }
+  const bare = names.map((n) => n.replace(/^arg/, '').toLowerCase()).filter((n) => n.length >= 3);
+  for (const field of ['summary', 'remarks']) {
+    const text = String(entry[field] ?? '');
+    const named = [...text.matchAll(/\b[Tt]he\s+`?(\w+)`?\s+parameter\b/g)].map((m) => m[1])
+      .filter((w) => bare.some((n) => w.toLowerCase().endsWith(n)));
+    if (named.length || /^\s*Parameters:?\s*$/m.test(text)) {
+      out.push(`${where}: ${field} describes parameters in prose (${named.join(', ') || 'Parameters:'}); move it to parameters.<name>`);
+    }
+  }
+  return out;
+}

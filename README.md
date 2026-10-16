@@ -58,12 +58,18 @@ members:
     summary: ...
     remarks: ...
     seeAlso: [SCH.TRotationBy90, SCH.ISch_Component.OrientationWithoutRotating]
+  GetObjectAtXYAskUserIfAmbiguous:
+    summary: ...
+    parameters:           # by the parameter name shown in the table; also index parameters and delegate parameters
+      argHitX: The X coordinate, in internal units (10,000 per mil).
 values:                   # enumerations only
   eRotate90: Rotated by 90 degrees.
 ```
 
-`npm run apidocs` fails when a content key no longer matches the API (a renamed type or member), so text is never
-silently dropped. Types and members without a description are still published, marked *No description yet.*
+`npm run apidocs` fails when a content key no longer matches the API (a renamed type, member or parameter), so text
+is never silently dropped. It also fails when a summary or remarks describes the member's parameters in prose ("The
+HitX parameter specifies …"): parameter descriptions go under `parameters`, where the parameter table shows them in
+a Description column. Types and members without a description are still published, marked *No description yet.*
 
 `npm run check:content` (also run by CI) validates the YAML and the guides.
 

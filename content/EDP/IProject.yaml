@@ -106,7 +106,9 @@ members:
     summary: The method returns the index of the source document based on the filename of this document. This is for
       hierarchical or connected schematic documents.
   DM_InitializeOutputPath:
-    summary: The method returns the output path for the Output Generator based on the AnOutputType parameter.
+    summary: Returns the output path for the Output Generator based on the output type.
+    parameters:
+      argnOutputType: The output type.
   DM_LogicalDocumentCount:
     summary: The method returns the number of logical documents which represent the actual documents of a design project
       (documents that exist in the design project but are not part of the design are not logical documents). Use this

@@ -86,8 +86,9 @@ members:
       - PCB.IPCB_SpatialIterator
       - PCB.IPCB_Board.ChooseLocation
   CleanNet:
-    summary: The CleanNet method cleans up the net represented by the IPCB_Net parameter. It cleans up by re-organizing and
-      re-arranging the net topology of this net.
+    summary: Cleans up a net by re-organizing and re-arranging its net topology.
+    parameters:
+      argNet: The net to clean up.
   ClearUndoRedo:
     summary: This clears out the UndoRedo facility in the PCB editor.
   ComponentGridSize:
@@ -155,45 +156,22 @@ members:
       - PCB.IPCB_GerberOptions
   GetObjectAtCursor:
     summary: This method returns the design object that is within the mouse's clicked coordinates on the PCB document.
-    remarks: >-
-      Parameters:
-
-
-      The ObjectSet parameter specifies which object types can be returned.
-
-
-      The LayerSet parameter specifies the objects on which layers that can be returned.
-
-
-      The StatusbarText parameter specifies the text on the status bar of the Altium Designer application when the
-      method is invoked.
+    parameters:
+      argObjectSet: The object types that can be returned.
+      argLayerSet: The layers whose objects can be returned.
+      argStatusBarText: The text on the status bar of the Altium Designer application when the method is invoked.
   GetObjectAtXYAskUserIfAmbiguous:
     summary: This method returns you the specified object with the specified X and Y coordinates which could be retrieved by
       the ChooseLocation method for example.
     remarks: >-
       This method is useful when there are overlapping objects on the PCB document and you need to retrieve the specific
       object type.
-
-
-      The method returns the design object with the following parameters.
-
-
-      Parameters:
-
-
-      The HitX parameter specifies the X coordinate value.
-
-
-      The HitY parameter specifies the Y coordinate value.
-
-
-      The ObjectSet parameter specifies which object types can be returned.
-
-
-      The LayerSet parameter specifies the objects on which layers that can be returned.
-
-
-      The Action parameter specifies what is happening when this method is invoked.
+    parameters:
+      argHitX: The X coordinate.
+      argHitY: The Y coordinate.
+      argObjectSet: The object types that can be returned.
+      argLayerSet: The layers whose objects can be returned.
+      argction: What is happening when the method is invoked.
     seeAlso:
       - PCB.IPCB_Board.ChooseLocation
       - PCB.TObjectSet
@@ -201,14 +179,11 @@ members:
   GetPcbComponentByRefDes:
     summary: This method returns the component by its valid reference designator.
   GetPrimitiveCount:
-    summary: The method returns the number of primitives which is dependent on the parameters supplied - the object kinds to
-      look for, which layers to look for and how the search is conducted.
-    remarks: |-
-      The ObjectSet parameter specifies which object types can be returned.
-
-      The LayerSet parameter specifies the objects on which layers that can be returned.
-
-      The AMethod parameter specifies how the search is conducted.
+    summary: Returns the number of primitives that match the object kinds, the layers and the search method supplied.
+    parameters:
+      argObjSet: The object kinds to look for.
+      argLayerSet: The layers to look in.
+      argMethod: How the search is conducted.
     seeAlso:
       - PCB.TObjectSet
       - PCB.TIterationMethod

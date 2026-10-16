@@ -38,9 +38,10 @@ members:
     seeAlso:
       - DXP.INotification
   CloseDocument:
-    summary: This method fetches the IServerDocument parameter to close the specified document (if it is loaded and opened
-      in Altium Designer already). Note the document is not removed from Altium Designer, that is, the document still
-      exists on the Projects panel for example.
+    summary: Closes the specified document (if it is loaded and opened in Altium Designer already). Note the document is
+      not removed from Altium Designer, that is, the document still exists on the Projects panel for example.
+    parameters:
+      argDocument: The document to close.
     seeAlso:
       - DXP.IClient.OpenDocument
   CurrentView:
@@ -203,14 +204,16 @@ members:
     seeAlso:
       - DXP.IServerModule
   GetServerModuleByName:
-    summary: The method returns the server module interface depending on the validity of the AModuleName parameter. Examples
-      include 'PCB' or 'SCH'. Use the ServerModuleByName property instead to return the indexed server module.
+    summary: Returns the server module interface depending on the validity of the module name. Use the ServerModuleByName
+      property instead to return the indexed server module.
     remarks: >-
       The ServerModuleByName property returns the IServerModule interface if the module name is found in the Client's
       table of active servers. For a PCB editor, module name is PCB, for a Schematic Editor, the module name is SCH etc.
 
 
       Server Names
+    parameters:
+      argModuleName: The server module name, for example 'PCB' or 'SCH'.
     seeAlso:
       - DXP.IClient.GetServerModule
       - DXP.IServerModule
@@ -232,8 +235,10 @@ members:
       - DXP.IClient.GetServerRecordCount
       - DXP.IClient.GetServerModule
   GetServerRecordByName:
-    summary: This method returns the IServerRecord interface based on the AModuleName parameter. This IServerRecord
-      interface represents the installation file for the server (with an INS extension).
+    summary: Returns the IServerRecord interface for a server module name. This IServerRecord interface represents the
+      installation file for the server (with an INS extension).
+    parameters:
+      argModuleName: The server module name.
     seeAlso:
       - DXP.IServerRecord
   GetServerRecordCount:
@@ -253,8 +258,10 @@ members:
     seeAlso:
       - DXP.ITimerManager
   GetWindowKindByName:
-    summary: This method returns the IServerWindowKind interface based on the AWindowKindName parameter which denotes the
-      document kind. For example, there are two document kinds in the PCB editor - PCB and PCBLIB documents.
+    summary: Returns the IServerWindowKind interface for a window kind name.
+    parameters:
+      argWindowKindName: The window kind name, which denotes the document kind. For example, there are two document kinds
+        in the PCB editor - PCB and PCBLIB documents.
     seeAlso:
       - DXP.IServerWindowKind
   HideDocument:
@@ -271,8 +278,9 @@ members:
       - DXP.IClient.BeginRecoverySave
       - DXP.IClient.EndRecoverySave
   IsDocumentOpen:
-    summary: Returns a boolean value whether the document is open in Altium Designer or not and is dependent on whether the
-      AFilePath parameter is valid or not.
+    summary: Returns a boolean value whether the document is open in Altium Designer or not.
+    parameters:
+      argFilePath: The file path of the document; the result depends on whether this path is valid or not.
   IsQuitting:
     summary: "Returns a boolean value that represents the state Altium Designer is in: true if Altium Designer is about to
       quit or in the process of quitting, false if Altium Designer is still active."
@@ -290,8 +298,7 @@ members:
     summary: Query the system font used.
   RegisterNotificationHandler:
     summary: The RegisterNotificationHandler method registers the notification handler in the Client module part of Altium
-      Designer once the server object is created and loaded in computer memory. The Handler parameter contains the
-      server module object.
+      Designer once the server object is created and loaded in computer memory.
     remarks: >-
       The INotificationHandler object interface is responsible for handling notifications raised in Altium Designer.
 
@@ -305,6 +312,8 @@ members:
 
 
       This method is normally used for in developing servers and not for extensions.
+    parameters:
+      argHandler: The server module object.
     seeAlso:
       - DXP.IClient.BroadcastNotification
       - DXP.IClient.DispatchNotification
@@ -314,19 +323,21 @@ members:
     seeAlso:
       - DXP.IClient.CurrentView
   ShowDocument:
-    summary: This method fetches the IServerDocument parameter which represents the Server Document loaded in Altium
-      Designer and then displays the design document in Altium Designer.
+    summary: Displays the design document in Altium Designer.
     remarks: |-
       IServerDocument example
 
       This example gets the client interface and then opens and shows a document.
+    parameters:
+      argDocument: The server document loaded in Altium Designer.
     seeAlso:
       - DXP.IClient.OpenDocument
       - DXP.IServerDocument
   ShowDocumentDontFocus:
-    summary: This method fetches the IServerDocument parameter and then displays this design document but leaves the
-      previously focussed document in focus. If there are not design documents open already, then this design document
-      will still be displayed but not focussed.
+    summary: Displays the design document but leaves the previously focussed document in focus. If there are not design
+      documents open already, then this design document will still be displayed but not focussed.
+    parameters:
+      argDocument: The design document to display.
     seeAlso:
       - DXP.IClient.OpenDocument
       - DXP.IClient.ShowDocument
@@ -361,7 +372,7 @@ members:
       - DXP.IClient.StartServer
   UnregisterNotificationHandler:
     summary: The UnregisterNotificationHandler method un registers the notification handler from Client once the server
-      object goes out of scope (destroyed). The Handler parameter contains the server module object.
+      object goes out of scope (destroyed).
     remarks: >-
       The INotificationHandler object interface is responsible for handling notifications raised in Altium Designer.
 
@@ -375,6 +386,8 @@ members:
 
 
       This method is normally used for in developing servers and not for extensions.
+    parameters:
+      argHandler: The server module object.
     seeAlso:
       - DXP.IClient.BroadcastNotification
       - DXP.IClient.DispatchNotification

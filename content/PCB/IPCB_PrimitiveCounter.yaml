@@ -3,7 +3,9 @@ summary: The IPCB_PrimitiveCounter interface gives you the means of obtaining th
   focussed PCB document via the IPCB_Board's PrimitiveCounter property.
 members:
   GetCount:
-    summary: The GetCount method counts the objects of a set of object types specified by the ObjectSet parameter.
+    summary: Counts the objects of a set of object types.
+    parameters:
+      argObjectSet: The object types to count.
     seeAlso:
       - PCB.TObjectSet
   GetHoleCount:
