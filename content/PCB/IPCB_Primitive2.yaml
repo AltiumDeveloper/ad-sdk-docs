@@ -1,0 +1,79 @@
+# PCB.IPCB_Primitive2: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Additional members of PCB objects for solder mask and paste mask expansion, routing widths from the design
+  rules, and shared unions.
+members:
+  CreateSharedUnion:
+    summary: Creates a new shared union for the object and assigns it to `SharedUnion`.
+    remarks: Does nothing when the product feature for custom paste masks is not enabled. In the new shared union,
+      `LayerIsVisible` is true for the top and bottom paste mask layers when `PasteMaskEnabled` is true, and for the
+      top or bottom solder mask layer when that side of the object is not tented (`IsTenting_Top`,
+      `IsTenting_Bottom`).
+  HasMaskExpansion:
+    summary: Returns whether the object has a mask opening on the given solder mask or paste mask layer.
+    remarks: >-
+      Returns false for objects other than tracks, arcs, fills, regions, pads and vias, and when the object is not on
+      the outer copper layer on the mask layer's side; an object on `TV6_Layer.eV6_MultiLayer` counts on both sides.
+      For a solder mask layer, returns true when `SolderMaskExpansionMode` is not `TMaskExpansionMode.eMaskExpansionMode_NoMask`
+      and that side of the object is not tented.
+    parameters:
+      argMaskLayer: A solder mask or paste mask layer.
+  IsEmbeddedComponentCavity:
+    summary: Whether the object is a board region (`IPCB_BoardRegion`) that belongs to a component, the cavity of an
+      embedded component.
+    remarks: False for every other kind of object.
+  MaskExpansion:
+    summary: Returns the object's mask expansion on the given solder mask or paste mask layer, in internal units (10,000
+      per mil).
+    remarks: For a paste mask layer, the result is the object's paste mask expansion; for a solder mask layer, its
+      solder mask expansion. For pads and vias, the solder mask expansion is computed for the given layer.
+    parameters:
+      argMaskLayer: A solder mask or paste mask layer.
+  PasteMaskEnabled:
+    summary: Whether the object has a paste mask.
+    remarks: Unless the product feature for pads without a paste mask is enabled, a pad always reads true and other
+      objects read true when `PasteMaskExpansionMode` is not `TMaskExpansionMode.eMaskExpansionMode_NoMask`. Assigning
+      true to an object other than a pad, track, arc, fill or region stores false.
+  PasteMaskExpansion:
+    summary: The paste mask expansion of the object, in internal units (10,000 per mil).
+    remarks: Reading returns the same value as `IPCB_Primitive.PasteMaskExpansion`. For objects other than pads and
+      vias, assigning a value makes it the object's manual expansion and sets `PasteMaskExpansionMode` to
+      `TMaskExpansionMode.eMaskExpansionMode_Manual`.
+  PasteMaskExpansionMode:
+    summary: How the object's paste mask expansion is determined.
+    remarks: For objects other than pads and vias, `PasteMaskExpansion` is 0 with
+      `TMaskExpansionMode.eMaskExpansionMode_NoMask`, comes from the paste mask expansion rule that applies to the
+      object with `TMaskExpansionMode.eMaskExpansionMode_Rule`, and is the object's manual expansion with
+      `TMaskExpansionMode.eMaskExpansionMode_Manual`.
+    seeAlso:
+      - PCB.TMaskExpansionMode
+  PasteMaskPercent:
+    summary: The percentage from which a pad's manual paste mask expansion is computed when `PasteMaskUsePercent` is
+      true.
+  PasteMaskUsePercent:
+    summary: Whether a pad's manual paste mask expansion is computed from `PasteMaskPercent` and the pad's shape instead
+      of being an absolute value.
+    remarks: Applies only to pads whose `PasteMaskExpansionMode` is `TMaskExpansionMode.eMaskExpansionMode_Manual`, and
+      only when the product feature for paste mask percentages is enabled.
+  RoutingMinWidth:
+    summary: The minimum width allowed by the width rule that applies to the object, in internal units (10,000 per mil).
+    remarks: 10 mil when no width rule applies.
+  RoutingViaWidth:
+    summary: The preferred via width of the routing via style rule that applies to the object, in internal units
+      (10,000 per mil).
+    remarks: 50 mil when no routing via style rule applies.
+  SharedUnion:
+    summary: The shared union assigned to the object.
+    remarks: '`CreateSharedUnion` creates a new one.'
+  SolderMaskExpansion:
+    summary: The solder mask expansion of the object, in internal units (10,000 per mil).
+    remarks: Reading returns the same value as `IPCB_Primitive.SolderMaskExpansion`. For objects other than pads and
+      vias, assigning a value makes it the object's manual expansion and sets `SolderMaskExpansionMode` to
+      `TMaskExpansionMode.eMaskExpansionMode_Manual`.
+  SolderMaskExpansionMode:
+    summary: How the object's solder mask expansion is determined.
+    remarks: For objects other than pads and vias, `SolderMaskExpansion` is 0 with
+      `TMaskExpansionMode.eMaskExpansionMode_NoMask`, comes from the solder mask expansion rule that applies to the
+      object with `TMaskExpansionMode.eMaskExpansionMode_Rule`, and is the object's manual expansion with
+      `TMaskExpansionMode.eMaskExpansionMode_Manual`.
+    seeAlso:
+      - PCB.TMaskExpansionMode

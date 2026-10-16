@@ -1,13 +1,20 @@
 # PCB.IPCB_SpatialIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_SpatialIterator interface iterates through a defined region on the loaded PCB document in Altium
-  Designer to fetch PCB design objects.
+summary: An iterator that fetches the design objects of a PCB document in a rectangular area.
 remarks: >-
-  You will need to specify the object set, the layer set and the area for the spatial iterator to conduct its search
-  within a defined boundary. The following methods are AddFilter_ObjectSet, AddFilter_LayerSet and AddFilter_Area.
+  Create it with `IPCB_Board.SpatialIterator_Create` and destroy it with `IPCB_Board.SpatialIterator_Destroy`. Set the
+  object kinds, the layers and the area with the `AddFilter_ObjectSet`, `AddFilter_LayerSet` and `AddFilter_Area`
+  methods inherited from `IPCB_AbstractIterator`; without `AddFilter_Area` the iterator searches the whole board.
 
 
-  IPCB_SpatialIterator has only methods inherited from the IPCB_AbstractIterator interface and is reproduced here for
-  reference.
-
-
-  Methods (inherited from IPCB_AbstractIterator)
+  By default, a spatial iterator skips group objects: components, polygons, split planes, nets, dimensions and
+  coordinates are not fetched, even when the object filter includes them. Use an `IPCB_BoardIterator` to fetch them.
+members:
+  AddFilter_ProcessSpecialLayers:
+    summary: Also fetches the shapes that objects produce on the mechanical layers used as solder mask or paste mask
+      layers of a layer stack.
+    remarks: >-
+      The shapes are fetched after all other objects. They are new objects on the mechanical layer, created by the
+      iterator from the objects of the requested kinds on the top or bottom layer of the layer stack and on the
+      multi-layer; they are not objects of the board, and they are freed when the iterator is destroyed. No shapes are
+      fetched when the object filter includes none of arcs, pads, vias, regions and fills, or when the layer filter
+      does not include the mechanical layer.

@@ -150,6 +150,9 @@ members:
     summary: The identifier of the component part that owns the pad, used for gate and pin swapping.
   PinDescriptorString:
     summary: This property obtains the description of the pin which represents the pad of a component.
+    remarks: >-
+      The value is the designator of the pad's component, a hyphen and the pad's `Name`; for a pad that is not part of a
+      component it is `Free-` followed by the pad's `Name`. `Identifier` returns the same value.
   PlaneConnectionStyleForLayer:
     summary: Returns how the pad connects to the given internal plane layer.
     remarks: >-

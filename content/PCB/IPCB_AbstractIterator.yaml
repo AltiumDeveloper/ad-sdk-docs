@@ -1,5 +1,64 @@
 # PCB.IPCB_AbstractIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: An abstract iterator object interface which is the ancestor interface for a board, spatial, group and library
-  Iterators.
-remarks: An iterator object iterates through a PCB database representing the PCB document to fetch specified objects
-  within a specified region on a specified layer if necessary.
+summary: The base interface of the PCB object iterators, with the filters that select the objects to fetch and the
+  methods that step through them.
+remarks: >-
+  `IPCB_BoardIterator`, `IPCB_SpatialIterator`, `IPCB_GroupIterator` and `IPCB_LibraryIterator` derive from it. Set
+  the filters, then call `FirstPCBObject` and `NextPCBObject` until they return `null`.
+
+
+  An object is fetched only when it passes every filter: the object kinds, the layers and, for a spatial iterator, the
+  area. Each `AddFilter_ObjectSet` or `AddFilter_LayerSet` call replaces the previous filter of the same kind; it does
+  not narrow it.
+members:
+  AddFilter_AllLayers:
+    summary: Removes the layer filter, so that objects on all layers are fetched.
+    remarks: >-
+      A new group iterator has no layer filter. A new board or spatial iterator fetches objects on all layers except a
+      few system layers, such as `TV6_Layer.eV6_PadHoleLayer` and `TV6_Layer.eV6_ViaHoleLayer`.
+  AddFilter_Area:
+    summary: Restricts a spatial iterator to the objects in a rectangular area.
+    remarks: >-
+      The corners can be given in any order. A board iterator ignores the area: use an `IPCB_SpatialIterator` to fetch
+      the objects in an area. Without this filter, a spatial iterator searches the whole board.
+    parameters:
+      argx1: X coordinate of one corner of the area, in internal units.
+      argy1: Y coordinate of the same corner, in internal units.
+      argx2: X coordinate of the opposite corner, in internal units.
+      argy2: Y coordinate of the opposite corner, in internal units.
+  AddFilter_IPCB_LayerSet:
+    summary: Restricts the iterator to the objects on the layers of an `IPCB_LayerSet`, as `AddFilter_LayerSet_1` does.
+    parameters:
+      argLayerSet: The layers to fetch objects on.
+  AddFilter_LayerSet:
+    summary: Restricts the iterator to the objects on the layers of a layer set.
+    remarks: >-
+      On a board or group iterator, connections are fetched only when the set includes `TV6_Layer.eV6_ConnectLayer`.
+      Objects that do not belong to a layer (vias, nets, classes, rules, violations, differential pairs, from-tos,
+      embedded objects and the board object) are fetched only when the set includes `TV6_Layer.eV6_MultiLayer`. Other
+      objects are fetched when the set includes their own layer, so a pad on the multi-layer also needs
+      `TV6_Layer.eV6_MultiLayer`.
+    parameters:
+      argLayerSet: The layers to fetch objects on.
+  AddFilter_LayerSet_1:
+    summary: Restricts the iterator to the objects on the layers of an `IPCB_LayerSet`.
+    remarks: The layers are matched as described for `AddFilter_LayerSet`.
+    parameters:
+      argLayerSet: The layers to fetch objects on.
+  AddFilter_ObjectSet:
+    summary: Restricts the iterator to objects of the given kinds.
+    remarks: >-
+      A new iterator has no object filter. By default, a spatial iterator skips group objects such as components, even
+      when the set includes them (see `IPCB_SpatialIterator`).
+    parameters:
+      argObjectSet: The kinds of objects to fetch.
+  FirstPCBObject:
+    summary: Starts the walk and returns the first object that passes the filters, or `null` when there is none.
+  NextPCBObject:
+    summary: Returns the next object that passes the filters, or `null` when there are no more objects.
+    remarks: Start the walk with `FirstPCBObject`; `NextPCBObject` continues after the object returned last.
+  SetState_FilterAll:
+    summary: Removes the object kind filter, so that objects of every kind are fetched again.
+    remarks: >-
+      The other filters depend on the iterator. A board iterator gets the layer filter of a new board iterator back and
+      keeps the setting of `IPCB_BoardIterator.AddFilter_Method`. A group iterator loses its layer filter. A spatial
+      iterator loses its area filter and keeps its layer filter.

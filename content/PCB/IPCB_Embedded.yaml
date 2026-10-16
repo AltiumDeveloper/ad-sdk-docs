@@ -1,12 +1,11 @@
 # PCB.IPCB_Embedded: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: An IPCB_Embedded interface represents an embedded object in a PCB document. An embedded object is not a visible
-  object and cannot be manipulated by normal means in Altium Designer. An embedded object can be used to store
-  information which gets saved in the PCB document file when this file is saved. Each embedded object is identified by
-  its Name property and the Description property can be used to store information.
+summary: An embedded object in a PCB document, an object that is not visible and stores information in the document.
+remarks: An embedded object cannot be manipulated by normal means in Altium Designer. The information it stores is
+  saved in the PCB document file when the file is saved. Each embedded object is identified by its `Name`, and its
+  `Description` can be used to store information.
 members:
   Description:
-    summary: The Description property represents the Description field of the embedded object. This property is supported by
-      its GetState_ Description and SetState_ Description methods.
-    remarks: The Description field can be used to store data that represents this embedded object.
+    summary: The description of the embedded object, a free text.
+    remarks: The description can be used to store data that represents this embedded object.
   Name:
-    summary: The Name property represents the name identifier of the embedded object.
+    summary: The name that identifies the embedded object.

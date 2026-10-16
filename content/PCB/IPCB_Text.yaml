@@ -1,152 +1,240 @@
 # PCB.IPCB_Text: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: "Text strings can be placed on any layer with any height. There are two classes of text strings: Free text
-  strings and component text (designators and comments). Free text strings are standalone strings which could be used as
-  descriptors or labels for any application on the workspace. There are two component text objects- designator attribute
-  and comment attribute. Each component must have a unique designator and thus designators are not globally editable.
-  The comment attribute is globally editable though."
+summary: A text string on a PCB document, either a free text string or the designator or comment of a component.
 remarks: >-
-  The PCB editor includes special strings which are interpreted when output (printing, plotting or generating gerber
-  files) is generated. For example, the string .PRINT_DATE will be replaced by the current date when output is
-  generated.
+  There are two classes of text strings: free text strings and component text. Free text strings are standalone strings
+  that can be used as descriptors or labels. Component text is the designator and the comment of a component; they are
+  text objects themselves, returned by `IPCB_Component.Name` and `IPCB_Component.Comment`, and their `Text` property
+  reads or writes the designator or comment string. Each component must have a unique designator, so designators are
+  not globally editable; comments are.
 
 
-  Text objects are not inherited from the IPCB_group interface, therefore fetching child objects within a text object is
-  not possible.
+  A text can be drawn with a stroke font, with a TrueType font or as a barcode (`TextKind`).
 
 
-  Text objects are rectangular primitives with rectangular coordinates properties and the rotation property.
+  The PCB editor includes special strings, which are interpreted when output (printing, plotting or generating Gerber
+  files) is generated. For example, the string .PRINT_DATE is replaced by the current date. `ConvertedString` returns
+  the text with its special strings replaced.
 
 
-  Text objects can be converted into a series of strokes using the ConvertToStrokeArray method from the IPCB_Text
-  interface.
+  Text objects are rectangular primitives with the corner coordinates and the rotation of `IPCB_RectangularPrimitive`.
+  A text is not a group and has no child objects. A text can be converted into a series of strokes with
+  `ConvertToStrokeArray`.
 members:
+  BarCodeBitPattern:
+    summary: The bit pattern of the barcode, generated from the text.
+    remarks: >-
+      When no pattern is stored, reading the property generates it from the text with its special strings converted.
+      The pattern is regenerated when `Text` is assigned to a barcode and when the size of a barcode is recalculated.
+  BarCodeFontName:
+    remarks: A new text object uses Arial.
+  BarCodeFullHeight:
+    summary: The full height of the barcode, in internal units (10,000 per mil).
+    remarks: >-
+      When `Multiline` is true, the property reads and writes `MultilineTextHeight` instead. Otherwise a value below
+      20 mil is ignored. A new text object uses 210 mil.
+  BarCodeFullWidth:
+    summary: The full width of the barcode, in internal units (10,000 per mil).
+    remarks: >-
+      When `Multiline` is true, the property reads and writes `MultilineTextWidth` instead. Otherwise a value smaller
+      than `TTFTextWidth` is ignored. A new text object uses 1050 mil.
+  BarCodeInverted:
+    remarks: >-
+      When the value is true, the string of the barcode is offset from the reference point by `BarCodeXMargin` and
+      `BarCodeYMargin`. A new text object has the value true.
+  BarCodeKind:
+    summary: The kind of barcode, such as Code 39, Code 128, QR code or Data Matrix.
+    remarks: A new text object uses `TBarcodeKind.eBarcode39`.
+  BarCodeMinWidth:
+    remarks: A new text object has the value 0.
+  BarCodeRenderMode:
+    remarks: A new text object uses `TBarcodeRenderMode.eRender_ByFullWidth`.
+  BarCodeShowText:
+    remarks: A new text object has the value true.
+  BarCodeXMargin:
+    summary: The horizontal margin of the barcode, in internal units (10,000 per mil).
+    remarks: >-
+      When `BarCodeInverted` is true, the string of the barcode is offset from the reference point by this distance in
+      X. A new text object uses 20 mil.
+  BarCodeYMargin:
+    summary: The vertical margin of the barcode, in internal units (10,000 per mil).
+    remarks: >-
+      When `BarCodeInverted` is true, the string of the barcode is offset from the reference point by this distance in
+      Y. A new text object uses 20 mil.
   Bold:
-    summary: This property sets or gets the bold property of the PCB string true Type text on a PCB document.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+    summary: Whether the text is bold when it uses a TrueType font (`UseTTFonts`).
+    remarks: A new text object is not bold.
+  BorderSpaceType:
+    remarks: A new text object uses `TTextBorderSpaceType.bstMargin`.
+  CanEditMultilineRectSize:
+    remarks: A new text object returns true.
+  CharSet:
+    summary: The character set of the text's TrueType font.
+    remarks: A new text object uses the Windows default character set (1).
   ConvertedString:
-    summary: This property converts a special string into a text based string. The PCB editor includes special strings which
-      are interpreted when output (printing, plotting or generating gerber files) is generated. For example, the string
-      .PRINT_DATE will be replaced by the current date when the ConvertedString method is invoked.
-    remarks: |-
-      The available special strings are;
-
-      .PRINT_TIME
-
-      .PRINT_SCALE
-
-      .LAYER_NAME
-
-      .PCB_FILE_NAME
-
-      .PCB_FILE_NAME_NO_PATH
-
-      .PLOT_FILE_NAME
-
-      .ARC_COUNT
-
-      .COMPONENT_COUNT
-
-      .FILL_COUNT
-
-      .HOLE_COUNT
-
-      .NET_COUNT
-
-      .PAD_COUNT
-
-      .STRING_COUNT
-
-      .TRACK_COUNT
-
-      .VIA_COUNT
-
-      .DESIGNATOR
-
-      .COMMENT
-
-      .LEGEND
-
-      .NET_NAMES_ON_LAYER
+    summary: The string of the text with its special strings replaced by their values.
+    remarks: >-
+      For example, the special string .PRINT_DATE is replaced by the current date. For a component comment, the
+      comment of the current variant is converted. The available special strings include .PRINT_DATE, .PRINT_TIME,
+      .PRINT_SCALE, .LAYER_NAME, .PCB_FILE_NAME, .PCB_FILE_NAME_NO_PATH, .PLOT_FILE_NAME, .ARC_COUNT,
+      .COMPONENT_COUNT, .FILL_COUNT, .HOLE_COUNT, .NET_COUNT, .PAD_COUNT, .STRING_COUNT, .TRACK_COUNT, .VIA_COUNT,
+      .DESIGNATOR, .COMMENT, .LEGEND and .NET_NAMES_ON_LAYER.
     seeAlso:
       - PCB.IPCB_SpecialStringConverter
   ConvertToStrokeArray:
-    summary: Text objects can be converted into a series of strokes using the ConvertToStrokeArray method. This is useful
-      for rending text objects as standalone line objects to be used in external programs such as 3D modelling
+    summary: Converts the text into a series of line strokes.
+    remarks: This is useful for using the text as standalone lines outside the PCB editor, for example in 3D modelling
       applications.
   FontID:
-    summary: The FontID property denotes which Font the text object is using.
+    summary: The stroke font of the text, an index into the font table of the PCB editor.
     remarks: >-
-      The TFontID type defines the font ID for a text object. It is the index to an entry in the font table in the PCB
-      editor. Each font used in the PCB editor has its own FontID.
-
-
-      Thus when a new font is used (through a Change Font dialog of a Change object dialog), a new FontID is added to
-      the table in the PCB editor. The FontID value can be extracted from PCB text objects.
+      Each font used in the PCB editor has its own font ID; when a new font is used, a new entry is added to the table.
+      A new text object uses font 1.
   FontName:
-    summary: This property sets or gets the FontName property of the PCB string true Type text on a PCB document. For
-      example one of the true Type font strings could be 'Arial', 'Arial Narrow', 'Courier New' and 'Verdana'.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+    summary: The name of the TrueType font of the text, for example Arial, Arial Narrow, Courier New or Verdana.
+    remarks: The value is used when `UseTTFonts` is true. A new text object uses Arial.
   GetDesignatorDisplayString:
-    summary: This method retrieves the designator string directly from a text object.
-  InAutoDimension:
-    summary: This method tests whether this text object is used for the auto dimension object or not.
-  Inverted:
-    summary: This property sets or gets the Inverted property of the PCB string true Type text on a PCB document.
+    summary: Returns the designator string that the text displays.
     remarks: >-
-      The Inverted property inverts the text object and a text boundary is created around the text. The Inverted and
-      InvertedTTTextBorder properties are useful for situations if IPCB_Text object is to be placed on a copper region
-      and create a cutout in the region. The color of the inverted border is the layer color and the text color itself
-      is black.
-
-
-      Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+      Returns an empty string when the text is not the designator of a component (`IsDesignator`). When the board
+      displays logical designators (`IPCB_Board.DesignatorDisplayMode` is
+      `TDesignatorDisplayMode.eDesignatorDisplayMode_Logical`) and the component's `IPCB_Component.SourceDesignator` is
+      not empty, returns the source designator; otherwise returns the text.
+  GetTrueTypeTextOutlineGeometricPolygon:
+    summary: Returns the outline of the text as a geometric polygon.
+    remarks: Returns the outline of the TrueType text or of the barcode; returns null when `TextKind` is
+      `TTextKind.eText_StrokeFont`.
+  GetTrueTypeTextOutlineGeometricPolygon_1:
+    summary: Returns the outline of a string drawn in the text's TrueType font, as a geometric polygon.
+    remarks: Returns null unless `TextKind` is `TTextKind.eText_TrueTypeFont`.
+    parameters:
+      argText: The string to outline.
+  InAutoDimension:
+    summary: Returns whether the text belongs to an automatic dimension.
+    remarks: >-
+      Returns true when the text belongs to a dimension whose kind is not `TDimensionKind.eOriginalDimension`. Returns
+      false when the text is not on a board or the board is still being loaded.
+  Inverted:
+    summary: Whether the text is inverted, that is, cut out of a filled rectangle drawn around it.
+    remarks: >-
+      Inverted text is useful when the text is placed on a copper region and has to create a cutout in it. The
+      rectangle has the layer colour and the text itself is black. `InvertedTTTextBorder` sets the border around the
+      text. A new text object is not inverted.
     seeAlso:
       - PCB.IPCB_Text.InvertedTTTextBorder
   InvertedTTTextBorder:
-    summary: This property sets or gets the InvertedTTTextBorder property of the PCB string true Type text on a PCB document.
-    remarks: >-
-      The Inverted property inverts the text object and a text boundary is created around the text. The Inverted and
-      InvertedTTTextBorder properties are useful for situations if IPCB_Text object is to be placed on a copper region
-      and create a cutout in the region. The color of the inverted border is the layer color and the text color itself
-      is black.
-
-
-      Once the UseTTFonts property is enabled, you can use the Bold , Italic , FontName , Inverted ,
-      InvertedTTTextBorder and TTTextOutline properties.
+    summary: The width of the border between inverted text and the edge of its rectangle, in internal units (10,000 per
+      mil).
+    remarks: A new text object has a border of 0.
     seeAlso:
       - PCB.IPCB_Text.Inverted
+  InvRectHeight:
+    summary: The height of the rectangle of inverted text, in internal units (10,000 per mil).
+    remarks: >-
+      For single-line text the value is reset to the height of the string plus its border whenever the size of the text
+      is recalculated. Assigning a value smaller than `TTFTextHeight` is ignored, unless the current height is 0 or
+      less, in which case any positive value is accepted.
+  InvRectWidth:
+    summary: The width of the rectangle of inverted text, in internal units (10,000 per mil).
+    remarks: >-
+      For single-line text the value is reset to the width of the string plus its border whenever the size of the text
+      is recalculated. Assigning a value that is not greater than `TTFTextWidth` is ignored, unless the current width
+      is 0 or less (any positive value is then accepted) or the value equals `TTFTextWidth` and the current width is
+      smaller.
   IsComment:
-    summary: This method tests whether this text object is a comment object associated with a component object for example.
+    summary: Returns whether the text is the comment of a component.
+    remarks: Returns false when the text is not on a board or the board is still being loaded. A component's comment is
+      returned by `IPCB_Component.Comment`.
   IsDesignator:
-    summary: This method tests whether this text object is a designator for a object, for example whether a pad object has a
-      designator.
+    summary: Returns whether the text is the designator of a component.
+    remarks: Returns false when the text is not on a board or the board is still being loaded. A component's designator
+      is returned by `IPCB_Component.Name`.
+  IsHidden_1:
+    summary: Returns whether the text is hidden.
+    remarks: >-
+      Besides the cases in which any primitive is hidden (`IsHidden`), returns true for the designator of a component
+      whose `IPCB_Component.NameOn` is false and for the comment of a component whose `IPCB_Component.CommentOn` is
+      false.
   Italic:
-    summary: The Italic property sets or gets the italic property of the PCB string true Type text on a PCB document.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+    summary: Whether the text is italic when it uses a TrueType font (`UseTTFonts`).
+    remarks: A new text object is not italic.
   Mirror:
-    summary: This method sets the Mirror attribute which represents the mirrored state of this Text Object on a PCB
-      document. This property supports GetState_Mirror and SetState_Mirror methods.
+    summary: Whether the text is mirrored.
+    remarks: A new text object is not mirrored.
+  Multiline:
+    summary: Whether the text is a multiline text block.
+    remarks: >-
+      Assigning true is ignored for the text of a dimension or a coordinate. Assigning a value also sets `WordWrap` to
+      the same value. A new text object is single-line.
+  MultilineTextAutoPosition:
+    summary: Where the string is placed inside the rectangle of multiline or inverted text.
+    remarks: The property reads and writes the same value as `TTFInvertedTextJustify`.
+  MultilineTextHeight:
+    summary: The height of the multiline text block, in internal units (10,000 per mil).
+    remarks: >-
+      Returns 0 when `Multiline` is false. Assigning a value sets `Y2Location` to `Y1Location` plus the value, and sets
+      `TTFTextHeight` and `InvRectHeight` to the value; the block itself is resized only when
+      `MultilineTextResizeEnabled` is true.
+  MultilineTextResizeEnabled:
+    summary: Whether assigning `MultilineTextWidth` and `MultilineTextHeight` resizes the multiline text block.
+    remarks: Returns false when `Multiline` is false.
+  MultilineTextWidth:
+    summary: The width of the multiline text block, in internal units (10,000 per mil).
+    remarks: >-
+      Returns 0 when `Multiline` is false. Assigning a value sets `X2Location` to `X1Location` plus the value (for
+      mirrored text, `X1Location` to `X2Location` minus the value), and sets `TTFTextWidth` and `InvRectWidth` to the
+      value; the block itself is resized only when `MultilineTextResizeEnabled` is true.
   RotationHandle:
-    summary: This method returns the rotation handle of the text object as a record of X and Y coordinates (TPoint).
+    summary: Returns the position of the text's rotation handle, in internal units (10,000 per mil).
+    remarks: The handle lies in the direction of `Rotation` from the text, turned by 180 degrees for mirrored text.
   Size:
-    summary: The Size property sets the height of the text.
+    summary: The height of the text, in internal units (10,000 per mil).
+    remarks: A negative value or a value above 10 inches (10,000 mil) is ignored. A new text object has a height of 60
+      mil.
   Text:
-    summary: The Text property contains the text for the Text object.
-    remarks: Note, the PCB editor includes special strings which are interpreted when output (printing, plotting or
-      generating gerber files) is generated. For example, the string .PRINT_DATE will be replaced by the current date
-      when output is generated.
+    summary: The string of the text object.
+    remarks: >-
+      When the text is on a board whose view displays special strings converted, reading returns the converted string
+      (`ConvertedString`); otherwise it returns the underlying string, or for a component comment the comment of the
+      current variant. Assigning a value sets the underlying string (`UnderlyingString`) and, for a barcode, regenerates
+      `BarCodeBitPattern`; assigning the string that the text already holds does nothing. For a component comment that
+      has a value in the current variant, assigning a different string asks the user for confirmation and then changes
+      the comment of the variant.
+  TextKind:
+    summary: Whether the text is drawn with the stroke font, with a TrueType font or as a barcode.
+    remarks: '`UseTTFonts` is true exactly when the kind is `TTextKind.eText_TrueTypeFont`. A new text object uses
+      `TTextKind.eText_StrokeFont`.'
+  TTFInvertedTextJustify:
+    summary: Where the string is placed inside the rectangle of inverted or multiline text.
+    remarks: >-
+      Only the values from `TTextAutoposition.eAutoPos_TopLeft` to `TTextAutoposition.eAutoPos_BottomRight` are
+      accepted; assigning `TTextAutoposition.eAutoPos_Manual` is ignored. `MultilineTextAutoPosition` reads and writes
+      the same value. A new text object uses `TTextAutoposition.eAutoPos_BottomLeft`.
+  TTFOffsetFromInvertedRect:
+    remarks: A new text object has the value 0.
+  TTFTextHeight:
+    summary: The height of the string of the text, in internal units (10,000 per mil).
+    remarks: The value is calculated for stroke, TrueType and barcode text whenever the size of the text is
+      recalculated, and is also set by assigning `MultilineTextHeight`.
+  TTFTextWidth:
+    summary: The width of the string of the text, in internal units (10,000 per mil).
+    remarks: The value is calculated for stroke, TrueType and barcode text whenever the size of the text is
+      recalculated, and is also set by assigning `MultilineTextWidth`.
   UnderlyingString:
-    summary: This UnderlyingString property is equivalent to the Text property.
-    remarks: Note, the PCB editor includes special strings which are interpreted when output (printing, plotting or
-      generating gerber files) is generated. For example, the string .PRINT_DATE will be replaced by the current date
-      when output is generated.
+    summary: The string of the text as stored, with special strings not converted.
+    remarks: >-
+      Unlike `Text`, reading never converts special strings and never returns the comment of a variant. Assigning a
+      value sets the stored string; for a component comment that has a value in the current variant, assigning a
+      different string asks the user for confirmation and then changes the comment of the variant.
+  UseInvertedRectangle:
+    remarks: Reading the property returns the value of `Inverted`.
   UseTTFonts:
-    summary: This property toggles the true Type font property for the PCB string text on a PCB document.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+    summary: Whether the text uses a TrueType font (`FontName`, `Bold`, `Italic`) rather than the stroke font `FontID`.
+    remarks: >-
+      The value is true when `TextKind` is `TTextKind.eText_TrueTypeFont`. Assigning true sets `TextKind` to
+      `TTextKind.eText_TrueTypeFont`; assigning false sets it to `TTextKind.eText_StrokeFont` only when it was
+      `TTextKind.eText_TrueTypeFont`, so a barcode stays a barcode. A new text object uses the stroke font.
   Width:
-    summary: This method sets the Width attribute which represents the width used for this Text Object on a PCB document.
+    summary: The width of the lines of the text's stroke font, in internal units (10,000 per mil).
+    remarks: A new text object uses 10 mil.
+  WordWrap:
+    remarks: The value is set to the value of `Multiline` whenever `Multiline` is assigned.

@@ -29,7 +29,10 @@ members:
       argx: The X coordinate of the new vertex, in internal units.
       argy: The Y coordinate of the new vertex, in internal units.
   Area:
-    summary: The area enclosed by the contour.
+    summary: The area enclosed by the contour, in square internal units.
+    remarks: >-
+      The value is rounded to a whole number and is never negative, whichever direction the vertices run in. A contour
+      with fewer than three vertices has an area of 0.
   Clear:
     summary: Removes all vertices from the contour.
   Count:

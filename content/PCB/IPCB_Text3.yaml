@@ -1,0 +1,56 @@
+# PCB.IPCB_Text3: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An extension of `IPCB_Text` that positions a text by its snap point and copies text properties.
+remarks: >-
+  Every text object supports this interface: cast an `IPCB_Text`, such as a component's `IPCB_Component.Name` or
+  `IPCB_Component.Comment`, to `IPCB_Text3` to use these members.
+members:
+  AdvanceSnapping:
+    summary: Whether the text is positioned by its snap point (`SnapPointX`, `SnapPointY`) rather than by its reference
+      point (`XLocation`, `YLocation`).
+    remarks: >-
+      A text created with `IPCB_ServerInterface.PCBObjectFactory` has the value false. When the value is true,
+      `PushJustificationCenter` saves the snap point even when asked not to.
+  CopyTo:
+    summary: Copies the properties of the text to another text object.
+    remarks: >-
+      The copied properties include the location, `Size`, `FontID`, `Rotation`, `Mirror`, `Width`, the TrueType font
+      settings, the inverted-text and barcode settings, `TextKind`, `AdvanceSnapping` and the underlying string.
+    parameters:
+      argP: The text object that receives the properties.
+  GetActualTextBr:
+    summary: Returns the rectangle occupied by the string of the text, in internal units (10,000 per mil).
+    remarks: >-
+      The rectangle is `TTFTextWidth` wide and `TTFTextHeight` high and takes `Rotation` into account. For a barcode it
+      starts at the reference point, offset by `BarCodeXMargin` and `BarCodeYMargin` when `BarCodeInverted` is true;
+      for other text it is placed inside the rectangle of inverted text (`InvRectWidth` by `InvRectHeight`) as
+      `TTFInvertedTextJustify` specifies.
+  PushJustificationCenter:
+    summary: Saves the current snap point of the text so that `RepositionAfterPush` can move the text back to it.
+    remarks: >-
+      Nothing is saved for the text of a dimension or a coordinate, or when a point is already saved. Recalculating the
+      size of a text on a board (`SetState_XSizeYSize`) discards the saved point.
+    parameters:
+      argPushState: True to save the snap point even when `AdvanceSnapping` is false.
+  RepositionAfterPush:
+    summary: Moves the text so that its snap point is at the point saved by `PushJustificationCenter`.
+    remarks: Does nothing when no point is saved or for the text of a dimension or a coordinate.
+  SnapPointX:
+    summary: The X coordinate of the text's snap point, in internal units (10,000 per mil).
+    remarks: >-
+      When `AdvanceSnapping` is true, the snap point is calculated from the corner of the text rectangle, and assigning
+      a value moves the whole text so that its snap point is at the new coordinate. When `AdvanceSnapping` is false,
+      the value is `XLocation` and assigning it sets `XLocation`.
+  SnapPointY:
+    summary: The Y coordinate of the text's snap point, in internal units (10,000 per mil).
+    remarks: >-
+      When `AdvanceSnapping` is true, the snap point is calculated from the corner of the text rectangle, and assigning
+      a value moves the whole text so that its snap point is at the new coordinate. When `AdvanceSnapping` is false,
+      the value is `YLocation` and assigning it sets `YLocation`.
+  StringXPosition:
+    summary: Returns the X coordinate at which the string of the text starts, in internal units (10,000 per mil).
+    remarks: For a barcode whose `BarCodeInverted` is true, the value is `XLocation` plus `BarCodeXMargin`.
+  StringYPosition:
+    summary: Returns the Y coordinate at which the string of the text starts, in internal units (10,000 per mil).
+    remarks: For a barcode whose `BarCodeInverted` is true, the value is `YLocation` plus `BarCodeYMargin`.
+  UpdateTextPosition:
+    summary: Recalculates the size and position of the text, as `SetState_XSizeYSize` does.

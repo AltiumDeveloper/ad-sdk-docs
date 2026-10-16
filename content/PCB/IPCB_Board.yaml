@@ -41,6 +41,11 @@ members:
       component, net, polygon, dimension or coordinate of another board are cleared before it is added.
 
 
+      A rule (`IPCB_Rule`) without a name is named after its kind, for example Clearance. When the name is already
+      used by another rule of the board, trailing digits and underscores are removed from it and an underscore and a
+      number are appended that make it unique.
+
+
       On a PCB library board, adding an `IPCB_LibComponent` inserts a copy of that footprint into the library; the
       object passed in is not added itself.
 

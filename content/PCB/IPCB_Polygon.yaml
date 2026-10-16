@@ -63,8 +63,9 @@ members:
         grows; a negative value moves them inwards.
   HitPrimitive:
     summary: Whether the given primitive touches the polygon's outline or lies inside it.
-    remarks: Returns true when the primitive's reference point is inside the outline or the primitive overlaps one of the
-      outline's segments.
+    remarks: >-
+      Returns true when the primitive's reference point is inside the outline or the primitive overlaps one of the
+      outline's segments. On a board outline (`IPCB_BoardOutline`) the primitive's layer is not taken into account.
     seeAlso:
       - PCB.IPCB_BoardOutline
   IgnoreViolations:
@@ -132,6 +133,8 @@ members:
       of the outline's segments.
   Rebuild:
     summary: Repours the polygon, regenerating its child copper.
+    remarks: On a board outline (`IPCB_BoardOutline`) it rebuilds the outline instead and deletes all of the outline's
+      bending lines.
     seeAlso:
       - PCB.IPCB_BoardOutline
   RemoveDead:

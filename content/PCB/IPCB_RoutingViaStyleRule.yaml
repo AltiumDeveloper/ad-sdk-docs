@@ -1,5 +1,38 @@
 # PCB.IPCB_RoutingViaStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: This routing via style rule specifies the via object to be used during autorouting. Vias can be through-hole,
-  Blind (from a surface layer to an inner layer) or Buried (between two inner layers).
-remarks: The ViaStyle property sets or returns the via style. Vias can be thru-hole, blind (from a surface layer to an
-  inner layer) or buried (between two inner layers).
+summary: A routing via style rule (`TRuleKind.eRule_RoutingViaStyle`) that specifies the vias to be used during
+  routing.
+remarks: >-
+  Vias can be through-hole, blind (from a surface layer to an inner layer) or buried (between two inner layers).
+
+
+  The rule applies to vias, except back-drill vias. `ActualCheck` reports a violation for a via whose diameter
+  (`IPCB_Via.Size`) is outside the range from `MinWidth` to `MaxWidth`, or whose hole size (`IPCB_Via.HoleSize`) is
+  outside the range from `MinHoleWidth` to `MaxHoleWidth`; values equal to a limit are allowed. The preferred values
+  are not limits: fanout uses `PreferedWidth` and `PreferedHoleWidth` for the vias it adds, and the via stitching and
+  via shielding options start from them.
+
+
+  A rule can instead check vias against a list of via templates, a setting that this interface does not expose. Such
+  a rule accepts a via that has the hole size and the layer diameters of one of its templates, and does not use the
+  minimum and maximum values.
+members:
+  MaxHoleWidth:
+    summary: The largest via hole size that the rule allows, in internal units (10,000 per mil).
+    remarks: A new rule has 28 mil.
+  MaxWidth:
+    summary: The largest via diameter that the rule allows, in internal units (10,000 per mil).
+    remarks: A new rule has 50 mil.
+  MinHoleWidth:
+    summary: The smallest via hole size that the rule allows, in internal units (10,000 per mil).
+    remarks: A new rule has 28 mil.
+  MinWidth:
+    summary: The smallest via diameter that the rule allows, in internal units (10,000 per mil).
+    remarks: A new rule has 50 mil.
+  PreferedHoleWidth:
+    summary: The preferred via hole size, in internal units (10,000 per mil).
+    remarks: A new rule has 28 mil. `DataSummaryString` shows the value.
+  PreferedWidth:
+    summary: The preferred via diameter, in internal units (10,000 per mil).
+    remarks: A new rule has 50 mil. `DataSummaryString` shows the value.
+  ViaStyle:
+    remarks: A new rule has `TRouteVia.eViaThruHole`.

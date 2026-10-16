@@ -26,16 +26,25 @@ members:
     summary: The length of the dimension's arrow lines, in internal units (10,000 per mil).
     remarks: >-
       For linear dimensions with `ArrowPosition` set to `TDimensionArrowPosition.eOutside`, the arrows are drawn
-      outside the measured span on lines of this length.
+      outside the measured span on lines of this length. The default is 100 mil.
   ArrowLineWidth:
     summary: The line width of the arrowheads, in internal units (10,000 per mil).
-    remarks: Linear dimensions also draw their dimension line with this width.
+    remarks: >-
+      The default is 10 mil. Linear and radial dimensions also draw their dimension line with this width, and leader
+      dimensions draw all their lines and their enclosure with it. Original dimensions do not use it: they draw all
+      their tracks with `LineWidth`.
   ArrowPosition:
     summary: Whether the arrowheads are drawn inside or outside the measured span.
+    remarks: >-
+      The default is `TDimensionArrowPosition.eInside`, and `TDimensionArrowPosition.eOutside` for radial and radial
+      diameter dimensions.
   ArrowSize:
     summary: The length of the arrowheads, in internal units (10,000 per mil).
+    remarks: >-
+      The default is 60 mil. Original dimensions do not use it: their arrowheads are `TextHeight` long.
   Bold:
     summary: Whether the dimension text is bold when it uses a TrueType font (`UseTTFonts`).
+    remarks: The default is false.
   DimensionKind:
     summary: The kind of dimension, such as linear, angular or radial.
     remarks: >-
@@ -43,20 +52,25 @@ members:
       such as `IPCB_LinearDimension` or `IPCB_AngularDimension`, the object implements.
   ExtensionLineWidth:
     summary: The line width of the extension lines, in internal units (10,000 per mil).
+    remarks: The default is 10 mil.
   ExtensionOffset:
     summary: How far the extension lines extend beyond the dimension line, in internal units (10,000 per mil).
+    remarks: The default is 10 mil.
   ExtensionPickGap:
     summary: The gap between a referenced object and the start of its extension line, in internal units (10,000 per
       mil).
     remarks: >-
       For a pad, via, track or arc the gap is measured from the object's edge: half the pad's larger size, half the
-      via's size or half the line width is added to it.
+      via's size or half the line width is added to it. The default is 10 mil.
   FontName:
     summary: The name of the TrueType font of the dimension text, used when `UseTTFonts` is true.
+    remarks: The default is "Arial".
   Italic:
     summary: Whether the dimension text is italic when it uses a TrueType font (`UseTTFonts`).
+    remarks: The default is false.
   LineWidth:
     summary: The width of the lines drawn by center and original dimensions, in internal units (10,000 per mil).
+    remarks: The default is 10 mil.
   MoveTextByXY:
     summary: Moves the dimension text by an offset, changing `TextX` and `TextY`.
     parameters:
@@ -64,7 +78,9 @@ members:
       argY: The vertical offset, in internal units.
   MoveTextToXY:
     summary: Moves the dimension text to a new position, setting `TextX` and `TextY`.
-    remarks: For an angular dimension, the radius and the sector of the dimension are recalculated from the new position.
+    remarks: >-
+      For an angular dimension, the radius and the sector of the dimension are recalculated from the new position. For
+      a center dimension, `Size` is set to twice the distance from the dimension's location to the new position.
     parameters:
       argX: The X coordinate of the new text position, in internal units.
       argY: The Y coordinate of the new text position, in internal units.
@@ -114,7 +130,9 @@ members:
     summary: Rotates the dimension around a point.
     remarks: >-
       When every object the dimension refers to is selected, or the dimension refers to no object, the reference
-      points and the text position are rotated as well.
+      points and the text position are rotated as well. Otherwise the reference points are not moved, and angular,
+      radial and leader dimensions are not rotated at all. An original dimension always rotates both of its points
+      together with its primitives.
     parameters:
       argX: The X coordinate of the rotation center, in internal units.
       argY: The Y coordinate of the rotation center, in internal units.
@@ -123,21 +141,22 @@ members:
     summary: A size used by some dimension kinds, in internal units (10,000 per mil).
     remarks: >-
       A center dimension uses it as the size of its cross, a leader dimension as the size of the circle or square at
-      its end, and an original dimension as the distance its end marks extend on each side of the dimension line.
+      its end, and an original dimension as the distance its end marks extend on each side of the dimension line. The
+      default is 10 mil, 60 mil for center and 500 mil for leader dimensions.
   Style:
     summary: How an original dimension shows the unit of its value.
     remarks: >-
       `TUnitStyle.eNoUnits` shows the value only, `TUnitStyle.eYesUnits` the value with its unit and
       `TUnitStyle.eParenthUnits` the value followed by the unit in parentheses. The value is shown in the board's
-      display unit. Other dimension kinds format their text with `TextFormat`, `TextDimensionUnit` and
-      `TextPrecision`.
+      display unit. A new original dimension uses `TUnitStyle.eParenthUnits`. Other dimension kinds format their text
+      with `TextFormat`, `TextDimensionUnit` and `TextPrecision`.
   TextDimensionUnit:
     summary: The unit in which the measured value is shown.
     remarks: >-
       Distances are shown in `TDimensionUnit.eMils`, `TDimensionUnit.eInches`, `TDimensionUnit.eMillimeters` or
       `TDimensionUnit.eCentimeters`; `TDimensionUnit.eAutomaticUnit` uses millimeters when the board's display unit is
       metric and mils otherwise. Angles are shown in radians when the unit is `TDimensionUnit.eRadians` and in degrees
-      otherwise.
+      otherwise. The default is `TDimensionUnit.eMils`, and `TDimensionUnit.eDegrees` for angular dimensions.
   TextFont:
     summary: The stroke font of the dimension text, used when `UseTTFonts` is false.
   TextFormat:
@@ -145,33 +164,47 @@ members:
     remarks: >-
       For a distance, an empty string shows no value, "10" shows the value only, "10mil" the value followed by the
       unit abbreviation and "10 (mil)" the value followed by the unit in parentheses. For an angle in degrees, "10"
-      shows whole degrees, "10*10*" degrees and minutes, and "10*10*10**" degrees, minutes and seconds.
+      shows whole degrees, "10*10*" degrees and minutes, and "10*10*10**" degrees, minutes and seconds; any other
+      string shows whole degrees followed by a degree sign, which is the default of angular dimensions. The default for
+      distances is "10". A leader dimension shows this string itself as its label; its default is "String".
   TextGap:
     summary: The gap kept between the dimension text and the dimension lines, in internal units (10,000 per mil).
+    remarks: >-
+      The default is 10 mil. Original dimensions do not use it: they keep a fixed gap of 10 mil on each side of their
+      text.
   TextHeight:
     summary: The height of the dimension text, in internal units (10,000 per mil).
+    remarks: The default is 60 mil.
   TextLineWidth:
     summary: The stroke width of the dimension text, in internal units (10,000 per mil).
+    remarks: The default is 6 mil. Original dimensions use `TextWidth` instead.
   TextPosition:
     summary: Where the dimension text is placed relative to the dimension line.
     remarks: >-
       With `TDimensionTextPosition.eTextManual` the text is not repositioned when the dimension is regenerated; with any
-      other value its position and rotation are calculated from the dimension line.
+      other value its position and rotation are calculated from the dimension line. The default is
+      `TDimensionTextPosition.eTextAuto`, and `TDimensionTextPosition.eTextUniDirectional` for radial, radial diameter,
+      leader and datum dimensions. Original dimensions do not use it: they always reposition their text.
   TextPrecision:
     summary: The number of digits after the decimal point in the measured value.
-    remarks: For an angle shown as degrees, minutes and seconds it applies to the seconds.
+    remarks: For an angle shown as degrees, minutes and seconds it applies to the seconds. The default is 2.
   TextPrefix:
     summary: Text shown before the measured value.
     remarks: >-
       Assigning a value calls `ResetPrefixIfNeeded`, so linear diameter and radial diameter dimensions may replace the
-      assigned prefix with a diameter symbol.
+      assigned prefix with a diameter symbol. The default is empty, "R " for radial dimensions and a diameter symbol
+      followed by a space for linear diameter and radial diameter dimensions.
   TextSuffix:
     summary: Text shown after the measured value.
   TextValue:
     summary: The measured value shown in the dimension text.
     remarks: >-
       Linear, angular, radial, datum, baseline and linear diameter dimensions set it to the measured value each time
-      their primitives are regenerated, so an assigned value can be overwritten.
+      their primitives are regenerated, so an assigned value can be overwritten. Original dimensions do not use it:
+      their text shows the distance between their two points.
+  TextWidth:
+    summary: The stroke width of the text of an original dimension, in internal units (10,000 per mil).
+    remarks: The default is 6 mil. Other dimension kinds use `TextLineWidth`.
   TextX:
     summary: The X coordinate of the dimension text position, in internal units (10,000 per mil).
   TextY:
@@ -179,13 +212,14 @@ members:
   UseTTFonts:
     summary: Whether the dimension text uses a TrueType font (`FontName`, `Bold`, `Italic`) instead of the stroke font
       `TextFont`.
+    remarks: The default is false.
   X1Location:
     summary: The X coordinate of the dimension's second point, in internal units (10,000 per mil).
     remarks: >-
       For an original dimension, the measured length is the distance from (`XLocation`, `YLocation`) to
-      (`X1Location`, `Y1Location`).
+      (`X1Location`, `Y1Location`). Moving, rotating or mirroring an original dimension moves this point with it.
   Y1Location:
     summary: The Y coordinate of the dimension's second point, in internal units (10,000 per mil).
     remarks: >-
       For an original dimension, the measured length is the distance from (`XLocation`, `YLocation`) to
-      (`X1Location`, `Y1Location`).
+      (`X1Location`, `Y1Location`). Moving, rotating or mirroring an original dimension moves this point with it.

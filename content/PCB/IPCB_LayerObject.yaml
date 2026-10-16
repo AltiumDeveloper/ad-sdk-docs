@@ -15,7 +15,13 @@ members:
     remarks: Returns false for a layer that does not belong to a layer stack.
   LayerDisplayName:
     summary: The name of the layer in a given format.
-    remarks: A coverlay layer takes its name from the solder mask layer it is linked to, in every format.
+    remarks: >-
+      A coverlay layer takes its name from the solder mask layer it is linked to, in every format.
+
+
+      On a rigid-flex board with more than one substack, a mechanical layer of a paired kind that is used in a
+      mechanical layer pair gets a suffix in parentheses: the index of the pair's substack in the short and medium
+      formats, the substack's name in the long format.
     parameters:
       argValue: >-
         The format. `TLayerNameDisplayMode.eLayerNameDisplay_Short` and `TLayerNameDisplayMode.eLayerNameDisplay_Medium`

@@ -35,6 +35,9 @@ members:
     summary: The name of the pin pair, which is the xSignal name.
   NodeCount:
     summary: The number of pins (nodes) of the pin pair.
+    remarks: >-
+      Reading the value does not recalculate the pin pair. `Rebuild` replaces the pins with those on the recalculated
+      signal path, so the value can change after it.
   PrimitivesCount:
     summary: The number of primitives on the pin pair's signal path.
   Rebuild:

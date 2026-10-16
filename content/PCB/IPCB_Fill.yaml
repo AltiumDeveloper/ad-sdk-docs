@@ -1,3 +1,27 @@
 # PCB.IPCB_Fill: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Fill interface represents a PCB fill object on a PCB document. A fill object is a rectangular object
-  and thus is inherited from the IPCB_RectangularPrimitive interface.
+summary: A fill on a PCB document, a rectangular object defined by two corners and a rotation.
+remarks: >-
+  A fill is a rectangular primitive (`IPCB_RectangularPrimitive`): its corners are (`X1Location`, `Y1Location`) and
+  (`X2Location`, `Y2Location`) and its rotation is `Rotation`. `Length`, `Width`, `LocationX` and `LocationY` are not
+  stored separately; they are calculated from the corners and assigning them changes the corners.
+members:
+  Length:
+    summary: The extent of the fill in X, `X2Location` minus `X1Location`, in internal units (10,000 per mil).
+    remarks: Assigning a value sets `X2Location` to `X1Location` plus the value; `X1Location` does not change.
+  LocationX:
+    summary: The X coordinate of the centre of the fill, midway between `X1Location` and `X2Location`, in internal
+      units (10,000 per mil).
+    remarks: >-
+      Assigning a value moves the fill in X so that its centre is at the new coordinate and keeps its extent in X,
+      rounded down to an even number of internal units; afterwards `X1Location` is the smaller of the two X
+      coordinates.
+  LocationY:
+    summary: The Y coordinate of the centre of the fill, midway between `Y1Location` and `Y2Location`, in internal
+      units (10,000 per mil).
+    remarks: >-
+      Assigning a value moves the fill in Y so that its centre is at the new coordinate and keeps its extent in Y,
+      rounded down to an even number of internal units; afterwards `Y1Location` is the smaller of the two Y
+      coordinates.
+  Width:
+    summary: The extent of the fill in Y, `Y2Location` minus `Y1Location`, in internal units (10,000 per mil).
+    remarks: Assigning a value sets `Y2Location` to `Y1Location` plus the value; `Y1Location` does not change.

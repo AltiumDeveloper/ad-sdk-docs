@@ -1,4 +1,25 @@
 # PCB.IPCB_CenterDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_CenterDimension object interface allows for the center of an arc or circle to be marked
-remarks: The angle property denotes the angle or rotation of the IPCB_CenterDimension object with respect to the
-  horizontal plane.
+summary: A center dimension on a PCB document, which marks the center of an arc or circle with a cross.
+remarks: >-
+  A new center dimension has one reference. When its primitives are regenerated, the cross is centered on the center of
+  the arc that this reference refers to, or on the reference point when the reference refers to no object, and the
+  dimension's location is set to that center.
+
+
+  The cross is drawn with two tracks, `Cross_Vertical_Track` and `Cross_Horizontal_Track`, on the dimension's layer
+  with the width `LineWidth`. Each track is `Size` long (60 mil by default) and the cross is rotated by `Angle`.
+
+
+  While the arc is not selected, `MoveByXY` does not move the dimension.
+members:
+  Angle:
+    summary: The rotation of the cross, in degrees, counterclockwise from the horizontal.
+    remarks: >-
+      The default is 0, at which the arms of the cross are horizontal and vertical. Rotating or mirroring the dimension
+      also rotates or mirrors this angle.
+  Cross_Horizontal_Track:
+    summary: Returns the track that draws the horizontal arm of the cross.
+    remarks: When `Angle` is not 0, the arm is rotated by that angle.
+  Cross_Vertical_Track:
+    summary: Returns the track that draws the vertical arm of the cross.
+    remarks: When `Angle` is not 0, the arm is rotated by that angle.
