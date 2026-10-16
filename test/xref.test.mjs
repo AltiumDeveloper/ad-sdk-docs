@@ -27,6 +27,13 @@ test('members: dotted names, accessor names, the current type\'s own member name
   assert.match(linkify('`EDP.Utils.GetBomManagerFactory()`', index, { ns: 'SCH', href }), /^\[`EDP\.Utils\.GetBomManagerFactory\(\)`\]\(\/reference\/edp\/Utils#getbommanagerfactory\)$/);
 });
 
+test('code spans are never cut by entities or URLs inside them; links with code text stay one link', () => {
+  const out = linkify('call it with `Name=&lt;x&gt;|y` and then `ISch_MapDefiner`.', index, { ns: 'SCH', href });
+  assert.equal(out, 'call it with `Name=&lt;x&gt;|y` and then [`ISch_MapDefiner`](/reference/sch/ISch_MapDefiner).');
+  const linked = 'See [`ISch_MapDefiner`](/reference/sch/ISch_MapDefiner) and `see https://x.test/a`.';
+  assert.equal(linkify(linked, index, { ns: 'SCH', href }), linked);
+});
+
 test('in a member section, the member itself is code without a link; other members are links', () => {
   const text = 'The SchIterator_Destroy method destroys the iterator created with the SchIterator_Create method.';
   const local = { ...current, members: new Map([...current.members, ['SchIterator_Destroy', 'schiterator_destroy']]) };

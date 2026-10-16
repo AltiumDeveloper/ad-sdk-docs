@@ -102,35 +102,33 @@ export function linkify(markdown, index, { ns, current = null, currentAnchor = n
   const text = String(markdown ?? '');
   // Protected regions: links `[..](..)`, autolinks, URLs, HTML entities.
   const protectedRe = /\[[^\]]*\]\([^)]*\)|<https?:[^>]*>|https?:\/\/\S+|&[a-z]+;/g;
+  const names = (chunk) => chunk.replace(NAME, (token) => {
+    const name = token.replace(/\(\)$/, '');
+    const leaf = name.slice(name.lastIndexOf('.') + 1);
+    if (!looksLikeCode(name.includes('.') ? name.replace(/\./g, '') : leaf)) return token;
+    const hit = resolveName(index, name, { ns, current });
+    if (!hit) return token;
+    // The page's own type, or the member whose section this is: code style like every other API name, but no
+    // link to itself.
+    if (isSelf(hit, current, currentAnchor)) return `\`${token}\``;
+    return `[\`${token}\`](${href(hit.type, hit.anchor)})`;
+  });
+  // One left-to-right scan over protected regions and code spans, whichever starts first: a code span is never cut
+  // in two by an entity or URL inside it, and a link whose text is a code span stays one link. A code span is
+  // linked when it is exactly one known name; names in the text between are linked by `names`.
+  const tokens = new RegExp(`${protectedRe.source}|\`[^\`]+\``, 'g');
   let out = '';
   let last = 0;
-  const process = (chunk) => chunk
-    // Code spans: link when the whole span is one known name.
-    .split(/(`[^`]+`)/)
-    .map((part) => {
-      if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
-        const inner = part.slice(1, -1).trim();
-        const hit = resolveName(index, inner, { ns, current });
-        return hit && !isSelf(hit, current, currentAnchor) ? `[${part}](${href(hit.type, hit.anchor)})` : part;
-      }
-      return part.replace(NAME, (token) => {
-        const name = token.replace(/\(\)$/, '');
-        const leaf = name.slice(name.lastIndexOf('.') + 1);
-        if (!looksLikeCode(name.includes('.') ? name.replace(/\./g, '') : leaf)) return token;
-        const hit = resolveName(index, name, { ns, current });
-        if (!hit) return token;
-        // The page's own type, or the member whose section this is: code style like every other API name, but no
-        // link to itself.
-        if (isSelf(hit, current, currentAnchor)) return `\`${token}\``;
-        return `[\`${token}\`](${href(hit.type, hit.anchor)})`;
-      });
-    })
-    .join('');
-  for (const m of text.matchAll(protectedRe)) {
-    out += process(text.slice(last, m.index)) + m[0];
-    last = m.index + m[0].length;
+  for (const m of text.matchAll(tokens)) {
+    out += names(text.slice(last, m.index));
+    const token = m[0];
+    if (token.startsWith('`')) {
+      const hit = resolveName(index, token.slice(1, -1).trim(), { ns, current });
+      out += hit && !isSelf(hit, current, currentAnchor) ? `[${token}](${href(hit.type, hit.anchor)})` : token;
+    } else out += token;
+    last = m.index + token.length;
   }
-  return out + process(text.slice(last));
+  return out + names(text.slice(last));
 }
 
 const isSelf = (hit, current, currentAnchor = null) => Boolean(current) && hit.type.id === current.id

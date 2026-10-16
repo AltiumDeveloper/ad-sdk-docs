@@ -29,7 +29,9 @@ function relativePath(from, to) {
 }
 
 // --- text --------------------------------------------------------------------------------------------------------
-export const escapeText = (text) => String(text ?? '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// `<` and `>` are escaped outside code spans only: inside a code span an entity would be shown literally.
+export const escapeText = (text) => String(text ?? '').split(/(`[^`]+`)/)
+  .map((part, i) => (i % 2 ? part : part.replace(/</g, '&lt;').replace(/>/g, '&gt;'))).join('');
 const cell = (text) => escapeText(text).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
 // Heading text: a leading `_` (`_Finalize`) would start emphasis.
 const headingText = (text) => escapeText(String(text).replace(/^_/, '\\_'));
@@ -125,17 +127,23 @@ export class Linker {
     const text = String(typeName);
     const named = namedTypes(text);
     if (!named.length) return `\`${shortType(text)}\``;
+    // Text that is not a link is collected into one code span, written before the next link: adjacent code spans
+    // (`` `Dictionary``<` ``) would merge into a double-backtick delimiter.
     let out = '';
+    let code = '';
     let rest = text;
     for (const name of named) {
       const at = rest.indexOf(name);
-      out += codeIfAny(rest.slice(0, at));
+      code += rest.slice(0, at);
       const href = this.typeHref(name);
       const display = href ? name.slice(name.lastIndexOf('.') + 1) : name.startsWith('System.') ? name.slice(name.lastIndexOf('.') + 1) : name;
-      out += href ? `[${display}](${href})` : `\`${display}\``;
+      if (href) {
+        out += codeIfAny(code) + `[${display}](${href})`;
+        code = '';
+      } else code += display;
       rest = rest.slice(at + name.length);
     }
-    return out + codeIfAny(rest);
+    return out + codeIfAny(code + rest);
   }
 
   ref(id) {
