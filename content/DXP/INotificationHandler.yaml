@@ -12,10 +12,10 @@ remarks: >-
   document view object)
 
 
-  1. When a object is created, the Client.RegisterNotificationHandler is invoked.
+  1. When a object is created, the `IClient.RegisterNotificationHandler` method is invoked.
 
 
-  2. When a object is destroyed, the Client.UnregisterNotificationHandler is invoked.
+  2. When a object is destroyed, the `IClient.UnregisterNotificationHandler` method is invoked.
 
 
   3. To handle custom notifications, a object has a HandlerNotification method which checks if the custom notification

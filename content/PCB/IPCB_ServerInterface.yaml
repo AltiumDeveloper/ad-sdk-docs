@@ -1,6 +1,6 @@
 # PCB.IPCB_ServerInterface: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: When you need to work with PCB design objects in Altium Designer, the starting point is to invoke the PCBServer
-  method which returns the IPCB_ServerInterface interface. You can extract the all other derived PCB interfaces that are
+summary: When you need to work with PCB design objects in Altium Designer, the starting point is
+  `PCB.GlobalVars.PCBServer`, which returns the IPCB_ServerInterface interface. You can extract the all other derived PCB interfaces that are
   exposed in the I PCB_ServerInterface interface.
 remarks: >-
   Note that these IServerModule interfaces represent loaded servers in Altium Designer. The Altium Designer application

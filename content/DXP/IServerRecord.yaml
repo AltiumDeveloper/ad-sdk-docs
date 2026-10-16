@@ -3,8 +3,8 @@ summary: This interface extracts the servers installation files information from
   server installation files. That is each server installation file (with an INS extension) correspond to a IServerRecord
   itnerface.
 remarks: >-
-  Since this IServerRecord interface is inside the Client object, invoke the Client.GetServerRecordCount to get the
-  number of server installation files, and then assign the Client.GetServerRecord(RecordCount) to a IServerRecord
+  Since this IServerRecord interface is inside the Client object, invoke `IClient.GetServerRecordCount` to get the
+  number of server installation files, and then assign the result of `IClient.GetServerRecord` to a IServerRecord
   variable where you can retrieve data associated with an installation file.
 
 

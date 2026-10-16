@@ -5,5 +5,5 @@ remarks: >-
   AddFilter_ObjectSet , AddFilter_LayerSet and AddFilter_Area methods to be fetched.
 
 
-  The AddFilter_method controls how design objects are fetched. The TIterationMethod type has three different values;
-  eProcessAll, eProcessFree, eProcessComponents.
+  `AddFilter_Method` controls how design objects are fetched. The TIterationMethod type has three different values:
+  `TIterationMethod.eProcessAll`, `TIterationMethod.eProcessFree` and `TIterationMethod.eProcessComponent`.

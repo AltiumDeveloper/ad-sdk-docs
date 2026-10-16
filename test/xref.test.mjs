@@ -56,3 +56,17 @@ test('the check reports plain-text mentions in guides, not code spans the plugin
   const guide = 'Create an ISch_MapDefiner, then call `ISch_Component.Orientation`.\n\n```csharp\nISch_MapDefiner x;\n```';
   assert.deepEqual(unlinkedMentions(guide, index, { codeSpansLinked: true }), ['ISch_MapDefiner']);
 });
+
+test('inherited member names link to the base interface that declares them', () => {
+  const idx = loadXrefIndex({
+    types: [
+      { id: 'PCB.IPCB_AbstractIterator', ns: 'PCB', name: 'IPCB_AbstractIterator', route: '/reference/pcb/IPCB_AbstractIterator', members: { AddFilter_Area: 'addfilter_area' } },
+      { id: 'PCB.IPCB_BoardIterator', ns: 'PCB', name: 'IPCB_BoardIterator', route: '/reference/pcb/IPCB_BoardIterator', members: { AddFilter_Method: 'addfilter_method' }, bases: ['PCB.IPCB_AbstractIterator'] },
+    ],
+  });
+  const board = idx.byId.get('PCB.IPCB_BoardIterator');
+  assert.equal(linkify('Use AddFilter_Area and AddFilter_Method.', idx, { ns: 'PCB', current: board, href }),
+    'Use [`AddFilter_Area`](/reference/pcb/IPCB_AbstractIterator#addfilter_area) and [`AddFilter_Method`](/reference/pcb/IPCB_BoardIterator#addfilter_method).');
+  assert.match(linkify('See `IPCB_BoardIterator.AddFilter_Area`.', idx, { ns: 'PCB', href }), /\(\/reference\/pcb\/IPCB_AbstractIterator#addfilter_area\)/);
+  assert.deepEqual(unlinkedMentions('Use AddFilter_Area.', idx, { ns: 'PCB', current: board }), ['AddFilter_Area']);
+});

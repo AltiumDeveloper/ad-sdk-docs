@@ -13,7 +13,7 @@ remarks: >-
   Solder Mask layers.
 
 
-  The IPCB_MechanicalLayerPairs interface is a MechanicalPairs property of the IPCB_Board interface.
+  The IPCB_MechanicalLayerPairs interface is the `IPCB_Board.MechanicalPairs` property.
 
 
   Invoke the Count method to obtain the number of mechanical layer pairs for the existing PCB document. Indexed

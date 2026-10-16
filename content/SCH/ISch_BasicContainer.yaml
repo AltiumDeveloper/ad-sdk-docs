@@ -67,7 +67,7 @@ members:
   RemoveSchObject:
     summary: The RemoveSchObject method removes the Schematic object from the database associated with the document or the
       parent object but it is not removed from memory. Therefore an Undo action will be able to restore this object only
-      if the RobotManager's SendMessage methods are invoked.
+      if `ISch_RobotManager.SendMessage` is invoked.
   Replicate:
     summary: This methods makes another copy of this object but with an unique object address (a new memory location) but
       with same attributes as this object.

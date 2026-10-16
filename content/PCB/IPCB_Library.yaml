@@ -21,7 +21,7 @@ members:
       all work together for a PCB library document."
   CreateNewComponent:
     summary: This method creates a new component and it is represented by the IPCB_LibComponent interface. This is
-      equivalent to the CreatePCBLibComp method from the IPCB_ServerInterface interface.
+      equivalent to the `IPCB_ServerInterface.CreatePCBLibComp` method.
     seeAlso:
       - PCB.IPCB_LibComponent
   CurrentComponent:

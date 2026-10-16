@@ -68,7 +68,6 @@ members:
       be used to calculate the required value, R+256*(G+(256*B)).
   Width:
     summary: This SetState_Width method sets the width of the port object in a TCoord value. Use one of the following
-      conversion methods to convert from a unit value to a TCoord value. For example MilsToCoord or DXPsToCoord methods.
+      conversion methods to convert from a unit value to a TCoord value. For example `EDP.Utils.MilsToCoord`.
     remarks: The GetState_Width method gets the width of the port in TCoord type. Use one of the following conversion
-      methods to convert from a TCoord value to one of these Unit values. For example CoordToMils or CoordToDxps
-      methods.
+      methods to convert from a TCoord value to one of these Unit values. For example `EDP.Utils.CoordToMils`.

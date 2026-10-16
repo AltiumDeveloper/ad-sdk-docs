@@ -19,7 +19,7 @@ remarks: >-
   outline is a group object which in turn is composed of child objects.
 
 
-  The IPCB_BoardOutline interface is used by the BoardOutline property from the IPCB_Board interface.
+  The IPCB_BoardOutline interface is used by the `IPCB_Board.BoardOutline` property.
 
 
   Each new PCB document in Altium Designer is created with a board outline, so if you wish to update a board outline of

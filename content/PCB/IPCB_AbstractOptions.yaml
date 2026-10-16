@@ -1,14 +1,14 @@
 # PCB.IPCB_AbstractOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IPCB_AbstractOptions interface is the base interface for other options related interfaces such as
-  SystemOptions and InteractiveRoutingOptions through IPCB_ServerInterface. These option objects are global objects
+  `IPCB_ServerInterface.SystemOptions` and `IPCB_ServerInterface.InteractiveRoutingOptions` through IPCB_ServerInterface. These option objects are global objects
   created by the PCB Server.
 remarks: >-
-  The other OutputOptions, ECOOptions, GerberOptions, PrinterOptions and PlacerOptions interfaces are referenced through
+  The other `IPCB_Board.OutputOptions`, `IPCB_Board.ECOOptions`, `IPCB_Board.GerberOptions`, `IPCB_Board.PrinterOptions` and `IPCB_Board.PlacerOptions` interfaces are referenced through
   IPCB_Board interface.
 
 
   Ancestor interface for ECO Options, Output Options, Gerber Options, Printer Options, Advanced Placer Options,
-  SystemOptions, Design Rule Checker Options, SpecctraRouter Options and Interactive Routing options interfaces.
+  System Options, Design Rule Checker Options, SpecctraRouter Options and Interactive Routing options interfaces.
 members:
   Import_FromParameters:
     summary: "OptionsObjectID : TOptionsObjectId"

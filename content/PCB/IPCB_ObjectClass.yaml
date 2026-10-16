@@ -13,8 +13,7 @@ remarks: >-
   then use the Net Class scope when you define the clearance design rule for these nets.
 
 
-  An ObjectClass object can be created from the PCBClassFactoryByClassMember or PCBObjectFactory methods from the
-  IPCB_ServerInterface interface.
+  An ObjectClass object can be created with the `IPCB_ServerInterface.PCBClassFactoryByClassMember` or `IPCB_ServerInterface.PCBObjectFactory` method.
 members:
   AddLayerMember:
     summary: This AddLayerMember method adds a layer to the object class of eClassMemberKind_Layer type.

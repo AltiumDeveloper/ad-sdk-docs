@@ -6,8 +6,7 @@ remarks: >-
   layer, you can wrap the layer as a IPCB_MechanicalLayer interface.
 
 
-  Note that the Layer stack only stores existing copper based layers, but you can use the LayerObject property from the
-  IPCB_LayerStack interface to fetch all layers by using a Layer loop.
+  Note that the Layer stack only stores existing copper based layers, but you can use the `IPCB_LayerStack.LayerObject` property to fetch all layers by using a Layer loop.
 
 
   Code snippet

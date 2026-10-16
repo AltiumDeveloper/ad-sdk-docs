@@ -3,10 +3,13 @@
 // What is recognised:
 // - type names: `ISch_MapDefiner`, `TRotationBy90`, qualified `SCH.ISch_Pin` or `EDP.Utils`;
 // - members: `ISch_Component.Orientation`, `ISch_Component.GetState_Orientation`, `EDP.Utils.GetBomManagerFactory()`,
-//   and, on a type's own page, its accessor and method names (`GetState_Orientation`, `SchIterator_Create`).
+//   and, on a type's own page, its own and inherited accessor and method names (`GetState_Orientation`,
+//   `SchIterator_Create`); a member inherited from a base interface links to the base interface's section.
 // In plain text only names that look like code are linked (see `looksLikeCode`), so ordinary words that happen to be
 // type names ("Parameter", "Utils") stay text; inside `code spans` every known name is linked. Short names defined in
 // several namespaces resolve to the current page's namespace, or are left alone when still ambiguous.
+
+import { orderBases } from './model.mjs';
 
 // Code-like: an interface or enum style prefix (`IFoo`, `TFoo`), an underscore, or a compound PascalCase word
 // (`GlobalVars`, `SCHConstant`). Plain dictionary-like words (`Parameter`, `Utils`, `Coord`) are not.
@@ -16,7 +19,8 @@ export function buildXrefIndex(model, { route }) {
   const byShort = new Map();
   const byId = new Map();
   for (const t of model.types.values()) {
-    const entry = { id: t.id, ns: t.namespace, name: t.name, route: route(t), members: new Map() };
+    // Base interfaces, nearest first: a member a type inherits resolves to the base that declares it.
+    const entry = { id: t.id, ns: t.namespace, name: t.name, route: route(t), members: new Map(), bases: orderBases(model, t) };
     for (const m of t.members ?? []) {
       const anchor = t.anchors?.get(m.slug);
       if (!anchor) continue;
@@ -35,7 +39,7 @@ export function buildXrefIndex(model, { route }) {
 // Serialisable form for the remark plugin and the link check.
 export function serializeXrefIndex(index) {
   return {
-    types: [...index.byId.values()].map((e) => ({ id: e.id, ns: e.ns, name: e.name, route: e.route, members: Object.fromEntries(e.members) })),
+    types: [...index.byId.values()].map((e) => ({ id: e.id, ns: e.ns, name: e.name, route: e.route, members: Object.fromEntries(e.members), bases: e.bases ?? [] })),
   };
 }
 
@@ -43,7 +47,7 @@ export function loadXrefIndex(data) {
   const byShort = new Map();
   const byId = new Map();
   for (const t of data.types) {
-    const entry = { ...t, members: new Map(Object.entries(t.members)) };
+    const entry = { ...t, members: new Map(Object.entries(t.members)), bases: t.bases ?? [] };
     byId.set(t.id, entry);
     for (const short of new Set([t.name, t.name.replace(/<.*$/, '')])) {
       if (!byShort.has(short)) byShort.set(short, []);
@@ -62,6 +66,17 @@ export function resolveType(index, name, ns) {
   return local.length === 1 ? local[0] : null;
 }
 
+// A member of a type, declared by the type itself or inherited from a base interface → { type, anchor }, where
+// `type` is the declaring type (its page has the member's section).
+export function resolveMember(index, entry, name) {
+  if (entry.members.has(name)) return { type: entry, anchor: entry.members.get(name) };
+  for (const id of entry.bases ?? []) {
+    const base = index.byId.get(id);
+    if (base?.members.has(name)) return { type: base, anchor: base.members.get(name) };
+  }
+  return null;
+}
+
 // A dotted or bare name → { type, anchor } (anchor null for a type), from a page showing `current` (an index entry).
 export function resolveName(index, name, { ns, current } = {}) {
   const clean = name.replace(/\(\)$/, '');
@@ -70,12 +85,11 @@ export function resolveName(index, name, { ns, current } = {}) {
   const dot = clean.lastIndexOf('.');
   if (dot > 0) {
     const owner = resolveType(index, clean.slice(0, dot), ns);
-    const anchor = owner?.members.get(clean.slice(dot + 1));
-    if (owner && anchor) return { type: owner, anchor };
-    return null;
+    return owner ? resolveMember(index, owner, clean.slice(dot + 1)) : null;
   }
-  // A bare member name of the current type, only when it is unmistakably code (`GetState_Orientation`).
-  if (current && looksLikeCode(clean) && current.members.has(clean)) return { type: current, anchor: current.members.get(clean) };
+  // A bare member name of the current type (own or inherited), only when it is unmistakably code
+  // (`GetState_Orientation`).
+  if (current && looksLikeCode(clean)) return resolveMember(index, current, clean);
   return null;
 }
 

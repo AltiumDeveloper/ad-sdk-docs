@@ -142,8 +142,8 @@ members:
     seeAlso:
       - DXP.INavigationSystem
   GetOptionsManager:
-    summary: This method retrieves the IOptionsManager interface. With this interface, you can invoke the GetOptionsReader
-      or GetOptionsWriter to retrieve or write options (settings) for the target server. Each editor server has options
+    summary: This method retrieves the IOptionsManager interface. With this interface, you can invoke `IOptionsManager.GetOptionsReader`
+      or `IOptionsManager.GetOptionsWriter` to retrieve or write options (settings) for the target server. Each editor server has options
       that manage its server documents.
     remarks: >-
       This is a read only property that returns the IOptionsManager interface. This interface is responsible for
@@ -303,11 +303,11 @@ members:
       The INotificationHandler object interface is responsible for handling notifications raised in Altium Designer.
 
 
-      Each server object has a HandleNotification method to handle notifications when the options values have been
+      Each server object has an `INotificationHandler.HandleNotification` method to handle notifications when the options values have been
       adjusted from the system wide Preferences dialog.
 
 
-      The HandleNotification method would involve calls to update the server preferences values on the server panel for
+      The `INotificationHandler.HandleNotification` method would involve calls to update the server preferences values on the server panel for
       example every-time a specific server notification code is intercepted.
 
 
@@ -377,11 +377,11 @@ members:
       The INotificationHandler object interface is responsible for handling notifications raised in Altium Designer.
 
 
-      Each server object has a HandleNotification method to handle notifications when the options values have been
+      Each server object has an `INotificationHandler.HandleNotification` method to handle notifications when the options values have been
       adjusted from the system wide Preferences dialog.
 
 
-      The HandleNotification method would involve calls to update the server preferences values on the server panel for
+      The `INotificationHandler.HandleNotification` method would involve calls to update the server preferences values on the server panel for
       example every-time a specific server notification code is intercepted.
 
 

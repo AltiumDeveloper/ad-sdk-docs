@@ -2,8 +2,8 @@
 summary: This ISch_HitTest interface returns you the number of objects and object type at a particular point on the
   schematic document.
 remarks: To specify the location where the objects can be checked on the schematic document, pass in the location (of
-  TLocation type) and invoke the CreateHitTest method from the ISchDocument interface. This location parameter can be
-  set either programmatically or by the ChooseLocationInteractively method form the ISch_Document interface.
+  TLocation type) and invoke the `ISch_Document.CreateHitTest` method. This location parameter can be
+  set either programmatically or by the `ISch_Document.ChooseLocationInteractively` method.
 members:
   HitObject:
     summary: This property returns you the indexed object at the particular point on the schematic document.

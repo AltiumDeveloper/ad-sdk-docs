@@ -22,9 +22,8 @@ members:
   Orientation:
     summary: This Orientation property determines the angle the ISch_Label is at on the Schematic document. The angle is in
       90 degree increments - 0, 90, 180, 270.
-    remarks: However if you are using the FontID property to be assigned by the FontManager (ISch_FontManger interface) then
-      you will need to set the Orientation property as well as passing in the same rotation parameter for the GetFontID
-      method of the ISch_FontManager interface.
+    remarks: However if you are using the FontID property to be assigned by the `ISch_ServerInterface.FontManager` then
+      you will need to set the Orientation property as well as passing in the same rotation parameter for the `ISch_FontManager.GetFontID` method.
   OverrideDisplayString:
     summary: The OverrrideDisplayString property determines the override display string which overrides the Name string.
       This is similar to the DisplayString, except that it is used in compiled projects which use board level annotation

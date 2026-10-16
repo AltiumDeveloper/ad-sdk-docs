@@ -1,0 +1,158 @@
+---
+title: Working with PCBs
+sidebar_position: 4
+description: Find, change and create PCB objects - the current board, coordinates, iterators, change notifications, layers and the board's view.
+---
+
+# Working with PCBs
+
+## The current board
+
+[`IPCB_ServerInterface.GetCurrentPCBBoard`](../reference/pcb/IPCB_ServerInterface.md#getcurrentpcbboard) returns the
+board of the document in the current view, or `null` when there is no current view or the current view is not a PCB
+document. A board is an [`IPCB_Board`](../reference/pcb/IPCB_Board.md):
+
+```csharp
+IPCB_ServerInterface pcbServer = PCB.GlobalVars.PCBServer;
+IPCB_Board board = pcbServer?.GetCurrentPCBBoard();
+if (board == null)
+    return;
+```
+
+[`IPCB_ServerInterface.GetPCBBoardByPath`](../reference/pcb/IPCB_ServerInterface.md#getpcbboardbypath) returns the
+board of an open PCB document by its file name, or `null` when no open PCB document has that file name.
+
+## Coordinates
+
+Coordinates and sizes are `int` values in internal units: 10,000 per mil (`EDP.EDPConstant.InternalUnits`).
+`EDP.Utils` converts them: `EDP.Utils.MilsToCoord` and `EDP.Utils.MMsToCoord` to internal units,
+`EDP.Utils.CoordToMils` and `EDP.Utils.CoordToMMs` back.
+
+```csharp
+int width = EDP.Utils.MilsToCoord(10);    // 100000
+double mm = EDP.Utils.CoordToMMs(width);  // 0.254
+```
+
+Object locations are absolute. The origin that the PCB editor shows is
+[`IPCB_Board.XOrigin`](../reference/pcb/IPCB_Board.md#xorigin), `IPCB_Board.YOrigin`: subtract it to get a location
+relative to that origin, and add it to place an object relative to it.
+
+```csharp
+int x = board.GetState_XOrigin() + EDP.Utils.MilsToCoord(500);
+```
+
+## Iterating over objects
+
+Iterators walk the objects of a board or of a group object. Each kind is created and destroyed by its owner:
+
+- [`IPCB_BoardIterator`](../reference/pcb/IPCB_BoardIterator.md) walks the objects of a board. Create it with
+  `IPCB_Board.BoardIterator_Create` and destroy it with `IPCB_Board.BoardIterator_Destroy`.
+- [`IPCB_SpatialIterator`](../reference/pcb/IPCB_SpatialIterator.md) walks the objects of a board in an area. Create it
+  with `IPCB_Board.SpatialIterator_Create` and destroy it with `IPCB_Board.SpatialIterator_Destroy`.
+- [`IPCB_GroupIterator`](../reference/pcb/IPCB_GroupIterator.md) walks the objects of a group, such as the pads of a
+  component. Create it with `IPCB_Group.GroupIterator_Create` and destroy it with `IPCB_Group.GroupIterator_Destroy`.
+
+Set the filters of the [`IPCB_AbstractIterator`](../reference/pcb/IPCB_AbstractIterator.md), then step through the
+objects with `IPCB_AbstractIterator.FirstPCBObject` and `IPCB_AbstractIterator.NextPCBObject`, which return `null` after
+the last object:
+
+```csharp
+IPCB_BoardIterator iterator = board.BoardIterator_Create();
+iterator.AddFilter_ObjectSet(new PCB.TObjectSet { TObjectId.eTrackObject });
+iterator.AddFilter_LayerSet(new TV6_LayerSet { TV6_Layer.eV6_TopLayer });
+
+for (var track = iterator.FirstPCBObject() as IPCB_Track; track != null; track = iterator.NextPCBObject() as IPCB_Track)
+{
+    // ...
+}
+
+board.BoardIterator_Destroy(ref iterator);
+```
+
+The destroy methods take the iterator by `ref`: they free it and set the variable to `null`.
+
+`IPCB_AbstractIterator.AddFilter_Area` restricts a spatial iterator to a rectangle; the corners can be given in any
+order. It does not restrict a board iterator: use a spatial iterator for an area.
+
+## Changing objects
+
+Bracket changes to a board with [`IPCB_ServerInterface.PreProcess`](../reference/pcb/IPCB_ServerInterface.md#preprocess)
+and [`IPCB_ServerInterface.PostProcess`](../reference/pcb/IPCB_ServerInterface.md#postprocess), and each changed object
+with [`IPCB_Primitive.BeginModify`](../reference/pcb/IPCB_Primitive.md#beginmodify) and
+[`IPCB_Primitive.EndModify`](../reference/pcb/IPCB_Primitive.md#endmodify):
+
+```csharp
+pcbServer.PreProcess();
+
+track.BeginModify();
+track.SetState_Width(EDP.Utils.MilsToCoord(10));
+track.EndModify();
+
+pcbServer.PostProcess();
+```
+
+- `IPCB_ServerInterface.PreProcess` and `IPCB_ServerInterface.PostProcess` act on the document of the current view,
+  and do nothing when the current view is not a PCB document. Pairs can nest; when the outermost
+  `IPCB_ServerInterface.PostProcess` returns, the board's views are updated.
+- `IPCB_Primitive.BeginModify` saves the object's state and tells the board that the object is about to change; the
+  board's undo history is one of the receivers. `IPCB_Primitive.EndModify` tells the board that the change is complete
+  and updates the board's connectivity for the object. `IPCB_Primitive.CancelModify` instead restores the saved state.
+- On a PCB document, [`IPCB_Board.AddPCBObject`](../reference/pcb/IPCB_Board.md#addpcbobject) and
+  [`IPCB_Board.RemovePCBObject`](../reference/pcb/IPCB_Board.md#removepcbobject) notify the board of the added or
+  removed object themselves, including its undo history.
+
+New objects come from [`IPCB_ServerInterface.PCBObjectFactory`](../reference/pcb/IPCB_ServerInterface.md#pcbobjectfactory);
+set their properties, then add them with `IPCB_Board.AddPCBObject`:
+
+```csharp
+pcbServer.PreProcess();
+
+var via = pcbServer.PCBObjectFactory(TObjectId.eViaObject, TDimensionKind.eNoDimension, TObjectCreationMode.eCreate_Default) as IPCB_Via;
+via.SetState_XLocation(board.GetState_XOrigin() + EDP.Utils.MilsToCoord(500));
+via.SetState_YLocation(board.GetState_YOrigin() + EDP.Utils.MilsToCoord(500));
+via.SetState_Size(EDP.Utils.MilsToCoord(50));
+via.SetState_HoleSize(EDP.Utils.MilsToCoord(20));
+board.AddPCBObject(via);
+
+pcbServer.PostProcess();
+```
+
+### Redrawing
+
+`IPCB_Primitive.GraphicallyInvalidate` redraws one object; it does nothing for the board itself or for an object that
+has no board. [`IPCB_Board.ViewManager_GraphicallyInvalidatePrimitive`](../reference/pcb/IPCB_Board.md#viewmanager_graphicallyinvalidateprimitive)
+does the same through the board, and [`IPCB_Board.ViewManager_FullUpdate`](../reference/pcb/IPCB_Board.md#viewmanager_fullupdate)
+redraws the whole board.
+
+## Layers
+
+Layers have two .NET representations:
+
+- [`TV6_Layer`](../reference/pcb/TV6_Layer.md), an enumeration with a fixed set of layers (for example 30 mid layers
+  and 16 mechanical layers), and its set [`TV6_LayerSet`](../reference/pcb/TV6_LayerSet.md), used by the iterator
+  filters.
+- [`V7_LayerBase`](../reference/pcb/V7_LayerBase.md) and [`V7_Layer`](../reference/pcb/V7_Layer.md), which derives from
+  it, a layer value that can identify every layer. Create one from a `TV6_Layer` with `new V7_Layer(TV6_Layer.eV6_TopLayer)`.
+
+[`IPCB_Primitive.Layer`](../reference/pcb/IPCB_Primitive.md#layer) is a `TV6_Layer`: an object on a layer outside that
+fixed set reads as the nearest value (for example `TV6_Layer.eV6_Mechanical16` for every mechanical layer above 16).
+[`IPCB_Primitive.V7Layer`](../reference/pcb/IPCB_Primitive.md#v7layer) is the exact layer.
+
+```csharp
+V7_LayerBase layer = track.GetState_V7Layer();
+track.SetState_V7Layer(new V7_Layer(TV6_Layer.eV6_BottomLayer));
+```
+
+## Boards without a view
+
+Members that work on the board's view need the board to be open in a PCB editor view. Without one,
+[`IPCB_Board.ChooseLocation`](../reference/pcb/IPCB_Board.md#chooselocation) and
+`IPCB_Board.ChooseRectangleByCorners` return `false` without prompting, `IPCB_Board.GetObjectAtCursor` returns `null`,
+`IPCB_Board.XCursor`, `IPCB_Board.YCursor` and `IPCB_Board.Window` read 0, and setting `IPCB_Board.CurrentLayerV7` or
+`IPCB_Board.LayerIsDisplayed` has no effect. Each member's page says what it does without a view.
+
+## Objects that no longer exist
+
+An interface reference such as an `IPCB_Track` stays usable only while the object it stands for exists. Once that
+object has been destroyed, every call through the reference fails with the error "Object accessed after being
+destroyed".

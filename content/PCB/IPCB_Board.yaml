@@ -20,8 +20,7 @@ remarks: >-
   Some properties are only read only, meaning you can only retrieve data from property but not modify the data.
 
 
-  To create a new object and add to the board object, firstly invoke the PCBObjectFactory from the IPCB_ServerInterface
-  interface and then invoke the AddPCBObject method from a IPCB_Board interface.
+  To create a new object and add to the board object, firstly invoke `IPCB_ServerInterface.PCBObjectFactory` and then invoke the AddPCBObject method from a IPCB_Board interface.
 
 
   To look for objects on a PCB document, use one of the following iterators; Board Iterator, Group Iterator, Spatial

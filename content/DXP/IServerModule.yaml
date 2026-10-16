@@ -224,7 +224,7 @@ members:
   ReceiveNotification:
     summary: The ReceiveNotification method of the server module intercepts notifications broadcasted by Altium Designer.
     remarks: >-
-      The system has a BroadCastNotification or a DispatchNotification method which all running servers in Altium
+      The system has an `IClient.BroadcastNotification` or an `IClient.DispatchNotification` method which all running servers in Altium
       Designer can receive and process accordingly.
 
 

@@ -5,7 +5,7 @@ summary: The IPCB_LibraryIterator object interface Iterates through a loaded PCB
 remarks: >-
   The IPCB_LibraryIterator object interface iterates through a loaded PCB library in Altium Designer to fetch PCB
   footprints which are represented by the IPCB_LibComponent interfaces. The IPCB_LibraryIterato r interface is used in
-  the IPCB_Library interface - LibraryIterator_Create and LibraryIterator_Destroy methods.
+  the IPCB_Library interface - `IPCB_Library.LibraryIterator_Create` and `IPCB_Library.LibraryIterator_Destroy` methods.
 
 
   The current footprint is a component with an unnamed designator is represented by the IPCB_LibComponent interface.
