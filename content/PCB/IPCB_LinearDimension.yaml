@@ -1,0 +1,35 @@
+# PCB.IPCB_LinearDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A linear dimension on a PCB document, which measures the straight-line distance between two reference points
+  and shows it with a dimension line, arrowheads, extension lines and a text.
+remarks: >-
+  A new linear dimension has two references. The dimension measures the distance between its first two reference points
+  (`References` 0 and 1) in the direction given by `Angle`, along a dimension line through the text location (`TextX`,
+  `TextY`).
+
+
+  The text and the eight tracks that draw the dimension are returned by `Text`, `Arrow1_Track1`, `Arrow1_Track2`,
+  `Arrow2_Track1`, `Arrow2_Track2`, `Line_Track1`, `Line_Track2`, `Extension1_Track` and `Extension2_Track`.
+members:
+  Angle:
+    summary: The angle of the dimension line to the horizontal, in degrees.
+    remarks: >-
+      The default is 0, at which the dimension measures horizontal distances. Rotating the dimension with
+      `RotateAroundXY` changes the angle by the rotation angle.
+  Arrow1_Track1:
+    summary: Returns one of the two tracks of the first arrowhead.
+  Arrow1_Track2:
+    summary: Returns one of the two tracks of the first arrowhead.
+  Arrow2_Track1:
+    summary: Returns one of the two tracks of the second arrowhead.
+  Arrow2_Track2:
+    summary: Returns one of the two tracks of the second arrowhead.
+  Extension1_Track:
+    summary: Returns the extension line at the first reference point.
+  Extension2_Track:
+    summary: Returns the extension line at the second reference point.
+  Line_Track1:
+    summary: Returns one of the two tracks that draw the dimension line.
+  Line_Track2:
+    summary: Returns one of the two tracks that draw the dimension line.
+  Text:
+    summary: Returns the text that shows the measured distance.

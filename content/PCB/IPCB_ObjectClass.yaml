@@ -1,51 +1,100 @@
 # PCB.IPCB_ObjectClass: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: A class is defined as a group or set of objects, identified by its unique class name. The PCB editor in the
-  Altium Designer supports Net Classes, Component Classes and From-To Classes.
+summary: A class on a PCB document, a named group of objects of one kind, such as nets or components, identified by its
+  unique class name.
 remarks: >-
-  An object can belong to more than one class. You can create classes (or groups) of objects. Classes of Components,
-  Nets and From-Tos can be created, and multiple membership is permitted. Classes are used to quickly identify a group
-  of objects. For example, you could create a class of components called Surface Mount.
+  An object can belong to more than one class. `MemberKind` sets the kind of object the class holds: nets, components,
+  from-tos, pads, layers, design channels, differential pairs, polygons, split planes, classes, xSignals or xNets. The
+  members are stored as names (for example a net name or a component designator), not as references to the objects.
 
 
-  When you set up a paste mask expansion rule for the surface mount components, you simply set the rule scope to
-  Component Class and select the Surface Mount class. Or you may have a set of nets, such as the power nets, which have
-  different clearance requirements from the signal nets. You can create a Net Class which includes all these nets, and
-  then use the Net Class scope when you define the clearance design rule for these nets.
+  Classes are used to quickly identify a group of objects. For example, you could create a class of components called
+  Surface Mount. When you set up a paste mask expansion rule for the surface mount components, you simply set the rule
+  scope to Component Class and select the Surface Mount class. Or you may have a set of nets, such as the power nets,
+  which have different clearance requirements from the signal nets. You can create a Net Class which includes all these
+  nets, and then use the Net Class scope when you define the clearance design rule for these nets.
 
 
-  An ObjectClass object can be created with the `IPCB_ServerInterface.PCBClassFactoryByClassMember` or `IPCB_ServerInterface.PCBObjectFactory` method.
+  An ObjectClass object can be created with the `IPCB_ServerInterface.PCBClassFactoryByClassMember` or
+  `IPCB_ServerInterface.PCBObjectFactory` method.
+
+
+  A class created with `IPCB_ServerInterface.PCBClassFactoryByClassMember` for
+  `TClassMemberKind.eClassMemberKind_ObjectClass` or `TClassMemberKind.eClassMemberKind_xNetClass` holds other classes.
+  Members are added to such a class with `AddMember`; `AddMemberByName` does nothing, `IsMember` returns false and
+  `MemberName` returns an empty string.
 members:
   AddLayerMember:
-    summary: This AddLayerMember method adds a layer to the object class of eClassMemberKind_Layer type.
+    summary: Adds a layer to a layer class.
+    remarks: >-
+      The layer is stored as a member name. The call does nothing unless `MemberKind` is
+      `TClassMemberKind.eClassMemberKind_Layer`.
   AddMember:
-    summary: The AddMember method adds a primitive that belongs to the same member kind in the Object Class.
+    summary: Adds a design object to the class.
+    remarks: >-
+      The object's `Identifier` is stored as a member name. The call does nothing when the object is null or when
+      `IsValidObjectKind` returns false for it, so set `MemberKind` before adding members. A class that holds other
+      classes cannot be added to itself.
   AddMemberByName:
-    summary: This AddMemberByName adds a member by its name of the member kind in the object class.
+    summary: Adds a member to the class by its name, such as a net name or a component designator.
+    remarks: >-
+      The name is not checked against the objects on the board, and a name that is already a member is added again.
+      `IsMember` compares names case-sensitively, so the name must match the object's name exactly.
   IsLayerMember:
-    summary: This method checks if this layer is part of the Object Class that is hosting layer classes only (of
-      eClassMemberKind_Layer type).
+    summary: Returns whether a layer belongs to a layer class.
+    remarks: >-
+      For a super class (`SuperClass` is true) the result depends on `Name`: the class "All Layers" contains every
+      layer, the classes "Electrical Layers", "Signal Layers" and "Component Layers" contain the electrical, signal and
+      component layers, and for any other name the result is false. For any other class the result is true when the
+      layer was added with `AddLayerMember`.
   IsMember:
-    summary: This method checks if the member (by name) is part of the Object Class.
+    summary: Returns whether a name, such as a net name or a component designator, is a member of the class.
+    remarks: >-
+      For a super class (`SuperClass` is true) the result is true for every name. Otherwise the name is compared with
+      the stored member names; the comparison is case-sensitive. Automatically generated component classes, such as the
+      classes of the components on the top or the bottom side, are an exception: they decide membership from the
+      component on the board instead. The SDK examples test whether an xSignal belongs to a class of kind
+      `TClassMemberKind.eClassMemberKind_Signal` by passing the pin pair's `IPCB_PinPair.Name`.
   IsValidObjectKind:
-    summary: This method checks if the PCB design object is a valid object kind for this object class.
+    summary: Returns whether a design object is of the kind this class holds, as set by `MemberKind`.
+    remarks: >-
+      Returns false for null. Nets are accepted by a class of nets or xNets, components, from-tos, pads, differential
+      pairs and polygons by a class of that kind, pin pairs by a class of xSignals, and component classes by a class
+      of design channels. A class of layers or split planes accepts no object; layers are added with `AddLayerMember`.
+      A class that holds other classes accepts any class object. `AddMember` and `RemoveMember` use this check.
   MemberKind:
-    summary: This property denotes which particular objects can be stored in the list.
+    summary: The kind of object the class holds.
+    remarks: >-
+      The kind decides which objects `IsValidObjectKind` accepts, and therefore what `AddMember` and `RemoveMember`
+      do, and whether `AddLayerMember` and `RemoveLayerMember` have an effect. To find the classes of one kind on a
+      board, iterate the board's `TObjectId.eClassObject` objects on `TV6_Layer.eV6_MultiLayer` and test
+      `MemberKind`.
     seeAlso:
       - PCB.TClassMemberKind
   MemberName:
-    summary: This property denotes the member name from the list of members in the IPCB_Object class interface.
+    summary: The name of a member of the class.
+    remarks: >-
+      Returns an empty string when the index is outside the member list, and for a class that holds other classes.
+    parameters:
+      argI: The zero-based index of the member.
   Name:
-    summary: This property denotes the name of this Object Class object for the PCB document.
+    summary: The name of the class.
+    remarks: For a class, `Identifier` returns the same value as `Name`.
   RemoveAllMembers:
-    summary: This method removes all the members for this object class.
+    summary: Removes all the members of the class.
+    remarks: '`Name`, `MemberKind` and `SuperClass` do not change.'
   RemoveLayerMember:
-    summary: This method removes the specified layer from the Object Class that hosts the layer classes only.
+    summary: Removes a layer from a layer class.
+    remarks: The call does nothing unless `MemberKind` is `TClassMemberKind.eClassMemberKind_Layer`.
   RemoveMember:
-    summary: This method removes the specified PCB design object from the list of members in this Object class.
+    summary: Removes a design object from the class.
+    remarks: >-
+      The object's `Identifier` is removed from the member names. The call does nothing when the object is null or when
+      `IsValidObjectKind` returns false for it.
   SuperClass:
-    summary: The SuperClass property denotes whether or not the interface contains all members of a particular kind. If this
-      field is set to true, the members of the IPCB_ObjectClass object cannot be edited.
-    remarks: By default, a super class contains all members of the same member kind - for example, if layer kind is
-      selected, then all layers is included for this Object Class.
+    summary: Whether the class implicitly contains all objects of its member kind, such as the "All Nets" class.
+    remarks: >-
+      While `SuperClass` is true, `IsMember` returns true for every name (with the exceptions listed there), and `IsLayerMember` decides from the class
+      name instead of the stored members. The stored members are kept and can still be changed; they are ignored by
+      these checks.
     seeAlso:
       - PCB.TClassMemberKind

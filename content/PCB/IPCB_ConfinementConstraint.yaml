@@ -1,3 +1,62 @@
 # PCB.IPCB_ConfinementConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_ConfinementConstraint interface specifies a rectangular region in which a set of objects is either
-  allowed, or not allowed. Use this method to define a region that a class of components must be placed in.
+summary: A room on a PCB document, a design rule that defines a region in which the components in its scope must be
+  placed, or from which they are kept out.
+remarks: >-
+  The rule kind is `TRuleKind.eRule_ConfinementConstraint`. The region is a polygon on one layer (`ConstraintLayer`),
+  described by `PointCount` and `Segments`; assigning `BoundingRectangle` makes it a rectangle.
+members:
+  ArrangeComponents:
+    summary: Arranges the components in the room's first scope (`Scope1Expression`) inside the room's bounding
+      rectangle.
+    remarks: >-
+      Only movable components (`Moveable`) on the top and bottom layers are arranged. Returns false when the rule is not
+      on a board or the board has no graphical view; otherwise returns true.
+  BoundingRectangle:
+    summary: The smallest rectangle that encloses the vertices of the room's region, in internal units (10,000 per mil).
+    remarks: >-
+      It is all zeros when the region has no vertices. Assigning a rectangle replaces the region with a rectangle of four
+      vertices; the corners can be given in either order.
+  ConstraintLayer:
+    summary: The layer of the room's region.
+    remarks: A new rule is on `TV6_Layer.eV6_TopLayer`. Assigning a layer also sets the rule's `Layer`.
+  GetConfinedComponents:
+    summary: Adds the components of the board that are in the rule's first scope (`Scope1Expression`) to a list.
+    remarks: >-
+      Returns false, leaving the list unchanged, when the list is null or the rule is not on a board; otherwise returns
+      true. No components are added while the rule is not enabled for checking (`DRCEnabled` is false).
+    parameters:
+      argComponents: The list that receives the components (`IPCB_Component` objects).
+  Kind:
+    summary: Whether the components in the rule's scope must be inside the region or outside it.
+    remarks: >-
+      A new rule has `TConfinementStyle.eConfineIn`. Only components are checked against the rule: with
+      `TConfinementStyle.eConfineIn` a component violates it when the region does not contain the component, with
+      `TConfinementStyle.eConfineOut` when the component overlaps the region.
+  LockComponents:
+    summary: Whether the room locks the components in its first scope (`Scope1Expression`).
+    remarks: >-
+      The default is false. While it is true and the rule is enabled for checking (`DRCEnabled`), the editor treats the
+      components in the rule's first scope like components that cannot be moved when objects are picked on the board.
+  PointCount:
+    summary: The number of vertices of the room's region.
+    remarks: A rectangle assigned through `BoundingRectangle` has 4.
+  RotateAroundXY:
+    summary: Rotates the room's region around a point.
+    remarks: A rotation by a whole multiple of 360 degrees does nothing.
+    parameters:
+      argX: The x-coordinate of the centre of rotation, in internal units.
+      argY: The y-coordinate of the centre of rotation, in internal units.
+      argngle: The rotation angle, in degrees, counterclockwise.
+  Segments:
+    summary: A segment of the room's region, with its vertex and, for an arc, its centre, radius and angles.
+    remarks: >-
+      Indexes from 0 to `PointCount` are accepted; reading any other index returns a segment whose values are all zero,
+      and assigning one does nothing. Set `PointCount` before assigning segments beyond the current count.
+    parameters:
+      argI: The index of the segment.
+  XLocation:
+    summary: The x-coordinate of the left edge of the room's bounding rectangle (`BoundingRectangle`), in internal units
+      (10,000 per mil).
+  YLocation:
+    summary: The y-coordinate of the bottom edge of the room's bounding rectangle (`BoundingRectangle`), in internal
+      units (10,000 per mil).

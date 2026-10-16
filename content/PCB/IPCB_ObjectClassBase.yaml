@@ -1,0 +1,51 @@
+# PCB.IPCB_ObjectClassBase: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An object class on a PCB document, a named group of objects of one kind, given by `MemberKind`.
+remarks: >-
+  A class whose `MemberKind` is `TClassMemberKind.eClassMemberKind_ObjectClass` or
+  `TClassMemberKind.eClassMemberKind_xNetClass` groups other object classes. `IPCB_ObjectClass1` extends this
+  interface with members by name and layer members.
+members:
+  AddMember:
+    summary: Adds an object to the class.
+    remarks: >-
+      Does nothing when the object is null or `IsValidObjectKind` returns false for it. A class whose members are
+      object classes cannot be added to itself.
+    parameters:
+      argP: The object to add.
+  DisplayName:
+    summary: >-
+      The name of the class for display: the same as `Name`, or `Name` in angle brackets (`<Name>`) for a class whose
+      `SuperClass` is true.
+  IsMember:
+    summary: Returns whether the object is a member of the class.
+    remarks: >-
+      For some component classes the result depends on the component itself, for example whether it is on the
+      top side of the board, not on a list of members.
+    parameters:
+      argP: The object to test.
+  IsValidObjectKind:
+    summary: Returns whether the object is of a kind the class can contain, given its `MemberKind`.
+    remarks: >-
+      A net class (`TClassMemberKind.eClassMemberKind_Net` or `TClassMemberKind.eClassMemberKind_xNet`) accepts nets;
+      component, from-to, pad, differential pair and polygon classes accept objects of that kind; a signal class accepts
+      pin pairs (`IPCB_PinPair`); a design channel class accepts component classes. A class whose `MemberKind` is
+      `TClassMemberKind.eClassMemberKind_ObjectClass` or `TClassMemberKind.eClassMemberKind_xNetClass` accepts any
+      object class. For `TClassMemberKind.eClassMemberKind_Layer` and `TClassMemberKind.eClassMemberKind_SplitPlane`
+      the result is false for every object.
+    parameters:
+      argP: The object to test.
+  MemberKind:
+    summary: The kind of objects the class contains; it determines which objects `IsValidObjectKind` accepts.
+  MembersCount:
+    summary: The number of members of the class.
+    remarks: For a class whose members are object classes, the members of all kinds are counted.
+  Name:
+    summary: The name of the class.
+    remarks: '`Identifier` returns the same value.'
+  RemoveAllMembers:
+    summary: Removes all members from the class.
+  RemoveMember:
+    summary: Removes an object from the class.
+    remarks: Does nothing when the object is null or `IsValidObjectKind` returns false for it.
+    parameters:
+      argP: The object to remove.

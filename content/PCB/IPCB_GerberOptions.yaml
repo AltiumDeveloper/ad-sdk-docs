@@ -12,61 +12,52 @@ remarks: >-
   aperture file; they are not required when the apertures have been created from the PCB.
 members:
   AptTable:
-    summary: The aperture table setting of the Gerber options.
-    remarks: The default is an empty string.
+    remarks: Newly created options start with an empty string.
   BorderSize:
     summary: The border size of the photoplot, in internal units (10,000 per mil).
-    remarks: The default is 1000 mil.
+    remarks: Newly created options start with 1000 mil.
   CenterPhotoPlots:
-    summary: Whether photoplots are centred.
-    remarks: The default is true.
+    remarks: Newly created options start with true.
   EmbedApertures:
-    summary: Whether apertures are embedded in the Gerber output.
-    remarks: The default is false.
+    remarks: Newly created options start with false.
   FilmSizeX:
     summary: The film width, in internal units (10,000 per mil).
-    remarks: The default is 20000 mil.
+    remarks: Newly created options start with 20000 mil.
   FilmSizeY:
     summary: The film height, in internal units (10,000 per mil).
-    remarks: The default is 16000 mil.
+    remarks: Newly created options start with 16000 mil.
   FlashAllFills:
     summary: Whether fills get flash apertures of their full size.
     remarks: >-
       When an aperture list is created from the board and this is true, each fill gets a rectangular flash aperture of
-      the fill's size and rotation. When it is false, fills get smaller draw apertures that paint the fill. The default
-      is false.
+      the fill's size and rotation. When it is false, fills get smaller draw apertures that paint the fill. Newly created
+      options start with false.
   G54:
-    summary: The G54 setting of the Gerber options.
-    remarks: The default is false.
+    remarks: Newly created options start with false.
   GerberDecs:
-    summary: The decimals setting of the Gerber coordinate format, used together with `GerberUnits`.
-    remarks: The default is 1.
+    remarks: Newly created options start with 1.
   GerberUnits:
-    summary: The units setting of the Gerber coordinate format, used together with `GerberDecs`.
-    remarks: The default is 3.
+    remarks: Newly created options start with 3.
   MaxAperSize:
     summary: The maximum aperture size, in internal units (10,000 per mil).
-    remarks: The default is 250 mil.
+    remarks: Newly created options start with 250 mil.
   MinusTol:
     summary: The minus tolerance used when matching apertures, in internal units (10,000 per mil).
-    remarks: The default is 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
+    remarks: Newly created options start with 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
   PadsFlashOnly:
     summary: Whether flash apertures are used only for flashing.
     remarks: When an aperture list is created from the board and this is false, apertures created for flashing are
-      marked for multiple use (flash and draw). The default is true.
+      marked for multiple use (flash and draw). Newly created options start with true.
   Panelize:
-    summary: Whether the Gerber output is panelized.
-    remarks: The default is false.
+    remarks: Newly created options start with false.
   PlusTol:
     summary: The plus tolerance used when matching apertures, in internal units (10,000 per mil).
-    remarks: The default is 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
+    remarks: Newly created options start with 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
   ReliefShapesAllowed:
     summary: Whether pads and vias with a relief shape get relief apertures.
     remarks: When an aperture list is created from the board and this is false, a relief-shaped pad or via gets a
-      round draw aperture the size of its relief air gap instead of a relief flash aperture. The default is true.
+      round draw aperture the size of its relief air gap instead of a relief flash aperture. Newly created options start with true.
   SortOutput:
-    summary: Whether the Gerber output is sorted.
-    remarks: The default is false.
+    remarks: Newly created options start with false.
   UseSoftwareArcs:
-    summary: Whether arcs in the Gerber output are drawn in software.
-    remarks: The default is true.
+    remarks: Newly created options start with true.

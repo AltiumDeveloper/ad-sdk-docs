@@ -1,4 +1,44 @@
 # PCB.IPCB_OriginalDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_OriginalDimension interface represents the dimensioning information on the current PCB layer. The
-  dimension value is the distance between the start and end markers, measured in the default units. Note that the
-  original dimension object has been superseded by a new set of dimension objects
+summary: An original dimension on a PCB document, the linear dimension style of P99SE and earlier versions, which
+  measures the distance between two points.
+remarks: >-
+  The dimension measures the distance from (`XLocation`, `YLocation`) to (`X1Location`, `Y1Location`) and shows it in
+  the board's display unit, formatted according to `Style`. The newer dimension styles, such as `IPCB_LinearDimension`,
+  supersede it.
+
+
+  The dimension is drawn with one text and eight tracks: `Text` shows the value, `Track1` and `Track2` are the two
+  halves of the dimension line, `Track3` to `Track6` the two arrowheads and `Track7` and `Track8` the end marks at the
+  two points. All tracks are drawn on the dimension's layer with the width `LineWidth`.
+
+
+  When the primitives are regenerated, the two points are swapped if needed, so that (`XLocation`, `YLocation`) is the
+  left point, or the lower one when both points have the same X coordinate. The arrowheads are `TextHeight` long. When
+  the distance is too short for the text with 10 mil of space on each side and at least 40 mil of dimension line on
+  each side of it, the two halves of the dimension line are drawn outside the measured span, 100 mil long, the
+  arrowheads point inward and the text is placed beside the line.
+members:
+  Text:
+    summary: Returns the text that shows the dimension's measured value.
+    remarks: >-
+      When the primitives are regenerated, the text gets the dimension's layer, `TextHeight`, `TextWidth`, `TextFont`,
+      `UseTTFonts`, `FontName`, `Bold` and `Italic`. It is placed between the two halves of the dimension line, or
+      beside the line when the distance is too short, and rotated to the line's angle.
+  Track1:
+    summary: Returns the half of the dimension line that starts at the first point (`XLocation`, `YLocation`).
+  Track2:
+    summary: Returns the half of the dimension line that starts at the second point (`X1Location`, `Y1Location`).
+  Track3:
+    summary: Returns one of the two tracks of the arrowhead at the first point (`XLocation`, `YLocation`).
+  Track4:
+    summary: Returns one of the two tracks of the arrowhead at the first point (`XLocation`, `YLocation`).
+  Track5:
+    summary: Returns one of the two tracks of the arrowhead at the second point (`X1Location`, `Y1Location`).
+  Track6:
+    summary: Returns one of the two tracks of the arrowhead at the second point (`X1Location`, `Y1Location`).
+  Track7:
+    summary: Returns the end mark at the first point (`XLocation`, `YLocation`).
+    remarks: The end mark crosses the dimension line at right angles and extends `Size` on each side of it.
+  Track8:
+    summary: Returns the end mark at the second point (`X1Location`, `Y1Location`).
+    remarks: The end mark crosses the dimension line at right angles and extends `Size` on each side of it.

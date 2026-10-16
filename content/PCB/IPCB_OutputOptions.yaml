@@ -12,18 +12,17 @@ remarks: >-
   options in the version 3 layer numbering.
 members:
   BottomLayerOnPadMaster:
-    summary: Whether bottom layer objects are included on the pad master plot.
-    remarks: The default is true. Saved as the `BottomLayerOnPadMaster` parameter.
+    remarks: Newly created options start with true. Saved as the `BottomLayerOnPadMaster` parameter.
   DrillDrawSymbolSize:
     summary: The size of the symbols on the drill drawing, in internal units (10,000 per mil).
-    remarks: The default is 50 mil. Saved as the `DrillDrawSymbolSize` parameter.
+    remarks: Newly created options start with 50 mil. Saved as the `DrillDrawSymbolSize` parameter.
   DrillGuideHoleSize:
     summary: The hole size used on the drill guide, in internal units (10,000 per mil).
-    remarks: The default is 30 mil. Saved as the `DrillGuideHoleSize` parameter.
+    remarks: Newly created options start with 30 mil. Saved as the `DrillGuideHoleSize` parameter.
   DrillSymbolKind:
     summary: How hole sizes are marked on the drill drawing, with graphic symbols (`TDrillSymbol.eSymbols`), numbers
       (`TDrillSymbol.eNumbers`) or letters (`TDrillSymbol.eLetters`).
-    remarks: The default is `TDrillSymbol.eSymbols`. Saved as the integer `DrillSymbolKind` parameter.
+    remarks: Newly created options start with `TDrillSymbol.eSymbols`. Saved as the integer `DrillSymbolKind` parameter.
   Export_ToParameters_GeneralOptions:
     summary: Writes the general output settings to a parameter string.
     remarks: >-
@@ -49,7 +48,6 @@ members:
     parameters:
       argParameters: The parameter string that receives the settings.
   FlipLayer:
-    summary: Whether a plot layer is mirrored in the output.
     remarks: Saved for all plot layers as the `FlipLayers.Set` and `FlipLayers` parameters.
     parameters:
       argPL: The plot layer.
@@ -77,19 +75,14 @@ members:
     parameters:
       argParameters: The parameter string to read.
   IncludeUnconnectedPads:
-    summary: Whether pads that are not connected are included in the output.
-    remarks: The default is true. Saved as the `IncludeUnconnectedPads` parameter.
+    remarks: Newly created options start with true. Saved as the `IncludeUnconnectedPads` parameter.
   IncludeViasInSolderMask:
-    summary: Whether vias are included in the solder mask output.
-    remarks: The default is true. Saved as the `IncludeViasInSolderMask` parameter.
+    remarks: Newly created options start with true. Saved as the `IncludeViasInSolderMask` parameter.
   MultiLayerOnPadMaster:
-    summary: Whether multi-layer objects are included on the pad master plot.
-    remarks: The default is true. Saved as the `MultiLayerOnPadMaster` parameter.
+    remarks: Newly created options start with true. Saved as the `MultiLayerOnPadMaster` parameter.
   PlotLayer:
-    summary: Whether a plot layer is included in the output.
     remarks: Saved for all plot layers as the `PlotLayers.Set` and `PlotLayers` parameters.
     parameters:
       argPL: The plot layer.
   TopLayerOnPadMaster:
-    summary: Whether top layer objects are included on the pad master plot.
-    remarks: The default is true. Saved as the `TopLayerOnPadMaster` parameter.
+    remarks: Newly created options start with true. Saved as the `TopLayerOnPadMaster` parameter.

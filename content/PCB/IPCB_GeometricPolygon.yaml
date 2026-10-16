@@ -1,0 +1,52 @@
+# PCB.IPCB_GeometricPolygon: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A shape made of an ordered list of contours, each of which is either a solid outline or a hole.
+remarks: >-
+  An empty geometric polygon is created with `IPCB_ServerInterface.PCBGeometricPolygonFactory`. The vertices of its
+  contours are in internal units (10,000 per mil).
+
+
+  Adding a contour copies its vertices into the polygon: changing the added contour afterwards does not change the
+  polygon. To change a contour of the polygon, get it with `Contour`.
+members:
+  AddContour:
+    summary: Appends a copy of a contour to the polygon as a solid contour (not a hole), and returns the contour that
+      was passed.
+    remarks: >-
+      The same as `AddContourIsHole` with `argIsHole` false. The returned contour is not part of the polygon; use
+      `Contour` to reach the polygon's copy.
+    parameters:
+      argContour: The contour whose vertices are copied. When it is null, an empty contour is added.
+  AddContourIsHole:
+    summary: Appends a copy of a contour to the polygon as a solid contour or a hole, and returns the contour that was
+      passed.
+    remarks: >-
+      When `argContour` is null, a new empty contour is returned. The returned contour is not part of the polygon; use
+      `Contour` to reach the polygon's copy.
+    parameters:
+      argContour: The contour whose vertices are copied. When it is null, an empty contour is added.
+      argIsHole: True to add the contour as a hole, false to add it as a solid contour.
+  AddEmptyContour:
+    summary: Appends an empty solid contour (not a hole) to the polygon.
+    remarks: >-
+      The returned contour is not part of the polygon: adding vertices to it does not change the polygon. To add
+      vertices to the new contour, get it with `Contour` at index `Count` - 1.
+  Area:
+    summary: The area of the polygon, in square internal units.
+    remarks: The value is the sum of the areas of the solid contours minus the sum of the areas of the holes.
+  Contour:
+    summary: Returns a contour of the polygon.
+    remarks: >-
+      The returned contour refers to the vertices of the polygon: changing it changes the polygon. Returns null when
+      the index is outside 0 to `Count` - 1.
+    parameters:
+      argI: The zero-based index of the contour.
+  Count:
+    summary: The number of contours in the polygon, holes included.
+  IsHole:
+    summary: Whether a contour of the polygon is a hole rather than a solid contour.
+    remarks: Assigning the value changes whether the contour is a hole.
+    parameters:
+      argI: The zero-based index of the contour, from 0 to `Count` - 1.
+  Replicate:
+    summary: Returns an independent copy of the polygon with all its contours and their hole flags; changing the copy
+      does not change the original, and the reverse.

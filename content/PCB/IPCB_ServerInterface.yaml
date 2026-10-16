@@ -1,115 +1,258 @@
 # PCB.IPCB_ServerInterface: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: When you need to work with PCB design objects in Altium Designer, the starting point is
-  `PCB.GlobalVars.PCBServer`, which returns the IPCB_ServerInterface interface. You can extract the all other derived PCB interfaces that are
-  exposed in the I PCB_ServerInterface interface.
+summary: The PCB server, the entry point to PCB documents and PCB libraries and the factory of new PCB objects.
 remarks: >-
-  Note that these IServerModule interfaces represent loaded servers in Altium Designer. The Altium Designer application
-  manages single instances of different server modules. Each server can have multiple server document kinds, for example
-  the PCB server supports two server document kinds - PCB and PCBLIB design documents. A loaded server in Altium
-  Designer typically hosts documents and each document in turn hosts a document view and panel views. Thus a PCB server
-  also has the IServerModule interface along with the IPCB_ServerInterface interface.
+  `PCB.GlobalVars.PCBServer` returns it: it is the server module named `PCB` of the client
+  (`DXP.IClient.GetServerModuleByName`), so the same object is also a `DXP.IServerModule`. `PCB.GlobalVars.PCBServer`
+  is null when there is no client or the client has no PCB server module.
 
 
-  To get an access to the current PCB document open in Altium Designer, you would invoke the GetCurrentPCBBoard method
-  from the IPCB_ServerInterface interface object to obtain the IPCB_Board interface.
+  Altium Designer manages a single instance of each server module. A server can have several document kinds: the PCB
+  server has two, PCB documents and PCB library documents. A loaded server hosts documents, and each document hosts a
+  document view and panel views.
 
 
-  The factory methods produce specialized objects. For example the PCBObjectFactory method is invoked to produce a new
-  PCB object. You will need to add this object in a PCB board. The TObjectCreationKind type denotes how the attributes
-  of a new PCB object is set (either from software default settings or from global settings as defined in the
-  Preferences dialog within PCB).
+  `GetCurrentPCBBoard` returns the board of the document in the current view, and `GetCurrentPCBLibrary` the library
+  of a PCB library document in the current view.
 
 
-  The SendMessageToRobots , PreProcess and PostProcess methods are used when you need to keep the Undo system and other
-  sub systems of the PCB editor in synchronization, when you are adding, deleting or modifying objects to/from the PCB
-  document.
+  The factory methods create new objects: `PCBObjectFactory` design objects, `PCBRuleFactory` design rules,
+  `PCBClassFactory` and `PCBClassFactoryByClassMember` object classes, and `PCBContourFactory` contours. A new design
+  object is not on a board until it is added with `IPCB_Board.AddPCBObject`.
+
+
+  `PreProcess` and `PostProcess` keep the undo system and the other parts of the PCB editor in step with changes, when
+  you add, remove or modify objects of a PCB document.
 members:
+  Board3DModelExporter:
+    summary: Creates a new `IPCB_Board3DModelExporter` object on each call.
+  CanFastCrossSelect_Emit:
+    remarks: >-
+      Assigning a value has no effect. The value is false while the cross-select mode preference of the workspace is
+      off.
   CreatePCBLibComp:
-    summary: The CreatePCBLibComp method creates a IPCB_LibComponent based object interface that represents a library
-      component within a library document.
+    summary: Creates a new footprint (library component) that does not belong to a library.
+    remarks: >-
+      The SDK examples set the new footprint's `IPCB_LibComponent.Pattern` and then add it to a library with
+      `IPCB_Library.RegisterComponent`.
     seeAlso:
       - PCB.IPCB_LibComponent
       - PCB.IPCB_ServerInterface.DestroyPCBLibComp
+  CreatePCBLibrary:
+    summary: Creates a new PCB library that is not open as a document.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.DestroyPCBLibrary
+  CreatePCBWideStringList:
+    summary: Creates a new `IPCB_WideStrings` list.
   DestroyPCBContour:
-    summary: This DestroyPCBContour method destroys the object represented by the IPCB_Contour interface which was created
-      by the PCBContourFactory method.
+    summary: Releases a contour created with `PCBContourFactory` and sets the variable to null.
     seeAlso:
       - PCB.IPCB_Contour
       - PCB.IPCB_ServerInterface.PCBContourFactory
   DestroyPCBLibComp:
-    summary: This method destroys a footprint within a library but it is not eliminated from the computer's memory. A
-      library is composed of footprints as pages and each footprint is represented by the IPCB_LibComponent interface.
-  DestroyPCBObject:
-    summary: This method destroys a PCB object from the PCB document. It is removed but not eliminated from computer memory.
-      For instance, the Undo system can bring this object back.
+    summary: Frees a footprint (library component) that does not belong to a library.
+    remarks: >-
+      Does nothing for a footprint that belongs to a library; the variable keeps its value. A library is composed of
+      footprints, each represented by an `IPCB_LibComponent`.
+    parameters:
+      argPCBLibComp: The footprint to free. It is set to null when the footprint is freed; nothing happens when it is
+        null.
     seeAlso:
-      - PCB.IPCB_LibComponent
+      - PCB.IPCB_ServerInterface.CreatePCBLibComp
+  DestroyPCBLibrary:
+    summary: Frees a PCB library object.
+    parameters:
+      argPCBLibrary: The library to free. It is set to null; nothing happens when it is already null.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.CreatePCBLibrary
+  DestroyPCBObject:
+    summary: Frees a PCB object created with `PCBObjectFactory`.
+    parameters:
+      argPCBObject: The object to free. It is set to null; nothing happens when it is already null.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.PCBObjectFactory
+  DocumentLiveHighlight_Start:
+    remarks: Does nothing when no open PCB or PCB library document has the given file name.
+    parameters:
+      argDocumentPath: The file name of an open PCB or PCB library document.
+  DocumentLiveHighlight_Stop:
+    remarks: Does nothing when no open PCB or PCB library document has the given file name.
+    parameters:
+      argDocumentPath: The file name of an open PCB or PCB library document.
   GetCurrentPCBBoard:
-    summary: This method returns you the IPCB_Board interface which represents the PCB document OR the PCB Library document.
-      The IPCB_Board interface has a IsLibrary method which determines which type the document is; the PCB or PCBLib
-      document.
+    summary: Returns the board of the document in the current view, a PCB document or a PCB library document.
+    remarks: >-
+      Returns null when there is no current view or the document of the current view is not a PCB or PCB library
+      document. The result depends on the current view: check it for null before use.
   GetCurrentPCBLibrary:
-    summary: This method returns the IPCB_Library interface which represents the PCB library document.
+    summary: Returns the library of the PCB library document in the current view.
+    remarks: >-
+      Returns null when there is no current view or the document of the current view is not a PCB library document.
     seeAlso:
       - PCB.IPCB_Library
+  GetPCBBoardByBoardID:
+    summary: Returns the board whose `IPCB_Board.BoardID` has the given value.
+    remarks: Returns null for 0 and when no board has that ID.
   GetPCBBoardByPath:
-    summary: This method returns you the IPCB_Board interface representing the PCB document only if the path (APath
-      parameter) represents a valid PCB document.
+    summary: Returns the board of an open PCB document by its file name.
+    remarks: Returns null when no open PCB document has that file name.
+    parameters:
+      argPath: The file name of the open document.
+  GetPCBLibraryByLibraryID:
+    summary: Returns the library whose `IPCB_Library.LibraryID` has the given value.
+    remarks: Returns null for 0 and when no library has that ID.
   GetPCBLibraryByPath:
-    summary: This method returns you the IPCB_Library interface representing the PCB document only if the path (APath
-      parameter) represents this document.
+    summary: Returns the library of an open PCB library document by its file name.
+    remarks: Returns null when no open document has that file name, or when that document is not a PCB library document.
+    parameters:
+      argPath: The file name of the open document.
     seeAlso:
       - PCB.IPCB_Library
   InteractiveRoutingOptions:
-    summary: This property returns you the IPCB_InteractiveRoutingOptions interface which represents the interactive routing
-      options in the PCB editor.
+    summary: The interactive routing options of the PCB editor.
     seeAlso:
       - PCB.IPCB_InteractiveRoutingOptions
+  LayerSet:
+    summary: Returns the `IPCB_LayerSetUtils` object.
+    remarks: Every call returns the same object.
+  LayerUtils:
+    summary: Returns the `IPCB_LayerUtils` object.
+    remarks: Every call returns the same object.
   LoadCompFromLibrary:
-    summary: This method produces an object which is represented by the IPCB_LibComponent interface. A footprint in a
-      library is also represented by the IPCB_LibComponent interface.
+    summary: Loads a footprint from a PCB library file and returns it as an `IPCB_LibComponent`.
+    remarks: The returned footprint is not on any board.
+    parameters:
+      argPattern: The name of the footprint.
+      argLibPath: The path of the PCB library file.
     seeAlso:
       - PCB.IPCB_LibComponent
+  LoadPCBBoardByPath:
+    summary: Returns the board of a PCB document by its file name, loading the file when no open document has that name.
+    remarks: >-
+      For an open document it returns that document's board. Otherwise a PCB file in the current file format is loaded
+      into a new board without opening it as a document, and a file in another format is opened as a document in
+      Altium Designer.
+    parameters:
+      argPath: The file name of the PCB document.
+  LoadPCBLibraryByPath:
+    summary: >-
+      Returns the library of a PCB library document by its file name, loading the file when no open document has that
+      name.
+    remarks: >-
+      For an open document it returns that document's library, or null when the document is not a PCB library
+      document. Otherwise a PCB library file in the current file format is loaded into a new library without opening it
+      as a document, and a file in another format is opened as a document in Altium Designer.
+    parameters:
+      argPath: The file name of the PCB library document.
+  LoadPCBLibraryFromFile:
+    summary: >-
+      Returns the library of the open PCB library document with the given file name, or loads the PCB library file
+      without opening it as a document.
+    remarks: Returns null when the file does not exist or is not a PCB library file that can be read.
+    parameters:
+      argPath: The full path of the PCB library file.
+  PaintFootprintThumbnail:
+    summary: Draws a footprint of a PCB library file into a new bitmap and returns the bitmap's handle.
+    remarks: >-
+      The footprint is scaled to fit the bitmap and drawn with its pad numbers; text objects and objects on paste mask
+      and solder mask layers are left out. Returns 0 when the footprint cannot be loaded from the file.
+    parameters:
+      argViewName: The name of the footprint.
+      argViewFileAddress: The path of the PCB library file.
+      argWidth: The width of the bitmap, in pixels.
+      argHeight: The height of the bitmap, in pixels.
   PCBClassFactory:
-    summary: This method produces an object represented by the IPCB_ObjectClass interface. An Object class is a Design Rules
-      Class that can store members which represent a group of design objects targetted by the design rules system in the
-      PCB editor.
+    summary: Creates an object class (`IPCB_ObjectClass`) for the given kind of object.
+    remarks: >-
+      An object class is a named group of design objects that design rules can target. Classes can be created for
+      `TObjectId.eNetObject`, `TObjectId.eComponentObject`, `TObjectId.eFromToObject`, `TObjectId.ePadObject`,
+      `TObjectId.ePolyObject`, `TObjectId.eSplitPlaneObject` and `TObjectId.eClassObject` (a class of classes); for
+      any other kind the method returns null.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.PCBClassFactoryByClassMember
   PCBClassFactoryByClassMember:
-    summary: This method produces an object represented by the IPCB_ObjectClass interface. An Object class is a Design Rules
-      Class that can store members which represent a group of design objects targetted by the design rules system in the
-      PCB editor.
+    summary: Creates an object class (`IPCB_ObjectClass`) whose members are of the given kind.
+    remarks: >-
+      An object class is a named group of design objects that design rules can target. Unlike `PCBClassFactory`, every
+      `TClassMemberKind` value creates a class, for example `TClassMemberKind.eClassMemberKind_Layer` or
+      `TClassMemberKind.eClassMemberKind_DifferentialPair`.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.PCBClassFactory
   PCBContourFactory:
-    summary: The PCBContourFactory method creates a contour object based on the Arc resolution, the centre X and Y
-      coordinates and the orientation of the contour.
+    summary: Creates a new, empty contour (with no points).
     seeAlso:
       - PCB.IPCB_Contour
       - PCB.IPCB_ServerInterface.DestroyPCBContour
+  PCBContourMaker:
+    summary: Returns the `IPCB_ContourMaker` object.
+    remarks: Every call returns the same object.
+  PCBGeometricPolygonFactory:
+    summary: Creates a new, empty geometric polygon.
   PCBObjectFactory:
-    summary: This method produces a PCB design object which is represented by the IPCB_Primitive interface. The
-      IPCB_Primitive interface is the ancestor interface for all PCB design objects in Altium Designer.
+    summary: Creates a new PCB design object of the given kind and returns it as an `IPCB_Primitive`.
     remarks: >-
-      The TObjectID value determines which object you wish to produce.
-
-
-      The TDimensionKind value determines which dimension object you wish to produce. By default it is eNoDimension.
-
-
-      The TObjectCreationMode type determines which default values are used - from the PCB Preferences dialog or default
-      values used internally from the PCB Editor.
+      The new object is not on any board: set its properties, then add it to a board with `IPCB_Board.AddPCBObject`.
+      Returns null for a kind that cannot be created this way, such as `TObjectId.eRuleObject` (use `PCBRuleFactory`)
+      or `TObjectId.eClassObject` (use `PCBClassFactory`), and for `TObjectId.eDimensionObject` with
+      `TDimensionKind.eNoDimension`.
+    parameters:
+      argObjectId: The kind of object to create, for example `TObjectId.eTrackObject` or `TObjectId.eViaObject`.
+      argDimensionKind: >-
+        The kind of dimension to create when `argObjectId` is `TObjectId.eDimensionObject`; ignored for other kinds.
+        Pass `TDimensionKind.eNoDimension` for them.
+      argCreationMode: >-
+        `TObjectCreationMode.eCreate_Default` and `TObjectCreationMode.eCreate_GlobalCopy` create the same object with
+        the same initial values.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.DestroyPCBObject
   PCBRuleFactory:
-    summary: This method produces a design rule object which is represented by the IPCB_Rule interface.
+    summary: Creates a design rule (`IPCB_Rule`) of the given kind.
+    remarks: >-
+      Returns null for `TRuleKind.eRule_LayerStack` and `TRuleKind.eRule_None`. A new rule has an empty name and
+      comment, and its scopes (`IPCB_Rule.Scope1Expression`, `IPCB_Rule.Scope2Expression`) are `All`, except for kinds
+      that start with other scopes; for example, both scopes of a new confinement rule are `False`. Add the rule to a
+      board with `IPCB_Board.AddPCBObject`.
+  PostBatchProcess:
+    summary: Ends a batch started with `PreBatchProcess`, like `PostProcess`.
+    remarks: >-
+      Does nothing when no batch is open or the current view is not a PCB document.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.PreBatchProcess
   PostProcess:
-    summary: This method cleans up the robots process in the PCB editor, after a PreProcess method and SendMessageToRobots
-      messages have been invoked. This also stops the robots from listening to any more PCB messages.
+    summary: Ends a change to the document of the current view that was started with `PreProcess`.
+    remarks: >-
+      Does nothing when the current view is not a PCB document. Pairs of `PreProcess` and `PostProcess` can nest; when
+      the outermost `PostProcess` returns, the board's views are updated.
     seeAlso:
       - PCB.IPCB_ServerInterface.PreProcess
+  PreBatchProcess:
+    summary: Starts a batch of changes to the document of the current view, like `PreProcess`.
+    remarks: >-
+      Until `PostBatchProcess`, calls to `PreProcess` and `PostProcess` do nothing. Does nothing when a batch is
+      already open or the current view is not a PCB document.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.PostBatchProcess
+  PreProcess:
+    summary: Starts a change to the document of the current view; end it with `PostProcess`.
+    remarks: >-
+      Call it before adding, removing or modifying objects, so that the undo system and the other parts of the PCB
+      editor follow the changes. Does nothing when the current view is not a PCB document. Pairs of `PreProcess` and
+      `PostProcess` can nest.
+    seeAlso:
+      - PCB.IPCB_ServerInterface.PostProcess
+  PrimitiveComparator:
+    summary: Returns the `IPCB_PrimitiveComparator` object.
+    remarks: Every call returns the same object.
+  RefreshDocumentView:
+    summary: Refreshes the PCB editor view of an open document.
+    remarks: Does nothing when no open document has the given file name.
+    parameters:
+      argDocumentPath: The file name of the open document.
   SpecialStringConverter:
-    summary: This property is a read only property, however if you obtain the IPCB_SpecialStringConverter interface, then
-      you can invoke methods or properties to change the data within.
+    summary: The converter of the special strings in PCB text.
+    remarks: The property is read-only, but the properties of the returned object can be changed.
     seeAlso:
       - PCB.IPCB_SpecialStringConverter
   SystemOptions:
-    summary: The property returns you the IPCB_SystemOptions interface. This interface is represented by the System Options
-      in the PCB editor such as PCB document display options,
+    summary: The system options of the PCB editor, such as its display options.
     seeAlso:
       - PCB.IPCB_SystemOptions

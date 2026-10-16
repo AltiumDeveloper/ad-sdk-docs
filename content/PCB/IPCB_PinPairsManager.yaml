@@ -1,0 +1,81 @@
+# PCB.IPCB_PinPairsManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The manager of the pin pairs (xSignals) of a PCB document.
+remarks: >-
+  The manager of a board is `IPCB_Board.PinPairsManager`. It lists the pin pairs (`PinPairsCount`, `PinPairs`),
+  creates and removes them, and groups them into xSignal classes.
+
+
+  A pin pair is out of date after it was created from pin descriptors or after its pins were swapped, until its signal
+  path is calculated again. `InvalidateAll` recalculates every pin pair that is out of date.
+members:
+  AssignPinPairClass:
+    summary: Adds pin pairs to an xSignal class, and creates the class on the board when there is no xSignal class of
+      that name.
+    remarks: >-
+      The class is an `IPCB_ObjectClass` whose `MemberKind` is `TClassMemberKind.eClassMemberKind_Signal`; each pin
+      pair is added by its `Name`. Nothing is added to a class whose `SuperClass` is true.
+    parameters:
+      argPinPairs: The pin pairs to add, as `IPCB_PinPair` items.
+      argClassName: The name of the xSignal class.
+  CanCreateTiePoints:
+    summary: Returns whether tie points can be created for the given pin pairs.
+    remarks: >-
+      The pin pairs are grouped by the primitive at which they start or end; the result is true when a tie point can be
+      placed for at least one group of two or more pin pairs. Returns false when fewer than two pin pairs are given.
+    parameters:
+      argPinPairs: The pin pairs to check. Items that are not `IPCB_PinPair` are ignored.
+  CreateFromPins:
+    summary: Creates a pin pair from pins and adds it to the board.
+    remarks: >-
+      The pin pair gets a unique name made of the names of its pins' nets, `_PP` and a number, and its signal path is
+      calculated at once. Returns null when no list is given.
+    parameters:
+      argPins: The pins of the pin pair, as `IPCB_Primitive` items.
+  CreateFromPinsDescriptors:
+    summary: Creates a pin pair from a string of pin descriptors and adds it to the board.
+    remarks: >-
+      The pin pair gets a unique name in the same way as with `CreateFromPins`. It is out of date until its signal path
+      is calculated: when its lengths, delay or primitives are first read, or by `InvalidateAll` or
+      `IPCB_PinPair.Rebuild`. Returns null when the string contains an empty descriptor.
+    parameters:
+      argPins: >-
+        The pin descriptors, separated by `|`. A descriptor is a component designator, `-` and a pad name, for example
+        `U1-16|U4-23`.
+  Delete:
+    summary: Removes a pin pair from the manager and from the board.
+    remarks: Does nothing when no pin pair is given or the pin pair does not belong to this manager.
+    parameters:
+      argPinPair: The pin pair to remove.
+  GetPinPairOf:
+    summary: Returns a pin pair whose pins or signal path include the given primitive.
+    remarks: >-
+      Returns null when the primitive belongs to no pin pair. When it belongs to several pin pairs, one of them is
+      returned. Only pin pairs whose signal path has been calculated are found; call `InvalidateAll` first to include
+      pin pairs that are out of date.
+    parameters:
+      argPrimitive: The primitive to look up, for example a pad or a track.
+  InvalidateAll:
+    summary: Recalculates the signal path of every pin pair that is out of date.
+    remarks: >-
+      Pin pairs that are up to date are not changed. Reading the lengths, the delay or the primitives of an out-of-date
+      pin pair (`IPCB_PinPair.Length`, `IPCB_PinPair.DelayTotal`, `IPCB_PinPair.GetPrimitives`) recalculates it first;
+      `GetPinPairOf` and `IPCB_PinPair.NodeCount` do not, so call `InvalidateAll` before using them.
+  PinPairs:
+    summary: Returns a pin pair of the board, by index.
+    remarks: Returns null when the index is outside the range 0 to `PinPairsCount` - 1.
+    parameters:
+      argIndex: The zero-based index of the pin pair.
+  PinPairsCount:
+    summary: The number of pin pairs of the board.
+  StateID:
+    summary: Returns a counter that increases each time a pin pair is added to or removed from the manager.
+  SwapPins:
+    summary: Exchanges two pins in every pin pair that contains them, and returns the pin pairs that changed.
+    remarks: >-
+      Each changed pin pair is out of date until its signal path is calculated again. Returns an empty list when a pin
+      is not given or both are the same pin.
+    parameters:
+      argPinA: The first pin.
+      argPinB: The second pin.
+      argOldNetA: Not used.
+      argOldNetB: Not used.

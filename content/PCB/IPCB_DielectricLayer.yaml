@@ -1,0 +1,26 @@
+# PCB.IPCB_DielectricLayer: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A dielectric (insulating) layer of a board's layer stack, such as a core, a prepreg, a surface material or a
+  film.
+remarks: >-
+  It holds the layer's material name, dielectric type, dielectric constant, loss tangent and thickness. To visit the
+  dielectric layers of a stack, call `IPCB_LayerStackBase.Iterator_1` with `TLayerClassID.eLayerClass_Dielectric` and
+  cast each layer object of the iterator to `IPCB_DielectricLayer`.
+members:
+  DielectricConstant:
+    summary: The dielectric constant (relative permittivity, Dk) of the layer's material.
+    remarks: A new dielectric layer has a dielectric constant of 4.8.
+  DielectricHeight:
+    summary: The thickness of the dielectric layer, in internal units (10,000 per mil).
+    remarks: A new dielectric layer is 126,000 internal units (12.6 mil) thick. Convert the value with
+      `EDP.Utils.CoordToMils` or `EDP.Utils.CoordToMMs`.
+  DielectricLossTangent:
+    summary: The dielectric loss tangent (Df) of the layer's material.
+  DielectricMaterial:
+    summary: The name of the layer's dielectric material.
+    remarks: A new dielectric layer has the material name `FR-4`.
+  DielectricType:
+    summary: The kind of dielectric layer, such as core, prepreg, surface material or film.
+    remarks: A new dielectric layer has the type `TDielectricType.eNoDielectric`.
+  IsStiffener:
+    summary: Whether the dielectric layer is a stiffener.
+    remarks: A new dielectric layer is not a stiffener.
