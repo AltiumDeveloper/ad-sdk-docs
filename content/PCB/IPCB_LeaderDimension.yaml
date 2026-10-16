@@ -1,15 +1,65 @@
 # PCB.IPCB_LeaderDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_LeaderDimension object interface allows for the labeling of an object, point or area. There are three
-  types of leader dimensions available which reflect the label text either being encapsulated by a circle or square or
-  not at all. The pointer can also be an arrow or a dot which is size -definable.
+summary: A leader dimension on a PCB document, which labels an object, point or area with a text connected to it by a
+  leader line ending in an arrow or a dot.
 remarks: >-
-  There are three types of leaders available: eNoShape = standard leader which means the dimension text is not enclosed
-  at all. eRectangular the label text is encapsulated by a square, and eRounded - the dimension text is encapsulated by
-  a circle.
+  The leader runs through the dimension's reference points: it starts at the first reference point, where the arrow or
+  the dot is drawn, and ends at the last one, where the text is placed. The label text can be enclosed in a circle or a
+  square (`Shape`), and the leader can end in an arrow or a dot of a definable size (`Dot`, `DotSize`).
 
 
-  The Dot property denotes the dot symbol attached to the pointer of the leader dimension object as a dot or as an
-  arrow.
+  A new leader dimension has two references. When its primitives are regenerated, every reference after the first is
+  detached from the object it refers to, so only the first reference can stay attached to an object.
 
 
-  If the Dot field is enabled, then you can specify the size of the dot as a TCoord value.
+  The text, arcs and tracks that draw the leader are returned by `Text`, `Dot_Arc`, `Circle_Arc`, `Arrow_Track1`,
+  `Arrow_Track2`, `Square_Track1` to `Square_Track4` and `Line_Track`.
+members:
+  Arrow_Track1:
+    summary: Returns the first of the two tracks that draw the arrowhead at the leader's first reference point.
+    remarks: When `Dot` is true, no arrowhead is drawn and both arrow tracks lie along the first line of the leader.
+  Arrow_Track2:
+    summary: Returns the second of the two tracks that draw the arrowhead at the leader's first reference point.
+    remarks: When `Dot` is true, no arrowhead is drawn and both arrow tracks lie along the first line of the leader.
+  Circle_Arc:
+    summary: Returns the arc that draws the circle around the text when `Shape` is `TShape.eRounded`.
+    remarks: For any other `Shape` the arc has a radius of 0.
+  Dot:
+    summary: Whether the leader ends in a dot instead of an arrowhead at its first reference point.
+    remarks: The default is false (an arrowhead). The size of the dot is `DotSize`.
+  Dot_Arc:
+    summary: Returns the arc that draws the dot at the leader's first reference point when `Dot` is true.
+    remarks: The arc is a full circle with a radius of 0 whose line width is `DotSize`.
+  DotSize:
+    summary: The diameter of the dot drawn when `Dot` is true, in internal units (10,000 per mil).
+    remarks: The default is 40 mil.
+  Line_Track:
+    summary: Returns a line of the leader.
+    remarks: >-
+      A leader dimension has one line for each reference after the first. Line 0 starts at the first reference point
+      and line i joins reference points i and i + 1.
+    parameters:
+      argI: The zero-based index of the line, from 0 to `References_Count` - 2.
+  Shape:
+    summary: The enclosure drawn around the leader text.
+    remarks: >-
+      `TShape.eNoShape` (the default) does not enclose the text, `TShape.eRounded` encloses it in a circle and
+      `TShape.eRectangular` in a square. The diameter of the circle and the side of the square are `Size`. With any
+      value other than `TShape.eNoShape` the text is centered in the enclosure.
+  Square_Track1:
+    summary: Returns the first of the four tracks that draw the square around the text when `Shape` is
+      `TShape.eRectangular`.
+  Square_Track2:
+    summary: Returns the second of the four tracks that draw the square around the text when `Shape` is
+      `TShape.eRectangular`.
+  Square_Track3:
+    summary: Returns the third of the four tracks that draw the square around the text when `Shape` is
+      `TShape.eRectangular`.
+  Square_Track4:
+    summary: Returns the fourth of the four tracks that draw the square around the text when `Shape` is
+      `TShape.eRectangular`.
+  Text:
+    summary: Returns the text of the leader dimension.
+    remarks: >-
+      The text shows the dimension's `TextFormat` string. Unless `TextPosition` is
+      `TDimensionTextPosition.eTextManual`, it is placed next to the leader's last reference point, or centered in the
+      enclosure when `Shape` is not `TShape.eNoShape`.

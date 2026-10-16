@@ -1,14 +1,89 @@
 # PCB.IPCB_BaselineDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_BaselineDimension interface allows for the dimensioning of a linear distance of a collection of
-  references, relative to a single reference. The first reference point is the base reference and all the subsequent
-  points are relative to this base reference. The dimension value in each case is the distance between each reference
-  point and the base reference measured in default units. The references may be objects (tracks, arcs, pads, vias, text,
-  fills, polygons or components) or points in free space
+summary: A baseline dimension on a PCB document, which measures the linear distances of a collection of references from
+  a single base reference.
 remarks: >-
-  The angle property denotes the angle or rotation of the IPCB_BaselineDimension object with respect to the horizontal
-  plane.
+  The first reference is the base reference, and all subsequent references are measured relative to it: the dimension
+  value of each of them is its distance from the base reference. The references may be objects (tracks, arcs, pads,
+  vias, text, fills, polygons or components) or points in free space.
 
 
-  Since a baseline dimension allows for the dimensioning of a linear distance over a collection of references, thus for
-  each reference relative to the base reference, there is a text location. Use the TextLocationsCount field to obtain
-  the number of dimension labels.
+  The dimension is drawn as one segment for each reference after the base reference. Segment I measures from the base
+  reference to reference I + 1 (`References`) and has its own text, arrowheads, dimension line and extension lines,
+  which `Texts`, `Arrow1_Track1`, `Arrow1_Track2`, `Arrow2_Track1`, `Arrow2_Track2`, `Line_Track1`, `Line_Track2`,
+  `Extension1_Track` and `Extension2_Track` return for index I. Each segment measures the distance in the direction
+  given by `Angle`, along a dimension line through its text location (`TextLocations`).
+
+
+  `References_Add` adds the text and tracks of a new segment but no text location; add one with `TextLocations_Add`.
+  `References_DeleteLast` removes the last text location together with the last segment.
+members:
+  Angle:
+    summary: The angle of the dimension lines to the horizontal, in degrees.
+    remarks: >-
+      At 0 the dimension measures horizontal distances. Rotating the dimension with `RotateAroundXY` changes the angle
+      by the rotation angle.
+  Arrow1_Track1:
+    summary: Returns one of the two tracks of the first arrowhead of a segment.
+    parameters:
+      argI: The zero-based index of the segment.
+  Arrow1_Track2:
+    summary: Returns one of the two tracks of the first arrowhead of a segment.
+    parameters:
+      argI: The zero-based index of the segment.
+  Arrow2_Track1:
+    summary: Returns one of the two tracks of the second arrowhead of a segment.
+    parameters:
+      argI: The zero-based index of the segment.
+  Arrow2_Track2:
+    summary: Returns one of the two tracks of the second arrowhead of a segment.
+    parameters:
+      argI: The zero-based index of the segment.
+  Extension1_Track:
+    summary: Returns the extension line of a segment at the base reference.
+    parameters:
+      argI: The zero-based index of the segment.
+  Extension2_Track:
+    summary: Returns the extension line of a segment at the measured reference.
+    parameters:
+      argI: The zero-based index of the segment; segment I measures reference I + 1.
+  Line_Track1:
+    summary: Returns one of the two tracks that draw the dimension line of a segment.
+    parameters:
+      argI: The zero-based index of the segment.
+  Line_Track2:
+    summary: Returns one of the two tracks that draw the dimension line of a segment.
+    parameters:
+      argI: The zero-based index of the segment.
+  Text:
+    summary: Returns the text of the first segment, the same object as `Texts` returns for index 0.
+  TextLocations:
+    summary: The text location of a segment, a point on its dimension line, in internal units (10,000 per mil).
+    remarks: >-
+      The dimension line of the segment passes through this point in the direction given by `Angle`. Assigning a
+      location at an index outside 0 to `PCBConstant.MaxReferenceCount` - 1 does nothing. When `RotateAroundXY`
+      rotates the reference points, it rotates the text locations as well.
+    parameters:
+      argI: The zero-based index of the segment.
+  TextLocationsCount:
+    summary: The number of text locations of the dimension.
+    remarks: >-
+      Assigning a value changes only the count; use `TextLocations_Add`, `TextLocations_Delete`,
+      `TextLocations_DeleteLast` and `TextLocations_Clear` to add or remove text locations.
+  TextLocations_Add:
+    summary: Adds a text location at the end of the dimension's text locations, increasing `TextLocationsCount` by one.
+    remarks: Does nothing when the dimension already has `PCBConstant.MaxReferenceCount` (200) text locations.
+    parameters:
+      argPoint: The text location to add, in internal units.
+  TextLocations_Clear:
+    summary: Removes all text locations, setting `TextLocationsCount` to 0.
+  TextLocations_Delete:
+    summary: Removes the text location at the given index, reducing `TextLocationsCount` by one.
+    remarks: The text locations after it move down by one index.
+    parameters:
+      argIndex: The zero-based index of the text location.
+  TextLocations_DeleteLast:
+    summary: Removes the last text location, reducing `TextLocationsCount` by one.
+  Texts:
+    summary: Returns the text that shows the measured value of a segment.
+    parameters:
+      argI: The zero-based index of the segment.

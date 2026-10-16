@@ -1,0 +1,94 @@
+# PCB.IPCB_MasterLayerStack: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The master layer stack of a board, which holds the board's layers and its substacks.
+remarks: >-
+  Obtain it from `IPCB_Board.MasterStack`. `IPCB_Board.LayerStack_V7` is backed by the same master stack.
+
+
+  Each substack is an `IPCB_LayerStack` in which a layer of the master stack is enabled or disabled. Pads, vias and
+  board regions are assigned to a substack.
+members:
+  Board:
+    summary: Returns the board that owns the master stack, or null when there is none.
+  CreateLayer:
+    summary: Returns a layer object for a layer ID, creating it when needed.
+    remarks: >-
+      Returns the existing layer object with that ID when it is not in the stack, otherwise a new layer object with
+      default properties. The layer is not placed in the stack: insert it with `InsertOnTop`, `InsertOnBottom`,
+      `InsertAbove` or `InsertBelow`.
+  CreateSubstack:
+    summary: Creates a substack and adds it at the end of the master stack's substacks.
+    remarks: >-
+      The new substack gets a new unique ID and the name `Stack<n>`, with the lowest `n` (starting at 0) that no other
+      substack uses.
+  DisableLayer:
+    summary: Disables a layer of the master stack in a substack.
+    remarks: Does nothing when the layer is not in the master stack.
+  EnableLayer:
+    summary: Enables a layer of the master stack in a substack.
+    remarks: Does nothing when the layer is not in the master stack.
+  Export_ToParameters:
+    summary: Writes the definition of the master stack to a parameter string.
+    remarks: The string holds the stack in every format the current version writes, so it can be read back with
+      `Import_FromParameters`.
+  GetSubstack:
+    summary: Returns the substack with the given ID, or null when there is none.
+    remarks: IDs are compared without regard to case.
+  GetSubstack_1:
+    summary: Returns the first substack whose layers of a layer class are exactly the layers of a layer set, or null when
+      no substack matches.
+    remarks: Layers of other classes are ignored.
+    parameters:
+      argT: The layer class to compare, for example `TLayerClassID.eLayerClass_Signal`.
+  Import_FromParameters:
+    summary: Reads the definition of the master stack from a parameter string.
+    remarks: Throws an exception when the version of the parameters is not supported.
+  InsertAbove:
+    summary: Inserts a layer into the master stack above a reference layer.
+    remarks: >-
+      Returns the inserted layer, or null when the layer is not inserted: it belongs to another master stack, it is
+      already in the stack, or it is an electrical layer whose layer ID is already in the stack. The inserted layer is
+      disabled in every substack.
+    parameters:
+      argRefLayer: The layer to insert above. When it is not in the stack, the layer is inserted on top.
+  InsertBelow:
+    summary: Inserts a layer into the master stack below a reference layer.
+    remarks: >-
+      Returns the inserted layer, or null when the layer is not inserted: it belongs to another master stack, it is
+      already in the stack, or it is an electrical layer whose layer ID is already in the stack. The inserted layer is
+      disabled in every substack.
+    parameters:
+      argRefLayer: The layer to insert below. When it is not in the stack, the layer is inserted at the bottom.
+  InsertOnBottom:
+    summary: Inserts a layer at the bottom of the master stack.
+    remarks: >-
+      Returns the inserted layer, or null when the layer is not inserted: it belongs to another master stack, it is
+      already in the stack, or it is an electrical layer whose layer ID is already in the stack. The inserted layer is
+      disabled in every substack.
+  InsertOnTop:
+    summary: Inserts a layer at the top of the master stack.
+    remarks: >-
+      Returns the inserted layer, or null when the layer is not inserted: it belongs to another master stack, it is
+      already in the stack, or it is an electrical layer whose layer ID is already in the stack. The inserted layer is
+      disabled in every substack.
+  LayerStackStyle:
+    summary: The layer stacking style of the board.
+    remarks: A new master stack has the style `TLayerStackStyle.eLayerStack_Pairs`.
+  RemoveLayer:
+    summary: Removes a layer from the master stack.
+    remarks: >-
+      Returns false when the layer belongs to another master stack. A mechanical layer is not removed: for one of the
+      mechanical layers that the master stack creates by default the call sets `IPCB_MechanicalLayer.MechLayerEnabled`
+      to false and returns true; for any other mechanical layer it returns false. Any other layer is removed from the
+      stack and from every substack, and the call returns true.
+  RemoveSubstack:
+    summary: Removes a substack from the master stack.
+    remarks: >-
+      Pads, vias and board regions that use the substack are assigned another substack of the master stack, if there is
+      one. The substack's data is removed from `IPCB_MaxMinWidthConstraint` and `IPCB_DifferentialPairsRoutingRule`
+      rules, and its trace impedances are removed from the impedance profiles. Does nothing when the master stack has no
+      board.
+  SubstackCount:
+    summary: Returns the number of substacks in the master stack.
+  Substacks:
+    summary: The substack at an index.
+    remarks: Valid indexes run from 0 to `SubstackCount` minus 1.

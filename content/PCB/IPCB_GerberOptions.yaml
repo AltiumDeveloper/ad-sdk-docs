@@ -1,16 +1,72 @@
 # PCB.IPCB_GerberOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The tolerance range used when matching apertures for each item in the plots. If no exact match for an item is
-  available in the current aperture list, the software checks to see if a larger aperture exists within this tolerance
-  range and uses it instead.
+summary: The Gerber (photoplot) settings stored with a PCB document, returned by `IPCB_Board.GerberOptions`.
 remarks: >-
-  If no suitable aperture exists within the tolerance range, the software will attempt to "paint" with a larger aperture
-  to create the required shape. This requires that a suitable larger aperture is available, and that this aperture can
-  be used for "painting".
+  The interface extends `IPCB_AbstractOptions`. `Export_ToParameters` and `Export_ToParameters_Version3` write
+  `Record=GerberOptions` and every setting under its property name (`SortOutput`, `PlusTol`, `GerberDecs` and so on);
+  `Import_FromParameters` and `Import_FromParameters_Version3` read the same parameters.
 
 
-  Note: Match tolerances are normally only used when you are targeting a vector photoplotter, which require a fixed, or
-  supplied aperture file. They will not be required if the apertures have been created from the PCB. If match tolerances
-  are not required they should be left at the default of 0.005 mil.
-
-
-  Derived from IPCB_AbstractOptions interface
+  `PlusTol` and `MinusTol` are the tolerance range used when matching apertures for each item in the plots. If no
+  exact match for an item is available in the current aperture list, an aperture within this tolerance range is used
+  instead. Match tolerances are normally used only for a vector photoplotter that requires a fixed or supplied
+  aperture file; they are not required when the apertures have been created from the PCB.
+members:
+  AptTable:
+    summary: The aperture table setting of the Gerber options.
+    remarks: The default is an empty string.
+  BorderSize:
+    summary: The border size of the photoplot, in internal units (10,000 per mil).
+    remarks: The default is 1000 mil.
+  CenterPhotoPlots:
+    summary: Whether photoplots are centred.
+    remarks: The default is true.
+  EmbedApertures:
+    summary: Whether apertures are embedded in the Gerber output.
+    remarks: The default is false.
+  FilmSizeX:
+    summary: The film width, in internal units (10,000 per mil).
+    remarks: The default is 20000 mil.
+  FilmSizeY:
+    summary: The film height, in internal units (10,000 per mil).
+    remarks: The default is 16000 mil.
+  FlashAllFills:
+    summary: Whether fills get flash apertures of their full size.
+    remarks: >-
+      When an aperture list is created from the board and this is true, each fill gets a rectangular flash aperture of
+      the fill's size and rotation. When it is false, fills get smaller draw apertures that paint the fill. The default
+      is false.
+  G54:
+    summary: The G54 setting of the Gerber options.
+    remarks: The default is false.
+  GerberDecs:
+    summary: The decimals setting of the Gerber coordinate format, used together with `GerberUnits`.
+    remarks: The default is 1.
+  GerberUnits:
+    summary: The units setting of the Gerber coordinate format, used together with `GerberDecs`.
+    remarks: The default is 3.
+  MaxAperSize:
+    summary: The maximum aperture size, in internal units (10,000 per mil).
+    remarks: The default is 250 mil.
+  MinusTol:
+    summary: The minus tolerance used when matching apertures, in internal units (10,000 per mil).
+    remarks: The default is 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
+  PadsFlashOnly:
+    summary: Whether flash apertures are used only for flashing.
+    remarks: When an aperture list is created from the board and this is false, apertures created for flashing are
+      marked for multiple use (flash and draw). The default is true.
+  Panelize:
+    summary: Whether the Gerber output is panelized.
+    remarks: The default is false.
+  PlusTol:
+    summary: The plus tolerance used when matching apertures, in internal units (10,000 per mil).
+    remarks: The default is 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
+  ReliefShapesAllowed:
+    summary: Whether pads and vias with a relief shape get relief apertures.
+    remarks: When an aperture list is created from the board and this is false, a relief-shaped pad or via gets a
+      round draw aperture the size of its relief air gap instead of a relief flash aperture. The default is true.
+  SortOutput:
+    summary: Whether the Gerber output is sorted.
+    remarks: The default is false.
+  UseSoftwareArcs:
+    summary: Whether arcs in the Gerber output are drawn in software.
+    remarks: The default is true.

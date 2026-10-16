@@ -1,6 +1,72 @@
 # PCB.IPCB_DrillLayerPair: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_DrillLayerPair interface represents the paired drill layer for the layer stack up for the PCB document.
-remarks: |-
-  The IPCB_DrillLayerPair interface is a standalone interface
-
-  The IPCB_DrillLayerPair interface is a DrillLayerPair property from the IPCB_Board interface
+summary: A drill layer pair of a PCB document, the two layers between which holes are drilled, together with the kind
+  of drilling (`TDrillLayerPairType`).
+remarks: >-
+  The pairs of a board are read with `IPCB_Board.LayerPair`, at indexes 0 to `IPCB_Board.DrillLayerPairsCount` - 1, or
+  looked up by their layers and type with `IPCB_Board.LayerPairByPairEx`.
+members:
+  AddToSubstack:
+    summary: Adds the pair to the layer stack with the given ID.
+    remarks: Afterwards `IsDefinedIn` returns true for that ID. Adding the pair to a stack it already belongs to has no
+      further effect.
+    parameters:
+      argStackID: The ID of the layer stack, as returned by `IPCB_LayerStackBase.ID`.
+  Board:
+    summary: The board that owns the pair.
+  DeleteFromAllSubstacks:
+    summary: Removes the pair from every layer stack it belongs to.
+    remarks: Afterwards `IsDefinedIn` returns false for every stack ID.
+  DeleteFromSubstack:
+    summary: Removes the pair from the layer stack with the given ID.
+    remarks: Does nothing when the pair does not belong to that stack.
+    parameters:
+      argStackID: The ID of the layer stack, as returned by `IPCB_LayerStackBase.ID`.
+  Description:
+    summary: A text description of the pair, the names of its two layers separated by " - ".
+    remarks: >-
+      For a pair whose `DrillLayerPairType` is not `TDrillLayerPairType.Regular`, the text starts with a marker of the
+      type. For a counter-hole pair the description is "Counterholes Top" or "Counterholes Bottom" instead.
+  DrillLayerPairType:
+    summary: The kind of drilling the pair describes, such as regular drilling, micro-via drilling, backdrilling or
+      counter holes.
+    remarks: Setting `IsBackdrill` changes this value.
+  HighLayer:
+    summary: One end layer of the pair; together with `LowLayer` it defines the layers the drilling spans.
+    remarks: >-
+      Assigning a value does not reorder the two layers; `OrderLayers` makes `LowLayer` the upper of them.
+      `StartLayer` and `StopLayer` return the upper and the lower layer in either order.
+  IsBackdrill:
+    summary: Whether the pair is a backdrill pair.
+    remarks: >-
+      The value is derived from `DrillLayerPairType`: it is true for `TDrillLayerPairType.Backdrill` and
+      `TDrillLayerPairType.CounterHole`. Setting it to true sets `DrillLayerPairType` to
+      `TDrillLayerPairType.Backdrill`; setting it to false changes `TDrillLayerPairType.Backdrill` to
+      `TDrillLayerPairType.Regular` and leaves any other type unchanged.
+  IsDefinedIn:
+    summary: Returns whether the pair belongs to the layer stack with the given ID.
+    parameters:
+      argStackID: The ID of the layer stack, as returned by `IPCB_LayerStackBase.ID`.
+  IsSimilarTo:
+    summary: Returns whether this pair has the same type and the same two layers as another pair.
+    remarks: >-
+      The layers are compared in either order, so a pair from layer A to layer B is similar to a pair from layer B to
+      layer A of the same type. A counter-hole pair is similar only to another counter-hole pair that is drilled in
+      the same direction.
+    parameters:
+      argDLP: The pair to compare with.
+  LowLayer:
+    summary: One end layer of the pair; together with `HighLayer` it defines the layers the drilling spans.
+    remarks: >-
+      Assigning a value does not reorder the two layers; `OrderLayers` makes `LowLayer` the upper of them.
+      `StartLayer` and `StopLayer` return the upper and the lower layer in either order.
+  OrderLayers:
+    summary: Swaps `LowLayer` and `HighLayer` when `LowLayer` is below `HighLayer` in the layer stack, so that
+      `LowLayer` is the upper layer.
+  PlotDrillDrawing:
+    summary: The pair's drill drawing plot setting.
+  PlotDrillGuide:
+    summary: The pair's drill guide plot setting.
+  StartLayer:
+    summary: The upper of the pair's two layers in the layer stack.
+  StopLayer:
+    summary: The lower of the pair's two layers in the layer stack.

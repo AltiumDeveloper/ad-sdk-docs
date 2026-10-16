@@ -1,0 +1,41 @@
+# PCB.IPCB_LayerIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An iterator over layers, which can be restricted to a subset of layers with its `AddFilter_` methods.
+remarks: >-
+  Board and layer stack methods such as `IPCB_Board.LayerIterator`, `IPCB_Board.MechanicalLayerIterator` and
+  `IPCB_LayerStackBase.Iterator` return the derived `IPCB_LayerObjectIterator`, which also gives the layer object at
+  each position. `IPCB_Pad.DefinitionLayerIterator` returns an `IPCB_LayerIterator`.
+
+
+  Filters combine: each `AddFilter_` call keeps only the layers that also pass the filters added before it, so for
+  example signal layers combined with mechanical layers leave no layers to visit. Every `AddFilter_` method returns
+  this iterator, so calls can be chained.
+members:
+  AddFilter_ElectricalLayers:
+    summary: Restricts the iteration to electrical layers (signal and internal plane layers) and returns this iterator.
+  AddFilter_InternalPlaneLayers:
+    summary: Restricts the iteration to internal plane layers and returns this iterator.
+  AddFilter_LayerSet:
+    summary: Restricts the iteration to the layers of a layer set and returns this iterator.
+  AddFilter_LayerSet_1:
+    summary: Restricts the iteration to the layers of a set of layer values and returns this iterator.
+    remarks: Gives the same result as `AddFilter_LayerSet` with an `IPCB_LayerSet` that contains the same layers.
+  AddFilter_MechanicalLayers:
+    summary: Restricts the iteration to mechanical layers and returns this iterator.
+  AddFilter_MiscLayers:
+    summary: Restricts the iteration to the layers that are not signal, internal plane, mechanical or dielectric layers,
+      such as the overlay, solder mask, paste mask, keep-out and multi-layer layers, and returns this iterator.
+  AddFilter_SignalLayers:
+    summary: Restricts the iteration to signal layers and returns this iterator.
+  First:
+    summary: Moves to the first layer that passes the filters; returns `false` when there is none.
+    remarks: Equivalent to `SetBeforeFirst` followed by `Next`, so a loop can start with `First` and call `Next` at the
+      end of each pass.
+  Layer:
+    summary: Returns the layer at the iterator's current position.
+    remarks: The position is set by `First` and `Next`; read `Layer` only after one of them returned `true`.
+  Next:
+    summary: Moves to the next layer that passes the filters; returns `false` when there are no more layers.
+    remarks: After `SetBeforeFirst`, or when the iterator is new, `Next` moves to the first layer.
+  SetBeforeFirst:
+    summary: Resets the iterator to the position before the first layer.
+    remarks: Call `Next` to move to the first layer.

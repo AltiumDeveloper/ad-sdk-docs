@@ -1,0 +1,112 @@
+# PCB.IPCB_Pad4: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Extends `IPCB_Pad3` with the hole size on each layer, the pad's top and bottom layers, separate top and bottom
+  paste mask settings, and queries and operations for custom pad shapes.
+members:
+  BottomLayer:
+    summary: The bottom layer of the pad's layer span.
+    remarks: For a pad on a signal layer or on `TV6_Layer.eV6_MultiLayer`, this is the bottom signal layer of the
+      board's layer stack; for a pad on another layer, the bottom layer of the layer stack. For a pad that is not on a
+      board, it is the bottom layer.
+  GetSourceLayerAndExpansion:
+    summary: Returns the layer whose shape the pad uses on the given layer, and the mask expansion applied to that shape.
+    remarks: >-
+      For a solder mask or paste mask layer other than the pad's own layer, the source layer of a pad on
+      `TV6_Layer.eV6_MultiLayer` is the top or bottom signal layer (on the same side as the mask layer), and the
+      source layer of any other pad is the pad's own layer; the expansion is the pad's solder mask or paste mask
+      expansion for that layer, and the method returns false when the pad has no mask expansion on that layer.
+
+
+      For any other layer, the source layer is the given layer, the expansion is 0 and the method returns true.
+    parameters:
+      argLayer: The layer to query.
+      argSourceLayer: Receives the layer whose shape the pad uses on `argLayer`.
+      argExpansion: Receives the mask expansion applied on `argLayer`, in internal units (10,000 per mil).
+  HasCornerRadiusChamfer:
+    summary: Returns whether the pad has rounded or chamfered corners on any layer.
+    remarks: Returns true when the pad has a rounded rectangular shape (`TShape.eRoundedRectangular`) on a layer of its
+      stack, or when `HasCustomRoundedRectangle` or `HasCustomChamferedRectangle` returns true.
+  HasCustomChamferedRectangle:
+    summary: Returns whether the pad has a custom shape of kind `TShapeSubKind.eChamferedRectangle` on any layer.
+    remarks: Only layers whose stack shape is `TShape.eCustomShape` count. Returns false when the product feature for
+      custom pad shapes is not enabled.
+  HasCustomDonut:
+    summary: Returns whether the pad has a custom shape of kind `TShapeSubKind.eDonut` on any layer.
+    remarks: Only layers whose stack shape is `TShape.eCustomShape` count. Returns false when the product feature for
+      custom pad shapes is not enabled.
+  HasCustomMaskDonutShapes:
+    summary: Returns whether the pad has a custom donut shape (`TShapeSubKind.eDonut`) on its top or bottom paste mask
+      or solder mask layer.
+    remarks: A layer counts only when its stack shape is `TShape.eCustomShape`. Returns false when the product features
+      for custom mask shapes and donut shapes are not both enabled.
+  HasCustomMaskShapes:
+    summary: Returns whether the pad has its own shape on its top or bottom paste mask or solder mask layer.
+    remarks: Returns true when `StackShapeOnLayer` is not `TShape.eNoShape` for at least one of these four layers.
+      Returns false when the product feature for custom mask shapes is not enabled, and for a pad that is neither on a
+      signal layer nor on `TV6_Layer.eV6_MultiLayer`.
+  HasCustomRoundedRectangle:
+    summary: Returns whether the pad has a custom shape of kind `TShapeSubKind.eRoundedRectangle` on any layer.
+    remarks: Only layers whose stack shape is `TShape.eCustomShape` count. Returns false when the product feature for
+      custom pad shapes is not enabled.
+  HasCustomShapes:
+    summary: Returns whether the pad has a custom shape (`TShape.eCustomShape`) on any layer of its stack.
+    remarks: Returns false when the product feature for custom pad shapes is not enabled.
+  HoleSizeOnLayer:
+    summary: The diameter of the pad's hole on the given layer, in internal units (10,000 per mil).
+    remarks: Equals `HoleSize` on every layer unless the pad has counter holes (`IsCounterHole`). Then, on each
+      electrical layer that a counter hole reaches, the value is the counter hole's diameter at that layer's depth
+      when that diameter is larger.
+    parameters:
+      argLayer: The layer to query.
+  IsBottomPasteEnabled:
+    summary: Whether the pad has a paste mask opening on the bottom side.
+    remarks: When the pad's layer supports a paste mask for through-hole pads, the bottom setting is independent of
+      `IsTopPasteEnabled`; otherwise both properties read and set the same paste mask setting of the pad.
+  IsTopPasteEnabled:
+    summary: Whether the pad has a paste mask opening on the top side.
+    remarks: When the pad's layer supports a paste mask for through-hole pads, the top setting is independent of
+      `IsBottomPasteEnabled`; otherwise both properties read and set the same paste mask setting of the pad.
+  LinkCustomShape:
+    summary: Makes a primitive the pad's custom shape on the primitive's layer.
+    remarks: >-
+      Does nothing when the primitive is on `TV6_Layer.eV6_MultiLayer` or when the pad already has a custom shape on
+      the primitive's layer.
+
+
+      The shape is stored for the layer of the pad stack that the primitive's layer maps to: the top layer for a
+      simple pad (`TPadMode.ePadMode_Simple`), the first internal layer for an internal layer of a top-middle-bottom
+      stack (`TPadMode.ePadMode_LocalStack`), and the primitive's own layer otherwise. The stack shape on that layer
+      becomes `TShape.eCustomShape`.
+    parameters:
+      argPrimitive: The primitive that becomes the custom shape. Passing null does nothing.
+  SwapMaskLayersIfNeeded:
+    summary: Swaps the pad's top and bottom custom mask shapes when the pad has moved to a signal layer on the other
+      side of the board.
+    remarks: Does nothing for a pad that is not on a board, or when the pad's previous and current layers are not both
+      signal layers.
+  TopLayer:
+    summary: The top layer of the pad's layer span.
+    remarks: For a pad on a signal layer or on `TV6_Layer.eV6_MultiLayer`, this is the top signal layer of the board's
+      layer stack; for a pad on another layer, the top layer of the layer stack. For a pad that is not on a board, it
+      is the top layer.
+  TransformFingerToCorner:
+    summary: Converts a finger-shaped custom shape on the given layer into a rectangle with two rounded or chamfered
+      corners.
+    remarks: A rounded finger (`TShapeSubKind.eRoundedFinger`) becomes a rounded rectangle
+      (`TShapeSubKind.eRoundedRectangle`) with a corner radius of 100%, and an octagonal finger
+      (`TShapeSubKind.eOctagonalFinger`) becomes a chamfered rectangle (`TShapeSubKind.eChamferedRectangle`) with a
+      corner size of 50%. Only the top right and bottom right corners are rounded or chamfered. Does nothing for other
+      shapes.
+    parameters:
+      argLayer: The layer whose custom shape is converted.
+  UpdatePadStructureOnLayer:
+    summary: Recreates the pad's default shape on the given layer and re-applies the layer's custom thermal reliefs to
+      the new shape.
+    parameters:
+      argLayer: The layer to update.
+  UpdateSizeForRoundedAndChamferedShapes:
+    summary: Sets the pad's stack size on the given layer from its custom rounded or chamfered rectangle.
+    remarks: When the custom shape on the layer is a `TShapeSubKind.eRoundedRectangle` or
+      `TShapeSubKind.eChamferedRectangle`, `XStackSizeOnLayer` and `YStackSizeOnLayer` for that layer are set to the
+      width and height of the shape's bounding rectangle. Does nothing for other shapes.
+    parameters:
+      argLayer: The layer to update.

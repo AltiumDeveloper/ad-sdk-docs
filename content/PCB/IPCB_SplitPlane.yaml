@@ -1,0 +1,75 @@
+# PCB.IPCB_SplitPlane: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A split plane on an internal plane layer, an area of the plane bounded by an outline and poured as regions.
+remarks: >-
+  Split planes can be placed only on internal plane layers. They are group objects: the regions created when a split
+  plane is poured (`Pour`) are its child objects. Use `GroupIterator_Create` and `GroupIterator_Destroy` to iterate
+  them.
+
+
+  Polygon pours are represented by `IPCB_Polygon`, not by this interface.
+members:
+  AcceptsLayer:
+    summary: Returns whether the split plane can be placed on the given layer.
+    remarks: Returns true for the internal plane layers (`TV6_Layer.eV6_InternalPlane1` to
+      `TV6_Layer.eV6_InternalPlane16`) and false for any other layer.
+  AreaSize:
+    summary: The area enclosed by the split plane's outline, in square internal units.
+    remarks: >-
+      The value is approximate: it does not take the width of the outline into account. `SetState_XSizeYSize_1`
+      recalculates it from the outline; an assigned value is stored as given.
+  GetNegativeRegion:
+    summary: Returns a region that covers the part of the split plane's outline that is not covered by its child
+      regions.
+    remarks: The region is on the split plane's layer. Returns null when the child regions cover the whole outline.
+  GrowPolyshape:
+    summary: Moves the edges of the split plane's outline outwards or inwards by the given distance.
+    remarks: Does nothing when the distance is 0 or the outline has fewer than two points.
+    parameters:
+      argDist: The distance, in internal units (10,000 per mil). A positive value moves the edges outwards, so the area
+        grows; a negative value moves them inwards.
+  HitPrimitive:
+    summary: Whether the given primitive touches the split plane's outline or lies inside it.
+    remarks: Returns true when the primitive's reference point is inside the outline or the primitive overlaps one of the
+      outline's segments. Returns false for null.
+  PointCount:
+    summary: The number of segments in the split plane's outline.
+  PointInPolygon:
+    summary: Returns whether the given point lies inside the split plane's outline.
+    parameters:
+      argHitX: The X coordinate of the point, in internal units (10,000 per mil).
+      argHitY: The Y coordinate of the point, in internal units (10,000 per mil).
+  Pour:
+    summary: Pours the split plane, regenerating its child regions.
+  PrimitiveInsidePoly:
+    summary: Returns whether the given primitive lies completely inside the split plane's outline.
+    remarks: Returns true when the primitive's reference point is inside the outline and the primitive does not touch any
+      of the outline's segments. Returns false for null.
+  RemovePour:
+    summary: Removes the split plane's current child regions and restores the child regions it had when its state was
+      last saved.
+    remarks: Does nothing when the split plane is not on a board.
+  RotateAroundXY:
+    summary: Rotates the split plane about the given point.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+  Segments:
+    summary: The segments of the split plane's outline, by index.
+    remarks: >-
+      Each segment is a line (`Kind` is `TPolySegmentType.ePolySegmentLine`) given by its vertex `Vx`, `Vy`, or an arc
+      (`TPolySegmentType.ePolySegmentArc`) given by its centre `Cx`, `Cy`, its `Radius` and the angles `Angle1` and
+      `Angle2`. Coordinates are in internal units. An index outside 0 to `PointCount` returns a segment with all fields
+      zero, and assigning a segment at such an index does nothing. After changing the outline, call
+      `SetState_XSizeYSize_1` to recalculate the bounding rectangle and `AreaSize`.
+    seeAlso:
+      - PCB.PolySegment
+  SetState_XSizeYSize_1:
+    summary: Recalculates the split plane's bounding rectangle and `AreaSize` from its outline.
+    remarks: Returns true.
+  StrictHitTest:
+    summary: Whether the given point lies inside the split plane's bounding rectangle and inside its outline.
+    parameters:
+      argHitX: The X coordinate of the point, in internal units (10,000 per mil).
+      argHitY: The Y coordinate of the point, in internal units (10,000 per mil).
+  XBoundingRectangle:
+    summary: Returns the bounding rectangle of the split plane's outline.

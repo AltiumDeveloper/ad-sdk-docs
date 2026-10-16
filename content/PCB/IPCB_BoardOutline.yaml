@@ -1,6 +1,5 @@
 # PCB.IPCB_BoardOutline: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The board outline object represents the board shape which defines the extents or boundary of the board in the
-  PCB Editor. A board outline object is essentially a closed polygon and is inherited from the IPCB_Polygon interface.
+summary: The board outline of a PCB document, the closed polygon that defines the extents or boundary of the board.
 remarks: >-
   The PCB Editor uses the board outline shape to determine the extents of the power planes for plane edge pull back,
   used when splitting power planes and for calculating the board edge when design data is exported to other tools such
@@ -9,33 +8,127 @@ remarks: >-
 
   A board outline is a group object therefore it is composed of pull back primitives namely tracks and arcs as the
   vertices for the closed polygon of the board outline. Although the board outline object interface is inherited from
-  the IPCB_Polygon interface, you cannot use layer, net assignment and repour polygon behaviours for a board outline.
+  the `IPCB_Polygon` interface, you cannot use layer, net assignment and repour polygon behaviours for a board outline.
+  Assigning most of the inherited pour settings, such as `RemoveDead`, `UseOctagons`, `Grid`, `TrackSize`, `MinTrack`,
+  `BorderWidth`, `PolyHatchStyle`, `Name`, `PourIndex`, `Poured`, `IgnoreViolations` and the neck and island settings,
+  does nothing on a board outline; `ArcApproximation` is the exception and applies to the board outline too.
 
 
-  The IPCB_BoardOutline interface is inherited from IPCB_Polygon interface and in turn from IPCB_Group interface.
+  `IPCB_BoardOutline` inherits from `IPCB_Polygon`, which in turn inherits from `IPCB_Group`. Besides the inherited
+  polygon members, it provides members that rebuild the outline's derived data after its shape has changed, return the
+  outline as an `IPCB_GeometricPolygon`, and manage the bending lines and split lines that divide the board into board
+  regions.
 
 
   To iterate the board outline for the pullback primitives, you create and use a group iterator because the board
   outline is a group object which in turn is composed of child objects.
 
 
-  The IPCB_BoardOutline interface is used by the `IPCB_Board.BoardOutline` property.
+  The board outline of a board is returned by the `IPCB_Board.BoardOutline` property.
 
 
   Each new PCB document in Altium Designer is created with a board outline, so if you wish to update a board outline of
-  a PCB document, you modify the existing board outline by massaging the board outline's vertices and then update the
-  board outline..
+  a PCB document, you modify the vertices of the existing board outline and then update the board outline.
 members:
+  BendingLine:
+    summary: Returns the bending line at the given index.
+    parameters:
+      argIndex: The zero-based index of the bending line, from 0 to `BendingLinesCount` - 1.
+  BendingLinesCount:
+    summary: The number of bending lines defined on the board outline.
+  BoardOutline_GeometricPolygon:
+    summary: Returns the shape of the board outline as an `IPCB_GeometricPolygon`.
+    remarks: Arcs of the outline are approximated with the outline's `ArcApproximation`.
+  BuildFromObjects_ReturnGeometricPolygon:
+    summary: Builds a board outline shape from the tracks and arcs on the given layer and returns it as an
+      `IPCB_GeometricPolygon`.
+    remarks: >-
+      Returns null unless the layer is a keep-out or mechanical layer. When the tracks and arcs do not form one closed
+      shape, the largest region they enclose is returned; null is returned when no region is found. The stored shape
+      of the board outline is not changed.
+    parameters:
+      argLayer: The keep-out or mechanical layer whose tracks and arcs define the shape.
+  ClipWithPolyRegShapes:
+    summary: Subtracts the board cutouts, and optionally pad and via holes and the cutouts of embedded boards, from the
+      board outline and returns the resulting shapes as an `IPCB_PolyRegShapesClipResult`.
+    remarks: >-
+      Returns null when the board outline has no shape. When there is nothing to subtract, the result contains one new
+      polygon with the shape of the board outline.
+    parameters:
+      argUseHolesFromViaPad: Whether the holes of pads and vias are subtracted too.
+      argUseEmbedded: Whether the cutouts of the boards placed as embedded boards are subtracted too, repeated for each
+        row and column of the embedded board array.
+  CreateBendingLine:
+    summary: Creates a bending line on the board outline and returns it.
+    remarks: Returns null unless rigid-flex is enabled for the board. The bending line is given a generated name.
+    parameters:
+      argFromPoint: The start point of the bending line, in internal units (10,000 per mil).
+      argToPoint: The end point of the bending line, in internal units (10,000 per mil).
+      argFoldIndex: The fold index of the bending line (`IPCB_BendingLine.FoldIndex`).
+      argRadius: The bend radius, in internal units (10,000 per mil).
+      argAngle: The bend angle, in degrees.
+  CreateSplitLine:
+    summary: Creates a split line on the board outline, which divides the board into separate board regions, and
+      returns it.
+    parameters:
+      argFromPoint: The start point of the split line, in internal units (10,000 per mil).
+      argToPoint: The end point of the split line, in internal units (10,000 per mil).
+  DeleteBendingLine:
+    summary: Removes the given bending line from the board outline.
+    remarks: Does nothing when the bending line does not belong to the board outline.
+  DeleteSplitLine:
+    summary: Removes the given split line from the board outline.
+    remarks: Does nothing when the split line does not belong to the board outline.
+  HitPrimitive_1:
+    summary: Whether the given primitive touches the board outline or lies inside it.
+    remarks: The primitive's layer is ignored; the primitive is tested as if it were on the multi-layer.
   Invalidate:
-    summary: This method renders the board outline in an invalidated state. This state needs to be rebuilt and validated by
-      the system.
+    summary: Marks the cached data that the board outline derives from its shape, for all layers, as out of date.
+    remarks: It only discards the cached data; `Validate` rebuilds it.
     seeAlso:
       - PCB.IPCB_BoardOutline.Validate
   InvalidatePlane:
-    summary: This method invalidates the specified layer the board outline is connected to, because the outline has been
-      modified and this particular layer needs to be rebuilt.
+    summary: Marks the cached data of the board outline for one layer as out of date, because the outline has been
+      modified and this layer needs to be rebuilt.
+    remarks: The cached data of other layers is kept.
+    parameters:
+      argLayer: The layer whose cached data is discarded.
+  RebuildRegion:
+    summary: Rebuilds the regions of the board outline, optionally with the board cutouts subtracted, and then
+      rebuilds the board outline as `Rebuild_1` does.
+    remarks: >-
+      The existing regions of the board outline are deleted first; new regions are created only when there is at least
+      one cutout to subtract. Like `Rebuild_1`, it deletes all bending lines of the board outline.
+    parameters:
+      argUseCutouts: Whether the board cutouts of the board are subtracted.
+      argUseEmbeddedBoardCutouts: Whether the cutouts of embedded boards are subtracted too; applies only when
+        `argUseCutouts` is true.
+      argUseRouteToolLayer: Whether the primitives on the board's route tool path layer are subtracted as well.
+  Rebuild_1:
+    summary: Rebuilds the board outline after its shape has been changed, which potentially affects the internal and
+      split planes that are connected to the outline.
+    remarks: >-
+      It rebuilds the outline's region with the board cutouts as holes, the board's default board region and the pull
+      back primitives on the internal plane layers. It also deletes all bending lines of the board outline.
+  Set3DLock:
+    summary: Sets which board region stays fixed when the board is folded in 3D.
+    remarks: >-
+      When `argValue` is true and a region is given, that region is locked and all other board regions are unlocked.
+      Otherwise the lock is reassigned automatically: a single board region is locked, or else the largest board region
+      whose layer stack is not flexible.
+    parameters:
+      argValue: Whether to lock the given region.
+      argPrefferedRegion: The board region to lock; may be null.
+  SplitLine:
+    summary: Returns the split line at the given index.
+    parameters:
+      argIndex: The zero-based index of the split line, from 0 to `SplitLineCount` - 1.
+  SplitLineCount:
+    summary: The number of split lines defined on the board outline.
   Validate:
-    summary: The Validate method refreshes and updates the board outline object and its connections to the internal/split
-      planes after it has been altered programmatically (layers or the coordinates of the outline).
-    remarks: The Rebuild method is called implicitly by the Validate method, so executing the Invalidate then the Valid
-      methods are sufficient when the coordinates of a board outline has been modified programmatically.
+    summary: Refreshes the board outline and its connections to the internal and split planes after the outline has
+      been altered programmatically.
+    remarks: >-
+      `Validate` rebuilds the board's default board region and the pull back primitives on the internal plane layers
+      itself, so calling `Invalidate` and then `Validate` is sufficient after the vertices of a board outline have been
+      modified programmatically. Unlike `Rebuild_1`, it keeps the bending lines of the board outline.

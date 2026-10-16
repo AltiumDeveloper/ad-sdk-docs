@@ -1,9 +1,8 @@
 # PCB.IPCB_MechanicalLayerPairs: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: There are 16 general purpose mechanical layers for defining the board layout, placing dimensions on, including
-  fabrication details on, or any other mechanical details the design requires.
+summary: The mechanical layer pairs of a PCB document, each pair linking two mechanical layers as counterparts on the
+  two sides of the board.
 remarks: >-
-  The purpose of the IPCB_MechanicalLayerPairs Interface is to provide which Mechanical layers are paired to one
-  another.
+  The collection is the `IPCB_Board.MechanicalPairs` property.
 
 
   When a component incorporates objects on one or more Mechanical layers which have been paired, the Layer property of
@@ -13,9 +12,58 @@ remarks: >-
   Solder Mask layers.
 
 
-  The IPCB_MechanicalLayerPairs interface is the `IPCB_Board.MechanicalPairs` property.
-
-
-  Invoke the Count method to obtain the number of mechanical layer pairs for the existing PCB document. Indexed
-  mechanical layer pairs which is a LayerPair[] property can be returned. This property returns a TMechanicalLayerPair
-  record of two PCB layers.
+  `Count` returns the number of pairs; `LayerPair` returns the pair at an index from 0 to `Count` - 1 as a
+  `MechanicalLayerPair` with the two layers of the pair.
+members:
+  AddPair:
+    summary: Adds a pair of two mechanical layers and returns the index of the new pair.
+    remarks: >-
+      Returns -1 and adds nothing when either layer is not a mechanical layer. The pair is added even when the same
+      pair is already defined; use `PairDefined` to check first.
+  Clear:
+    summary: Removes all pairs from the collection.
+  Count:
+    summary: Returns the number of mechanical layer pairs.
+  CreatePairByKind:
+    summary: Adds two new mechanical layers of the given pair kind to the board, pairs them, and returns the index of
+      the new pair.
+    remarks: >-
+      For a kind other than `TMechanicalLayerPairKind.mlpUndefined`, returns -1 and creates nothing when the board
+      already has a mechanical layer of either layer kind that the pair kind uses; existing layers are never paired.
+      `TMechanicalLayerPairKind.mlpUndefined` always adds and pairs two new layers of undefined kind. Returns -1 when
+      the two layers cannot be created; a layer that was created is then removed again.
+  Export_ToParameters:
+    summary: Writes all pairs into a parameter string.
+    remarks: >-
+      Each pair is written as the two keys `MechPair<n>L1` and `MechPair<n>L2`, numbered from 0. Pairs that do not
+      consist of two mechanical layers are not written.
+  FlipLayer:
+    summary: Replaces a mechanical layer with the other layer of its pair.
+    remarks: >-
+      When the layer is not in a pair, it is left unchanged. The return value does not report whether the layer was
+      replaced; use `FlipLayerV7` for that, or compare the layer before and after the call.
+  FlipLayerV7:
+    summary: Replaces a mechanical layer with the other layer of its pair; returns true when the layer was replaced.
+    remarks: Returns false and leaves the layer unchanged when the layer is not in a pair.
+  Import_FromParameters:
+    summary: Replaces all pairs with the pairs read from a parameter string.
+    remarks: >-
+      The collection is cleared first. Pairs are read from the keys `MechPair<n>L1` and `MechPair<n>L2`, numbered from
+      0, until a number is missing; only pairs of two mechanical layers are added.
+  LayerPair:
+    summary: The pair at the given index, as a `MechanicalLayerPair` with the two layers of the pair.
+    remarks: For an index outside 0 to `Count` - 1, both layers of the returned pair are no layer.
+  LayerPairKind:
+    summary: The kind of the pair at the given index, such as assembly, courtyard or 3D body.
+    remarks: >-
+      Reading returns the kind shared by both layers of the pair, and `TMechanicalLayerPairKind.mlpUndefined` when the
+      two layers have different kinds or the index is out of range. Assigning a kind changes the kinds of both layers
+      and updates their names. Unless the board uses additional rigid-flex layers, the assignment does nothing when the
+      board already has a mechanical layer of either layer kind that the pair kind uses.
+  LayerUsed:
+    summary: Returns whether the given layer belongs to any pair.
+  PairDefined:
+    summary: Returns whether a pair of the two given layers exists, in either order.
+  RemovePair:
+    summary: Removes the pair of the two given layers, given in either order; returns true when a pair was removed.
+    remarks: When a pair is removed, the kinds of both its layers are reset to `TMechanicalLayerKind.mlUndefined`.
