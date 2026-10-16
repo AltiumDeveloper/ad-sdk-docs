@@ -11,9 +11,7 @@ remarks: >-
 members:
   IsRedundant:
     summary: Returns whether the connection is redundant.
-    remarks: >-
-      Returns true when both ends are the same point: `X1` equals `X2`, `Y1` equals `Y2`, `Layer1` equals `Layer2`,
-      and the 3D face data of the two ends are equal.
+    remarks: Returns true when both ends are the same point on the same layer.
   Layer1:
     summary: The layer of the connection's first end, (`X1`, `Y1`).
   Layer2:

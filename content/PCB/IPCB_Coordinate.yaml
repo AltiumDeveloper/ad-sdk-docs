@@ -11,24 +11,19 @@ remarks: >-
 
 
   `SetState_XSizeYSize_1` regenerates the children from the coordinate's properties only when the location or the
-  layer has changed since the last regeneration, or when the TrueType outline of the text is out of date. `MoveByXY`
-  moves the coordinate and regenerates the children.
+  layer has changed since the last regeneration, or when its TrueType text must be rebuilt. Changing only a size, style
+  or font property therefore does not regenerate the marker. `MoveByXY` moves the coordinate and regenerates the
+  children.
 members:
   Bold:
     summary: Whether the text of the coordinate is bold when it uses a TrueType font.
-    remarks: The value is copied to the text when the children are regenerated. A new coordinate is not bold.
+    remarks: A new coordinate is not bold.
   FontName:
     summary: The name of the TrueType font of the coordinate's text, for example Arial or Courier New.
-    remarks: >-
-      The value is used when `UseTTFonts` is true and is copied to the text when the children are regenerated. A new
-      coordinate uses Arial.
-    seeAlso:
-      - PCB.IPCB_Primitive
-      - PCB.IPCB_Group
-      - PCB.IPCB_GroupIterator
+    remarks: The value is used when `UseTTFonts` is true. A new coordinate uses Arial.
   Italic:
     summary: Whether the text of the coordinate is italic when it uses a TrueType font.
-    remarks: The value is copied to the text when the children are regenerated. A new coordinate is not italic.
+    remarks: A new coordinate is not italic.
   LineWidth:
     summary: The width of the two tracks of the coordinate's cross, in internal units (10,000 per mil).
     remarks: A new coordinate has a line width of 10 mil.
@@ -37,13 +32,13 @@ members:
   Rotation:
     summary: The rotation of the coordinate's text, in degrees.
     remarks: >-
-      Only the text is rotated; the tracks of the cross stay horizontal and vertical. The value is copied to the text
-      when the children are regenerated. A new coordinate has a rotation of 0.
+      Only the text is rotated; the tracks of the cross stay horizontal and vertical. A new coordinate has a rotation
+      of 0.
   SetState_XSizeYSize_1:
     summary: Regenerates the text and the tracks of the coordinate from its properties and recalculates its bounds.
     remarks: >-
       The children are regenerated only when the location or the layer has changed since the last regeneration, or
-      when the TrueType outline of the text is out of date.
+      when the TrueType text must be rebuilt.
   Size:
     summary: Half the length of each track of the coordinate's cross, in internal units (10,000 per mil).
     remarks: >-
@@ -69,15 +64,13 @@ members:
     remarks: Its value, position and font are overwritten when the children are regenerated.
   TextFont:
     summary: The stroke font of the coordinate's text.
-    remarks: The value is copied to the text when the children are regenerated. A new coordinate uses font 1.
+    remarks: A new coordinate uses font 1.
   TextHeight:
     summary: The height of the coordinate's text, in internal units (10,000 per mil).
-    remarks: The value becomes the height of the text when the children are regenerated. A new coordinate has a text
-      height of 60 mil.
+    remarks: A new coordinate has a text height of 60 mil.
   TextWidth:
     summary: The stroke width of the coordinate's text, in internal units (10,000 per mil).
-    remarks: The value becomes the stroke width of the text when the children are regenerated. A new coordinate has a
-      text width of 6 mil.
+    remarks: A new coordinate has a text width of 6 mil.
   Track1:
     summary: Returns the horizontal track of the coordinate's cross.
   Track2:
@@ -85,4 +78,4 @@ members:
   UseTTFonts:
     summary: Whether the text of the coordinate uses a TrueType font (`FontName`, `Bold`, `Italic`) rather than the
       stroke font `TextFont`.
-    remarks: The value is copied to the text when the children are regenerated. A new coordinate uses the stroke font.
+    remarks: A new coordinate uses the stroke font.

@@ -4,7 +4,7 @@ summary: A paste mask expansion rule (`TRuleKind.eRule_PasteMaskExpansion`) that
 remarks: >-
   The rule applies to pads, vias, tracks, arcs, fills and regions whose paste mask expansion comes from the rule, not
   from a manual value. Besides an absolute expansion (`Expansion`), a rule can give the expansion as a percentage, or
-  apply no paste.
+  apply no paste (not available through this interface).
 members:
   Expansion:
     summary: The radial expansion of the paste mask shape, in internal units (10,000 per mil); a negative value

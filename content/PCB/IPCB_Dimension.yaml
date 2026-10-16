@@ -6,8 +6,8 @@ remarks: >-
   diameter and radial diameter dimensions. `IPCB_Dimension` is the base interface of `IPCB_OriginalDimension`,
   `IPCB_LinearDimension`, `IPCB_AngularDimension`, `IPCB_RadialDimension`, `IPCB_LeaderDimension`,
   `IPCB_DatumDimension`, `IPCB_BaselineDimension`, `IPCB_CenterDimension`, `IPCB_LinearDiameterDimension` and
-  `IPCB_RadialDiameterDimension`. Original dimensions (`IPCB_OriginalDimension`) are the dimension style of P99SE and
-  earlier versions.
+  `IPCB_RadialDiameterDimension`. Original dimensions (`IPCB_OriginalDimension`) are the dimension style of early
+  versions.
 
 
   The `DimensionKind` property tells which kind of dimension an object is.
@@ -74,16 +74,16 @@ members:
   MoveTextByXY:
     summary: Moves the dimension text by an offset, changing `TextX` and `TextY`.
     parameters:
-      argX: The horizontal offset, in internal units.
-      argY: The vertical offset, in internal units.
+      argX: The horizontal offset, in internal units (10,000 per mil).
+      argY: The vertical offset, in internal units (10,000 per mil).
   MoveTextToXY:
     summary: Moves the dimension text to a new position, setting `TextX` and `TextY`.
     remarks: >-
       For an angular dimension, the radius and the sector of the dimension are recalculated from the new position. For
       a center dimension, `Size` is set to twice the distance from the dimension's location to the new position.
     parameters:
-      argX: The X coordinate of the new text position, in internal units.
-      argY: The Y coordinate of the new text position, in internal units.
+      argX: The X coordinate of the new text position, in internal units (10,000 per mil).
+      argY: The Y coordinate of the new text position, in internal units (10,000 per mil).
   References:
     summary: The reference at the given index, with its point and anchor.
     parameters:
@@ -124,8 +124,8 @@ members:
     summary: Makes the text prefix of a diameter dimension start with a diameter symbol.
     remarks: >-
       For dimensions of kind `TDimensionKind.eLinearDiameterDimension` or `TDimensionKind.eRadialDiameterDimension`
-      the prefix may be replaced by a diameter symbol followed by a space, for example when it is empty. For other
-      kinds the prefix is left unchanged.
+      a prefix that is empty or does not start with the diameter symbol is replaced by the diameter symbol followed by
+      a space. For other kinds the prefix is left unchanged.
   RotateAroundXY:
     summary: Rotates the dimension around a point.
     remarks: >-
@@ -134,8 +134,8 @@ members:
       radial and leader dimensions are not rotated at all. An original dimension always rotates both of its points
       together with its primitives.
     parameters:
-      argX: The X coordinate of the rotation center, in internal units.
-      argY: The Y coordinate of the rotation center, in internal units.
+      argX: The X coordinate of the rotation center, in internal units (10,000 per mil).
+      argY: The Y coordinate of the rotation center, in internal units (10,000 per mil).
       argngle: The rotation angle.
   Size:
     summary: A size used by some dimension kinds, in internal units (10,000 per mil).
@@ -191,8 +191,8 @@ members:
   TextPrefix:
     summary: Text shown before the measured value.
     remarks: >-
-      Assigning a value calls `ResetPrefixIfNeeded`, so linear diameter and radial diameter dimensions may replace the
-      assigned prefix with a diameter symbol. The default is empty, "R " for radial dimensions and a diameter symbol
+      Assigning a value calls `ResetPrefixIfNeeded`, so on linear diameter and radial diameter dimensions a prefix that
+      does not start with the diameter symbol is replaced by the symbol followed by a space. The default is empty, "R " for radial dimensions and a diameter symbol
       followed by a space for linear diameter and radial diameter dimensions.
   TextSuffix:
     summary: Text shown after the measured value.

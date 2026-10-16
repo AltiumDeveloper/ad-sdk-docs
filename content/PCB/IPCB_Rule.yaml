@@ -1,9 +1,8 @@
 # PCB.IPCB_Rule: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: A design rule on a PCB document; the base interface of the PCB design rule and constraint interfaces.
 remarks: >-
-  The PCB editor incorporates a large set of design rules to help define compliance/constraints regarding the
-  placement of PCB objects, routing methods, and netlists. These rules include clearances, object geometry, impedance
-  control, routing priority, routing topology and parallelism. Each design rule has its own unique ID.
+  Design rules cover clearances, object geometry, impedance control, routing priority, routing topology and
+  parallelism, among others.
 
 
   The scope of a rule is the set of objects that the rule applies to. It is defined by one scope expression for a rule

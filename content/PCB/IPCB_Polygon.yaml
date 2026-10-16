@@ -86,6 +86,7 @@ members:
     remarks: Narrow sections are removed only when `RemoveNarrowNecks` is true. The default value is 5 mils.
   PointCount:
     summary: The number of segments in the polygon's outline.
+    remarks: '`Segments` accepts indexes from 0 to `PointCount` inclusive.'
   PointInPolygon:
     summary: Returns whether the given point lies inside the polygon's outline.
     parameters:
@@ -162,9 +163,9 @@ members:
     summary: The segments of the polygon's outline, by index.
     remarks: >-
       Each segment is a line (`Kind` is `TPolySegmentType.ePolySegmentLine`) given by its vertex `Vx`, `Vy`, or an arc
-      (`TPolySegmentType.ePolySegmentArc`) given by its centre `Cx`, `Cy`, its `Radius` and the angles `Angle1` and
-      `Angle2`. Coordinates are in internal units. An index outside 0 to `PointCount` returns a segment with all fields
-      zero, and assigning a segment at such an index does nothing.
+      (`TPolySegmentType.ePolySegmentArc`) given by its center `Cx`, `Cy`, its `Radius` and the angles `Angle1` and
+      `Angle2`. Coordinates are in internal units (10,000 per mil). Valid indexes are from 0 to `PointCount` inclusive; any other index
+      returns a segment with all fields zero, and assigning a segment at such an index does nothing.
     seeAlso:
       - PCB.PolySegment
   SetState_AutoNameInvalidate:

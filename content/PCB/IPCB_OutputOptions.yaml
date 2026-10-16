@@ -7,48 +7,43 @@ remarks: >-
   inclusion of mechanical layers with all plots). Each group can be written to and read from a parameter string.
 
 
-  For output options, `Import_FromParameters` and `Export_ToParameters` handle both groups;
-  `Import_FromParameters_Version3` and `Export_ToParameters_Version3` handle the general options and the layer
-  options in the version 3 layer numbering.
+  `Export_ToParameters` writes every setting as a parameter; `Import_FromParameters` reads them. Both handle the two
+  groups; `Import_FromParameters_Version3` and `Export_ToParameters_Version3` handle the general options and the
+  layer options in the version 3 layer numbering.
 members:
   BottomLayerOnPadMaster:
-    remarks: Newly created options start with true. Saved as the `BottomLayerOnPadMaster` parameter.
+    remarks: Newly created options start with true.
   DrillDrawSymbolSize:
     summary: The size of the symbols on the drill drawing, in internal units (10,000 per mil).
-    remarks: Newly created options start with 50 mil. Saved as the `DrillDrawSymbolSize` parameter.
+    remarks: Newly created options start with 50 mil.
   DrillGuideHoleSize:
     summary: The hole size used on the drill guide, in internal units (10,000 per mil).
-    remarks: Newly created options start with 30 mil. Saved as the `DrillGuideHoleSize` parameter.
+    remarks: Newly created options start with 30 mil.
   DrillSymbolKind:
     summary: How hole sizes are marked on the drill drawing, with graphic symbols (`TDrillSymbol.eSymbols`), numbers
       (`TDrillSymbol.eNumbers`) or letters (`TDrillSymbol.eLetters`).
-    remarks: Newly created options start with `TDrillSymbol.eSymbols`. Saved as the integer `DrillSymbolKind` parameter.
+    remarks: Newly created options start with `TDrillSymbol.eSymbols`.
   Export_ToParameters_GeneralOptions:
     summary: Writes the general output settings to a parameter string.
     remarks: >-
-      Writes `Record=OutputOptions` and the parameters `DrillGuideHoleSize`, `DrillDrawSymbolSize`, `DrillSymbolKind`
-      (as an integer), `MultiLayerOnPadMaster`, `TopLayerOnPadMaster`, `BottomLayerOnPadMaster`,
-      `IncludeViasInSolderMask` and `IncludeUnconnectedPads`. The layer settings are not written: use
-      `Export_ToParameters_LayerOptions`.
+      Writes `DrillGuideHoleSize`, `DrillDrawSymbolSize`, `DrillSymbolKind`, `MultiLayerOnPadMaster`,
+      `TopLayerOnPadMaster`, `BottomLayerOnPadMaster`, `IncludeViasInSolderMask` and `IncludeUnconnectedPads`. The
+      layer settings are not written: use `Export_ToParameters_LayerOptions`.
     parameters:
       argParameters: The parameter string that receives the settings.
   Export_ToParameters_LayerOptions:
     summary: Writes the layer settings to a parameter string.
-    remarks: >-
-      Writes `IncludeMech1WithAllPlots` to `IncludeMech16WithAllPlots`, the `PlotLayers.Set` and `FlipLayers.Set`
-      parameters, and the `PlotLayers` (`PlotLayer`) and `FlipLayers` (`FlipLayer`) parameters: strings with one
-      character per plot layer from `TV6_PlotLayer.eV6_TopLayerPlot` to `TV6_PlotLayer.eV6_BottomPadMasterPlot`, `1`
-      for a set layer and `0` for one that is not set.
+    remarks: Writes whether mechanical layers 1 to 16 are included with all plots, and the `PlotLayer` and `FlipLayer`
+      selections of all plot layers.
     parameters:
       argParameters: The parameter string that receives the settings.
   Export_ToParameters_LayerOptions_Version3:
     summary: Writes the layer settings to a parameter string in the version 3 layer numbering.
-    remarks: Writes `IncludeMech1WithAllPlots` to `IncludeMech4WithAllPlots` and the `PlotLayers` and `FlipLayers`
-      strings, with one character for each plot layer that has a version 3 equivalent; other layers are left out.
+    remarks: Writes whether mechanical layers 1 to 4 are included with all plots, and the `PlotLayer` and `FlipLayer`
+      selections of each plot layer that has a version 3 equivalent; other layers are left out.
     parameters:
       argParameters: The parameter string that receives the settings.
   FlipLayer:
-    remarks: Saved for all plot layers as the `FlipLayers.Set` and `FlipLayers` parameters.
     parameters:
       argPL: The plot layer.
   Import_FromParameters_GeneralOptions:
@@ -61,28 +56,26 @@ members:
   Import_FromParameters_LayerOptions:
     summary: Reads the layer settings from a parameter string.
     remarks: >-
-      Reads the parameters that `Export_ToParameters_LayerOptions` writes. For each of `PlotLayer` and `FlipLayer`,
-      the `PlotLayers.Set` or `FlipLayers.Set` parameter is used when present; otherwise the `PlotLayers` or
-      `FlipLayers` string is read, one character per plot layer, and layers beyond the end of the string keep their
-      current value. When neither parameter is present, the layer selection is not changed.
+      Reads the settings that `Export_ToParameters_LayerOptions` writes. When the string holds only the older layer
+      selection with one character per plot layer, plot layers beyond its end keep their current value. When the
+      string holds no layer selection, `PlotLayer` and `FlipLayer` are not changed.
     parameters:
       argParameters: The parameter string to read.
   Import_FromParameters_LayerOptions_Version3:
     summary: Reads the layer settings from a parameter string that uses the version 3 layer numbering.
-    remarks: Reads `IncludeMech1WithAllPlots` to `IncludeMech4WithAllPlots` and the `PlotLayers` and `FlipLayers`
-      strings, and converts each version 3 plot layer to the corresponding current plot layer. Plot layers that have no
-      version 3 equivalent are not changed.
+    remarks: Reads whether mechanical layers 1 to 4 are included with all plots and the `PlotLayer` and `FlipLayer`
+      selections, and converts each version 3 plot layer to the corresponding current plot layer. Plot layers that have
+      no version 3 equivalent are not changed.
     parameters:
       argParameters: The parameter string to read.
   IncludeUnconnectedPads:
-    remarks: Newly created options start with true. Saved as the `IncludeUnconnectedPads` parameter.
+    remarks: Newly created options start with true.
   IncludeViasInSolderMask:
-    remarks: Newly created options start with true. Saved as the `IncludeViasInSolderMask` parameter.
+    remarks: Newly created options start with true.
   MultiLayerOnPadMaster:
-    remarks: Newly created options start with true. Saved as the `MultiLayerOnPadMaster` parameter.
+    remarks: Newly created options start with true.
   PlotLayer:
-    remarks: Saved for all plot layers as the `PlotLayers.Set` and `PlotLayers` parameters.
     parameters:
       argPL: The plot layer.
   TopLayerOnPadMaster:
-    remarks: Newly created options start with true. Saved as the `TopLayerOnPadMaster` parameter.
+    remarks: Newly created options start with true.

@@ -15,8 +15,8 @@ members:
     summary: Rotates the primitive about a point by an angle.
     remarks: >-
       The primitive is moved around the point and the angle is added to `Rotation`; the size of the primitive is then
-      recalculated. For a fill, the centre of the rectangle is rotated about the point and the corners keep their
-      offsets from it, so passing the centre (midway between `X1Location` and `X2Location`, and between `Y1Location`
+      recalculated. For a fill, the center of the rectangle is rotated about the point and the corners keep their
+      offsets from it, so passing the center (midway between `X1Location` and `X2Location`, and between `Y1Location`
       and `Y2Location`) rotates the fill without moving it; you can also use the `Rotation` property. For an embedded
       board the method always rotates by 90 degrees, whatever angle is passed.
     parameters:

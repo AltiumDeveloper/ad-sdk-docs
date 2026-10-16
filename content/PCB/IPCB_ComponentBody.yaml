@@ -1,7 +1,6 @@
 # PCB.IPCB_ComponentBody: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: A component body is a body that encapsulates a component in 3 dimensions on a PCB document. Component bodies
-  are handled in the same way as other primitives, and they are contained in the component itself, whether in a library
-  or on a board.
+summary: A body that encapsulates a component in 3 dimensions on a PCB document; it is handled like other primitives
+  and is contained in the component, whether in a library or on a board.
 remarks: >-
   A component body is a child object of a component: to retrieve the bodies of a component, iterate over the component
   with a group iterator filtered to `TObjectId.eComponentBodyObject`.
@@ -41,7 +40,7 @@ members:
       argIndex: The zero-based index of the axis, from 0 to `AxisCount` - 1.
   Identifier:
     summary: The identifier of the body.
-    remarks: The SDK examples set it from the name of the STEP file the body's model was loaded from.
+    remarks: You can set it, for example, to the name of the STEP file that the body's model was loaded from.
   Model:
     summary: The 3D model of the body.
     remarks: >-
@@ -139,7 +138,7 @@ members:
       For a model that is not an extruded model, the outline becomes a rectangle around the model's extent in the
       board plane, turned by the model's Z rotation, and `StandoffHeight` and `OverallHeight` are set from the model's
       lowest and highest Z. For an extruded model, the outline and heights are kept and the model's origin is moved to
-      the centre of the body's bounding rectangle. Does nothing when the body has no model or the model is empty.
+      the center of the body's bounding rectangle. Does nothing when the body has no model or the model is empty.
   SnapCount:
     summary: The number of snap points of the body, including the origin snap point at index 0.
     remarks: >-
@@ -160,7 +159,7 @@ members:
     summary: The name of the texture image drawn on the body in the 3D view; empty for no texture.
     remarks: The texture is drawn only when the body's model is an extruded model.
   TextureCenter:
-    summary: The offset of the texture's centre from the centre of the body's bounding rectangle, in internal units
+    summary: The offset of the texture's center from the center of the body's bounding rectangle, in internal units
       (10,000 per mil).
   TextureRotation:
     summary: The rotation of the texture, in degrees.
@@ -169,8 +168,8 @@ members:
   UniqueName:
     summary: Returns a text that identifies the body's model.
     remarks: >-
-      For a non-empty model the text is a number that identifies the loaded data; for an empty model it is the
-      model's GUID.
+      For a non-empty model it is a text that identifies the loaded model data during the current session; it is not
+      persistent. For an empty model it is the model's GUID.
   ValidateMesh:
     summary: Rebuilds the body's extruded model when it has changed.
     remarks: >-

@@ -1,6 +1,6 @@
 # PCB.IPCB_OriginalDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: An original dimension on a PCB document, the linear dimension style of P99SE and earlier versions, which
-  measures the distance between two points.
+summary: An original dimension on a PCB document, the linear dimension style of early versions, which measures the
+  distance between two points.
 remarks: >-
   The dimension measures the distance from (`XLocation`, `YLocation`) to (`X1Location`, `Y1Location`) and shows it in
   the board's display unit, formatted according to `Style`. The newer dimension styles, such as `IPCB_LinearDimension`,
@@ -12,16 +12,14 @@ remarks: >-
   two points. All tracks are drawn on the dimension's layer with the width `LineWidth`.
 
 
-  When the primitives are regenerated, the two points are swapped if needed, so that (`XLocation`, `YLocation`) is the
-  left point, or the lower one when both points have the same X coordinate. The arrowheads are `TextHeight` long. When
-  the distance is too short for the text with 10 mil of space on each side and at least 40 mil of dimension line on
-  each side of it, the two halves of the dimension line are drawn outside the measured span, 100 mil long, the
-  arrowheads point inward and the text is placed beside the line.
+  The two points are swapped if needed, so that (`XLocation`, `YLocation`) is the left point, or the lower one when
+  both points have the same X coordinate. When the distance is too short for the text, the dimension line is drawn
+  outside the measured span, the arrowheads point inward and the text is placed beside the line.
 members:
   Text:
     summary: Returns the text that shows the dimension's measured value.
     remarks: >-
-      When the primitives are regenerated, the text gets the dimension's layer, `TextHeight`, `TextWidth`, `TextFont`,
+      The text gets the dimension's layer, `TextHeight`, `TextWidth`, `TextFont`,
       `UseTTFonts`, `FontName`, `Bold` and `Italic`. It is placed between the two halves of the dimension line, or
       beside the line when the distance is too short, and rotated to the line's angle.
   Track1:

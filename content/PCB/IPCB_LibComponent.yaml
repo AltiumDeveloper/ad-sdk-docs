@@ -57,10 +57,8 @@ members:
     remarks: >-
       The primitives on the board, on all layers, become child objects of the footprint and are deselected. They are
       moved by the negative of the board origin, so that the footprint's coordinates are relative to the board origin.
-      The board's grids and guides are stored with the footprint and the library and then removed from the board.
   TransferAllPrimitivesOntoBoard:
     summary: Places the footprint's primitives on the library's board, where they are displayed and edited.
     remarks: >-
       The primitives are moved by 50,000 mils in X and Y, and the board origin is set to that point, so that the
-      footprint's coordinates are relative to the board origin. The board's grids and guides are replaced by the ones
-      stored with the footprint and the library.
+      footprint's coordinates are relative to the board origin.

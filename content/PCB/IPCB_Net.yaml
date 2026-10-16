@@ -88,8 +88,7 @@ members:
     remarks: >-
       The primitive's `Net` becomes this net, its `InNet` becomes true and the net's `ConnectivelyInvalid` becomes true.
       Nothing is added for a text object, or for a primitive that is not on a signal layer, the multi-layer or the
-      connection layer (die pad and wire bonding layers are also accepted where wire bonds are supported); the
-      primitive's `Net` is cleared instead. Nothing is added either while the primitive's `InNet` is true, that is,
+      connection layer; the primitive's `Net` is cleared instead. Nothing is added either while the primitive's `InNet` is true, that is,
       while it still belongs to a net.
 
 

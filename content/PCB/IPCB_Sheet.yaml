@@ -5,30 +5,29 @@ remarks: >-
   The sheet extends from (`SheetX`, `SheetY`) by `SheetWidth` to the right and `SheetHeight` upwards, in internal
   units (10,000 per mil). `ShowSheet` sets whether it is drawn; when `LockSheet` is true, `UpdateSheetPosition` fits
   it to the objects on the mechanical layers linked to the sheet.
+
+
+  The sheet of a new board is at (1000 mil, 1000 mil), 10000 mil wide and 8000 mil high, not shown (`ShowSheet` is
+  false) and locked (`LockSheet` is true).
 members:
   LockSheet:
     summary: Whether the sheet is fitted to the objects on the mechanical layers linked to it.
     remarks: When true, `UpdateSheetPosition` moves and resizes the sheet to enclose those objects; when false,
-      `UpdateSheetPosition` does not change the sheet. The sheet of a newly created board starts with true.
+      `UpdateSheetPosition` does not change the sheet.
     seeAlso:
       - PCB.IPCB_MechanicalLayer.LinkToSheet
   SheetHeight:
     summary: The height of the sheet, in internal units (10,000 per mil).
-    remarks: The top edge of the sheet is at `SheetY` plus this value. The sheet of a newly created board starts with
-      8000 mil.
+    remarks: The top edge of the sheet is at `SheetY` plus this value.
   SheetWidth:
     summary: The width of the sheet, in internal units (10,000 per mil).
-    remarks: The right edge of the sheet is at `SheetX` plus this value. The sheet of a newly created board starts with
-      10000 mil.
+    remarks: The right edge of the sheet is at `SheetX` plus this value.
   SheetX:
     summary: The X coordinate of the sheet's bottom-left corner, in internal units (10,000 per mil).
-    remarks: The sheet of a newly created board starts with 1000 mil.
   SheetY:
     summary: The Y coordinate of the sheet's bottom-left corner, in internal units (10,000 per mil).
-    remarks: The sheet of a newly created board starts with 1000 mil.
   ShowSheet:
     summary: Whether the sheet is drawn in the PCB editor.
-    remarks: The sheet of a newly created board starts with false.
   UpdateSheetPosition:
     summary: Fits the sheet to the objects on the mechanical layers linked to the sheet, when `LockSheet` is true.
     remarks: >-

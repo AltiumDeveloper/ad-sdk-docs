@@ -50,5 +50,6 @@ members:
       argParameters: The parameter string to read.
   ObjectID:
     summary: >-
-      The kind of options object, set when the object is created: for example `TOptionsObjectId.eSystemOptions` for
-      the system options and `TOptionsObjectId.ePrinterOptions` for printer options.
+      The kind of options object, set by each options object when it is created: for example
+      `TOptionsObjectId.eSystemOptions` for the system options and `TOptionsObjectId.ePrinterOptions` for printer
+      options.

@@ -36,8 +36,8 @@ members:
   Contour:
     summary: Returns a contour of the polygon.
     remarks: >-
-      The returned contour refers to the vertices of the polygon: changing it changes the polygon. Returns null when
-      the index is outside 0 to `Count` - 1.
+      The returned contour refers to the vertices of the polygon: changing it changes the polygon. It is valid only
+      until another contour is added to the polygon. Returns null when the index is outside 0 to `Count` - 1.
     parameters:
       argI: The zero-based index of the contour.
   Count:

@@ -1,7 +1,6 @@
 # PCB.IPCB_Embedded: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: An embedded object in a PCB document, an object that is not visible and stores information in the document.
-remarks: An embedded object cannot be manipulated by normal means in Altium Designer. The information it stores is
-  saved in the PCB document file when the file is saved. Each embedded object is identified by its `Name`, and its
+remarks: The information an embedded object stores is saved in the PCB document file when the file is saved. Each embedded object is identified by its `Name`, and its
   `Description` can be used to store information.
 members:
   Description:

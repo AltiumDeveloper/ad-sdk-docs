@@ -15,14 +15,14 @@ members:
     seeAlso:
       - PCB.IPCB_Board
   BottomSignalLayer:
-    summary: Returns the layer ID of the last electrical layer of the layer stack that is not a coverlay layer.
-    remarks: Returns the bottom layer when the stack has no such layer.
+    summary: The layer ID of the last electrical layer of the layer stack that is not a coverlay layer.
+    remarks: It is the bottom layer when the stack has no such layer.
   DielectricBottom:
-    summary: The bottom solder mask layer of the layer stack, or null when the stack has none.
+    summary: Returns the bottom solder mask layer of the layer stack, or null when the stack has none.
     seeAlso:
       - PCB.IPCB_SolderMaskLayer
   DielectricTop:
-    summary: The top solder mask layer of the layer stack, or null when the stack has none.
+    summary: Returns the top solder mask layer of the layer stack, or null when the stack has none.
     seeAlso:
       - PCB.IPCB_SolderMaskLayer
   LayerObject:
@@ -48,5 +48,5 @@ members:
   ShowTopDielectric:
     remarks: The value is a stored flag of the layer stack; setting it changes only the flag.
   TopSignalLayer:
-    summary: Returns the layer ID of the first electrical layer of the layer stack that is not a coverlay layer.
-    remarks: Returns the top layer when the stack has no such layer.
+    summary: The layer ID of the first electrical layer of the layer stack that is not a coverlay layer.
+    remarks: It is the top layer when the stack has no such layer.

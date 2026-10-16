@@ -41,7 +41,7 @@ members:
       comment texts.
     remarks: >-
       A pad contributes its shapes on the top and the bottom layer. When the component has none of these primitives,
-      the rectangle is a 10 mil square centred on the reference point.
+      the rectangle is a 10 mil square centered on the reference point.
   ChangeAutopositionNameComment:
     summary: Places the name and the comment again at their automatic positions (`NameAutoPos`, `CommentAutoPos`).
     remarks: A name or comment whose position is `TTextAutoposition.eAutoPos_Manual` is left where it is.
@@ -79,24 +79,24 @@ members:
   ComponentKind:
     summary: The kind of the component, which decides how it takes part in synchronization, electrical checks and the BOM.
     remarks: >-
-      `TComponentKind.eComponentKind_Standard`: these components possess standard electrical properties, are always
+      `EDP.TComponentKind.eComponentKind_Standard`: these components possess standard electrical properties, are always
       synchronized and are the type most commonly used on a board.
 
 
-      `TComponentKind.eComponentKind_Mechanical`: these components do not have electrical properties and will appear in
+      `EDP.TComponentKind.eComponentKind_Mechanical`: these components do not have electrical properties and will appear in
       the BOM. They are synchronized if the same components exist on both the schematic and PCB documents. An example is
       a heatsink.
 
 
-      `TComponentKind.eComponentKind_Graphical`: these components are not used during synchronization or checked for
+      `EDP.TComponentKind.eComponentKind_Graphical`: these components are not used during synchronization or checked for
       electrical errors. These components are used, for example, when adding company logos to documents.
 
 
-      `TComponentKind.eComponentKind_NetTie_BOM`: these components short two or more different nets for routing; they
+      `EDP.TComponentKind.eComponentKind_NetTie_BOM`: these components short two or more different nets for routing; they
       appear in the BOM and are maintained during synchronization.
 
 
-      `TComponentKind.eComponentKind_NetTie_NoBOM`: these components short two or more different nets for routing; they
+      `EDP.TComponentKind.eComponentKind_NetTie_NoBOM`: these components short two or more different nets for routing; they
       do not appear in the BOM and are maintained during synchronization.
   DefaultPCB3DModel:
     summary: The name of the default PCB 3D model linked to this component.
@@ -141,18 +141,22 @@ members:
     seeAlso:
       - PCB.TPackageCompareOption
   LoadCompFromLibrary:
-    summary: Reloads the component's primitives from the library footprint named by `Pattern`. If it is successful a true
-      value is returned otherwise false.
+    summary: Reloads the component's primitives from the library footprint named by `Pattern`.
     remarks: >-
+      Returns true when it succeeds.
+
+
       When `Pattern` is a plain footprint name, the footprint is read from the library file in
       `SourceFootprintLibrary`; when it cannot be loaded from there, the open library documents are searched. The
       component keeps its location, layer and rotation. It takes `SourceFootprintLibrary`, `FootprintDescription`,
       `DefaultPCB3DModel`, `VaultGUID`, `ItemGUID`, `ItemRevisionGUID` and `ComponentKind` from the library footprint,
       and `Height` when the footprint's height is not 0.
   LoadFromLibrary:
-    summary: Loads the component's primitives from the library footprint described by a parameter string. If it is
-      successful a true value is returned otherwise false.
+    summary: Loads the component's primitives from the library footprint described by a parameter string.
     remarks: >-
+      Returns true when it succeeds.
+
+
       The SDK examples create a component with `IPCB_ServerInterface.PCBObjectFactory`, assign its `Board`, call this
       method with `FileName=<library path>|Footprint=<footprint name>`, then set its layer and location and add it to
       the board with `IPCB_Board.AddPCBObject`.
@@ -200,14 +204,14 @@ members:
     seeAlso:
       - PCB.IPCB_Component.Rotation
   Rotation:
-    summary: The angle of the component with respect to the horizontal axis, in degrees, between 0 and 360 inclusive.
+    summary: The angle of the component with respect to the horizontal axis, in degrees.
     remarks: Assigning a different value rotates the component, with its primitives, about its reference point
       (`XLocation`, `YLocation`) by the difference.
   SaveModelToFile:
     summary: Saves the component's 3D model to a file.
     remarks: >-
-      The model is saved as a part when the component export mode of the board's window is set to part;
-      `SaveModelToFileAsPart` always saves it as a part.
+      Whether the model is saved as a part depends on a PCB editor setting; use `SaveModelToFileAsPart` to always save
+      it as a part.
 
 
       The SDK examples load a footprint with `LoadFromLibrary`, add the component to a board and call this method with
@@ -241,13 +245,9 @@ members:
   SourceHierarchicalPath:
     summary: This property uniquely identifies the source reference path to the PCB component. The path can be multi-level
       depending on whether it is a multi channel (sheet symbols) or a normal design (schematic sheets).
-    remarks: "Note: When a schematic is transferred to a blank PCB using the Update command, the source reference links for
-      each PCB footprint is populated with source library path names."
   SourceLibReference:
     summary: The same value as `SourceCompDesignItemID`; reading and assigning this property reads and assigns
       `SourceCompDesignItemID`.
   SourceUniqueId:
-    summary: Unique IDs (UIDs) are used to match each schematic component to the corresponding PCB component. When a
-      schematic is transferred to a blank PCB using the Update command, the source reference links for each PCB
-      footprint is populated with source library pathnames.
+    summary: Unique IDs (UIDs) are used to match each schematic component to the corresponding PCB component.
     remarks: The Unique Identifier (UID) is a system generated value that uniquely identifies the source component.

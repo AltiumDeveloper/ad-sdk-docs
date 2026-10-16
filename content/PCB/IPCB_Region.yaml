@@ -2,15 +2,11 @@
 summary: A solid polygonal region on a PCB document, such as a copper region, a cutout, a named region, a board cutout
   or a cavity.
 remarks: >-
-  The region object allows the creation of multi-sided polygonal regions on the PCB, and it can also be used to create
-  polygonal shaped fills in PCB footprints. `Kind` determines what the region is.
+  A region can also be used in a footprint as a fill of any polygonal shape. `Kind` determines what the region is.
 
 
   The shape of a region is an outline contour with any number of hole contours: `GetMainContour` returns the outline,
   `GetHoleCount` and `GetHole` the holes, and `GeometricPolygon` the whole shape.
-
-
-  The interface inherits the members of `IPCB_Primitive`.
 members:
   Area:
     summary: The area enclosed by the region's outline.

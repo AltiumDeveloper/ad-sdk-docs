@@ -6,7 +6,7 @@ remarks: >-
   methods inherited from `IPCB_AbstractIterator`; without `AddFilter_Area` the iterator searches the whole board.
 
 
-  By default, a spatial iterator skips group objects: components, polygons, split planes, nets, dimensions and
+  A spatial iterator skips group objects: components, polygons, split planes, nets, dimensions and
   coordinates are not fetched, even when the object filter includes them. Use an `IPCB_BoardIterator` to fetch them.
 members:
   AddFilter_ProcessSpecialLayers:

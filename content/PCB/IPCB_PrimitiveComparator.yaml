@@ -8,7 +8,7 @@ members:
     summary: Compares two boards layer by layer and returns true when no differences are found.
     remarks: >-
       The layers of `argBoardA`, except the multi-layer, are compared with the same layers of `argBoardB`. Progress is
-      shown while the comparison runs; pressing Esc cancels it with an error.
+      shown while the comparison runs; pressing Esc cancels it and raises an exception.
     parameters:
       argBoardA: The first board.
       argBoardB: The second board.

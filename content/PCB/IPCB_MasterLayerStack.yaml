@@ -12,8 +12,8 @@ members:
   CreateLayer:
     summary: Returns a layer object for a layer ID, creating it when needed.
     remarks: >-
-      Returns the existing layer object with that ID when it is not in the stack, otherwise a new layer object with
-      default properties. The layer is not placed in the stack: insert it with `InsertOnTop`, `InsertOnBottom`,
+      Returns a layer object created earlier for that ID that is not in the stack (for example a removed one);
+      otherwise creates a new one with default properties. The layer is not placed in the stack: insert it with `InsertOnTop`, `InsertOnBottom`,
       `InsertAbove` or `InsertBelow`.
   CreateSubstack:
     summary: Creates a substack and adds it at the end of the master stack's substacks.

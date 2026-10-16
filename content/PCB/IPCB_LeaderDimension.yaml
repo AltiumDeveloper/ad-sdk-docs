@@ -7,7 +7,7 @@ remarks: >-
   square (`Shape`), and the leader can end in an arrow or a dot of a definable size (`Dot`, `DotSize`).
 
 
-  A new leader dimension has two references. When its primitives are regenerated, every reference after the first is
+  A new leader dimension has two references. When the dimension is updated, every reference after the first is
   detached from the object it refers to, so only the first reference can stay attached to an object.
 
 

@@ -7,13 +7,6 @@ remarks: >-
   members are stored as names (for example a net name or a component designator), not as references to the objects.
 
 
-  Classes are used to quickly identify a group of objects. For example, you could create a class of components called
-  Surface Mount. When you set up a paste mask expansion rule for the surface mount components, you simply set the rule
-  scope to Component Class and select the Surface Mount class. Or you may have a set of nets, such as the power nets,
-  which have different clearance requirements from the signal nets. You can create a Net Class which includes all these
-  nets, and then use the Net Class scope when you define the clearance design rule for these nets.
-
-
   An ObjectClass object can be created with the `IPCB_ServerInterface.PCBClassFactoryByClassMember` or
   `IPCB_ServerInterface.PCBObjectFactory` method.
 

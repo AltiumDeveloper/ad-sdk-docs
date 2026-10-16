@@ -22,19 +22,20 @@ members:
     remarks: >-
       The name is a number with at least four digits that increases with each violation created, followed by a colon,
       a space and the object kind of `Primitive1`, such as `Track`, or the object kinds of `Primitive1` and `Primitive2`
-      separated by a slash with a space on each side. When `Primitive1` is a net, its name follows in parentheses.
+      separated by a slash with a space on each side. For a violation of a single object that is a net, the net's name
+      follows in parentheses.
     seeAlso:
       - PCB.IPCB_Violation.Description
   Primitive1:
     summary: The first object of the violation, or the only object for a violation of a unary rule.
     remarks: >-
-      For a back-drill via the property returns the via it was drilled from, and for a region that is part of some
-      solid polygons it returns the polygon.
+      For a back-drill via the property returns the via it was drilled from, and for a region of a solid polygon it
+      returns the polygon.
   Primitive2:
     summary: The second object of the violation; null for a violation of a unary rule.
     remarks: >-
-      For a back-drill via the property returns the via it was drilled from, and for a region that is part of some
-      solid polygons it returns the polygon.
+      For a back-drill via the property returns the via it was drilled from, and for a region of a solid polygon it
+      returns the polygon.
   Rule:
     summary: The design rule that the violation breaks.
     remarks: The rule is returned as an `IPCB_Primitive`; the object is an `IPCB_Rule`.

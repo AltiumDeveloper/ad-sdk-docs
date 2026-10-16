@@ -2,7 +2,7 @@
 summary: The base interface of the PCB design objects; tracks, arcs, pads, vias, fills, text, components, polygons,
   dimensions and the other PCB object interfaces inherit its members.
 remarks: >-
-  Coordinates and sizes are in internal units: 10,000 per mil (`EDP.EDPConstant.InternalUnits`). Convert with
+  Coordinates and sizes are in internal units (10,000 per mil): 10,000 per mil (`EDP.EDPConstant.InternalUnits`). Convert with
   `EDP.Utils.MilsToCoord` and `EDP.Utils.MMsToCoord`, and back with `EDP.Utils.CoordToMils` and `EDP.Utils.CoordToMMs`.
 
 
@@ -12,16 +12,6 @@ remarks: >-
 
   Once the object has been destroyed, every call through this interface fails with the error "Object accessed after
   being destroyed".
-
-
-  Every PCB object has an unique object address stored in a PCB design database for that document this object resides
-  on. Each PCB object address has the TPCBObjectHandle type.
-
-
-  Every existing PCB design object on a PCB document has the Board owner which represents the specific board document.
-
-
-  Each existing PCB design object on a PCB document has Query Rule Properties which can be queried.
 
 
   A primitive has a bounding rectangle which encapsulates the region of the primitive. There are two other bounding
@@ -56,9 +46,7 @@ members:
   DetailString:
     summary: This property retrieves the Detail text string for this design object.
   Dimension:
-    summary: The Coordinate property returns the IPCB_Dimension only if this object itself is part of the IPCB_Dimension
-      type. A dimension object is a group object and is composed of design object primitives such as tracks, arcs and
-      text objects.
+    summary: The dimension the object belongs to, or null when it is not part of a dimension.
   DRCError:
     summary: The DRCError property determines whether the object is affected by the Design Rule Checker and thus if the
       object breaks one of the design rules, the DRCError is true.
@@ -79,7 +67,7 @@ members:
   InCoordinate:
     summary: This InCoordinate property determines whether the object itself is part of the coordinate object or not.
   InDimension:
-    summary: This InDimension property determines whether the obejct itself is part of the dimension object or not.
+    summary: This InDimension property determines whether the object itself is part of the dimension object or not.
   InPolygon:
     summary: This InPolygon property determines whether the object itself is part of the polygon object or not.
   InSelectionMemory:
@@ -94,8 +82,7 @@ members:
   IsFreePrimitive:
     summary: This method determines whether the object is a free primitive (not connected to a net) or just a standalone object.
   IsHidden:
-    summary: This method determines whether this object is hidden from view or not.
-    remarks: This method tests whether the text object is hidden or not.
+    summary: Returns whether this object is hidden from view.
     seeAlso:
       - PCB.IPCB_Text
   IsKeepout:
@@ -133,13 +120,13 @@ members:
   MoveByXY:
     summary: Moves the design object by an offset in horizontal and vertical directions.
     parameters:
-      argX: The horizontal offset, in internal units.
-      argY: The vertical offset, in internal units.
+      argX: The horizontal offset, in internal units (10,000 per mil).
+      argY: The vertical offset, in internal units (10,000 per mil).
   MoveToXY:
     summary: Moves the design object to a new location.
     parameters:
-      argX: The X coordinate of the new location, in internal units.
-      argY: The Y coordinate of the new location, in internal units.
+      argX: The X coordinate of the new location, in internal units (10,000 per mil).
+      argY: The Y coordinate of the new location, in internal units (10,000 per mil).
   Net:
     summary: The Net property of an object denotes it has an electrical property, meaning it is connected from one node to
       another.
@@ -148,17 +135,17 @@ members:
   PadCacheRobotFlag:
     summary: Not used; the property reads false, and setting it has no effect.
   PasteMaskExpansion:
-    summary: The paste mask expansion of the object, in internal units.
+    summary: The paste mask expansion of the object, in internal units (10,000 per mil).
     remarks: The value comes from the paste mask expansion rule that applies to the object, or is the object's manual
       expansion when it has one; it is 0 when the object has no paste mask.
   Polygon:
     summary: This method retrieves the IPCB_Polygon interface that the design object primitive is associated with. For
-      example, a polygon may contain arcs and tracks, and when you only have the arc, you can retreive the polygon the
+      example, a polygon may contain arcs and tracks, and when you only have the arc, you can retrieve the polygon the
       arc is associated with.
   PolygonOutline:
     summary: This method determines whether the design object primitive is part of the polygon outline or not.
   PowerPlaneClearance:
-    summary: The power plane clearance of the object, in internal units.
+    summary: The power plane clearance of the object, in internal units (10,000 per mil).
     remarks: The value comes from the power plane clearance rule that applies to the object.
   PowerPlaneConnectStyle:
     summary: The style of the object's connection to power planes.
@@ -167,14 +154,13 @@ members:
     seeAlso:
       - PCB.TPlaneConnectStyle
   PowerPlaneReliefExpansion:
-    summary: The relief expansion of the object's power plane connection, in internal units.
+    summary: The relief expansion of the object's power plane connection, in internal units (10,000 per mil).
     remarks: The value comes from the power plane connect style rule that applies to the object.
   ReliefAirGap:
-    summary: The ReliefAirGap property retrieves the relief air gap value for this pad/via object, in internal units.
+    summary: The ReliefAirGap property retrieves the relief air gap value for this pad/via object, in internal units (10,000 per mil).
     remarks: The value comes from the power plane connect style rule that applies to the object.
   ReliefConductorWidth:
-    summary: The ReliefConductorWidth property retrieves the relief conductor width value for a this pad/via object, in
-      internal units.
+    summary: The relief conductor width of the pad or via, in internal units (10,000 per mil).
     remarks: The value comes from the power plane connect style rule that applies to the object.
   ReliefEntries:
     summary: This property retrieves the number of relief entries for a pad/via object.
@@ -182,11 +168,13 @@ members:
   Replicate:
     summary: Returns a copy of the object.
   RotateBy:
-    summary: Rotates the object by an angle.
+    summary: Rotates the object by an angle about its reference point.
+    parameters:
+      argngle: The angle, in degrees.
   Selected:
     summary: This property determines whether this object is selected or not on the PCB document.
   SolderMaskExpansion:
-    summary: The solder mask expansion of the object, in internal units.
+    summary: The solder mask expansion of the object, in internal units (10,000 per mil).
     remarks: >-
       The value comes from the solder mask expansion rule that applies to the object (its top side expansion), or is the
       object's manual expansion when it has one; it is 0 when the object has no solder mask.
@@ -194,14 +182,6 @@ members:
 
       A Solder Mask expansion property for a pad object is currently relevant just for pads on top and bottom copper
       layers.
-
-
-      Paste mask layers are used to design stencils which will selectively place solder paste on a blank PCB. Vias do
-      not have a paste mask layer.
-
-
-      Solder paste is only placed on pads where component leads are to be soldered to them. Vias normally don't have
-      anything soldered onto them.
   SwapLayerPairs:
     summary: This method swaps the current layer pair that the PCB design object (vias and pads only) has.
   TearDrop:

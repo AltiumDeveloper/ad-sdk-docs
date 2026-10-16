@@ -39,8 +39,9 @@ members:
   GetFirstLayer:
     summary: Returns one layer of the set, or no layer when the set is empty.
     remarks: >-
-      For a set without a whole layer group (`IsFinite` is true) this is the first layer that `LayerIterator` returns.
-      Otherwise it is the first of internal plane 1, mechanical layer 1 and the top overlay that the set contains, or
+      When `IsFinite` is true this is the first layer that `LayerIterator` returns, so for a set that includes a whole
+      layer group with some of its layers excluded the call fails with the same error as `LayerIterator`. When
+      `IsFinite` is false it is the first of internal plane 1, mechanical layer 1 and the top overlay that the set contains, or
       the top layer when it contains none of them.
   Include:
     summary: Adds the given layer to the set and returns the set.
@@ -65,6 +66,8 @@ members:
   IsAllLayers:
     summary: Returns true when the set includes every layer group (signal, mechanical, internal plane, standard and
       dielectric layers) as a whole, with no layer excluded.
+    remarks: Returns false for a set made with `IncludeAllLayers` or `IPCB_LayerSetUtils.AllLayers`, which do not
+      include the dielectric layers.
   IsEmpty:
     summary: Returns true when the set contains no layer.
   IsFinite:

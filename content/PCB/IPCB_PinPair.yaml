@@ -44,7 +44,7 @@ members:
     summary: Recalculates the pin pair's signal path, the list of primitives on it, its lengths and its delay.
   RoutedLength:
     summary: The routed length of the signal path, in internal units (10,000 per mil).
-    remarks: The value is `Length` minus `UnroutedLength`.
+    remarks: The value is `Length` minus `UnroutedLength`, so it is 0 when the pin pair has no signal path.
   UnroutedLength:
     summary: The length of the unrouted connection lines on the signal path, in internal units (10,000 per mil).
     remarks: The value is -1 when the pin pair has no signal path.

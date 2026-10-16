@@ -5,11 +5,8 @@ remarks: >-
   The collection is the `IPCB_Board.MechanicalPairs` property.
 
 
-  When a component incorporates objects on one or more Mechanical layers which have been paired, the Layer property of
-  those objects changes when the Layer property of the component is toggled (between the Top and Bottom layers), just
-  like objects on the non-Mechanical layers which have always been paired to one another, to wit the Top and Bottom
-  (copper) layers, the Top and Bottom Overlay layers, the Top and Bottom Paste Mask layers, and the Top and Bottom
-  Solder Mask layers.
+  When a component is flipped to the other side of the board, its objects on a paired mechanical layer move to the
+  other layer of the pair, as objects on the top and bottom copper, overlay, paste mask and solder mask layers do.
 
 
   `Count` returns the number of pairs; `LayerPair` returns the pair at an index from 0 to `Count` - 1 as a
@@ -34,9 +31,6 @@ members:
       the two layers cannot be created; a layer that was created is then removed again.
   Export_ToParameters:
     summary: Writes all pairs into a parameter string.
-    remarks: >-
-      Each pair is written as the two keys `MechPair<n>L1` and `MechPair<n>L2`, numbered from 0. Pairs that do not
-      consist of two mechanical layers are not written.
   FlipLayer:
     summary: Replaces a mechanical layer with the other layer of its pair.
     remarks: >-
@@ -47,9 +41,7 @@ members:
     remarks: Returns false and leaves the layer unchanged when the layer is not in a pair.
   Import_FromParameters:
     summary: Replaces all pairs with the pairs read from a parameter string.
-    remarks: >-
-      The collection is cleared first. Pairs are read from the keys `MechPair<n>L1` and `MechPair<n>L2`, numbered from
-      0, until a number is missing; only pairs of two mechanical layers are added.
+    remarks: The collection is cleared first.
   LayerPair:
     summary: The pair at the given index, as a `MechanicalLayerPair` with the two layers of the pair.
     remarks: For an index outside 0 to `Count` - 1, both layers of the returned pair are no layer.

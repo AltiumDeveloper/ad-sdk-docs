@@ -5,15 +5,12 @@ remarks: >-
   multi-layered, blind or buried.
 
 
-  A multi-layer via passes through the board from the Top layer to the Bottom layer and allows connections to all other
+  A multi-layer via passes through the board from the top layer to the bottom layer and allows connections to all other
   signal layers.
 
 
   A blind via connects from the surface of the board to an internal layer, a buried via connects from one internal layer
-  to another internal layer. In Altium Designer, Vias, including blind and buried, can connect to internal planes.
-
-
-  Vias do not have a paste mask layer.
+  to another internal layer.
 members:
   Cache:
     summary: The via's cache of values derived from design rules, such as solder mask expansion, power plane clearance,
@@ -26,11 +23,11 @@ members:
   Height:
     summary: The vertical length of the via, in internal units (10,000 per mil).
     remarks: >-
-      The value is calculated when the stored value is out of date. For a via without a net it is the distance from the
-      top of `LowLayer` to the bottom of `HighLayer`. For a via in a net it is the distance between the middles of the
-      outermost layers on which tracks, arcs, pads or vias of the same net touch the via; it is 0 when nothing touches
-      the via, and it runs from `StartLayer` to `StopLayer` when the via is touched on one layer only. Vias placed by
-      via stitching or via shielding have a height of 0.
+      For a via without a net it is the distance from the top of `LowLayer` to the bottom of `HighLayer`. For a via in
+      a net it is the distance between the middles of the outermost layers on which tracks, arcs, pads or vias of the
+      same net touch the via; it is 0 when nothing touches the via, and the distance between the middles of
+      `StartLayer` and `StopLayer` when the via is touched on one layer only. Vias placed by via stitching or via
+      shielding have a height of 0.
   HighLayer:
     summary: One end layer of the via's span; together with `LowLayer` it defines the layers the via passes through.
     remarks: >-
@@ -70,11 +67,9 @@ members:
   PlaneConnectionStyleForLayer:
     summary: Returns how the via connects to the given internal plane layer.
     remarks: >-
-      Vias automatically connect to an internal power plane layer that is assigned the same net name. The style of the
-      connection comes from the applicable Power Plane Connect Style design rule: `TPlaneConnectionStyle.ePlaneReliefConnect`
-      (a thermal relief connection) or `TPlaneConnectionStyle.ePlaneDirectConnect` (solid copper). If you do not want
-      vias to connect to power planes, add another Power Plane Connect Style design rule targeting the specific vias
-      required and with a connection style of No Connect.
+      The style of the connection comes from the applicable Power Plane Connect Style design rule:
+      `TPlaneConnectionStyle.ePlaneReliefConnect` (a thermal relief connection) or
+      `TPlaneConnectionStyle.ePlaneDirectConnect` (solid copper).
 
 
       The method returns `TPlaneConnectionStyle.ePlaneNoConnect` when the layer is not an internal plane layer, when
@@ -85,7 +80,7 @@ members:
   RotateAroundXY:
     summary: Rotates the via about a point.
     remarks: >-
-      The via's centre (`XLocation`, `YLocation`) is moved by the rotation. Passing the via's own centre as the point
+      The via's center (`XLocation`, `YLocation`) is moved by the rotation. Passing the via's own center as the point
       leaves the via where it is.
     parameters:
       argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
@@ -122,6 +117,6 @@ members:
     seeAlso:
       - PCB.IPCB_LayerObject
   XLocation:
-    summary: The X and Y properties define the location of the Via object with respect to the PCB document.
+    summary: The X coordinate of the via's center, in internal units (10,000 per mil).
   YLocation:
-    summary: The X and Y properties define the location of the Via object with respect to the PCB document.
+    summary: The Y coordinate of the via's center, in internal units (10,000 per mil).

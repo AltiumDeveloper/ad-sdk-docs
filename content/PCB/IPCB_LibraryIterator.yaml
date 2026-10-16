@@ -1,27 +1,6 @@
 # PCB.IPCB_LibraryIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_LibraryIterator object interface Iterates through a loaded PCB library in Altium Designer to fetch PCB
-  footprints and its primitives. The library iterator basically retrieves the footprints and to retrieve the child
-  objects of each footprint, you need to employ the group iterator.
+summary: An iterator that fetches the footprints (`IPCB_LibComponent`) of a PCB library.
 remarks: >-
-  The IPCB_LibraryIterator object interface iterates through a loaded PCB library in Altium Designer to fetch PCB
-  footprints which are represented by the IPCB_LibComponent interfaces. The IPCB_LibraryIterato r interface is used in
-  the IPCB_Library interface - `IPCB_Library.LibraryIterator_Create` and `IPCB_Library.LibraryIterator_Destroy` methods.
-
-
-  The current footprint is a component with an unnamed designator is represented by the IPCB_LibComponent interface.
-
-
-  The IPCB_LibraryIterator interface has only methods inherited from the IPCB_AbstractIterator interface and is
-  reproduced here for reference.
-
-
-  A library is represented by the IPCB_Library and the current footprint on a library document is represented by the
-  IPCB_Board interface.
-
-
-  A PCB footprint (from the library) is represented by its IPCB_LibComponent interface which is inherited from the
-  IPCB_Group object interface.
-
-
-  A PCB footprint is composed of child objects such as pads and tracks. Therefore the footprint has its own
-  IPCB_GroupIterator to fetch its own child objects.
+  Create it with `IPCB_Library.LibraryIterator_Create` and destroy it with `IPCB_Library.LibraryIterator_Destroy`. To
+  fetch the child objects of a footprint, such as pads and tracks, use a group iterator
+  (`IPCB_Group.GroupIterator_Create`).

@@ -9,7 +9,7 @@ members:
       point (`XLocation`, `YLocation`).
     remarks: >-
       A text created with `IPCB_ServerInterface.PCBObjectFactory` has the value false. When the value is true,
-      `PushJustificationCenter` saves the snap point even when asked not to.
+      `PushJustificationCenter` saves the snap point even when `argPushState` is false.
   CopyTo:
     summary: Copies the properties of the text to another text object.
     remarks: >-

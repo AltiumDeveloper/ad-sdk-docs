@@ -1,34 +1,23 @@
 # PCB.IPCB_Board: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Board interface encapsulates an opened PCB document in Altium Designer and from this board interface
-  object, you can add, delete PCB design objects, find out which layers are used and so on.
+summary: An open PCB document, through which you add and delete design objects, find out which layers are used and so on.
 remarks: >-
-  The IPCB_Board interface has iterative methods and interactive feedback methods. Basically you can retrieve an object
-  interface for the PCB design object on the PCB that was clicked on. You can also retrieve the coordinates based on the
-  mouse click on the PCB and also you can conduct defined searches on a PCB document with the parameters you have set up
-  for the iterator.
+  A PCB library document also has a board (`IPCB_Library.Board`): the library holds a list of footprints
+  (`IPCB_LibComponent`, components with unnamed designators), and each footprint is shown on the library's board.
 
 
-  This IPCB_Board is also used in the IPCB_Library interface. A library document is a bit more complex because it has a
-  list of footprints (components with unnamed designators) and each footprint is shown in a PCB Library document. There
-  is a three way relationship: the IPCB_Board , the IPCB_LibComponent and the IPCB_Library interfaces that all work
-  together for the PCB library document.
+  Check that the PCB server exists and that there is a PCB document before you call any PCB interface methods.
 
 
-  Check if the PCB server exists and if there is a PCB document before you invoke any PCB interface methods.
+  To add a new object, create it with `IPCB_ServerInterface.PCBObjectFactory` and add it with `AddPCBObject`.
 
 
-  Some properties are only read only, meaning you can only retrieve data from property but not modify the data.
+  To look for objects, use a board iterator (`BoardIterator_Create`), a spatial iterator (`SpatialIterator_Create`), a
+  group iterator (`IPCB_Group.GroupIterator_Create`) or, on a PCB library document, a library iterator
+  (`IPCB_Library.LibraryIterator_Create`).
 
 
-  To create a new object and add to the board object, firstly invoke `IPCB_ServerInterface.PCBObjectFactory` and then invoke the AddPCBObject method from a IPCB_Board interface.
-
-
-  To look for objects on a PCB document, use one of the following iterators; Board Iterator, Group Iterator, Spatial
-  iterator or a library iterator for PCB Library documents.
-
-
-  Interactive feedback from the board can be done with the following methods: GetObjectAtCursor ,
-  GetObjectAtXYAskUserIfAmbiguous , ChooseRectangleByCorners and ChooseLocation methods.
+  The interactive methods `GetObjectAtCursor`, `GetObjectAtXYAskUserIfAmbiguous`, `ChooseRectangleByCorners` and
+  `ChooseLocation` return the object or the coordinates that the user clicks on.
 members:
   AddObjectToHighlightObjectList:
     summary: Adds a primitive to the board's list of objects to highlight.
@@ -102,8 +91,7 @@ members:
       the PCB document. When this method is executed, you are prompted with a cross hair cursor (being in the interactive
       mode) and the status bar of the Altium Designer appears with the Prompt string.
     remarks: >-
-      This method returns a boolean value whether a location has been retrieved or not. If you press the Escape key for
-      example, the method does not return the location values and returns false.
+      Returns whether a location was chosen; if you press the Escape key, the method returns false.
 
 
       The coordinates are in internal units (10,000 per mil) and are set to 0 before the prompt. When the board has no
@@ -166,7 +154,7 @@ members:
     remarks: Read-only; set `CurrentLayerV7` to change the current layer.
   CurrentLayerV7:
     summary: The current layer of the board's view.
-    remarks: Reads `TV6_Layer.eV6_NoLayer` when the board has no view; setting the property then has no effect.
+    remarks: Reads no layer when the board has no view; setting the property then has no effect.
   DisplayUnit:
     summary: This property retrieves or sets the measurement units for the PCB document display purposes in Imperial or
       Metric units.
@@ -204,10 +192,10 @@ members:
     summary: The FileName property denotes the filename of the PCB document that the IPCB_Board interface is associated
       with. The Filename property is read only, which means you can retrieve the filename string only.
   FindDominantRuleForObject:
-    summary: This method returns the dominant specified rule for the primitive which is targetted by this rule.
+    summary: This method returns the dominant specified rule for the primitive which is targeted by this rule.
     remarks: Returns null when the primitive is null.
   FindDominantRuleForObjectPair:
-    summary: This method returns the dominant specified binary rule for the two primitives which are targetted by this rule.
+    summary: This method returns the dominant specified binary rule for the two primitives which are targeted by this rule.
     remarks: Returns null when either primitive is null or belongs to another board.
   FindLinkedBoardTemplate:
     summary: Returns the pad and via template that a primitive, for example a pad, is linked to.
@@ -274,23 +262,23 @@ members:
       - PCB.IPCB_Board.InvertPCBObject
       - PCB.IPCB_Board.ShowPCBObject
   InternalPlane1NetName:
-    summary: This property represents the Internal Plane 1 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 1.
     remarks: Empty when the board has no internal plane 1; setting the property then has no effect.
   InternalPlane2NetName:
-    summary: This property represents the Internal Plane 2 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 2.
     remarks: Empty when the board has no internal plane 2; setting the property then has no effect.
   InternalPlane3NetName:
-    summary: This property represents the Internal Plane 3 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 3.
     remarks: Empty when the board has no internal plane 3; setting the property then has no effect.
   InternalPlane4NetName:
-    summary: This property represents the Internal Plane 4 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 4.
     remarks: Empty when the board has no internal plane 4; setting the property then has no effect.
   InternalPlaneLayerIterator:
     summary: Returns an iterator over the internal plane layers of the board.
     remarks: The examples call `IPCB_LayerIterator.SetBeforeFirst`, then `IPCB_LayerIterator.Next` in a loop, and read
       each layer with `IPCB_LayerIterator.Layer`.
   InternalPlaneNetName:
-    summary: This property returns or sets the net name for the targetted internal plane.
+    summary: This property returns or sets the net name for the targeted internal plane.
     remarks: Empty when the layer is not an internal plane in the board's layer stack; setting the property then has no
       effect.
   InvertPCBObject:

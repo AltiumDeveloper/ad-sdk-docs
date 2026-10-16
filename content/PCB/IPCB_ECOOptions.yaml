@@ -1,11 +1,10 @@
 # PCB.IPCB_ECOOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The Engineering Change Order (ECO) settings of a PCB document, returned by `IPCB_Board.ECOOptions`.
 remarks: >-
-  The interface extends `IPCB_AbstractOptions`. For ECO options, `Import_FromParameters` and
-  `Import_FromParameters_Version3` read the `ECOIsActive` and `ECOFileName` parameters; `Export_ToParameters` and
-  `Export_ToParameters_Version3` write `Record=EngineeringChangeOrderOptions` and those two parameters.
+  The interface extends `IPCB_AbstractOptions`. `Export_ToParameters` writes every setting as a parameter named after
+  its property; `Import_FromParameters` reads them.
 members:
   ECOFileName:
-    remarks: Newly created options start with `PCB.ECO`. Saved as the `ECOFileName` parameter.
+    remarks: Newly created options start with `PCB.ECO`.
   ECOIsActive:
-    remarks: Newly created options start with false. Saved as the `ECOIsActive` parameter.
+    remarks: Newly created options start with false.

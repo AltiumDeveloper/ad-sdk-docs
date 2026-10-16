@@ -2,9 +2,9 @@
 summary: A short-circuit rule (`TRuleKind.eRule_ShortCircuit`) that tests for short circuits between objects on the
   copper layers.
 remarks: >-
-  A short circuit exists when two objects that have different nets touch. On a signal layer, two touching objects without a
-  net also short-circuit when they belong to different components. On an internal plane layer, pads and vias on the
-  multi-layer are checked against the plane. Keepout objects are not checked.
+  A short circuit exists when two objects that do not have the same net touch. On a signal layer, two touching objects
+  without a net also short-circuit when they belong to different components. On an internal plane layer, pads and vias
+  on the multi-layer are checked against the plane. Keepout objects are not checked.
 members:
   Allowed:
     summary: Whether short circuits between the objects in the rule's scope are allowed.

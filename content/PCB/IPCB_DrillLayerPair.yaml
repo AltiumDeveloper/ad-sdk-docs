@@ -34,14 +34,16 @@ members:
     summary: One end layer of the pair; together with `LowLayer` it defines the layers the drilling spans.
     remarks: >-
       Assigning a value does not reorder the two layers; `OrderLayers` makes `LowLayer` the upper of them.
-      `StartLayer` and `StopLayer` return the upper and the lower layer in either order.
+      `StartLayer` and `StopLayer` return the upper and the lower layer, whichever way round `LowLayer` and
+      `HighLayer` are.
   IsBackdrill:
     summary: Whether the pair is a backdrill pair.
     remarks: >-
       The value is derived from `DrillLayerPairType`: it is true for `TDrillLayerPairType.Backdrill` and
       `TDrillLayerPairType.CounterHole`. Setting it to true sets `DrillLayerPairType` to
       `TDrillLayerPairType.Backdrill`; setting it to false changes `TDrillLayerPairType.Backdrill` to
-      `TDrillLayerPairType.Regular` and leaves any other type unchanged.
+      `TDrillLayerPairType.Regular` and leaves any other type unchanged, so on a `TDrillLayerPairType.CounterHole` pair
+      `IsBackdrill` stays true.
   IsDefinedIn:
     summary: Returns whether the pair belongs to the layer stack with the given ID.
     parameters:
@@ -58,7 +60,8 @@ members:
     summary: One end layer of the pair; together with `HighLayer` it defines the layers the drilling spans.
     remarks: >-
       Assigning a value does not reorder the two layers; `OrderLayers` makes `LowLayer` the upper of them.
-      `StartLayer` and `StopLayer` return the upper and the lower layer in either order.
+      `StartLayer` and `StopLayer` return the upper and the lower layer, whichever way round `LowLayer` and
+      `HighLayer` are.
   OrderLayers:
     summary: Swaps `LowLayer` and `HighLayer` when `LowLayer` is below `HighLayer` in the layer stack, so that
       `LowLayer` is the upper layer.

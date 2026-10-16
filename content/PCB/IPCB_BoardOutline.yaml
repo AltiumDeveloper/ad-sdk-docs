@@ -1,17 +1,15 @@
 # PCB.IPCB_BoardOutline: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The board outline of a PCB document, the closed polygon that defines the extents or boundary of the board.
 remarks: >-
-  The PCB Editor uses the board outline shape to determine the extents of the power planes for plane edge pull back,
-  used when splitting power planes and for calculating the board edge when design data is exported to other tools such
-  as the 3D viewer tool.
+  The board outline shape determines the extents of the power planes for plane edge pull-back, and the board edge when
+  design data is exported.
 
 
-  A board outline is a group object therefore it is composed of pull back primitives namely tracks and arcs as the
-  vertices for the closed polygon of the board outline. Although the board outline object interface is inherited from
-  the `IPCB_Polygon` interface, you cannot use layer, net assignment and repour polygon behaviours for a board outline.
-  Assigning most of the inherited pour settings, such as `RemoveDead`, `UseOctagons`, `Grid`, `TrackSize`, `MinTrack`,
-  `BorderWidth`, `PolyHatchStyle`, `Name`, `PourIndex`, `Poured`, `IgnoreViolations` and the neck and island settings,
-  does nothing on a board outline; `ArcApproximation` is the exception and applies to the board outline too.
+  The outline's shape is given by its segments (`PointCount`, `Segments`). Its child objects are the pull-back tracks
+  and arcs on the internal plane layers. Assigning most of the inherited pour settings, such as `RemoveDead`,
+  `UseOctagons`, `Grid`, `TrackSize`, `MinTrack`, `BorderWidth`, `PolyHatchStyle`, `Name`, `PourIndex`,
+  `IgnoreViolations` and the neck and island settings, does nothing on a board outline; `ArcApproximation` is the
+  exception and applies to the board outline too.
 
 
   `IPCB_BoardOutline` inherits from `IPCB_Polygon`, which in turn inherits from `IPCB_Group`. Besides the inherited
@@ -20,8 +18,7 @@ remarks: >-
   regions.
 
 
-  To iterate the board outline for the pullback primitives, you create and use a group iterator because the board
-  outline is a group object which in turn is composed of child objects.
+  Iterate the child objects with a group iterator (`IPCB_Group.GroupIterator_Create`).
 
 
   The board outline of a board is returned by the `IPCB_Board.BoardOutline` property.

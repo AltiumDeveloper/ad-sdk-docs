@@ -73,7 +73,7 @@ members:
     summary: Adds a text location at the end of the dimension's text locations, increasing `TextLocationsCount` by one.
     remarks: Does nothing when the dimension already has `PCBConstant.MaxReferenceCount` (200) text locations.
     parameters:
-      argPoint: The text location to add, in internal units.
+      argPoint: The text location to add, in internal units (10,000 per mil).
   TextLocations_Clear:
     summary: Removes all text locations, setting `TextLocationsCount` to 0.
   TextLocations_Delete:

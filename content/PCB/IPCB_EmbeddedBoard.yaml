@@ -1,8 +1,8 @@
 # PCB.IPCB_EmbeddedBoard: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: An embedded board array, a rectangular object on a board that places copies of another PCB document (the
-  child board) in a matrix of rows and columns. Each board array can reference a different PCB document.
+  child board) in a matrix of rows and columns.
 remarks: >-
-  The interface extends `IPCB_RectangularPrimitive`. `DocumentPath` names the child PCB document and `ChildBoard`
+  `DocumentPath` names the child PCB document and `ChildBoard`
   returns its board.
 
 
@@ -25,11 +25,11 @@ members:
     remarks: Null when no PCB document with that path is loaded.
   ColCount:
     summary: The number of columns of child board copies in the array.
-    remarks: A newly created embedded board starts with 1.
+    remarks: A new embedded board has 1.
   ColSpacing:
     summary: The horizontal distance from one column of copies to the next, in internal units (10,000 per mil).
-    remarks: The gap between two columns is this value minus the width of the child board. A newly created embedded
-      board starts with 1500 mil.
+    remarks: The gap between two columns is this value minus the width of the child board. A new embedded board has a
+      column spacing of 1500 mil.
   DocumentPath:
     summary: The full path of the child PCB document used for the board array.
     remarks: >-
@@ -48,23 +48,22 @@ members:
       (`TEmbeddedBoardOriginMode.eOriginMode_BottomLeft`).
     remarks: >-
       The bottom-left corner is that of the child board's outline, or of the child board's objects when it has no
-      outline. A newly created embedded board starts with `TEmbeddedBoardOriginMode.eOriginMode_BottomLeft`.
+      outline. A new embedded board has `TEmbeddedBoardOriginMode.eOriginMode_BottomLeft`.
 
 
-      The origin of the child board is defined in the child PCB document; to change it, use Edit » Origin » Set or
-      Reset in that document.
+      The origin of the child board is defined in the child PCB document.
     seeAlso:
       - PCB.TEmbeddedBoardOriginMode
   RowCount:
     summary: The number of rows of child board copies in the array.
-    remarks: A newly created embedded board starts with 1.
+    remarks: A new embedded board has 1.
   RowSpacing:
     summary: The vertical distance from one row of copies to the next, in internal units (10,000 per mil).
-    remarks: The gap between two rows is this value minus the height of the child board. A newly created embedded board
-      starts with 2500 mil.
+    remarks: The gap between two rows is this value minus the height of the child board. A new embedded board has a row
+      spacing of 2500 mil.
   TransmitLayersEnabled:
     summary: Whether objects of the child board on a layer pass the embedded board's transmit filter.
-    remarks: On a newly created embedded board, every layer passes. `ApplyFilterToIterator` applies the filter to an
+    remarks: On a new embedded board, every layer passes. `ApplyFilterToIterator` applies the filter to an
       iterator.
     parameters:
       argLayer: The layer of the child board.

@@ -16,7 +16,8 @@ members:
   CreatePrimitiveParameters:
     summary: Returns a new `IPCB_PrimitiveParameters` object for a primitive, switched to the given variant.
     remarks: The variant is selected as by `SwitchToVariantByName` of `IPCB_PrimitiveParameters`, which raises an error
-      when the project has no variant of that name.
+      when the project has no variant of that name, or when the primitive's board is not in a project and the name is
+      neither `[No Variations]` nor empty.
     parameters:
       argPrimitive: The primitive, for example an `IPCB_Component`.
       argVariantName: The variant name; `[No Variations]` selects the default variant and an empty string the project's

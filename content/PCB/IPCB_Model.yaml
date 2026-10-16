@@ -27,8 +27,7 @@ members:
     remarks: >-
       The file named by `GetFileName` is read and its checksum is compared with that of the model data. A model found
       stale stays stale; otherwise the method returns false when the file cannot be opened or its path is relative.
-      `IsStale` returns the
-      stored result without reading the file.
+      Returns true for a model without model data. `IsStale` returns the stored result without reading the file.
   GetChecksum:
     summary: Returns the checksum of the model data.
     remarks: Returns 0 for a model without model data.
@@ -86,8 +85,8 @@ members:
   SetState:
     summary: Sets the model's rotation about the X, Y and Z axes and its offset along the Z axis.
     remarks: >-
-      Does nothing for a model without model data. An angle outside the range 0 to 360 is reduced by a whole number of
-      turns. The SDK examples call it on a new model before assigning the model to the body with
+      Does nothing for a model without model data. An angle outside the range 0 to 360 is brought into the range -180
+      to 180 by whole turns. The SDK examples call it on a new model before assigning the model to the body with
       `IPCB_ComponentBody.Model`.
     parameters:
       argRotX: The rotation about the X axis, in degrees.

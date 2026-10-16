@@ -16,8 +16,8 @@ remarks: >-
   Each reference has its own text and extension line, which `Texts` and `Extension_Track` return for its index.
   `References_Add` adds them with a new reference and `References_DeleteLast` removes them with the last reference. A
   new datum dimension has one reference, an `Angle` of 0 and `TextPosition` set to
-  `TDimensionTextPosition.eTextUniDirectional`. While the dimension refers to an object that is not selected,
-  `MoveByXY` does not move it.
+  `TDimensionTextPosition.eTextUniDirectional`. `MoveByXY` moves the dimension only when every referenced
+  object is selected or it refers to no object.
 members:
   Angle:
     summary: The angle of the datum line to the horizontal, in degrees.

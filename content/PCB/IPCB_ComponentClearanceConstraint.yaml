@@ -3,8 +3,7 @@ summary: A component clearance rule (`TRuleKind.eRule_ComponentClearance`) that 
   components, horizontally (`Gap`) and vertically (`VerticalGap`).
 remarks: >-
   The rule checks pairs of components and component bodies (`IPCB_ComponentBody`). A new rule has a horizontal and a
-  vertical clearance of 10 mil. In `DescriptorString` and `DataSummaryString`, a clearance of 1,000,000,000 internal
-  units (100,000 mil) or more is shown as `Infinite`.
+  vertical clearance of 10 mil.
 members:
   CollisionCheckMode:
     summary: A check mode that the rule no longer uses.

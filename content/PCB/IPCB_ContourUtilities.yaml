@@ -62,8 +62,8 @@ members:
     summary: Returns true when a point lies inside a contour.
     parameters:
       argContour: The contour to test.
-      argx: The X coordinate of the point, in internal units.
-      argy: The Y coordinate of the point, in internal units.
+      argx: The X coordinate of the point, in internal units (10,000 per mil).
+      argy: The Y coordinate of the point, in internal units (10,000 per mil).
   SplitIntoConnectedPolygons:
     summary: >-
       Splits a geometric polygon into separate geometric polygons, one for each solid contour together with the holes

@@ -1,8 +1,10 @@
 # PCB.IPCB_LayerObjectIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: An iterator over layers that also gives the layer object at each position.
 remarks: >-
-  Returned by `IPCB_Board.LayerIterator`, `IPCB_Board.SignalLayerIterator`, `IPCB_Board.ElectricalLayerIterator`,
-  `IPCB_Board.InternalPlaneLayerIterator`, `IPCB_Board.MechanicalLayerIterator` and `IPCB_LayerStackBase.Iterator`.
+  Returned by `IPCB_Board.LayerIterator`, `IPCB_Board.LayerIterator_IncludeNonEditable`,
+  `IPCB_Board.SignalLayerIterator`, `IPCB_Board.ElectricalLayerIterator`, `IPCB_Board.InternalPlaneLayerIterator`,
+  `IPCB_Board.MechanicalLayerIterator`, `IPCB_LayerStackBase.Iterator`, `IPCB_LayerStackBase.Iterator_1` and
+  `IPCB_LayerStackBase.Iterator_2`.
   The filters and the walk (`First`, `Next`, `SetBeforeFirst`, `Layer`) are inherited from `IPCB_LayerIterator`;
   `LayerObject` adds the whole `IPCB_LayerObject` of the current layer.
 members:

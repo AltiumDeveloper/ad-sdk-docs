@@ -4,8 +4,7 @@ summary: Additional members of PCB objects for solder mask and paste mask expans
 members:
   CreateSharedUnion:
     summary: Creates a new shared union for the object and assigns it to `SharedUnion`.
-    remarks: Does nothing when the product feature for custom paste masks is not enabled. In the new shared union,
-      `LayerIsVisible` is true for the top and bottom paste mask layers when `PasteMaskEnabled` is true, and for the
+    remarks: In the new shared union, `LayerIsVisible` is true for the top and bottom paste mask layers when `PasteMaskEnabled` is true, and for the
       top or bottom solder mask layer when that side of the object is not tented (`IsTenting_Top`,
       `IsTenting_Bottom`).
   HasMaskExpansion:
@@ -30,9 +29,7 @@ members:
       argMaskLayer: A solder mask or paste mask layer.
   PasteMaskEnabled:
     summary: Whether the object has a paste mask.
-    remarks: Unless the product feature for pads without a paste mask is enabled, a pad always reads true and other
-      objects read true when `PasteMaskExpansionMode` is not `TMaskExpansionMode.eMaskExpansionMode_NoMask`. Assigning
-      true to an object other than a pad, track, arc, fill or region stores false.
+    remarks: Assigning true to an object other than a pad, track, arc, fill or region stores false.
   PasteMaskExpansion:
     summary: The paste mask expansion of the object, in internal units (10,000 per mil).
     remarks: Reading returns the same value as `IPCB_Primitive.PasteMaskExpansion`. For objects other than pads and
@@ -52,8 +49,7 @@ members:
   PasteMaskUsePercent:
     summary: Whether a pad's manual paste mask expansion is computed from `PasteMaskPercent` and the pad's shape instead
       of being an absolute value.
-    remarks: Applies only to pads whose `PasteMaskExpansionMode` is `TMaskExpansionMode.eMaskExpansionMode_Manual`, and
-      only when the product feature for paste mask percentages is enabled.
+    remarks: Applies only to pads whose `PasteMaskExpansionMode` is `TMaskExpansionMode.eMaskExpansionMode_Manual`.
   RoutingMinWidth:
     summary: The minimum width allowed by the width rule that applies to the object, in internal units (10,000 per mil).
     remarks: 10 mil when no width rule applies.

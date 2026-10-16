@@ -1,5 +1,5 @@
 # PCB.IPCB_Arc: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: A circular arc on a PCB document, a track segment of width `LineWidth` around the centre (`CenterX`,
+summary: A circular arc on a PCB document, a track segment of width `LineWidth` around the center (`CenterX`,
   `CenterY`) with `Radius`, from `StartAngle` to `EndAngle`.
 remarks: >-
   Arcs can be placed on any layer. On a signal layer an arc can be electrically connected to tracks; arcs are also used,
@@ -8,12 +8,12 @@ remarks: >-
 
   The angles are in degrees, and the arc runs counter-clockwise from `StartAngle` to `EndAngle`. A `StartAngle` of 0
   and an `EndAngle` of 360 make a full circle. The start and end points (`StartX`, `StartY`, `EndX`, `EndY`) are not
-  stored: they are calculated from the centre, the radius and the angles each time they are read.
+  stored: they are calculated from the center, the radius and the angles each time they are read.
 members:
   CenterX:
-    summary: The X coordinate of the arc's centre, in internal units (10,000 per mil).
+    summary: The X coordinate of the arc's center, in internal units (10,000 per mil).
   CenterY:
-    summary: The Y coordinate of the arc's centre, in internal units (10,000 per mil).
+    summary: The Y coordinate of the arc's center, in internal units (10,000 per mil).
   EndAngle:
     summary: The angle of the arc's end point, in degrees.
   EndX:
@@ -29,8 +29,8 @@ members:
   RotateAroundXY:
     summary: Rotates the arc about a point by an angle.
     remarks: >-
-      The centre of the arc is rotated about the point, and the angle is added to both `StartAngle` and `EndAngle`. To
-      rotate the arc without moving it, pass its own centre (`CenterX`, `CenterY`) as the point.
+      The center of the arc is rotated about the point, and the angle is added to both `StartAngle` and `EndAngle`. To
+      rotate the arc without moving it, pass its own center (`CenterX`, `CenterY`) as the point.
     parameters:
       argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
       argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
@@ -47,8 +47,8 @@ members:
     summary: Whether a point lies on the arc.
     remarks: >-
       Returns false when the arc does not belong to a board. Otherwise it returns true when the point is inside the
-      arc's bounding rectangle and a track 20 internal units (0.002 mil) wide placed at the point touches the arc, and
-      also when the point is exactly the arc's centre, its start point, its end point or the middle point of the arc.
+      arc's bounding rectangle and on the arc's stroke or within 10 internal units of it, and also when the point is
+      exactly the arc's center, its start point, its end point or the middle point of the arc.
     parameters:
       argHitX: The X coordinate of the point, in internal units (10,000 per mil).
       argHitY: The Y coordinate of the point, in internal units (10,000 per mil).

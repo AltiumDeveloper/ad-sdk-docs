@@ -2,8 +2,7 @@
 summary: The global settings of the PCB Editor, returned by `IPCB_ServerInterface.SystemOptions`.
 remarks: >-
   The interface extends `IPCB_AbstractOptions`. `Export_ToParameters_Version3` and `Import_FromParameters_Version3`
-  write and read only part of the settings that `Export_ToParameters` and `Import_FromParameters` handle, with the
-  per-layer settings in the version 3 layer numbering.
+  handle only part of the settings, with the per-layer settings in the version 3 layer numbering.
 members:
   AmbiguityThreshold:
     remarks: Reading always returns 0; setting the property does nothing.
@@ -23,7 +22,7 @@ members:
       argOId: The kind of object.
   Export_ToIniFile:
     summary: Saves the system options to the stored preferences of the PCB Editor.
-    remarks: The stored `SystemOptions` section is replaced.
+    remarks: It replaces the stored system options.
   FromTosDisplayMode:
     remarks: >-
       Reading always returns `TFromToDisplayMode.eFromToDisplayMode_Automatic`; setting the property does nothing.

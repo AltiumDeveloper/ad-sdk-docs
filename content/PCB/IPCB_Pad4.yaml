@@ -27,29 +27,23 @@ members:
       stack, or when `HasCustomRoundedRectangle` or `HasCustomChamferedRectangle` returns true.
   HasCustomChamferedRectangle:
     summary: Returns whether the pad has a custom shape of kind `TShapeSubKind.eChamferedRectangle` on any layer.
-    remarks: Only layers whose stack shape is `TShape.eCustomShape` count. Returns false when the product feature for
-      custom pad shapes is not enabled.
+    remarks: Only layers whose stack shape is `TShape.eCustomShape` count.
   HasCustomDonut:
     summary: Returns whether the pad has a custom shape of kind `TShapeSubKind.eDonut` on any layer.
-    remarks: Only layers whose stack shape is `TShape.eCustomShape` count. Returns false when the product feature for
-      custom pad shapes is not enabled.
+    remarks: Only layers whose stack shape is `TShape.eCustomShape` count.
   HasCustomMaskDonutShapes:
     summary: Returns whether the pad has a custom donut shape (`TShapeSubKind.eDonut`) on its top or bottom paste mask
       or solder mask layer.
-    remarks: A layer counts only when its stack shape is `TShape.eCustomShape`. Returns false when the product features
-      for custom mask shapes and donut shapes are not both enabled.
+    remarks: A layer counts only when its stack shape is `TShape.eCustomShape`.
   HasCustomMaskShapes:
     summary: Returns whether the pad has its own shape on its top or bottom paste mask or solder mask layer.
     remarks: Returns true when `StackShapeOnLayer` is not `TShape.eNoShape` for at least one of these four layers.
-      Returns false when the product feature for custom mask shapes is not enabled, and for a pad that is neither on a
-      signal layer nor on `TV6_Layer.eV6_MultiLayer`.
+      Returns false for a pad that is neither on a signal layer nor on `TV6_Layer.eV6_MultiLayer`.
   HasCustomRoundedRectangle:
     summary: Returns whether the pad has a custom shape of kind `TShapeSubKind.eRoundedRectangle` on any layer.
-    remarks: Only layers whose stack shape is `TShape.eCustomShape` count. Returns false when the product feature for
-      custom pad shapes is not enabled.
+    remarks: Only layers whose stack shape is `TShape.eCustomShape` count.
   HasCustomShapes:
     summary: Returns whether the pad has a custom shape (`TShape.eCustomShape`) on any layer of its stack.
-    remarks: Returns false when the product feature for custom pad shapes is not enabled.
   HoleSizeOnLayer:
     summary: The diameter of the pad's hole on the given layer, in internal units (10,000 per mil).
     remarks: Equals `HoleSize` on every layer unless the pad has counter holes (`IsCounterHole`). Then, on each
@@ -73,8 +67,8 @@ members:
 
 
       The shape is stored for the layer of the pad stack that the primitive's layer maps to: the top layer for a
-      simple pad (`TPadMode.ePadMode_Simple`), the first internal layer for an internal layer of a top-middle-bottom
-      stack (`TPadMode.ePadMode_LocalStack`), and the primitive's own layer otherwise. The stack shape on that layer
+      simple pad (`TPadMode.ePadMode_Simple`), mid layer 1 for any mid layer of a local stack
+      (`TPadMode.ePadMode_LocalStack`), and the primitive's own layer otherwise. The stack shape on that layer
       becomes `TShape.eCustomShape`.
     parameters:
       argPrimitive: The primitive that becomes the custom shape. Passing null does nothing.

@@ -8,7 +8,8 @@ remarks: >-
 
 
   A contour returned by `IPCB_GeometricPolygon.Contour` refers to the vertices of that polygon: changing the contour
-  changes the polygon. Use `Replicate` for an independent copy.
+  changes the polygon. Such a contour is valid only until another contour is added to the polygon. Use `Replicate` for
+  an independent copy.
 members:
   AddContour:
     summary: Appends a range of vertices of another contour to the end of this contour.
@@ -26,8 +27,8 @@ members:
   AddPoint:
     summary: Adds a vertex at the end of the contour.
     parameters:
-      argx: The X coordinate of the new vertex, in internal units.
-      argy: The Y coordinate of the new vertex, in internal units.
+      argx: The X coordinate of the new vertex, in internal units (10,000 per mil).
+      argy: The Y coordinate of the new vertex, in internal units (10,000 per mil).
   Area:
     summary: The area enclosed by the contour, in square internal units.
     remarks: >-
@@ -39,7 +40,7 @@ members:
     summary: The number of vertices in the contour.
     remarks: >-
       Assigning a larger value adds vertices at the end of the contour, assigning a smaller value removes vertices from
-      the end. Assign the coordinates of added vertices with `PointX` and `PointY`.
+      the end. Added vertices have undefined coordinates until they are assigned with `PointX` and `PointY`.
   DeletePoint:
     summary: Removes a vertex from the contour; the vertices after it move down by one position.
     parameters:
@@ -53,8 +54,8 @@ members:
       position.
     parameters:
       argIndex: The zero-based index that the new vertex receives.
-      argx: The X coordinate of the new vertex, in internal units.
-      argy: The Y coordinate of the new vertex, in internal units.
+      argx: The X coordinate of the new vertex, in internal units (10,000 per mil).
+      argy: The Y coordinate of the new vertex, in internal units (10,000 per mil).
   PointX:
     summary: The X coordinate of a vertex, in internal units (10,000 per mil).
     remarks: Reading or assigning a vertex of an empty contour raises an error.
@@ -84,10 +85,10 @@ members:
       The rotated coordinates are rounded to whole internal units, so repeated rotations accumulate rounding errors.
     parameters:
       argngleInDegrees: The rotation angle, in degrees.
-      argx: The X coordinate of the centre of rotation, in internal units.
-      argy: The Y coordinate of the centre of rotation, in internal units.
+      argx: The X coordinate of the center of rotation, in internal units (10,000 per mil).
+      argy: The Y coordinate of the center of rotation, in internal units (10,000 per mil).
   Translate:
     summary: Moves every vertex of the contour by a given offset.
     parameters:
-      argx: The offset added to the X coordinate of every vertex, in internal units.
-      argy: The offset added to the Y coordinate of every vertex, in internal units.
+      argx: The offset added to the X coordinate of every vertex, in internal units (10,000 per mil).
+      argy: The offset added to the Y coordinate of every vertex, in internal units (10,000 per mil).

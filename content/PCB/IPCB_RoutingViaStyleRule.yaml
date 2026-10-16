@@ -14,7 +14,7 @@ remarks: >-
 
   A rule can instead check vias against a list of via templates, a setting that this interface does not expose. Such
   a rule accepts a via that has the hole size and the layer diameters of one of its templates, and does not use the
-  minimum and maximum values.
+  minimum and maximum values. When its template list is empty, it accepts any via.
 members:
   MaxHoleWidth:
     summary: The largest via hole size that the rule allows, in internal units (10,000 per mil).

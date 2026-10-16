@@ -35,8 +35,8 @@ members:
   LockComponents:
     summary: Whether the room locks the components in its first scope (`Scope1Expression`).
     remarks: >-
-      The default is false. While it is true and the rule is enabled for checking (`DRCEnabled`), the editor treats the
-      components in the rule's first scope like components that cannot be moved when objects are picked on the board.
+      The default is false. While it is true and the rule is enabled (`DRCEnabled`), the room's components cannot be
+      moved in the PCB editor.
   PointCount:
     summary: The number of vertices of the room's region.
     remarks: A rectangle assigned through `BoundingRectangle` has 4.
@@ -44,14 +44,15 @@ members:
     summary: Rotates the room's region around a point.
     remarks: A rotation by a whole multiple of 360 degrees does nothing.
     parameters:
-      argX: The x-coordinate of the centre of rotation, in internal units.
-      argY: The y-coordinate of the centre of rotation, in internal units.
+      argX: The x-coordinate of the center of rotation, in internal units (10,000 per mil).
+      argY: The y-coordinate of the center of rotation, in internal units (10,000 per mil).
       argngle: The rotation angle, in degrees, counterclockwise.
   Segments:
-    summary: A segment of the room's region, with its vertex and, for an arc, its centre, radius and angles.
+    summary: A segment of the room's region, with its vertex and, for an arc, its center, radius and angles.
     remarks: >-
       Indexes from 0 to `PointCount` are accepted; reading any other index returns a segment whose values are all zero,
-      and assigning one does nothing. Set `PointCount` before assigning segments beyond the current count.
+      and assigning one does nothing. Index `PointCount` is the closing segment, which repeats the first one. Set
+      `PointCount` before assigning segments beyond the current count.
     parameters:
       argI: The index of the segment.
   XLocation:

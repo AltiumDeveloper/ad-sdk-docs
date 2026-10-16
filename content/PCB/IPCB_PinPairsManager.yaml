@@ -13,7 +13,8 @@ members:
       that name.
     remarks: >-
       The class is an `IPCB_ObjectClass` whose `MemberKind` is `TClassMemberKind.eClassMemberKind_Signal`; each pin
-      pair is added by its `Name`. Nothing is added to a class whose `SuperClass` is true.
+      pair is added by its `Name`. Nothing is added to a class whose `SuperClass` is true. The class name is compared
+      case-sensitively; a name that differs only in case creates another class.
     parameters:
       argPinPairs: The pin pairs to add, as `IPCB_PinPair` items.
       argClassName: The name of the xSignal class.

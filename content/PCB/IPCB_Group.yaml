@@ -3,20 +3,12 @@ summary: >-
   The base interface of PCB objects that contain other primitives: IPCB_Component, IPCB_LibComponent, IPCB_Net,
   IPCB_Polygon, IPCB_SplitPlane, IPCB_Coordinate, IPCB_Dimension and their descendant interfaces.
 remarks: >-
-  The IPCB_Group interface is a composite object interface which means it can store objects. Thus a group object is an
-  object composed of primitives such as arcs, tracks and fills. For example a polygon consists of child tracks and arcs.
-  A footprint in a PCB library consists of child objects such as arcs, pads and tracks.
+  A group is composed of child primitives such as arcs, tracks and fills: for example, a polygon consists of tracks and
+  arcs, and a footprint in a PCB library of arcs, pads and tracks.
 
 
-  To fetch objects of a group object, you employ the Group Iterator with the GroupIterator_Create and
-  GroupIterator_Destroy methods.
-
-
-  To add or remove child objects from a group object, you employ the AddPCBObject or the RemovePCBObject methods.
-
-
-  To fetch the reference coordinates of a group object, the XLocation and YLocation properties define the reference
-  point.
+  `GroupIterator_Create` and `GroupIterator_Destroy` iterate over the child primitives; `AddPCBObject` and
+  `RemovePCBObject` add and remove them. `XLocation` and `YLocation` are the reference point of the group.
 members:
   AddPCBObject:
     summary: Adds a primitive to the group as a child primitive.
@@ -58,7 +50,6 @@ members:
       (by `SetState_LayersUsedArray` or by assigning a value), reading returns false.
   PrimitiveLock:
     summary: Whether the child primitives of the group can be edited individually or only as part of the group.
-    remarks: Normally all the child primitives of a group can only be accessed through the group object.
   RemovePCBObject:
     summary: Removes a child primitive from the group.
     parameters:

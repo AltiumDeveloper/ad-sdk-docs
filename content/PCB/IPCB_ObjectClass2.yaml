@@ -28,8 +28,8 @@ members:
       Returns an empty string for a class that does not hold other classes, and when the index is outside the members
       of that kind.
     parameters:
-      argI: The zero-based index of the member among the members of that kind; the upper bound is
-        `MembersCountByKind` for the same kind.
+      argI: The index of the member among the members of that kind, from 0 to `MembersCountByKind` - 1 for the same
+        kind.
       argKind: The `MemberKind` of the member classes to list.
   MembersCount:
     summary: The number of members of the class.

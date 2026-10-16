@@ -1,6 +1,6 @@
 # PCB.IPCB_LinearDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: A linear dimension on a PCB document, which measures the straight-line distance between two reference points
-  and shows it with a dimension line, arrowheads, extension lines and a text.
+summary: A linear dimension on a PCB document, which measures the distance between two reference points in the
+  direction of its angle and shows it with a dimension line, arrowheads, extension lines and a text.
 remarks: >-
   A new linear dimension has two references. The dimension measures the distance between its first two reference points
   (`References` 0 and 1) in the direction given by `Angle`, along a dimension line through the text location (`TextX`,

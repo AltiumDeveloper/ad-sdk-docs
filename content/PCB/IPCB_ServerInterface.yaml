@@ -6,11 +6,6 @@ remarks: >-
   is null when there is no client or the client has no PCB server module.
 
 
-  Altium Designer manages a single instance of each server module. A server can have several document kinds: the PCB
-  server has two, PCB documents and PCB library documents. A loaded server hosts documents, and each document hosts a
-  document view and panel views.
-
-
   `GetCurrentPCBBoard` returns the board of the document in the current view, and `GetCurrentPCBLibrary` the library
   of a PCB library document in the current view.
 
@@ -21,7 +16,7 @@ remarks: >-
 
 
   `PreProcess` and `PostProcess` keep the undo system and the other parts of the PCB editor in step with changes, when
-  you add, remove or modify objects of a PCB document.
+  you add, remove or modify objects of a PCB or PCB library document.
 members:
   Board3DModelExporter:
     summary: Creates a new `IPCB_Board3DModelExporter` object on each call.
@@ -93,8 +88,8 @@ members:
     summary: Returns the board whose `IPCB_Board.BoardID` has the given value.
     remarks: Returns null for 0 and when no board has that ID.
   GetPCBBoardByPath:
-    summary: Returns the board of an open PCB document by its file name.
-    remarks: Returns null when no open PCB document has that file name.
+    summary: Returns the board of an open PCB or PCB library document by its file name.
+    remarks: Returns null when no open PCB or PCB library document has that file name.
     parameters:
       argPath: The file name of the open document.
   GetPCBLibraryByLibraryID:
@@ -147,7 +142,7 @@ members:
     summary: >-
       Returns the library of the open PCB library document with the given file name, or loads the PCB library file
       without opening it as a document.
-    remarks: Returns null when the file does not exist or is not a PCB library file that can be read.
+    remarks: Returns null when the file does not exist or is not a recognised PCB library file.
     parameters:
       argPath: The full path of the PCB library file.
   PaintFootprintThumbnail:
@@ -214,13 +209,14 @@ members:
   PostBatchProcess:
     summary: Ends a batch started with `PreBatchProcess`, like `PostProcess`.
     remarks: >-
-      Does nothing when no batch is open or the current view is not a PCB document.
+      Does nothing when no batch is open or the current view is not a PCB or PCB library document.
     seeAlso:
       - PCB.IPCB_ServerInterface.PreBatchProcess
   PostProcess:
     summary: Ends a change to the document of the current view that was started with `PreProcess`.
     remarks: >-
-      Does nothing when the current view is not a PCB document. Pairs of `PreProcess` and `PostProcess` can nest; when
+      Does nothing when the current view is not a PCB or PCB library document. Pairs of `PreProcess` and `PostProcess`
+      can nest; when
       the outermost `PostProcess` returns, the board's views are updated.
     seeAlso:
       - PCB.IPCB_ServerInterface.PreProcess
@@ -228,15 +224,15 @@ members:
     summary: Starts a batch of changes to the document of the current view, like `PreProcess`.
     remarks: >-
       Until `PostBatchProcess`, calls to `PreProcess` and `PostProcess` do nothing. Does nothing when a batch is
-      already open or the current view is not a PCB document.
+      already open or the current view is not a PCB or PCB library document.
     seeAlso:
       - PCB.IPCB_ServerInterface.PostBatchProcess
   PreProcess:
     summary: Starts a change to the document of the current view; end it with `PostProcess`.
     remarks: >-
       Call it before adding, removing or modifying objects, so that the undo system and the other parts of the PCB
-      editor follow the changes. Does nothing when the current view is not a PCB document. Pairs of `PreProcess` and
-      `PostProcess` can nest.
+      editor follow the changes. Does nothing when the current view is not a PCB or PCB library document. Pairs of
+      `PreProcess` and `PostProcess` can nest.
     seeAlso:
       - PCB.IPCB_ServerInterface.PostProcess
   PrimitiveComparator:

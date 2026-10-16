@@ -25,7 +25,7 @@ members:
     remarks: >-
       The order of the two kinds does not matter. Reading a pair that has no clearance of its own returns `Gap`;
       assigning the value of `Gap` to a pair removes its own clearance. Each assignment can also change `Gap`: the
-      clearance that most pairs of object kinds have becomes the gap.
+      clearance shared by the largest number of pairs of object kinds becomes the gap.
     parameters:
       argP1: The first object kind.
       argP2: The second object kind.

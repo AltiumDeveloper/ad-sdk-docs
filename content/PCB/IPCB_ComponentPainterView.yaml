@@ -92,7 +92,7 @@ members:
     parameters:
       argVariantOption: The variant option to apply.
   SetViewRect:
-    summary: Centres the DirectX view of the preview on a rectangle of the preview's board and resets the camera
+    summary: Centers the DirectX view of the preview on a rectangle of the preview's board and resets the camera
       rotation.
     parameters:
       argLowX: The left edge of the rectangle, in internal units (10,000 per mil).

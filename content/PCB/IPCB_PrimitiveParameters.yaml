@@ -152,8 +152,8 @@ members:
     remarks: Raises an error when the project has no variant of that name, or when the board has no project and the name
       is neither `[No Variations]` nor empty.
     parameters:
-      argVariantName: The variant name, compared without regard to case; `[No Variations]` selects the default variant
-        and an empty string the project's current variant.
+      argVariantName: The variant name. `[No Variations]` (exactly) selects the default variant and an empty string the
+        project's current variant; other names are compared with the project's variant names without regard to case.
   SwitchToVariantByUniqueID:
     summary: Selects a variant by its unique ID.
     remarks: The ID is not checked against the project's variants.

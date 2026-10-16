@@ -10,7 +10,7 @@ remarks: >-
   with the width `LineWidth`. Each track is `Size` long (60 mil by default) and the cross is rotated by `Angle`.
 
 
-  While the arc is not selected, `MoveByXY` does not move the dimension.
+  While the referenced arc is not selected, `MoveByXY` does not move the dimension.
 members:
   Angle:
     summary: The rotation of the cross, in degrees, counterclockwise from the horizontal.

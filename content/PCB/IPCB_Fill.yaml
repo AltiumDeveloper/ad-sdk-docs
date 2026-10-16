@@ -9,17 +9,17 @@ members:
     summary: The extent of the fill in X, `X2Location` minus `X1Location`, in internal units (10,000 per mil).
     remarks: Assigning a value sets `X2Location` to `X1Location` plus the value; `X1Location` does not change.
   LocationX:
-    summary: The X coordinate of the centre of the fill, midway between `X1Location` and `X2Location`, in internal
+    summary: The X coordinate of the center of the fill, midway between `X1Location` and `X2Location`, in internal
       units (10,000 per mil).
     remarks: >-
-      Assigning a value moves the fill in X so that its centre is at the new coordinate and keeps its extent in X,
+      Assigning a value moves the fill in X so that its center is at the new coordinate and keeps its extent in X,
       rounded down to an even number of internal units; afterwards `X1Location` is the smaller of the two X
       coordinates.
   LocationY:
-    summary: The Y coordinate of the centre of the fill, midway between `Y1Location` and `Y2Location`, in internal
+    summary: The Y coordinate of the center of the fill, midway between `Y1Location` and `Y2Location`, in internal
       units (10,000 per mil).
     remarks: >-
-      Assigning a value moves the fill in Y so that its centre is at the new coordinate and keeps its extent in Y,
+      Assigning a value moves the fill in Y so that its center is at the new coordinate and keeps its extent in Y,
       rounded down to an even number of internal units; afterwards `Y1Location` is the smaller of the two Y
       coordinates.
   Width:

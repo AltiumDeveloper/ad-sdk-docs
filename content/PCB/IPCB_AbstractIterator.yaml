@@ -21,10 +21,10 @@ members:
       The corners can be given in any order. A board iterator ignores the area: use an `IPCB_SpatialIterator` to fetch
       the objects in an area. Without this filter, a spatial iterator searches the whole board.
     parameters:
-      argx1: X coordinate of one corner of the area, in internal units.
-      argy1: Y coordinate of the same corner, in internal units.
-      argx2: X coordinate of the opposite corner, in internal units.
-      argy2: Y coordinate of the opposite corner, in internal units.
+      argx1: X coordinate of one corner of the area, in internal units (10,000 per mil).
+      argy1: Y coordinate of the same corner, in internal units (10,000 per mil).
+      argx2: X coordinate of the opposite corner, in internal units (10,000 per mil).
+      argy2: Y coordinate of the opposite corner, in internal units (10,000 per mil).
   AddFilter_IPCB_LayerSet:
     summary: Restricts the iterator to the objects on the layers of an `IPCB_LayerSet`, as `AddFilter_LayerSet_1` does.
     parameters:

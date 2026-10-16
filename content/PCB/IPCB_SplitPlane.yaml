@@ -45,8 +45,8 @@ members:
     remarks: Returns true when the primitive's reference point is inside the outline and the primitive does not touch any
       of the outline's segments. Returns false for null.
   RemovePour:
-    summary: Removes the split plane's current child regions and restores the child regions it had when its state was
-      last saved.
+    summary: Undoes the last pour of the split plane, removing the child regions it created and restoring the previous
+      ones.
     remarks: Does nothing when the split plane is not on a board.
   RotateAroundXY:
     summary: Rotates the split plane about the given point.
@@ -57,9 +57,9 @@ members:
     summary: The segments of the split plane's outline, by index.
     remarks: >-
       Each segment is a line (`Kind` is `TPolySegmentType.ePolySegmentLine`) given by its vertex `Vx`, `Vy`, or an arc
-      (`TPolySegmentType.ePolySegmentArc`) given by its centre `Cx`, `Cy`, its `Radius` and the angles `Angle1` and
-      `Angle2`. Coordinates are in internal units. An index outside 0 to `PointCount` returns a segment with all fields
-      zero, and assigning a segment at such an index does nothing. After changing the outline, call
+      (`TPolySegmentType.ePolySegmentArc`) given by its center `Cx`, `Cy`, its `Radius` and the angles `Angle1` and
+      `Angle2`. Coordinates are in internal units (10,000 per mil). Valid indexes are from 0 to `PointCount` inclusive; any other index
+      returns a segment with all fields zero, and assigning a segment at such an index does nothing. After changing the outline, call
       `SetState_XSizeYSize_1` to recalculate the bounding rectangle and `AreaSize`.
     seeAlso:
       - PCB.PolySegment

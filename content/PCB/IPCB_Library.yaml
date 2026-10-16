@@ -19,11 +19,8 @@ members:
     remarks: To add a footprint, use `CreateNewComponent`, or create one with `IPCB_ServerInterface.CreatePCBLibComp`
       and add it with `RegisterComponent`.
   Board:
-    summary: The board of the PCB library document, on which the primitives of the current component reside. This
-      IPCB_Board interface also contains the system settings such as Snap Grid, Visible and Big Visible Grid Units and
-      Output Options for the PCB library document.
-    remarks: "There is a three way relationship: the IPCB_Board, the IPCB_LibComponent and the IPCB_Library interfaces
-      that all work together for a PCB library document."
+    summary: The board of the PCB library document, on which the primitives of the current component reside.
+    remarks: The board also holds the settings of the library document, such as the grids and the output options.
   ComponentCount:
     summary: Returns the number of components (footprints) in the library.
   CreateNewComponent:
@@ -45,8 +42,7 @@ members:
       - PCB.IPCB_Group
       - PCB.IPCB_LibComponent
   DeRegisterComponent:
-    summary: This method de-registers this component from the PCB library. That is, the library does not recognize this
-      component after it has been de-registered.
+    summary: De-registers a component from the library, so that the library no longer recognizes it.
     remarks: >-
       Returns false, and does nothing, when the component is null or does not belong to this library. Otherwise the
       component is removed from the library's list and returns true; when it was the current component, the library
@@ -87,15 +83,13 @@ members:
     summary: A number that identifies the library while Altium Designer runs.
     remarks: Each library gets the next number when it is created.
   LibraryIterator_Create:
-    summary: This method creates a library iterator that fetches footprints in a PCB library. Each footprint fetched by the
-      iterator is a IPCB_LibComponent interface which is inherited by the IPCB_Group interface.
+    summary: Creates an iterator that fetches the footprints (`IPCB_LibComponent`) of the library.
     remarks: Destroy the iterator with `LibraryIterator_Destroy` when you no longer need it.
     seeAlso:
       - PCB.IPCB_LibraryIterator
       - PCB.IPCB_LibComponent
   LibraryIterator_Destroy:
-    summary: This LibraryIterator_Destroy method destroys the library iterator after it was used in iterating for footprints
-      in a PCB library document.
+    summary: Destroys a library iterator created by `LibraryIterator_Create`.
     parameters:
       argIterator: The iterator created by `LibraryIterator_Create`; set to null on return.
     seeAlso:
@@ -123,7 +117,7 @@ members:
       argParameters: The parameter string with the vault link settings.
       argErrorMsg: Receives an error message when a required GUID is missing; empty otherwise.
   Navigate_FirstComponent:
-    summary: This method forces the library to navigate to the first component in the library and set the focus to it.
+    summary: Navigates to the first component of the library and sets the focus to it.
     remarks: Uses the library editor's navigation panel; does nothing when the library has no editor window with that
       panel.
     seeAlso:
@@ -131,8 +125,7 @@ members:
   RefreshView:
     summary: Does nothing.
   RegisterComponent:
-    summary: The RegisterComponent method registers the new footprint in the PCB library document, so that the PCB system is
-      aware of this new footprint.
+    summary: Registers a new footprint in the library.
     remarks: >-
       Returns false, and does nothing, when the component is null, its name (`IPCB_LibComponent.Pattern`) is empty, or
       the library already has a component of that name (compared ignoring case); use `GetUniqueCompName` to get a free
@@ -151,7 +144,7 @@ members:
     parameters:
       argErrorMsg: Set to an empty string.
   RemoveComponent:
-    summary: This method removes a component from the current library.
+    summary: Removes a component from the library.
     remarks: >-
       Does nothing when the component does not belong to this library. Otherwise the component is removed from the
       library editor's component list (when the editor is open) and from the library, and is destroyed; when it was the

@@ -37,8 +37,8 @@ members:
     parameters:
       argx: The X coordinate of the point in the client area, in pixels.
       argy: The Y coordinate of the point in the client area, in pixels.
-      argPX: Returns the X coordinate of the board location, in internal units.
-      argPY: Returns the Y coordinate of the board location, in internal units.
+      argPX: Returns the X coordinate of the board location, in internal units (10,000 per mil).
+      argPY: Returns the Y coordinate of the board location, in internal units (10,000 per mil).
     seeAlso:
       - PCBLocationToClient
   CloseState_TemporaryWindow:
@@ -55,26 +55,26 @@ members:
       The framed area is the rectangle of the board outline. Returns true when the values were computed. Depending on
       the graphics engine of the view, returns false without computing them.
     parameters:
-      argLookAtX: Returns the X coordinate of the centre of the framed area.
-      argLookAtY: Returns the Y coordinate of the centre of the framed area.
+      argLookAtX: Returns the X coordinate of the center of the framed area.
+      argLookAtY: Returns the Y coordinate of the center of the framed area.
       argLookAtZ: Returns the height of the board surface that the camera looks at.
       argZoom: Returns the zoom that fits the framed area into the view.
       argWidth: Returns the width of the framed area, in internal units (10,000 per mil).
       argHeight: Returns the height of the framed area, in internal units (10,000 per mil).
-      argBoardFlipped: True when the board is viewed from its bottom side, false when it is viewed from its top side.
+      argBoardFlipped: Pass true to frame the board from its bottom side (`argLookAtZ` is then the bottom surface).
   GetExtents_CameraIncludeComponents:
     summary: Computes the camera position, zoom and size that frame the board and the 3D models of its components.
     remarks: >-
       The framed area is the rectangle of the board outline, extended to include the 3D models on the board. Returns
       true when the values were computed; returns false when the view has no board.
     parameters:
-      argLookAtX: Returns the X coordinate of the centre of the framed area.
-      argLookAtY: Returns the Y coordinate of the centre of the framed area.
+      argLookAtX: Returns the X coordinate of the center of the framed area.
+      argLookAtY: Returns the Y coordinate of the center of the framed area.
       argLookAtZ: Returns the height that the camera looks at.
       argZoom: Returns the zoom that fits the framed area into the view.
       argWidth: Returns the width of the framed area, in internal units (10,000 per mil).
       argHeight: Returns the height of the framed area, in internal units (10,000 per mil).
-      argBoardFlipped: True when the board is viewed from its bottom side, false when it is viewed from its top side.
+      argBoardFlipped: Pass true to frame the board from its bottom side.
   GetState_Camera:
     summary: Gets the camera of the view, as the point it looks at, its orientation and its zoom.
     remarks: Returns true. Set the camera with `Camera`.
@@ -126,8 +126,8 @@ members:
     summary: Converts a board location in internal units (10,000 per mil) to a point of the view's client area, in
       pixels.
     parameters:
-      argx: The X coordinate of the board location, in internal units.
-      argy: The Y coordinate of the board location, in internal units.
+      argx: The X coordinate of the board location, in internal units (10,000 per mil).
+      argy: The Y coordinate of the board location, in internal units (10,000 per mil).
       argPX: Returns the X coordinate of the point in the client area, in pixels.
       argPY: Returns the Y coordinate of the point in the client area, in pixels.
     seeAlso:
@@ -159,7 +159,7 @@ members:
       while the board outline is being edited.
     remarks: A new view is in `TPCBViewMode.vmGeneralPCB`.
   ViewPortMils:
-    summary: Sets the size of the board area that the view shows, keeping the centre of the view.
+    summary: Sets the size of the board area that the view shows, keeping the center of the view.
     remarks: >-
       The assigned value is the height of the area to show. Despite the name, the size is in internal units (10,000 per
       mil). It has an effect only in 2D, and depending on the graphics engine of the view it has no effect at all.

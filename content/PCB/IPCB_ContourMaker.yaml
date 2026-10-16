@@ -18,9 +18,9 @@ members:
         The angle at which the arc starts, in degrees, measured counterclockwise from the positive X axis.
       argEndAngle: >-
         The angle at which the arc ends, in degrees, measured counterclockwise from the positive X axis.
-      argcx: The X coordinate of the centre of the arc, in internal units.
-      argcy: The Y coordinate of the centre of the arc, in internal units.
-      argRadius: The radius of the arc, in internal units.
+      argcx: The X coordinate of the center of the arc, in internal units (10,000 per mil).
+      argcy: The Y coordinate of the center of the arc, in internal units (10,000 per mil).
+      argRadius: The radius of the arc, in internal units (10,000 per mil).
       argClockwise: >-
         True to run clockwise from the start angle to the end angle, false to run counterclockwise. Either way the arc
         passes through 0 degrees when it has to, for example from 270 to 90 degrees counterclockwise.
@@ -43,7 +43,7 @@ members:
     parameters:
       argPrim: The design object.
       argExpansion: >-
-        The distance by which the shape is grown on every side, in internal units: 0 for the object's own shape, a
+        The distance by which the shape is grown on every side, in internal units (10,000 per mil): 0 for the object's own shape, a
         negative value to shrink it.
       argLayer: >-
         The layer whose shape is returned. Only pads and vias use it; the other objects ignore it.
@@ -92,11 +92,11 @@ members:
       ends are approximated according to `ArcResolution`.
     parameters:
       argContour: The contour that receives the vertices.
-      argXc: The X coordinate of the centre of the slot, in internal units.
-      argYc: The Y coordinate of the centre of the slot, in internal units.
-      argxSize: The overall width of the slot, in internal units.
-      argySize: The overall height of the slot, in internal units.
-      argExpansion: The distance by which the slot is grown on every side, in internal units; negative to shrink it.
+      argXc: The X coordinate of the center of the slot, in internal units (10,000 per mil).
+      argYc: The Y coordinate of the center of the slot, in internal units (10,000 per mil).
+      argxSize: The overall width of the slot, in internal units (10,000 per mil).
+      argySize: The overall height of the slot, in internal units (10,000 per mil).
+      argExpansion: The distance by which the slot is grown on every side, in internal units (10,000 per mil); negative to shrink it.
   MakeContour_AddSquare:
     summary: Appends the four corners of an axis-aligned rectangle to the end of a contour.
     remarks: >-
@@ -104,9 +104,9 @@ members:
       or half the height plus `argExpansion` is not positive.
     parameters:
       argContour: The contour that receives the vertices.
-      argXc: The X coordinate of the centre of the rectangle, in internal units.
-      argYc: The Y coordinate of the centre of the rectangle, in internal units.
-      argxSize: The width of the rectangle, in internal units.
-      argySize: The height of the rectangle, in internal units.
+      argXc: The X coordinate of the center of the rectangle, in internal units (10,000 per mil).
+      argYc: The Y coordinate of the center of the rectangle, in internal units (10,000 per mil).
+      argxSize: The width of the rectangle, in internal units (10,000 per mil).
+      argySize: The height of the rectangle, in internal units (10,000 per mil).
       argExpansion: >-
-        The distance by which the rectangle is grown on every side, in internal units; negative to shrink it.
+        The distance by which the rectangle is grown on every side, in internal units (10,000 per mil); negative to shrink it.
