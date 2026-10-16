@@ -1,0 +1,110 @@
+# PCB.IPCB_PadTemplate: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A pad template, a reusable set of pad properties (layer, hole, offset, solder and paste mask settings and
+  per-layer copper shapes) that pads can be linked to.
+remarks: >-
+  The template's name, identifiers and library are members of `IPCB_PadViaTemplate`.
+  `IPCB_Board.FindLinkedBoardTemplate` returns the template a pad is linked to, as an `IPCB_PadViaTemplate`.
+members:
+  AddStackData:
+    summary: Adds a per-layer entry to the template's pad stack and returns its index.
+    remarks: Returns -1 and adds nothing when the value is null.
+    parameters:
+      argValue: The entry to add. The template stores a copy of it.
+  ClearStackData:
+    summary: Removes all entries from the template's pad stack.
+  CreateDefaultStackData:
+    summary: Creates a new pad stack entry with default values.
+    remarks: >-
+      The entry is not added to the template; pass it to `AddStackData` or assign it to `StackData`. It has no layer, a
+      `TShape.eRounded` shape, a size of 60 by 60 mil and a `CRPct` of 50.
+  HoleRotation:
+    summary: The rotation of the pad's hole; applies to square and slotted holes.
+  HoleSize:
+    summary: The size of the pad's hole, in internal units (10,000 per mil).
+  HoleType:
+    summary: The shape of the pad's hole.
+    seeAlso:
+      - PCB.TExtendedHoleType
+  HoleWidth:
+    summary: The width of the pad's hole, in internal units (10,000 per mil), used by square and slotted holes.
+  IsMultiLayer:
+    summary: Whether the template describes a multi-layer (through-hole) pad.
+    remarks: When the template is applied to a pad, a pad that is not on the multi-layer is moved to it when the value
+      is true, and a pad on the multi-layer is moved to the top layer when the value is false.
+  IsTenting_Bottom:
+    summary: Whether the pad is tented (covered by solder mask) on the bottom side.
+    remarks: When the template is applied to a pad, the setting takes effect only for a pad on the multi-layer or the
+      bottom layer.
+  IsTenting_Top:
+    summary: Whether the pad is tented (covered by solder mask) on the top side.
+    remarks: When the template is applied to a pad, the setting takes effect only for a pad on the multi-layer or the
+      top layer.
+  ManualPasteMask:
+    summary: Whether the template sets the pad's paste mask itself instead of taking it from the design rules.
+    remarks: When the value is false, `PasteMaskExpansion`, `UsePaste`, `PasteMaskUsePercent` and `PasteMaskPercent`
+      are not applied to pads, and the applicable design rule decides the paste mask.
+  ManualSolderMask:
+    summary: Whether the template sets the pad's solder mask expansion itself instead of taking it from the design
+      rules.
+    remarks: When the value is false, `SolderMaskExpansion`, `SolderMaskBottomExpansion` and `UseSeparateExpansions`
+      are not applied to pads, and the applicable design rule decides the solder mask expansion.
+  Mode:
+    summary: How the pad's copper shape and size are defined on its layers.
+    remarks: >-
+      Assigning a different mode replaces the entries of `StackData` with default entries: one for the top layer for
+      `TPadMode.ePadMode_Simple`, and one each for the top layer, the mid layers and the bottom layer for
+      `TPadMode.ePadMode_LocalStack` and `TPadMode.ePadMode_ExternalStack`. Assigning the current mode changes nothing.
+    seeAlso:
+      - PCB.TPadMode
+  OffsetX:
+    summary: The offset in X of the pad's copper shape from the pad's location on all layers, in internal units (10,000
+      per mil).
+  OffsetY:
+    summary: The offset in Y of the pad's copper shape from the pad's location on all layers, in internal units (10,000
+      per mil).
+  PadClass:
+    summary: The name of the pad class that the template puts its pads into; empty for none.
+    remarks: When the template is applied to a pad on a board, the pad is added to the pad class of that name, and the
+      class is created when the board does not have it.
+  PasteMaskExpansion:
+    summary: The paste mask expansion of the pad, in internal units (10,000 per mil).
+    remarks: Applies only when `ManualPasteMask` is true.
+  PasteMaskPercent:
+    summary: The paste mask expansion of the pad as a percentage, used when `PasteMaskUsePercent` is true.
+    remarks: Applies only when `ManualPasteMask` is true.
+  PasteMaskUsePercent:
+    summary: Whether the paste mask expansion is given as a percentage (`PasteMaskPercent`) instead of a distance
+      (`PasteMaskExpansion`).
+    remarks: Applies only when `ManualPasteMask` is true.
+  Plated:
+    summary: Whether the pad's hole is plated.
+  SolderMaskBottomExpansion:
+    summary: The solder mask expansion of the pad on the bottom side, in internal units (10,000 per mil).
+    remarks: Applies only when `ManualSolderMask` is true.
+  SolderMaskExpansion:
+    summary: The solder mask expansion of the pad, in internal units (10,000 per mil).
+    remarks: Applies only when `ManualSolderMask` is true.
+  SolderMaskHoleEdge:
+    summary: Whether the pad's solder mask expansion is measured from the edge of the hole instead of the edge of the
+      copper.
+  StackData:
+    summary: An entry of the template's pad stack, which describes the pad's copper shape and size on one layer.
+    remarks: >-
+      Reading an entry returns a copy: changes to the returned object take effect only when it is assigned back.
+      Assigning null changes nothing.
+
+
+      When the template is applied to a pad, the entry for each layer is found by its `IPCB_PadTemplateStackData.Layer`;
+      a layer without an entry gets default values (in `TPadMode.ePadMode_ExternalStack`, a mid layer without an entry
+      gets the values of the entry for the mid layers).
+    parameters:
+      argIndex: The zero-based index of the entry, from 0 to `StackDataCount` - 1.
+  StackDataCount:
+    summary: Returns the number of entries in the template's pad stack.
+  UsePaste:
+    summary: Whether the pad has a paste mask.
+    remarks: Applies only when `ManualPasteMask` is true.
+  UseSeparateExpansions:
+    summary: Whether the pad has separate solder mask expansions for the top side (`SolderMaskExpansion`) and the bottom
+      side (`SolderMaskBottomExpansion`).
+    remarks: Applies only when `ManualSolderMask` is true.

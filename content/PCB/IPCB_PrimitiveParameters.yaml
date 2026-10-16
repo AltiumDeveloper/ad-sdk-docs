@@ -1,0 +1,199 @@
+# PCB.IPCB_PrimitiveParameters: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The parameters of a PCB primitive, such as a component, kept per project variant and per parameter set.
+remarks: >-
+  A primitive, for example an `IPCB_Component`, can be cast to `IPCB_PrimitiveParameters`. The object obtained this
+  way starts on the project's current variant and on the `TParameterAppurtenance.paUser` set; `CreatePrimitiveParameters`
+  of `IPCB_ParametersFactory` returns one that is switched to the given variant.
+
+
+  The members read and change the parameters of the selected variant and the selected set: the switch methods
+  (`SwitchToDefaultVariant`, `SwitchToCurrentVariant`, `SwitchToVariantByName` and the others) select the variant,
+  `SwitchAppurtenance` selects the set. Changes are applied to the primitive at once. An `IPCB_Parameter` returned by
+  `GetParameterByIndex`, `GetParameterByName`, `FindParameterByName` or `ExportToList` is a copy: changing it does not
+  change the primitive.
+
+
+  Parameter names are unique within a set and are compared without regard to case.
+
+
+  A variant without parameters of its own (see `IsFullyInherited`) shows the parameters of the default variant, marked
+  as inherited (`IsInherited` of `IPCB_Parameter` is true). The first change made in such a variant gives it its own
+  parameters: a copy of the default variant's parameters, still marked as inherited, to which the change is applied;
+  when the change fails, the variant is left without parameters of its own. A parameter of a variant that is marked as
+  inherited reports the value of the default variant's parameter of the same name, or an empty value when the default
+  variant has no such parameter. The default variant does not accept parameters marked as inherited.
+members:
+  AddOrSetParameter:
+    summary: Adds a parameter, or replaces the parameter of the same name, in the selected variant and set.
+    remarks: The name, the value and the inherited mark are taken from the given parameter.
+    parameters:
+      argParameter: The parameter to add or to replace with.
+  AddParameter:
+    summary: Adds a parameter to the selected variant and set.
+    remarks: Raises an error when a parameter of the same name already exists; use `AddOrSetParameter` to replace it.
+    parameters:
+      argParameter: The parameter to add.
+  Count:
+    summary: Returns the number of parameters in the selected variant and set.
+    remarks: Returns 0 when the primitive has no parameters.
+  ExportToList:
+    summary: Returns a new list with copies of all parameters of the selected variant and set.
+    remarks: Changing the list or its parameters does not change the primitive. The list is empty when the primitive has
+      no parameters.
+  FindParameterByName:
+    summary: Returns a copy of the parameter with the given name in the selected variant and set, or null when there is
+      none.
+    parameters:
+      argName: The parameter name.
+  GetAppurtenance:
+    summary: Returns the parameter set that the other members read and change, as selected by `SwitchAppurtenance`.
+  GetIsCurrentVariant:
+    summary: Returns whether the selected variant is the project's current variant.
+    remarks: When the board has no project or the project has no current variant, the default variant counts as the
+      current one.
+  GetIsDefaultVariant:
+    summary: Returns whether the selected variant is the default variant.
+  GetParameterByIndex:
+    summary: Returns a copy of the parameter at the given position in the selected variant and set.
+    remarks: Raises an error when the index is out of range.
+    parameters:
+      argIndex: The zero-based position, less than `Count`.
+  GetParameterByName:
+    summary: Returns a copy of the parameter with the given name in the selected variant and set.
+    remarks: Raises an error when there is no such parameter; `FindParameterByName` returns null instead.
+    parameters:
+      argName: The parameter name.
+  GetValueByNameDef:
+    summary: Returns the value of the parameter with the given name in the selected variant and set, or a default value
+      when there is no such parameter.
+    parameters:
+      argName: The parameter name.
+      argDefault: The value returned when there is no parameter with that name.
+  GetVariantCount:
+    summary: Returns the number of variants that have parameters of their own for the primitive.
+    remarks: The default variant is not counted. `SwitchToVariantByIndex` and `GetVariantIndex` use positions in this
+      list.
+  GetVariantIndex:
+    summary: Returns the position of the selected variant in the list of variants that have parameters of their own.
+    remarks: Returns -1 for the default variant and for a variant without parameters of its own.
+  GetVariantName:
+    summary: Returns the name of the selected variant.
+    remarks: Returns `[No Variations]` for the default variant. When no variant of the project has the selected unique
+      ID, or the board has no project, it returns the unique ID.
+  GetVariantUniqueID:
+    summary: Returns the unique ID of the selected variant.
+    remarks: The default variant's unique ID is the empty string.
+  ImportFromList:
+    summary: Replaces all parameters of the selected variant and set with the parameters of the given list.
+    remarks: The existing parameters are removed first, then each parameter of the list is added. Raises an error when
+      the list contains two parameters of the same name.
+    parameters:
+      argParameters: The parameters to store.
+  IsFullyInherited:
+    summary: Whether the selected variant has no parameters of its own and shows the default variant's parameters.
+    remarks: >-
+      Setting it to true removes the variant's own parameters. Setting it to false gives the variant its own
+      parameters, a copy of the default variant's parameters marked as inherited, if it has none yet.
+  IsFullyInheritedAllVariants:
+    summary: Whether no variant has parameters of its own for the primitive.
+    remarks: >-
+      Setting it to true removes the own parameters of every variant; the default variant's parameters stay. Setting it
+      to false gives every variant of the project its own parameters, if it has none yet.
+  NewValueByName:
+    summary: Adds a parameter with the given name and value to the selected variant and set.
+    remarks: Raises an error when a parameter of that name already exists; `TryNewValueByName` returns false instead.
+    parameters:
+      argName: The name of the new parameter.
+      argValue: The value of the new parameter.
+  RemoveAllParameters:
+    summary: Removes all parameters of the selected variant and set.
+  RemoveAllParametersAndVariants:
+    summary: Removes all parameters of the primitive, those of the default variant and of every variant, in every set.
+  RemoveByIndex:
+    summary: Removes the parameter at the given position in the selected variant and set.
+    remarks: Raises an error when the index is out of range.
+    parameters:
+      argIndex: The zero-based position, less than `Count`.
+  RemoveByName:
+    summary: Removes the parameter with the given name from the selected variant and set.
+    remarks: Raises an error when there is no such parameter; `TryRemoveByName` returns false instead.
+    parameters:
+      argName: The parameter name.
+  SetOrNewValueByName:
+    summary: Sets the value of the parameter with the given name in the selected variant and set, or adds the parameter
+      when there is none.
+    remarks: The parameter is no longer marked as inherited.
+    parameters:
+      argName: The parameter name.
+      argValue: The new value.
+  SetParameter:
+    summary: Replaces the parameter of the same name in the selected variant and set with the given parameter.
+    remarks: The value and the inherited mark are taken from the given parameter. Raises an error when there is no
+      parameter of that name.
+    parameters:
+      argParameter: The parameter whose name selects the parameter to replace.
+  SwitchAppurtenance:
+    summary: Selects the parameter set that the other members read and change.
+    remarks: The parameters themselves are not changed.
+    parameters:
+      argValue: The parameter set.
+  SwitchToCurrentVariant:
+    summary: Selects the project's current variant.
+    remarks: When the board has no project or the project has no current variant, the default variant is selected.
+  SwitchToDefaultVariant:
+    summary: Selects the default variant.
+  SwitchToVariantByIndex:
+    summary: Selects a variant by its position in the list of variants that have parameters of their own.
+    remarks: Raises an error when the index is out of range or the primitive has no parameters.
+    parameters:
+      argIndex: The zero-based position, less than `GetVariantCount`.
+  SwitchToVariantByName:
+    summary: Selects a variant of the project by its name.
+    remarks: Raises an error when the project has no variant of that name, or when the board has no project and the name
+      is neither `[No Variations]` nor empty.
+    parameters:
+      argVariantName: The variant name, compared without regard to case; `[No Variations]` selects the default variant
+        and an empty string the project's current variant.
+  SwitchToVariantByUniqueID:
+    summary: Selects a variant by its unique ID.
+    remarks: The ID is not checked against the project's variants.
+    parameters:
+      argUniqueID: The variant's unique ID; the empty string selects the default variant.
+  TryGetValueByName:
+    summary: Gets the value of the parameter with the given name in the selected variant and set, and returns whether the
+      parameter exists.
+    parameters:
+      argName: The parameter name.
+      argValue: Receives the value, or an empty string when there is no such parameter.
+  TryNewValueByName:
+    summary: Adds a parameter with the given name and value to the selected variant and set, and returns whether it was
+      added.
+    remarks: Returns false when a parameter of that name already exists.
+    parameters:
+      argName: The name of the new parameter.
+      argValue: The value of the new parameter.
+  TryRemoveByName:
+    summary: Removes the parameter with the given name from the selected variant and set, and returns whether it was
+      removed.
+    remarks: Returns false when there is no such parameter.
+    parameters:
+      argName: The parameter name.
+  TrySetValueByName:
+    summary: Sets the value of the parameter with the given name in the selected variant and set, and returns whether it
+      was set.
+    remarks: Returns false when there is no such parameter. A parameter that is set is no longer marked as inherited.
+    parameters:
+      argName: The parameter name.
+      argValue: The new value.
+  TrySwitchToNextVariant:
+    summary: Selects the next variant that has parameters of its own, and returns whether a variant was selected.
+    remarks: >-
+      From the default variant it selects the first variant in the list. Returns false, and keeps the selection, when no
+      variant has parameters of its own, when the selected variant is the last one, or when the selected variant is not
+      in the list.
+  ValueByName:
+    summary: The value of the parameter with the given name in the selected variant and set.
+    remarks: Reading or assigning raises an error when there is no such parameter; `SetOrNewValueByName` adds a missing
+      parameter.
+    parameters:
+      argName: The parameter name.

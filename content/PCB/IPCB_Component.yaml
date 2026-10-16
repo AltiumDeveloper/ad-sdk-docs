@@ -1,73 +1,105 @@
 # PCB.IPCB_Component: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: Components are defined by footprints, which are stored in a PCB library (or part of an integrated library).
-  Note, a footprint can be linked to a schematic component.
+summary: A component on a PCB document, a footprint from a PCB library (or an integrated library) placed with a designator
+  and an optional comment. A footprint can be linked to a schematic component.
 remarks: >-
-  When a footprint is placed in the workspace, it is assigned a designator (and optional comment). It is then referred
-  to as a component. A component is composed of primitives (normally tracks, arcs, and pads).
-
-
   Components are defined by footprints, which are stored in a PCB library. When a footprint is placed in the workspace,
-  it is assigned a designator (and optional comment). It is then referred to as a component with the defined reference.
-  The origin in the library editor defines the reference point of a footprint.
+  it is assigned a designator (and optional comment). It is then referred to as a component. A component is composed of
+  primitives (normally tracks, arcs, and pads). The origin in the library editor defines the reference point of a
+  footprint.
 
 
-  The reference point of a component is set by the X,Y fields inherited from IPCB_Group interface. You can obtain the
-  bounding rectangle of the component and calculate the mid point X and Y values to enable rotation about the center of
-  the component if desired.
+  The reference point of a component is set by `XLocation` and `YLocation`, inherited from `IPCB_Group`. You can obtain
+  the bounding rectangle of the component and calculate its mid point to rotate the component about its center if
+  desired.
 
 
-  The rotation property of a component is set according to the reference point of a component, therefore the Rotation
-  property and the RotateAroundXY method are equivalent only if you use the X,Y parameters for the RotateAroundXY method
-  that are the same as the reference point of the component.
+  `Rotation` rotates the component about its reference point, therefore assigning `Rotation` and calling
+  `RotateAroundXY` are equivalent only if the point you pass to `RotateAroundXY` is the reference point of the
+  component.
 
 
   A component is a group object and therefore composes of child objects such as arcs and tracks. You use a group
-  iterator to fetch the child objects for that component.
+  iterator (`GroupIterator_Create`) to fetch the child objects for that component.
 members:
+  AddAxis:
+    summary: Adds a new axis to the component and returns it.
   AutoPosition_NameComment:
-    summary: This method invokes the auto positioning of the name and comment objects associated with the component after
-      the Name and Comment objects' positions have been updated.
+    summary: Places the name and the comment of the component at their automatic positions.
+    remarks: >-
+      A name or comment whose position (`NameAutoPos`, `CommentAutoPos`) is `TTextAutoposition.eAutoPos_Manual` is
+      placed at the top left and keeps its manual setting.
+  Axis:
+    summary: The axis of the component at the given index.
+    parameters:
+      argI: The zero-based index of the axis, less than `AxisCount`.
+  AxisCount:
+    summary: The number of axes of the component.
+  BoundingRectangleNoNameComment:
+    summary: Returns the bounding rectangle of the component without its name and comment texts.
+  BoundingRectangleNoNameCommentForSignals:
+    summary: Returns the bounding rectangle of the component's tracks, arcs, pads and regions, without its name and
+      comment texts.
+    remarks: >-
+      A pad contributes its shapes on the top and the bottom layer. When the component has none of these primitives,
+      the rectangle is a 10 mil square centred on the reference point.
+  ChangeAutopositionNameComment:
+    summary: Places the name and the comment again at their automatic positions (`NameAutoPos`, `CommentAutoPos`).
+    remarks: A name or comment whose position is `TTextAutoposition.eAutoPos_Manual` is left where it is.
+  ChangeCommentAutoposition:
+    summary: Sets `CommentAutoPos` to the given position and moves the comment text there.
+    remarks: >-
+      While `CommentOn` is false the position is only stored and the text is not moved. Returns false when the text
+      could not be placed, or when the comment is hidden and the position is `TTextAutoposition.eAutoPos_Manual`.
+    parameters:
+      argValue: The position of the comment text relative to the component.
+  ChangeNameAutoposition:
+    summary: Sets `NameAutoPos` to the given position and moves the name text there.
+    remarks: >-
+      While `NameOn` is false the position is only stored and the text is not moved. Returns false when the text could
+      not be placed, or when the name is hidden and the position is `TTextAutoposition.eAutoPos_Manual`.
+    parameters:
+      argValue: The position of the name text relative to the component.
   ChannelOffset:
     summary: The ChannelOffset represents the Channel Offset parameter for the component. A channel offset denotes where the
       component is in a room especially when a room is being copied and a copy is created on the same document. The
       copies of rooms containing components are created based on their offsets.
+  ClearAxes:
+    summary: Removes all axes from the component.
   Comment:
-    summary: This property denotes the comment object associated with the IPCB_Component component object on the PCB document.
+    summary: The comment text object of the component.
     seeAlso:
       - PCB.IPCB_Text
   CommentAutoPos:
-    summary: This property denotes that the Comment text object is to be positioned relative to the component object
-      depending on what the TTextAutoposition parameter is.
+    summary: The position of the comment text relative to the component.
+    remarks: Assigning a value does not move the text; `ChangeCommentAutoposition` sets the position and moves the text.
     seeAlso:
       - PCB.TTextAutoposition
   CommentOn:
-    summary: The CommentOn property denotes the visibility of the Comment object associated with the component.
+    summary: Whether the comment text of the component is visible.
   ComponentKind:
-    summary: "A component kind can be one of the following:"
+    summary: The kind of the component, which decides how it takes part in synchronization, electrical checks and the BOM.
     remarks: >-
-      eComponentKind_Standard: These components possess standard electrical properties, are always synchronized and are
-      the type most commonly used on a board.
+      `TComponentKind.eComponentKind_Standard`: these components possess standard electrical properties, are always
+      synchronized and are the type most commonly used on a board.
 
 
-      eComponentKind_Mechanical: These components do not have electrical properties and will appear in the BOM. They are
-      synchronized if the same components exist on both the Schematic and PCB documents. An example is a heatsink.
+      `TComponentKind.eComponentKind_Mechanical`: these components do not have electrical properties and will appear in
+      the BOM. They are synchronized if the same components exist on both the schematic and PCB documents. An example is
+      a heatsink.
 
 
-      eComponentKind_Graphical: These components are not used during synchronization or checked for electrical errors.
-      These components are used, for example, when adding company logos to documents.
+      `TComponentKind.eComponentKind_Graphical`: these components are not used during synchronization or checked for
+      electrical errors. These components are used, for example, when adding company logos to documents.
 
 
-      eComponentKind_NetTie_BOM: These components short two or more different nets for routing and these components will
+      `TComponentKind.eComponentKind_NetTie_BOM`: these components short two or more different nets for routing; they
       appear in the BOM and are maintained during synchronization.
 
 
-      eComponentKind_NetTie_NoBOM: These components short two or more different nets for routing and these components
-      will NOT appear in the BOM and are maintained during synchronization. Note
-
-
-      Note, the TComponentKind type is defined from RT_Workspace unit.
+      `TComponentKind.eComponentKind_NetTie_NoBOM`: these components short two or more different nets for routing; they
+      do not appear in the BOM and are maintained during synchronization.
   DefaultPCB3DModel:
-    summary: The property denotes the default PCB 3D Model name as the default to be linked to this PCB component.
+    summary: The name of the default PCB 3D model linked to this component.
   EnablePartSwapping:
     summary: The property denotes the part swapping. Components can have multi-parts and in this case, these multi parts can
       be swapped if the EnablePartSwapping is set to true.
@@ -75,49 +107,123 @@ members:
     summary: The property denotes the pin swapping for the pins of this component. In this case, these pins can be swapped
       if the EnablePinSwapping is set to true.
   FlipComponent:
-    summary: This method flips the component from one layer to the other, for example top layer to the bottom layer.
+    summary: Moves the component from the top layer to the bottom layer, or from the bottom layer to the top layer.
+    remarks: A component on any other layer is left unchanged.
+  FlippedOnLayer:
+    summary: Not supported; reading always returns false, and assigning a value has no effect.
   FootprintDescription:
-    summary: This property denotes the descriptive account of the footprint.
+    summary: The description of the component's footprint.
   Getstate_PadByName:
-    summary: This method retrieves the pad object interface only if the pad's name is found which is associated with this
-      component.
+    summary: Returns the first pad of the component with the given name, or null when the component has no such pad.
+    parameters:
+      argS: The pad name to look for; the comparison is case-sensitive.
   GroupNum:
     summary: This property is not used internally. Can use for specific purposes such as a tag or an index.
   Height:
-    summary: The height property denotes the height of the component. It is used for the 3D viewer which works out the
-      heights of components before displaying components in a 3D view.
+    summary: The height of the component, in internal units (10,000 per mil). It is used for the 3D viewer which works out
+      the heights of components before displaying components in a 3D view.
+  IsBGA:
+    summary: Whether the component has been recognized as a ball grid array (BGA) package.
+  IsFitted:
+    summary: Returns whether the component is fitted in the current variant of the board.
+  IsPackageEqual:
+    summary: Returns whether the given component has the same package as this component, comparing their primitives.
+    remarks: Returns false when the given component is null.
+    parameters:
+      argComp: The component to compare with.
+  IsPackageEqualEx:
+    summary: Returns whether the given component has the same package as this component, using the given comparison
+      options.
+    remarks: Returns false when the given component is null. `IsPackageEqual` compares with no options.
+    parameters:
+      argComp: The component to compare with.
+      argOptions: The comparison options.
+    seeAlso:
+      - PCB.TPackageCompareOption
   LoadCompFromLibrary:
-    summary: This method refreshes the component from the library. If it is successful a true value is returned otherwise false.
+    summary: Reloads the component's primitives from the library footprint named by `Pattern`. If it is successful a true
+      value is returned otherwise false.
+    remarks: >-
+      When `Pattern` is a plain footprint name, the footprint is read from the library file in
+      `SourceFootprintLibrary`; when it cannot be loaded from there, the open library documents are searched. The
+      component keeps its location, layer and rotation. It takes `SourceFootprintLibrary`, `FootprintDescription`,
+      `DefaultPCB3DModel`, `VaultGUID`, `ItemGUID`, `ItemRevisionGUID` and `ComponentKind` from the library footprint,
+      and `Height` when the footprint's height is not 0.
   LoadFromLibrary:
-    summary: This method refreshes the specified component from the library. If it is successful a true value is returned
-      otherwise false.
+    summary: Loads the component's primitives from the library footprint described by a parameter string. If it is
+      successful a true value is returned otherwise false.
+    remarks: >-
+      The SDK examples create a component with `IPCB_ServerInterface.PCBObjectFactory`, assign its `Board`, call this
+      method with `FileName=<library path>|Footprint=<footprint name>`, then set its layer and location and add it to
+      the board with `IPCB_Board.AddPCBObject`.
+    parameters:
+      argParams: The parameters that identify the library and the footprint, as `Name=Value` pairs separated by `|`, for
+        example `FileName=<library path>|Footprint=<footprint name>`.
   LockStrings:
-    summary: The LockStrings property denotes whether the strings of a component can be locked or not.
+    summary: Whether the component's name and comment texts are locked, so that they cannot be moved independently of the
+      component.
+  ModelHash:
+    summary: A hash of the 3D models in the component's bodies.
+    remarks: >-
+      The hash covers each model with its origin, rotations and vertical offset. It is an empty string when no
+      component body of the component has a 3D model.
   Name:
-    summary: This property denotes the name object associated with the IPCB_Component object on the PCB document and
-      represents the pattern string.
+    summary: The designator text object of the component.
     seeAlso:
       - PCB.IPCB_Text
   NameAutoPos:
-    summary: This property denotes that the Name text object is to be positioned relative to the component object depending
-      on what the TTextAutoposition parameter is.
+    summary: The position of the name (designator) text relative to the component.
+    remarks: Assigning a value does not move the text; `ChangeNameAutoposition` sets the position and moves the text.
     seeAlso:
       - PCB.TTextAutoposition
   NameOn:
-    summary: The NameOn property denotes the visibility of the Name object associated with the component.
+    summary: Whether the name (designator) text of the component is visible.
+  PackageSpecificHash:
+    summary: A hash value computed from the component's primitives.
   Pattern:
-    summary: The property denotes the footprint name of this component which is a widestring.
+    summary: The name of the component's footprint.
+    remarks: Leading and trailing spaces are removed from an assigned value.
   Rebuild:
-    summary: This method forces a rebuild of the whole component graphically.
+    summary: Reloads the component from the library footprint named by `Pattern` and applies the component's rotation
+      again.
+  ResetDisplacement:
+    summary: Resets the component's displacement to the identity transformation.
   RotateAroundXY:
-    summary: This method rotates a component object on the PCB document about the AX, AY coordinates with an angle in
-      degrees. To ensure the component rotates without moving about, pass in its midpoint (between X1,X2 and Y1, Y2)
-      attributes for the AX,AY parameters or use the Rotation property.
+    summary: Rotates the component about a point.
+    remarks: >-
+      The component's primitives, its reference point (`XLocation`, `YLocation`) and its `Rotation` change by the
+      rotation. To rotate the component in place, pass its reference point, or assign `Rotation`.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
     seeAlso:
       - PCB.IPCB_Component.Rotation
   Rotation:
-    summary: This property denotes the angle of the component with respect to the horizontal axis. The rotation parameter of
-      TAngle type is between 0 and 360 degrees inclusive.
+    summary: The angle of the component with respect to the horizontal axis, in degrees, between 0 and 360 inclusive.
+    remarks: Assigning a different value rotates the component, with its primitives, about its reference point
+      (`XLocation`, `YLocation`) by the difference.
+  SaveModelToFile:
+    summary: Saves the component's 3D model to a file.
+    remarks: >-
+      The model is saved as a part when the component export mode of the board's window is set to part;
+      `SaveModelToFileAsPart` always saves it as a part.
+
+
+      The SDK examples load a footprint with `LoadFromLibrary`, add the component to a board and call this method with
+      a `.stp` path to write a STEP file.
+    parameters:
+      argFullPath: The full path of the file to write.
+  SaveModelToFileAsPart:
+    summary: Saves the component's 3D model to a file as a part.
+    parameters:
+      argFullPath: The full path of the file to write.
+  SaveModelToOccDoc:
+    summary: Writes the component's 3D model into the given document.
+    parameters:
+      argOccDoc: The document that receives the model.
+  SourceCompDesignItemID:
+    summary: The design item ID of the source component; `SourceLibReference` reads and assigns the same value.
   SourceComponentLibrary:
     summary: "This source library field denotes the integrated library where the PCB component comes from. Note: When a
       schematic is transferred to a blank PCB using the Update command, the source reference links for each PCB
@@ -127,18 +233,19 @@ members:
   SourceDesignator:
     summary: This property represents the current designator of the source component from the corresponding schematic.
   SourceFootprintLibrary:
-    summary: This field shows the name of the footprint. The footprint is the graphical representation of a PCB component
-      and is used to display it on the PCB, and usually contains component outline and connection pads along with an
-      unique designator.
-    remarks: Footprints are stored in PCB library files or Integrated libraries, which can be edited using the PCB Library
-      Editor to create new footprints or edit existing ones.
+    summary: The library the component's footprint comes from.
+    remarks: >-
+      Footprints are stored in PCB library files or integrated libraries, which can be edited using the PCB Library
+      Editor to create new footprints or edit existing ones. `LoadCompFromLibrary` reads the footprint from this library
+      when `Pattern` is a plain footprint name.
   SourceHierarchicalPath:
     summary: This property uniquely identifies the source reference path to the PCB component. The path can be multi-level
       depending on whether it is a multi channel (sheet symbols) or a normal design (schematic sheets).
     remarks: "Note: When a schematic is transferred to a blank PCB using the Update command, the source reference links for
       each PCB footprint is populated with source library path names."
   SourceLibReference:
-    summary: The source library reference property is the name of the component from the library.
+    summary: The same value as `SourceCompDesignItemID`; reading and assigning this property reads and assigns
+      `SourceCompDesignItemID`.
   SourceUniqueId:
     summary: Unique IDs (UIDs) are used to match each schematic component to the corresponding PCB component. When a
       schematic is transferred to a blank PCB using the Update command, the source reference links for each PCB

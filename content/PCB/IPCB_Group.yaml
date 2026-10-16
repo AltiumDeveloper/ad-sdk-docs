@@ -1,6 +1,7 @@
 # PCB.IPCB_Group: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Group interface is an immediate ancestor for IPCB_Net , IPCB_LibComponent , IPCB_Polygon ,
-  IPCB_Coordinate , IPCB_Dimension and its descendant interfaces.
+summary: >-
+  The base interface of PCB objects that contain other primitives: IPCB_Component, IPCB_LibComponent, IPCB_Net,
+  IPCB_Polygon, IPCB_SplitPlane, IPCB_Coordinate, IPCB_Dimension and their descendant interfaces.
 remarks: >-
   The IPCB_Group interface is a composite object interface which means it can store objects. Thus a group object is an
   object composed of primitives such as arcs, tracks and fills. For example a polygon consists of child tracks and arcs.
@@ -14,24 +15,70 @@ remarks: >-
   To add or remove child objects from a group object, you employ the AddPCBObject or the RemovePCBObject methods.
 
 
-  To fetch the reference coordinates of a group object, the X,Y properties define the reference point.
+  To fetch the reference coordinates of a group object, the XLocation and YLocation properties define the reference
+  point.
 members:
+  AddPCBObject:
+    summary: Adds a primitive to the group as a child primitive.
+    remarks: >-
+      When the group is a component, a net or a polygon, the primitive is first removed from the component, net or
+      polygon respectively that it belongs to. To place a new primitive in a footprint, add it to the library board
+      with `IPCB_Board.AddPCBObject` and then to the footprint with `AddPCBObject`.
+    parameters:
+      argPCBObject: >-
+        The primitive to add: an arc, pad, via, track, connection, text, fill, rule, embedded board, region or
+        component body. For null or any other kind of object the method does nothing.
+  FreePrimitives:
+    summary: Destroys all child primitives of the group and leaves the group empty.
   GetPrimitiveAt:
-    summary: The GroupIterator_Create method creates a group iterator for the group object, so that the child objects can be
-      searched from within the group object. This group iterator searches for child objects of a group object, such as a
-      component, footprint, polygon, dimension, board layout and so on.
+    summary: Returns the child primitive at the given position among the group's children of the given object kind.
+    remarks: Returns null when the group has no child of that kind at the given position.
+    parameters:
+      argI: The position of the child primitive, starting at 1; `GetPrimitiveCount` returns the number of children.
+      argObjectId: The object kind of the child primitives.
     seeAlso:
       - PCB.IPCB_Group.GroupIterator_Create
       - PCB.IPCB_GroupIterator
       - PCB.IPCB_Group.GroupIterator_Destroy
+  GetPrimitiveCount:
+    summary: Returns the number of child primitives of the group whose object kind is in the given set.
+    parameters:
+      argObjectSet: The object kinds (`TObjectId` values) to count.
+  GroupIterator_Create:
+    summary: Creates an iterator over the child primitives of the group.
+    remarks: Release the iterator with `GroupIterator_Destroy`.
+  GroupIterator_Destroy:
+    summary: Releases an iterator created by `GroupIterator_Create`.
+    parameters:
+      argIterator: The iterator to release; the variable is set to null.
+  LayerUsed:
+    summary: Whether a child primitive of the group is on the given layer.
+    remarks: >-
+      The value is valid after `SetState_LayersUsedArray` has run. Until the layer usage of the group has been built
+      (by `SetState_LayersUsedArray` or by assigning a value), reading returns false.
   PrimitiveLock:
-    summary: The PrimitiveLock property denotes whether the primitives of the group object can be edited individually or
-      not. Normally all the child objects or primitives of a group can only be accessed as a group object.
+    summary: Whether the child primitives of the group can be edited individually or only as part of the group.
+    remarks: Normally all the child primitives of a group can only be accessed through the group object.
+  RemovePCBObject:
+    summary: Removes a child primitive from the group.
+    parameters:
+      argPCBObject: >-
+        The primitive to remove: an arc, pad, via, track, connection, text, fill, rule, embedded board, region or
+        component body. For null or any other kind of object the method does nothing.
+  ReplicateWithChildren:
+    summary: Returns a copy of the group that contains copies of all its child primitives.
+    remarks: Add the copy to a board with `IPCB_Board.AddPCBObject`.
+  SetState_LayersUsedArray:
+    summary: Rebuilds the layer usage of the group that `LayerUsed` reports, marking the layer of every child primitive
+      as used.
+    remarks: When the group does not belong to a board, all layers are left marked as unused.
   SetState_XSizeYSize:
-    summary: This method sets the X and Y size of the polygon.
-    seeAlso:
-      - PCB.IPCB_Polygon
+    summary: Recalculates the size of every child primitive and then the bounds of the group.
+    remarks: The selection rectangle of the group becomes the rectangle that encloses the selection rectangles of its
+      child primitives.
   XLocation:
-    summary: The X property defines the reference point of the group object.
+    summary: The X coordinate of the reference point of the group, in internal units (10,000 per mil).
+    remarks: Assigning a different value moves the group with `MoveToXY`, keeping its Y coordinate.
   YLocation:
-    summary: The Y property defines the reference point of the group object.
+    summary: The Y coordinate of the reference point of the group, in internal units (10,000 per mil).
+    remarks: Assigning a different value moves the group with `MoveToXY`, keeping its X coordinate.

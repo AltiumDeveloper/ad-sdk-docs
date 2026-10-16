@@ -1,8 +1,139 @@
 # PCB.IPCB_Rule: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Rule interface object encapsulates an existing PCB design rule in an opened PCB document in Altium
-  Designer. Each design rule has its own Unique ID. To set the scope of a rule, unary or binary scope expressions are
-  defined.
-remarks: The PCB editor incorporates a large set of design rules to help define compliance/constraints regarding the
+summary: A design rule on a PCB document; the base interface of the PCB design rule and constraint interfaces.
+remarks: >-
+  The PCB editor incorporates a large set of design rules to help define compliance/constraints regarding the
   placement of PCB objects, routing methods, and netlists. These rules include clearances, object geometry, impedance
-  control, routing priority, routing topology and parallelism. Rule scope is the extent of each rule determined. The
-  scope allows you to define the set of target objects that a particular instance of a rule is to be applied to.
+  control, routing priority, routing topology and parallelism. Each design rule has its own unique ID.
+
+
+  The scope of a rule is the set of objects that the rule applies to. It is defined by one scope expression for a rule
+  that applies to single objects, or by two scope expressions for a rule that applies to pairs of objects.
+
+
+  A rule is a PCB object: its `ObjectID` is `TObjectId.eRuleObject`, so the rules of a board are found by iterating the
+  board with an object filter for `TObjectId.eRuleObject`. A new rule is created with
+  `IPCB_ServerInterface.PCBRuleFactory` for a `TRuleKind` and added to the board with `IPCB_Board.AddPCBObject`.
+
+
+  This interface has what all rules share: name, comment, kind, scope and whether the rule is checked. The constraint
+  values are on the interface of the rule kind, for example `IPCB_ClearanceConstraint` or
+  `IPCB_MaxMinHoleSizeConstraint`; cast the rule to that interface to read or change them.
+members:
+  ActualCheck:
+    summary: Checks the given object, or pair of objects, against the rule and returns the first violation found.
+    remarks: Returns null when no violation is found.
+    parameters:
+      argP1: The object to check, or the first object of the pair.
+      argP2: The second object of the pair; null for a rule kind that applies to single objects (`IsUnary` is true).
+  ActualCheck_1:
+    summary: Checks a pair of objects against the rule and adds every violation found to a list.
+    remarks: >-
+      Returns false without checking when one of the arguments is null; otherwise returns true, whether or not
+      violations were found.
+    parameters:
+      argP1: The first object of the pair.
+      argP2: The second object of the pair.
+      argViolations: The list that receives the violations found (`IPCB_Violation` objects).
+  CheckBinaryScope:
+    summary: Returns whether a pair of objects is in the rule's scope, in either order.
+    remarks: >-
+      Returns true when one object is in the first scope (`Scope1Includes`) and the other in the second scope
+      (`Scope2Includes`). Returns false when the rule is not enabled for checking (`DRCEnabled` is false).
+  CheckUnaryScope:
+    summary: Returns whether the given object is in the scope of a rule that applies to single objects.
+    remarks: >-
+      Returns true when the rule is enabled for checking (`DRCEnabled`) and the object matches `Scope1Expression`.
+      Returns false when the expression cannot be evaluated.
+  CollisionExpansion:
+    summary: The rule's collision expansion distance, in internal units (10,000 per mil).
+    remarks: >-
+      It is 0 for rule kinds that do not define one. For a clearance rule it is the gap, or the largest clearance of the
+      rule when it defines clearances per object kind.
+  Comment:
+    summary: A free-text comment on the rule.
+    remarks: A new rule has an empty comment.
+  DataSummaryString:
+    summary: A short text that lists the rule's constraint values, for example the preferred, minimum and maximum width
+      of a width rule.
+  DefinedByLogicalDocument:
+    summary: Whether the rule comes from the rule definitions of the design's logical (schematic) documents.
+    remarks: >-
+      It is set to true when an engineering change order from the design project adds or updates the rule on the
+      board. The default is false.
+  DRCEnabled:
+    summary: Whether the rule is checked by design rule checking.
+    remarks: >-
+      A new rule is enabled. The value reads false when the rule belongs to a rule set that is disabled, even if the rule
+      itself is enabled; assigning a value enables or disables the rule itself. While the value is false,
+      `Scope1Includes`, `Scope2Includes`, `CheckUnaryScope` and `CheckBinaryScope` return false.
+  Export_ToParameters_1:
+    summary: Writes the rule's properties to a parameter string.
+    remarks: >-
+      The previous content of the string is replaced. The parameters include `Description`, which has the form
+      `<kind name> [<summary>]`, built from `ShortDescriptorString` and `DataSummaryString`.
+    parameters:
+      argParams: The string that receives the parameters.
+  GetWhatsThisHelpString:
+    summary: Returns the help topic identifier of the rule kind, for example `PCB_ClearanceRule_` for a clearance rule.
+    remarks: Returns an empty string for a rule kind without a help topic.
+  IsUnary:
+    summary: Returns whether the rule kind applies to single objects rather than to pairs of objects.
+  LayerKind:
+    summary: Whether the rule tests objects on the same layer or on adjacent layers.
+    remarks: >-
+      Used by the parallel segment rule (`TRuleKind.eRule_ParallelSegment`). The default is
+      `TRuleLayerKind.eRuleLayerKind_SameLayer`.
+  Name:
+    summary: The name of the rule.
+    remarks: >-
+      When the rule is added to a board, an empty name is replaced by a name derived from the rule kind (for example
+      `Clearance`), and a name that another rule of the board already has gets a numeric suffix such as `_1`.
+  NetScope:
+    summary: Which net relationship a pair of objects must have for the rule to apply to them.
+    remarks: >-
+      `NetScopeMatches` tests a pair of objects against it. The default is `TNetScope.eNetScope_AnyNet`; a clearance
+      rule starts with `TNetScope.eNetScope_DifferentNetsOnly`.
+  NetScopeMatches:
+    summary: Returns whether a pair of objects has the net relationship that the rule's `NetScope` requires.
+    remarks: Rule kinds that do not use a net scope return true for any pair.
+  Priority:
+    summary: Returns the rule's position in the board's priority order for rules of the same `RuleKind`, starting at 1.
+    remarks: Returns 0 when the rule is not on a board.
+  RuleKind:
+    summary: The kind of design rule, for example `TRuleKind.eRule_Clearance`.
+  Scope1Expression:
+    summary: The query expression that selects the objects of the rule's first scope, for example `All`.
+    remarks: >-
+      Leading and trailing spaces are removed from an assigned value. Assigning a value that differs from the current
+      one only in letter case leaves the expression unchanged.
+  Scope1Includes:
+    summary: Returns whether the given object is in the rule's first scope (`Scope1Expression`).
+    remarks: >-
+      Returns false when the rule is not enabled for checking (`DRCEnabled` is false). The expression `All` includes
+      every object.
+  Scope2Expression:
+    summary: The query expression that selects the objects of the rule's second scope, for rule kinds that apply to
+      pairs of objects.
+    remarks: >-
+      Leading and trailing spaces are removed from an assigned value. Assigning a value that differs from the current
+      one only in letter case leaves the expression unchanged.
+  Scope2Includes:
+    summary: Returns whether the given object is in the rule's second scope (`Scope2Expression`).
+    remarks: >-
+      Returns false when the rule is not enabled for checking (`DRCEnabled` is false). The expression `All` includes
+      every object.
+  ScopeDescriptorString:
+    summary: A text that shows the rule's scope expressions.
+    remarks: >-
+      The form is `(<Scope1Expression>),(<Scope2Expression>)` for rule kinds that apply to pairs of objects and
+      `(<Scope1Expression>)` for the others. It starts with `(Disabled)` when `DRCEnabled` is false.
+  ScopeKindIsValid:
+    summary: Returns whether the given scope kind can be used in the rule's scope.
+    remarks: Rule kinds that do not restrict the scope kinds return true for every value.
+  ShortDescriptorString:
+    summary: The display name of the rule kind, for example `Clearance Constraint` for a clearance rule.
+  ViolationDescriptorString:
+    summary: A text that describes the given violation of this rule.
+    remarks: Returns an empty string for a null violation.
+    parameters:
+      argV: The violation to describe.

@@ -1,32 +1,66 @@
 # PCB.IPCB_LibComponent: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_LibComponent object represents the current footprint in a PCB library document. The footprints of a
-  PCB library is equivalent to "pages" of a library.
+summary: A footprint (library component) in a PCB library document.
 remarks: >-
-  The library document is represented by two interfaces - the current footprint and the IPCB_Library document.
+  A PCB library document holds a list of footprints, the "pages" of the library, and each of them is represented by an
+  IPCB_LibComponent. Get them from the IPCB_Library: with `IPCB_Library.GetComponent`,
+  `IPCB_Library.GetComponentByName`, or with an IPCB_LibraryIterator created by `IPCB_Library.LibraryIterator_Create`
+  and released by `IPCB_Library.LibraryIterator_Destroy`. The footprint in focus in the library editor is
+  `IPCB_Library.CurrentComponent`.
 
 
-  The IPCB_LibraryIterator object interface iterates through a loaded PCB library in Altium Designer to fetch PCB
-  footprints which are represented by the IPCB_LibComponent interfaces. The IPCB_LibraryIterator interface is used in
-  the IPCB_Library interface - `IPCB_Library.LibraryIterator_Create` and `IPCB_Library.LibraryIterator_Destroy` methods.
+  IPCB_LibComponent is derived from IPCB_Group. A footprint is composed of child objects such as pads and tracks, which
+  you fetch with the footprint's own IPCB_GroupIterator.
 
 
-  A library is represented by the IPCB_Library interface.
-
-
-  A PCB footprint (as a page of the library) is represented by its IPCB_LibComponent interface which is inherited from
-  the IPCB_Group object interface.
-
-
-  A PCB footprint is composed of child objects such as pads and tracks. Therefore the footprint has its own
-  IPCB_GroupIterator to fetch its own child objects.
+  The primitives of the current footprint are placed on the library's board (`IPCB_Library.Board`) for display and
+  editing; `TransferAllPrimitivesOntoBoard` and `TransferAllPrimitivesBackFromBoard` move them between the footprint
+  and that board.
 members:
+  CopyTo:
+    summary: Copies the footprint's primitives and properties into another footprint.
+    remarks: >-
+      Each child primitive of this footprint is replicated with the given copy mode and added to the target footprint.
+      The description, height, `ItemGUID` and `ItemRevisionGUID` are copied to the target as well.
+    parameters:
+      argP: The footprint to copy into.
+      argCopyMode: The copy mode used to replicate each primitive.
   Description:
-    summary: The Description property denotes the footprint's description. This Description property is supported by the
-      GetState_ Description and SetState_ Description methods.
-    remarks: Note, the IPCB_LibComponent interface represents the current footprint in the PCB Library editor workspace.
+    summary: The description of the footprint.
   Height:
-    summary: The Height property denotes the footprint's height.
-    remarks: Note, the IPCB_LibComponent interface represents the current footprint in the PCB Library editor workspace.
+    summary: The height of the footprint, in internal units (10,000 per mil).
+  ItemGUID:
+    summary: The GUID of the server Item that the footprint is linked to for release.
+  ItemRevisionGUID:
+    summary: The GUID of the Item revision that the footprint is linked to for release.
   Pattern:
-    summary: The Name property denotes the pattern name of the footprint.
-    remarks: Note, the IPCB_LibComponent interface represents the current footprint in the PCB Library editor workspace.
+    summary: The name (pattern) of the footprint.
+    remarks: Leading and trailing spaces are removed from an assigned value.
+  SaveModelToFile:
+    summary: Exports the 3D models of the footprint's 3D bodies to a file.
+    remarks: >-
+      The models are positioned relative to the footprint's location. Nothing is written when none of the footprint's
+      3D bodies has a model. The returned value is not set and does not indicate whether a file was written.
+    parameters:
+      argFilename: The path of the file to write.
+      argSaveAsPart: '`false` exports the models to a STEP file; `true` saves them as a part.'
+  SaveToFile:
+    summary: Saves the footprint on its own to a PCB library file.
+    remarks: >-
+      The file holds a library that contains only this footprint. When the footprint is the current footprint of its
+      library, its primitives are taken back from the library's board for the save and placed on the board again
+      afterwards.
+    parameters:
+      argVFSAddress: The path of the PCB library file to write.
+  TransferAllPrimitivesBackFromBoard:
+    summary: Moves the primitives on the library's board into the footprint; the reverse of
+      `TransferAllPrimitivesOntoBoard`.
+    remarks: >-
+      The primitives on the board, on all layers, become child objects of the footprint and are deselected. They are
+      moved by the negative of the board origin, so that the footprint's coordinates are relative to the board origin.
+      The board's grids and guides are stored with the footprint and the library and then removed from the board.
+  TransferAllPrimitivesOntoBoard:
+    summary: Places the footprint's primitives on the library's board, where they are displayed and edited.
+    remarks: >-
+      The primitives are moved by 50,000 mils in X and Y, and the board origin is set to that point, so that the
+      footprint's coordinates are relative to the board origin. The board's grids and guides are replaced by the ones
+      stored with the footprint and the library.

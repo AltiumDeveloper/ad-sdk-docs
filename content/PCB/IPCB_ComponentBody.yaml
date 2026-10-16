@@ -2,5 +2,179 @@
 summary: A component body is a body that encapsulates a component in 3 dimensions on a PCB document. Component bodies
   are handled in the same way as other primitives, and they are contained in the component itself, whether in a library
   or on a board.
-remarks: A component body object is a group object that contain child objects, thus in order to retrieve component
-  bodies from within a component, use an iterator on this component.
+remarks: >-
+  A component body is a child object of a component: to retrieve the bodies of a component, iterate over the component
+  with a group iterator filtered to `TObjectId.eComponentBodyObject`.
+
+
+  A component body is a region with a 2D outline (it derives from `IPCB_Region`) and a 3D model (`Model`) that is an
+  extruded shape, a cylinder, a sphere or a generic model loaded from a file.
+members:
+  AddAxis:
+    summary: Does nothing and returns null; no axis is added to the body.
+  AxisCount:
+    summary: Returns the number of axes of the body.
+  BodyColor3D:
+    summary: The colour of the body in the 3D view.
+    remarks: The colour is used for bodies whose model is not a generic model.
+  BodyOpacity3D:
+    summary: The opacity of the body in the 3D view, from 0 (fully transparent) to 1 (opaque).
+    remarks: Assigning a value outside 0 to 1 has no effect.
+  BodyProjection:
+    summary: The side of the board the body is placed on.
+    remarks: >-
+      `StandoffHeight` and `OverallHeight` are measured from the board surface on this side, away from the board: up
+      from the top surface for `TBoardSide.eBoardSide_Top`, down from the bottom surface for
+      `TBoardSide.eBoardSide_Bottom`.
+  ClearAxes:
+    summary: Removes all axes from the body.
+  Fade:
+    summary: Fades the body in the 3D view by the given amount, on top of any fade already applied.
+    remarks: >-
+      Each call multiplies the remaining opacity by 1 minus the amount, and the body is drawn with `BodyOpacity3D`
+      multiplied by the remaining opacity. `BodyOpacity3D` itself does not change; `ResetFade` removes the fade.
+    parameters:
+      argValue: The fade amount, from 0 (no change) to 1 (fully faded).
+  GetAxis:
+    summary: Returns the axis at the given index.
+    parameters:
+      argIndex: The zero-based index of the axis, from 0 to `AxisCount` - 1.
+  Identifier:
+    summary: The identifier of the body.
+    remarks: The SDK examples set it from the name of the STEP file the body's model was loaded from.
+  Model:
+    summary: The 3D model of the body.
+    remarks: >-
+      A new body has an extruded model. Assigning a model stores a copy of it, so the assigned object can be destroyed
+      afterwards with `ModelFactory_Destroy`. Assigning a model other than the current one also recalculates the body's
+      outline and heights from the new model, as `SetState_FromModel` does; assigning the model the body already has
+      (the object read from this property) does nothing. Assigning null removes the model.
+  ModelFactory_Create:
+    summary: Creates a model of the given type.
+    remarks: The model is not attached to the body; assign it to `Model` to use it.
+    parameters:
+      argModelType: The type of the model to create.
+  ModelFactory_CreateCylinder:
+    summary: Creates a cylinder model.
+    remarks: The model is not attached to the body; assign it to `Model` to use it.
+    parameters:
+      argRadius: The radius of the cylinder, in internal units (10,000 per mil).
+      argHeight: The height of the cylinder, in internal units (10,000 per mil).
+      argColor: The colour of the model.
+  ModelFactory_CreateExtruded:
+    summary: Creates an extruded model from the body's outline.
+    remarks: >-
+      When the outline has an area and `argMaxZ` is greater than `argMinZ`, the outline is extruded from `argMinZ` to
+      `argMaxZ`; otherwise the model gets only that Z range. The call also sets the body's `StandoffHeight` to `argMinZ`
+      and `OverallHeight` to `argMaxZ`. The model is not attached to the body; assign it to `Model` to use it.
+    parameters:
+      argMinZ: The near Z limit of the extrusion (the standoff height), in internal units (10,000 per mil).
+      argMaxZ: The far Z limit of the extrusion (the overall height), in internal units (10,000 per mil).
+      argColor: The colour of the model.
+  ModelFactory_CreateSphere:
+    summary: Creates a sphere model.
+    remarks: The model is not attached to the body; assign it to `Model` to use it.
+    parameters:
+      argRadius: The radius of the sphere, in internal units (10,000 per mil).
+      argColor: The colour of the model.
+  ModelFactory_Destroy:
+    summary: Destroys the given model.
+    remarks: Does nothing when `argValue` is null. The reference passed in is not set to null.
+    parameters:
+      argValue: The model to destroy.
+  ModelFactory_FromFilename:
+    summary: Creates a model from a 3D model file.
+    remarks: The model is not attached to the body; assign it to `Model` to use it.
+    parameters:
+      argFileName: The path of the 3D model file.
+  ModelFactory_FromVault:
+    summary: Creates a model from a revision of a 3D model item in a vault.
+    parameters:
+      argTitle: The name given to the created model.
+      argVaultGUID: The GUID of the vault that holds the item.
+      argItemGUID: The GUID of the item.
+      argItemRevisionGUID: The GUID of the item revision.
+  ModelFactory_Replace:
+    summary: Destroys a model and replaces the reference with a new model of the given type.
+    remarks: The body's own model is not changed.
+    parameters:
+      argModelType: The type of the new model.
+      argValue: The model to destroy; receives the new model.
+  ModelFactory_UpdateModel:
+    summary: Changes the dimensions of the body's cylinder or sphere model.
+    remarks: >-
+      For a cylinder model the radius and the height are set; for a sphere model the radius. Does nothing when the
+      body has no model or its model is an extruded or a generic model. The method always returns false.
+    parameters:
+      argRadius: The new radius, in internal units (10,000 per mil).
+      argHeight: The new height of a cylinder, in internal units (10,000 per mil); not used for a sphere.
+      argModelType: Not used; the type of the body's current model decides what is changed.
+  ModelHasChanged:
+    summary: Whether the body's model has changed and must be rebuilt.
+    remarks: >-
+      A new body starts with the value true. Assigning `OverrideColor` sets it to true; `ValidateMesh` sets it to false.
+  OverallHeight:
+    summary: The distance from the board surface to the far side of the body, in internal units (10,000 per mil).
+    remarks: >-
+      The distance is measured from the board surface on the side given by `BodyProjection`, away from the board. For a
+      body with an extruded model the value is the upper Z limit of the model, and assigning it changes that limit. For
+      other models, assigning `Model` or calling `SetState_FromModel` recalculates the value from the model's extent.
+  OverrideColor:
+    remarks: Assigning a value sets `ModelHasChanged` to true.
+  ResetDisplacement:
+    summary: Removes any temporary displacement transform applied to the body.
+  ResetFade:
+    summary: Removes the fade applied with `Fade`, so that the body is drawn with its `BodyOpacity3D`.
+  SaveModelToFile:
+    summary: Saves the body's model to a file.
+    remarks: >-
+      When the model is a generic model loaded from a file with the same extension as `argFullPath`, the original model
+      file is copied; otherwise the model is exported as a STEP file, except for a `.sldprt` target, which is written
+      only by copying. Returns true when the file was written.
+    parameters:
+      argFullPath: The full path of the file to write.
+  SetState_FromModel:
+    summary: Recalculates the body's outline and heights from its model.
+    remarks: >-
+      For a model that is not an extruded model, the outline becomes a rectangle around the model's extent in the
+      board plane, turned by the model's Z rotation, and `StandoffHeight` and `OverallHeight` are set from the model's
+      lowest and highest Z. For an extruded model, the outline and heights are kept and the model's origin is moved to
+      the centre of the body's bounding rectangle. Does nothing when the body has no model or the model is empty.
+  SnapCount:
+    summary: The number of snap points of the body, including the origin snap point at index 0.
+    remarks: >-
+      Assigning 0 or a negative value sets the count to 1, which keeps the origin snap point. Snap points added by
+      increasing the count start at (0, 0, 0).
+  SnapPoint:
+    summary: The snap point at the given index, with X, Y and Z coordinates in internal units (10,000 per mil).
+    remarks: The point at index 0 is the origin snap point; assigning it has no effect.
+    parameters:
+      argIndex: The zero-based index of the snap point, from 0 to `SnapCount` - 1.
+  StandoffHeight:
+    summary: The distance from the board surface to the near side of the body, in internal units (10,000 per mil).
+    remarks: >-
+      The distance is measured from the board surface on the side given by `BodyProjection`, away from the board. For a
+      body with an extruded model the value is the lower Z limit of the model, and assigning it changes that limit. For
+      other models, assigning `Model` or calling `SetState_FromModel` recalculates the value from the model's extent.
+  Texture:
+    summary: The name of the texture image drawn on the body in the 3D view; empty for no texture.
+    remarks: The texture is drawn only when the body's model is an extruded model.
+  TextureCenter:
+    summary: The offset of the texture's centre from the centre of the body's bounding rectangle, in internal units
+      (10,000 per mil).
+  TextureRotation:
+    summary: The rotation of the texture, in degrees.
+  TextureSize:
+    summary: The width and height of the texture image on the board, in internal units (10,000 per mil).
+  UniqueName:
+    summary: Returns a text that identifies the body's model.
+    remarks: >-
+      For a non-empty model the text is a number that identifies the loaded data; for an empty model it is the
+      model's GUID.
+  ValidateMesh:
+    summary: Rebuilds the body's extruded model when it has changed.
+    remarks: >-
+      When `ModelHasChanged` is true and the model is an extruded model, the model is created again from the body's
+      current outline and the model's Z limits, and the outline and heights are recalculated as by
+      `SetState_FromModel`. The rebuild needs an outline with an area and at least 3 vertices and an upper Z limit
+      greater than the lower one. Afterwards `ModelHasChanged` is false when the body has a model.

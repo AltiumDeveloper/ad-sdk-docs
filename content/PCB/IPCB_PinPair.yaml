@@ -1,0 +1,47 @@
+# PCB.IPCB_PinPair: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A pin pair (xSignal) on a PCB document, together with the signal path that connects its pins.
+remarks: >-
+  The pin pairs of a board are reached through `IPCB_Board.PinPairsManager`, with `PinPairsCount` and `PinPairs` of
+  `IPCB_PinPairsManager`. An xSignal class is an `IPCB_ObjectClass` whose `MemberKind` is
+  `TClassMemberKind.eClassMemberKind_Signal`; a pin pair is a member of the class when `IsMember` returns true for the
+  pin pair's `Name`.
+
+
+  The signal path is the shortest path between the pins through the board's connectivity, including unrouted
+  connection lines. The lengths, the delay and the primitives of the path are calculated on first use and again after
+  the pin pair has gone out of date; `Rebuild` recalculates them at once.
+members:
+  DelayTotal:
+    summary: The total propagation delay along the signal path.
+    remarks: Parts of the path inside components are not counted. The value is -1 when the pin pair has no signal path.
+  GetPinPairItemDisplayName:
+    summary: Returns the display name of a primitive, which is its `DescriptorString`.
+    remarks: Returns an empty string when no primitive is given.
+    parameters:
+      argPrim: The primitive to name, for example one returned by `GetPrimitives`.
+  GetPrimitives:
+    summary: Returns a primitive on the pin pair's signal path, by index.
+    remarks: Returns null when the index is outside the range 0 to `PrimitivesCount` - 1.
+    parameters:
+      argIndex: The zero-based index of the primitive.
+  Length:
+    summary: The total length of the signal path between the pins, in internal units (10,000 per mil), routed and
+      unrouted.
+    remarks: >-
+      The length includes the pin package length of the pads at the ends of the path and of pads next to a component
+      on the path; parts of the path inside components are not counted. The value is -1 when the pin pair has no
+      signal path.
+  Name:
+    summary: The name of the pin pair, which is the xSignal name.
+  NodeCount:
+    summary: The number of pins (nodes) of the pin pair.
+  PrimitivesCount:
+    summary: The number of primitives on the pin pair's signal path.
+  Rebuild:
+    summary: Recalculates the pin pair's signal path, the list of primitives on it, its lengths and its delay.
+  RoutedLength:
+    summary: The routed length of the signal path, in internal units (10,000 per mil).
+    remarks: The value is `Length` minus `UnroutedLength`.
+  UnroutedLength:
+    summary: The length of the unrouted connection lines on the signal path, in internal units (10,000 per mil).
+    remarks: The value is -1 when the pin pair has no signal path.

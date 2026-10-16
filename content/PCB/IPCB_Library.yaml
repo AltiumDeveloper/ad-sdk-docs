@@ -1,84 +1,216 @@
 # PCB.IPCB_Library: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Library interface represents the library document. A library document has a list of components
-  (footprints). The component in focus in the PCB library is always the current component. This current component is
-  represented by the IPCB_LibComponent interface.
+summary: >-
+  A PCB library document. A library document has a list of components (footprints), each an IPCB_LibComponent; the
+  component in focus in the library is the current component.
 remarks: >-
-  To obtain the settings of the library document, you obtain the IPCB_Board interface, to obtain the primitives of a
-  component (footprint), you obtain the IPCB_LibComponent interface via the Library Iterator interface.
+  The current PCB library is returned by `IPCB_ServerInterface.GetCurrentPCBLibrary`.
 
 
-  There is a three way relationship: the IPCB_Board , the IPCB_LibComponent and the IPCB_Library interfaces that all
-  work together for a PCB library document.
+  To obtain the settings of the library document, use its IPCB_Board (`Board`); to obtain the primitives of a
+  footprint, obtain its IPCB_LibComponent, for example with the library iterator (`LibraryIterator_Create`).
 
 
-  The IPCB_Library interface is a standalone interface.
+  All components of a library share the one board. The primitives of the current component are on that board: making
+  another component current moves the primitives of the previous one off the board and the primitives of the new one
+  onto it.
 members:
+  AddComponent:
+    summary: Does nothing and returns null.
+    remarks: To add a footprint, use `CreateNewComponent`, or create one with `IPCB_ServerInterface.CreatePCBLibComp`
+      and add it with `RegisterComponent`.
   Board:
-    summary: The property represents the board that the current component is residing on in the PCB library document. This
+    summary: The board of the PCB library document, on which the primitives of the current component reside. This
       IPCB_Board interface also contains the system settings such as Snap Grid, Visible and Big Visible Grid Units and
       Output Options for the PCB library document.
-    remarks: "There is a three way relationship: the IPCB_Board , the IPCB_LibComponent and the IPCB_Library interfaces that
-      all work together for a PCB library document."
+    remarks: "There is a three way relationship: the IPCB_Board, the IPCB_LibComponent and the IPCB_Library interfaces
+      that all work together for a PCB library document."
+  ComponentCount:
+    summary: Returns the number of components (footprints) in the library.
   CreateNewComponent:
-    summary: This method creates a new component and it is represented by the IPCB_LibComponent interface. This is
-      equivalent to the `IPCB_ServerInterface.CreatePCBLibComp` method.
+    summary: Creates a new component (footprint) and adds it to the library.
+    remarks: >-
+      The new component is named PCBComponent_1. When the library already has a component of that name, the name gets
+      " - duplicate" appended, then a number that is increased until the name is unique.
     seeAlso:
       - PCB.IPCB_LibComponent
   CurrentComponent:
-    summary: This property determines the current component (footprint) that is in focus or displayed in the PCB library
-      document in Altium Designer.
-    remarks: When creating a new footprint programmatically, this footprint needs to be registered in the PCB library first
-      before setting it to be the current component.
+    summary: The current component (footprint), the one that is in focus or displayed in the PCB library document in
+      Altium Designer.
+    remarks: >-
+      Assigning a component moves the primitives of the previous current component off the library's `Board` and the
+      primitives of the new one onto it. Assigning null, or a component that is not registered in this library, does
+      nothing: when creating a new footprint programmatically, register it with `RegisterComponent` before making it
+      the current component.
     seeAlso:
       - PCB.IPCB_Group
       - PCB.IPCB_LibComponent
   DeRegisterComponent:
     summary: This method de-registers this component from the PCB library. That is, the library does not recognize this
       component after it has been de-registered.
+    remarks: >-
+      Returns false, and does nothing, when the component is null or does not belong to this library. Otherwise the
+      component is removed from the library's list and returns true; when it was the current component, the library
+      has no current component afterwards. The component object itself is not destroyed (compare `RemoveComponent`).
     seeAlso:
       - PCB.IPCB_LibComponent
+  FolderGUID:
+    summary: The GUID of the vault folder that the library document is linked to.
+  GetComponent:
+    summary: Returns the component (footprint) at the given position in the library's component list.
+    parameters:
+      argI: The zero-based position of the component, from 0 to `ComponentCount` - 1.
   GetComponentByName:
-    summary: This method returns you the IPCB_LibComponent of a PCB component (footprint) if the CompName string.
+    summary: Returns the component (footprint) with the given name, or null when the library has no component of that
+      name.
+    remarks: The name is compared with each component's `IPCB_LibComponent.Pattern`, ignoring case.
+    parameters:
+      argCompName: The name of the component to find.
     seeAlso:
       - PCB.IPCB_LibComponent
   GetUniqueCompName:
-    summary: This method returns you the unique component name and if the supplied component name parameter is taken, this
-      parameter is modified to guarantee its uniqueness.
+    summary: Returns a component name that is not yet used in the library, based on the given name.
+    remarks: >-
+      When no component has the given name, the name is returned unchanged. Otherwise " - duplicate" is appended; when
+      that name is taken too, a number is appended and increased until the name is unique. Names are compared ignoring
+      case.
+    parameters:
+      argTestCompName: The proposed component name.
     seeAlso:
       - PCB.IPCB_LibComponent
+  HasServerDocument:
+    summary: Returns whether the library has a `Board` and that board is attached to a server document.
+  IsSingleComponentMode:
+    summary: Whether the library is in single-component mode.
+    remarks: The mode is set from the library's file name when the file name is assigned; it is true when the document
+      is a file-less model.
+  LibraryID:
+    summary: A number that identifies the library while Altium Designer runs.
+    remarks: Each library gets the next number when it is created.
   LibraryIterator_Create:
     summary: This method creates a library iterator that fetches footprints in a PCB library. Each footprint fetched by the
       iterator is a IPCB_LibComponent interface which is inherited by the IPCB_Group interface.
+    remarks: Destroy the iterator with `LibraryIterator_Destroy` when you no longer need it.
     seeAlso:
       - PCB.IPCB_LibraryIterator
       - PCB.IPCB_LibComponent
   LibraryIterator_Destroy:
     summary: This LibraryIterator_Destroy method destroys the library iterator after it was used in iterating for footprints
       in a PCB library document.
+    parameters:
+      argIterator: The iterator created by `LibraryIterator_Create`; set to null on return.
     seeAlso:
       - PCB.IPCB_LibComponent
       - PCB.IPCB_LibraryIterator
+  LibraryLoaderSaver_Create:
+    summary: Creates a library loader-saver (IPCB_LibraryLoaderSaver).
+    remarks: Destroy it with `LibraryLoaderSaver_Destroy` when you no longer need it.
+  LibraryLoaderSaver_Destroy:
+    summary: Destroys a library loader-saver created by `LibraryLoaderSaver_Create`.
+    parameters:
+      argLoaderSaver: The loader-saver to destroy; set to null on return.
+  LifeCycleDefinitionGUID:
+    summary: The GUID of the life cycle definition of the library document's vault link.
+  LinkDocumentToReleaseVault:
+    summary: Links the library document to a vault folder and item, and returns whether this succeeded.
+    remarks: >-
+      The method acts only when the parameters set RunSilent to True; otherwise it does nothing and returns false.
+      The parameters must then give the vault, folder, item and revision GUIDs; when one is missing, the method returns
+      false with an error message. On success the library's `VaultGUID` and `FolderGUID` take the given values and
+      its `LifeCycleDefinitionGUID` and `RevisionNamingSchemeGUID` become empty; when the library has exactly one
+      component, that component's `IPCB_LibComponent.ItemGUID` and `IPCB_LibComponent.ItemRevisionGUID` take the given
+      item and revision GUIDs.
+    parameters:
+      argParameters: The parameter string with the vault link settings.
+      argErrorMsg: Receives an error message when a required GUID is missing; empty otherwise.
   Navigate_FirstComponent:
     summary: This method forces the library to navigate to the first component in the library and set the focus to it.
+    remarks: Uses the library editor's navigation panel; does nothing when the library has no editor window with that
+      panel.
     seeAlso:
       - PCB.IPCB_LibComponent
+  RefreshView:
+    summary: Does nothing.
   RegisterComponent:
     summary: The RegisterComponent method registers the new footprint in the PCB library document, so that the PCB system is
       aware of this new footprint.
-    remarks: For example when creating a new footprint programmatically, this footprint needs to be registered in the PCB
-      library first before setting it to be the current component.
+    remarks: >-
+      Returns false, and does nothing, when the component is null, its name (`IPCB_LibComponent.Pattern`) is empty, or
+      the library already has a component of that name (compared ignoring case); use `GetUniqueCompName` to get a free
+      name. Otherwise the component is added to the library, belongs to it from then on, and the method returns true.
+      Registering does not make the component current.
+
+
+      When creating a new footprint programmatically, for example with `IPCB_ServerInterface.CreatePCBLibComp`, register
+      it before making it the current component (`CurrentComponent` or `SetBoardToComponentByName`).
+    parameters:
+      argComponent: The component to add to the library.
     seeAlso:
       - PCB.IPCB_LibComponent
+  ReleaseDocument:
+    summary: Releases the library document to the vault, and returns whether the release succeeded.
+    parameters:
+      argErrorMsg: Set to an empty string.
   RemoveComponent:
     summary: This method removes a component from the current library.
+    remarks: >-
+      Does nothing when the component does not belong to this library. Otherwise the component is removed from the
+      library editor's component list (when the editor is open) and from the library, and is destroyed; when it was the
+      current component, the library has no current component afterwards. To remove a component from the library
+      without destroying it, use `DeRegisterComponent`.
+    parameters:
+      argComponent: The component to remove; set to null on return.
     seeAlso:
       - PCB.IPCB_LibComponent
+  RevisionNamingSchemeGUID:
+    summary: The GUID of the revision naming scheme of the library document's vault link.
+  SaveComponentWithLibrary:
+    summary: Saves one component of the library to a new PCB library file, and returns whether this succeeded.
+    remarks: >-
+      The file contains the library's settings and only the named component; the library itself is not changed.
+      Missing folders of the path are created. Returns false when the library has no component of that name (compared
+      ignoring case), when the folder cannot be created, or when saving fails.
+    parameters:
+      argComponentName: The name (`IPCB_LibComponent.Pattern`) of the component to save.
+      argFileName: The full path of the PCB library file to write.
+  SaveEmptyLibrary:
+    summary: Saves a PCB library file that has the library's settings and no components, and returns whether this
+      succeeded.
+    remarks: Missing folders of the path are created. Returns false when the folder cannot be created or saving fails.
+    parameters:
+      argFileName: The full path of the PCB library file to write.
   SetBoardToComponentByName:
-    summary: This method sets the current library to the specified component by its component name string. If it is
-      successful, a true value is returned.
+    summary: Makes the component with the given name the current component, and returns whether this succeeded.
+    remarks: >-
+      The primitives of the previous current component are moved off the library's `Board` and the primitives of the
+      named component onto it. Returns false, and does nothing, when the library has no component of that name
+      (compared ignoring case, as in `GetComponentByName`).
+    parameters:
+      argCompName: The name (`IPCB_LibComponent.Pattern`) of the component to make current.
     seeAlso:
       - PCB.IPCB_LibComponent
   SetCurrentComponentReference:
-    summary: This method sets the component reference of the currently focused component as the center.
+    summary: Sets the origin of the library's board, the reference point of the component in focus.
+    remarks: The method assigns the coordinates to `IPCB_Board.XOrigin` and `IPCB_Board.YOrigin` of the library's
+      `Board`; it does not move the component's primitives.
+    parameters:
+      argX: The X coordinate of the origin, in internal units (10,000 per mil).
+      argY: The Y coordinate of the origin, in internal units (10,000 per mil).
     seeAlso:
       - PCB.IPCB_LibComponent
+  SplitIntoComponents:
+    summary: Saves each component of the library to its own PCB library file in a folder.
+    remarks: >-
+      Each file is named after the component's `IPCB_LibComponent.Pattern`, with characters that are not allowed in
+      file names removed, and has the extension .PcbLib. The vault GUIDs of the library (`VaultGUID`, `FolderGUID`,
+      `LifeCycleDefinitionGUID`, `RevisionNamingSchemeGUID`) are copied to the new libraries. The library itself is
+      not changed.
+    parameters:
+      argOutputDirectoryPath: The folder to write the files to.
+      argOverwriteExistingFile: True to overwrite existing files of the same name; false to give the new file a
+        different, unused name instead.
+      argRemoveBadCharactersFromName: True to also remove characters that are not allowed in file names from the
+        component's name inside the new library; false to keep the name.
+  VaultGUID:
+    summary: The GUID of the vault that the library document is linked to.
+    remarks: Changing a non-empty value to a different one clears `IPCB_LibComponent.ItemGUID` and
+      `IPCB_LibComponent.ItemRevisionGUID` of every component in the library.

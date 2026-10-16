@@ -1,19 +1,118 @@
 # PCB.IPCB_Net: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: A net object can store net information from a PCB document. The net object contains information about the
-  components used in the design, and the connectivity created in the design, stored in the form of nets. A net object is
-  a list of pin to pin connections that are electrically connected in the design. The arrangement of the pin to pin
-  connections is called the net topology.
+summary: A net on a PCB document, the group of pads, vias, tracks, arcs and connection lines that are electrically
+  connected in the design.
 remarks: >-
-  The net objects are system generated objects, which means, you can retrieve the net names of PCB objects that have a
-  net property on a PCB document.
+  Net objects are system generated: the PCB editor creates them from the connectivity of the design. You can retrieve
+  the net of any PCB object that has a net property.
 
 
-  By default the PCB editor arranges the pin to pin connections of each net to give the shortest overall connection
-  length. To have control of the arrangement of the pin to pin connections in a net, the PCB editor allows the user to
-  define a set of From-Tos.
+  A net is a list of pin to pin connections; their arrangement is called the net topology. By default the PCB editor
+  arranges the pin to pin connections of each net to give the shortest overall connection length. To have control of
+  the arrangement of the pin to pin connections in a net, the PCB editor allows the user to define a set of From-Tos.
+members:
+  CancelGroupWarehouseRegistration:
+    summary: Removes a primitive from the net.
+    remarks: >-
+      Does nothing when the primitive does not belong to this net. Otherwise the primitive's `InNet` becomes false and
+      the net's `ConnectivelyInvalid` becomes true.
 
 
-  The ConnectsVisible property denotes the visibility of a net. If true, connections are visible.
+      To move a primitive to another net, call `CancelGroupWarehouseRegistration` on its current net, assign the
+      primitive's `Net`, then call `RegisterWithGroupWarehouse` on the new net, between the primitive's `BeginModify`
+      and `EndModify`.
+    parameters:
+      argiPad: The primitive to remove. Any primitive of the net can be passed, not only a pad.
+  Color:
+    summary: The colour of the net.
+    remarks: >-
+      A new net has the colour of the connection layer. The colour is used to draw the net's primitives only while
+      `OverrideColorForDraw` is true.
+  ConnectivelyInvalid:
+    summary: Whether the net's connectivity information (connection lines and lengths) is out of date.
+    remarks: >-
+      Becomes true when a primitive is added to or removed from the net, and when `ConnectivelyInValidate` is called;
+      `RoutedLength` is then recalculated on its next read. `Rebuild` clears it.
+  ConnectivelyInValidate:
+    summary: Marks the net's connectivity information as out of date.
+    remarks: Sets `ConnectivelyInvalid` to true; `Rebuild` recalculates the connection lines and clears it again.
+  ConnectsVisible:
+    summary: Whether the net's connection lines are visible.
+    remarks: >-
+      A new net has its connection lines visible. Assigning a value only changes the setting and does not update the
+      display; `HideNetConnects` and `ShowNetConnects` change the setting and update the display. While the value is
+      false, `Rebuild` does nothing.
+  GetLogicalNet:
+    summary: Returns the net itself.
+  GetSubnets:
+    summary: Returns a group with the net's subnets, the parts of the net that are electrically connected to each other.
+    remarks: >-
+      The group is calculated on the first call and kept by the net. It belongs to the net and is discarded when a
+      primitive of the net other than a connection line is added, removed or modified; call the method again
+      afterwards instead of keeping the result.
+  HideNetConnects:
+    summary: Hides the net's connection lines.
+    remarks: Removes the connection lines from the display and sets `ConnectsVisible` to false. Does nothing when the
+      connection lines are already hidden.
+  InDifferentialPair:
+    summary: Whether the net belongs to a differential pair.
+  IsHighlighted:
+    summary: Whether the net is highlighted.
+    remarks: Assigning any value, including false, sets the net's highlight flag; assigning false does not clear the
+      highlight.
+  JumpersVisible:
+    summary: Whether the jumper links of the net are visible.
+    remarks: A new net has its jumper links visible. Assigning a value only changes the setting and does not redraw the
+      components with jumper pads on the net.
+  LiveHighlightMode:
+    summary: The live highlight mode of the net.
+    remarks: >-
+      A new net has `TLiveHighlightMode.eLiveHighlightMode_None`. Assigning
+      `TLiveHighlightMode.eLiveHighlightMode_High` adds the net to the board's highlighted objects; assigning any other
+      value removes it from them.
+  LoopRemoval:
+    summary: Whether loop removal is enabled for the net.
+    remarks: A new net has loop removal enabled.
+  Name:
+    summary: The name of the net.
+    remarks: The name is also the net's `Identifier`; `DescriptorString` returns `Net` followed by a space and the name.
+  OverrideColorForDraw:
+    summary: Whether the net's primitives are drawn in the net's `Color`.
+    remarks: A new net has the value false.
+  PinCount:
+    summary: The number of pads in the net.
+  Rebuild:
+    summary: Recalculates the net's connection lines.
+    remarks: Clears `ConnectivelyInvalid`. Does nothing while `ConnectsVisible` is false.
+  RegisterWithGroupWarehouse:
+    summary: Adds a primitive to the net.
+    remarks: >-
+      The primitive's `Net` becomes this net, its `InNet` becomes true and the net's `ConnectivelyInvalid` becomes true.
+      Nothing is added for a text object, or for a primitive that is not on a signal layer, the multi-layer or the
+      connection layer (die pad and wire bonding layers are also accepted where wire bonds are supported); the
+      primitive's `Net` is cleared instead. Nothing is added either while the primitive's `InNet` is true, that is,
+      while it still belongs to a net.
 
 
-  IPCB_Group table
+      To move a primitive to another net, call `CancelGroupWarehouseRegistration` on its current net, assign the
+      primitive's `Net`, then call `RegisterWithGroupWarehouse` on the new net, between the primitive's `BeginModify`
+      and `EndModify`.
+    parameters:
+      argiPad: The primitive to add. Any primitive can be passed, not only a pad.
+  RoutedLength:
+    summary: The routed length of the net, in internal units (10,000 per mil).
+    remarks: >-
+      The sum of the lengths of the net's tracks and arcs on signal layers and the heights (`IPCB_Via.Height`) of its
+      vias. The value is 0 for a net to which a Supply Nets design rule applies.
+  ShowNetConnects:
+    summary: Shows the net's connection lines.
+    remarks: Sets `ConnectsVisible` to true and adds the connection lines to the display. Does nothing when the
+      connection lines are already visible.
+  SubnetIndices_Reset:
+    summary: Recalculates the subnet index of every primitive of the net.
+    remarks: Does the same as `SubnetIndices_Set`; it does not leave the indices cleared.
+  SubnetIndices_Set:
+    summary: Recalculates the subnet index of every primitive of the net.
+    remarks: Clears the indices first, then gives each primitive the index of the subnet (the electrically connected
+      part of the net) that it belongs to.
+  ViaCount:
+    summary: The number of vias in the net.

@@ -1,0 +1,98 @@
+# PCB.IPCB_Model: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The 3D model of a component body (`IPCB_ComponentBody`), one of an extruded shape, a cylinder, a sphere or a
+  generic model.
+remarks: >-
+  A model is created by one of the component body's model factory methods, such as
+  `IPCB_ComponentBody.ModelFactory_FromFilename` or `IPCB_ComponentBody.ModelFactory_CreateExtruded`, and assigned to
+  the body with `IPCB_ComponentBody.Model`.
+members:
+  AddTo:
+    summary: Adds the model's geometry to the given 3D view, with the given transformation and name.
+  AddToAssembly:
+    summary: Adds the model's geometry to the given assembly of a 3D view, with the given transformation and name.
+  AddToAssembly2:
+    summary: Adds the model's geometry to the given assembly of a 3D view, with the given transformation, name and
+      colour.
+    parameters:
+      argColor: The colour applied to the added geometry.
+  Embed:
+    summary: Whether the model data is embedded in the document.
+    remarks: For cylinder and sphere models, assigning a value has no effect.
+  ExportToStep:
+    summary: Writes the model's 3D geometry to a STEP file.
+    parameters:
+      argFileName: The path of the STEP file to write. When it is an empty string, nothing is written.
+  ForceCheck_IsStale:
+    summary: Checks again whether the file the model data was loaded from has changed, and returns the result.
+    remarks: >-
+      The file named by `GetFileName` is read and its checksum is compared with that of the model data. A model found
+      stale stays stale; otherwise the method returns false when the file cannot be opened or its path is relative.
+      `IsStale` returns the
+      stored result without reading the file.
+  GetChecksum:
+    summary: Returns the checksum of the model data.
+    remarks: Returns 0 for a model without model data.
+  GetDataHash:
+    summary: Returns the checksum of the model data as a decimal string.
+    remarks: Returns an empty string for a model without model data.
+    parameters:
+      argHashType: Must be an empty string; any other value raises an error, because named hash algorithms are not
+        supported.
+  GetDataSize:
+    summary: Returns the size of the model data.
+    remarks: Returns 0 for a model without model data.
+  GetFileName:
+    summary: Returns the name of the file the model data was loaded from.
+    remarks: Returns an empty string for a model without model data.
+  GetState:
+    summary: Returns the model's rotation about the X, Y and Z axes and its offset along the Z axis.
+    remarks: All four values are 0 for a model without model data.
+    parameters:
+      argRotX: Receives the rotation about the X axis, in degrees.
+      argRotY: Receives the rotation about the Y axis, in degrees.
+      argRotZ: Receives the rotation about the Z axis, in degrees.
+      argDz: Receives the offset along the Z axis, in internal units (10,000 per mil).
+  I_Replicate:
+    summary: Returns a copy of the model, of the same model type.
+  I_ReplicateToGeneric:
+    summary: Returns a copy of the model as a generic model (`T3DModelType.e3DModelType_Generic`).
+    remarks: >-
+      `Embed` of the copy is true. The SDK examples use it to replace a model that is not generic, such as an extruded
+      one, by assigning the copy to the body's `IPCB_ComponentBody.Model`.
+  IsEmpty:
+    summary: Returns whether the model has no model data.
+  IsStale:
+    summary: Returns whether the file the model data was loaded from is known to have changed.
+    remarks: >-
+      The method returns the stored result and does not read the file; `ForceCheck_IsStale` checks the file again.
+      Returns false for a model without model data.
+  ItemGUID:
+    summary: The GUID of the server item that the model is linked to.
+  ItemRevisionGUID:
+    summary: The GUID of the server item revision that the model is linked to.
+  ModelSource:
+    summary: Where the model comes from, a file (`TModelSource.eModelSource_File`) or a server
+      (`TModelSource.eModelsource_Vault`).
+  ModelType:
+    summary: The kind of model, extruded, generic, cylinder or sphere.
+    seeAlso:
+      - PCB.T3DModelType
+  Origin:
+    summary: The origin of the model, in internal units (10,000 per mil).
+  Rotation:
+    summary: The rotation of the model, in degrees.
+    remarks: Assigning `Rotation` changes only this angle; `SetState` sets the rotations about the three axes and the
+      offset along the Z axis.
+  SetState:
+    summary: Sets the model's rotation about the X, Y and Z axes and its offset along the Z axis.
+    remarks: >-
+      Does nothing for a model without model data. An angle outside the range 0 to 360 is reduced by a whole number of
+      turns. The SDK examples call it on a new model before assigning the model to the body with
+      `IPCB_ComponentBody.Model`.
+    parameters:
+      argRotX: The rotation about the X axis, in degrees.
+      argRotY: The rotation about the Y axis, in degrees.
+      argRotZ: The rotation about the Z axis, in degrees.
+      argDz: The offset along the Z axis, in internal units (10,000 per mil).
+  VaultGUID:
+    summary: The GUID of the server (vault) that the model was taken from.
