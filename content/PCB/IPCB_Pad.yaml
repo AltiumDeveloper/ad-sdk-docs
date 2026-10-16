@@ -27,22 +27,46 @@ remarks: >-
   normally don't have anything soldered onto them.
 members:
   BotShape:
-    summary: This property determines the bottom shape of the pad with a top-middle-bottom stack up.
+    summary: The shape of the pad on the bottom layer of a top-middle-bottom stack.
+    remarks: Assigning a value has no effect while `Mode` is `TPadMode.ePadMode_Simple`.
     seeAlso:
       - PCB.TShape
   BotXSize:
-    summary: This property determines the bottom X Size of the pad with a top-middle-bottom stack up.
+    summary: The X size of the pad on the bottom layer of a top-middle-bottom stack.
+    remarks: Assigning a value has no effect while `Mode` is `TPadMode.ePadMode_Simple`.
   BotYSize:
-    summary: This property determines the bottom Y Size of the pad with a top-middle-bottom stack up.
+    summary: The Y size of the pad on the bottom layer of a top-middle-bottom stack.
+    remarks: Assigning a value has no effect while `Mode` is `TPadMode.ePadMode_Simple`.
   BoundingRectangleOnLayer:
-    summary: This method retrieves the bounding rectangle (of TCoordRect type) of the component on the specified layer of
-      the PCB document.
+    summary: Returns the bounding rectangle of the pad on the given layer.
   Cache:
-    summary: This Cache property represents the global cache that stores various design rule settings for pad and via objects.
+    summary: The pad's cache of values derived from design rules, such as plane connection style, power plane clearance,
+      relief settings and solder and paste mask expansion, each with its own validity state.
+    remarks: >-
+      Assigning a cache does not change the pad's tenting settings or whether its paste mask is enabled; they keep
+      their previous values.
+
+
+      The SDK examples edit the cache by reading `Cache`, changing a field (for example setting
+      `SolderMaskExpansionValid` to `TCacheState.eCacheManual` and `UseSeparateExpansions` to true) and assigning the
+      record back.
+  ClearStackSizeAndShapes:
+    summary: Removes the per-layer sizes, shapes, corner radii and offsets stored for the pad.
+    remarks: Depending on the product features enabled, the values stored for the top and bottom paste mask and solder
+      mask layers are kept.
+  DefinitionLayerIterator:
+    summary: Returns an iterator over the layers for which the pad has a size, shape or corner radius stored.
   DrillType:
-    summary: This method obtains the drill type used for this pad's hole on the PCB.
-    remarks: This method sets the drill type used to drill a hole on the PCB. This attribute is used by the manufacturing
-      output file such as the CAM files.
+    summary: The method used to drill the pad's hole.
+    remarks: This attribute is used by the manufacturing output files such as the CAM files.
+  HoleNegativeTolerance:
+    summary: The negative tolerance of the pad's hole size, in internal units (10,000 per mil).
+    remarks: A negative value is stored as its absolute value. Setting the pad's `Layer` to any layer other than
+      `TV6_Layer.eV6_MultiLayer` resets both hole tolerances to `int.MaxValue`.
+  HolePositiveTolerance:
+    summary: The positive tolerance of the pad's hole size, in internal units (10,000 per mil).
+    remarks: A negative value is stored as its absolute value. Setting the pad's `Layer` to any layer other than
+      `TV6_Layer.eV6_MultiLayer` resets both hole tolerances to `int.MaxValue`.
   HoleRotation:
     summary: This property defines the rotation attribute of the hole within a pad object. This applies to square and
       slotted holes.
@@ -50,29 +74,59 @@ members:
     summary: This property represents the hole size of a pad object where component pins or wires can be passed through and
       soldered in place.
   HoleType:
-    summary: This method obtains the hole type of the pad's hole.
-    remarks: This method sets the hole type of the pad's hole. There are three hole types - Round Hole, Square Hole and
-      Slotted Hole.
+    summary: The shape of the pad's hole.
+    remarks: There are three hole types - Round Hole, Square Hole and Slotted Hole.
+    seeAlso:
+      - PCB.TExtendedHoleType
   HoleWidth:
-    summary: This method obtains the hole width in TCoord units.
-    remarks: This method sets the hole width of a pad's hole on the PCB.
+    summary: The width of the pad's hole, in internal units (10,000 per mil), used by square and slotted holes.
+    remarks: For a slotted hole, and for a square hole when `HoleWidth` is not 0, the hole's size in X is `HoleWidth`
+      and its size in Y is `HoleSize`; otherwise both are `HoleSize`.
+  InvalidateCache:
+    summary: Marks the pad's cached design rule values as out of date.
+    remarks: The pad's calculated sizes and shapes are marked out of date as well. `UpdateCache` recalculates the cached
+      values.
+  InvalidateSizeShape:
+    summary: Marks the pad's calculated sizes and shapes as out of date.
+    remarks: They are recalculated by `ValidateSizeShape`, which reading `XSizeOnLayer`, `YSizeOnLayer`,
+      `ShapeOnLayer` or `IsPadStack` also does.
   IsConnectedToPlane:
-    summary: This property determines whether the pad is connected to the specified plane (one of the power internal planes).
+    summary: Whether the pad is connected to the internal plane on the given layer.
+    remarks: Returns false for a layer that is not an internal plane layer, and while the pad's plane connections have
+      not been calculated (`PlanesValid` of `Cache` is `TCacheState.eCacheInvalid`). Assigning a value for a layer that
+      is not an internal plane layer does nothing.
   IsPadStack:
-    summary: This method determines whether the pad is a full stack up pad or not. Use this method before you change the
-      properties of a pad stack. You can also use the Mode property to check what type of stack up the pad is.
+    summary: Returns whether the pad has different sizes or shapes on its layers.
+    remarks: >-
+      Returns false when `Mode` is `TPadMode.ePadMode_Simple` and true when it is `TPadMode.ePadMode_ExternalStack`.
+      For `TPadMode.ePadMode_LocalStack` it returns true only for a multi-layer pad whose top, middle and bottom
+      layers differ in shape, X size or Y size. The pad's calculated sizes and shapes are brought up to date first.
+      Use this method before you change the properties of a pad stack.
     seeAlso:
       - PCB.TPadMode
   IsSurfaceMount:
-    summary: The pad is a surface mount if the holesize is 0 in size and is on top and/or bottom layers only.
+    summary: Returns whether the pad is a surface mount pad.
+    remarks: Returns true when the pad is on a signal layer (not `TV6_Layer.eV6_MultiLayer`) and either its hole has a
+      size of 0 or `Mode` is `TPadMode.ePadMode_Simple`.
+  IsVirtualPin:
+    summary: Returns whether the pad is a virtual pin.
+    remarks: Returns true when the pad's largest X size and largest Y size on its signal layers are both 1 internal
+      unit.
+  JumperID:
+    summary: The jumper identifier of the pad; 0 means the pad is not part of a jumper.
+    remarks: When connectivity is analysed, pads of the same component that have the same non-zero `JumperID` are
+      treated as joined by a jumper.
   MidShape:
-    summary: This property determines the middle shape of the pad with a top-middle-bottom stack up.
+    summary: The shape of the pad on the middle layers of a top-middle-bottom stack.
+    remarks: Assigning a value has no effect while `Mode` is `TPadMode.ePadMode_Simple`.
     seeAlso:
       - PCB.TShape
   MidXSize:
-    summary: This property determines the middle shape of the pad with a top-middle-bottom stack up.
+    summary: The X size of the pad on the middle layers of a top-middle-bottom stack.
+    remarks: Assigning a value has no effect while `Mode` is `TPadMode.ePadMode_Simple`.
   MidYSize:
-    summary: This property determines the middle Y Size of the pad with a top-middle-bottom stack up.
+    summary: The Y size of the pad on the middle layers of a top-middle-bottom stack.
+    remarks: Assigning a value has no effect while `Mode` is `TPadMode.ePadMode_Simple`.
   Mode:
     summary: The Mode property determines what type of pad it is - a simple pad, a pad with three Top, Middle and Bottom
       layer stack up or a pad with a complex stack up.
@@ -92,73 +146,126 @@ members:
       - PCB.IPCB_Pad.IsPadStack
   Name:
     summary: This Name property represents the designator of a pad object.
+  OwnerPart_ID:
+    summary: The identifier of the component part that owns the pad, used for gate and pin swapping.
   PinDescriptorString:
     summary: This property obtains the description of the pin which represents the pad of a component.
   PlaneConnectionStyleForLayer:
-    summary: Pads automatically connect to an internal power plane layer that is assigned the same net name. The pad will
-      connect to the plane depending on the applicable Power Plane Connect Style design rule. If you do not want pads to
-      connect to power planes, add another Power Plane Connect Style design rule targeting the specific pads required
-      and with a connection style of No Connect.
+    summary: Returns how the pad connects to the given internal plane layer.
     remarks: >-
-      The Connect Style defines the style of the connection from a pin of a component, targeted by the scope (Full
-      Query) of the rule, to a power plane.
+      Pads automatically connect to an internal power plane layer that is assigned the same net name. The style of the
+      connection comes from the applicable Power Plane Connect Style design rule: `TPlaneConnectionStyle.ePlaneReliefConnect`
+      (a thermal relief connection) or `TPlaneConnectionStyle.ePlaneDirectConnect` (solid copper). If you do not want
+      pads to connect to power planes, add another Power Plane Connect Style design rule targeting the specific pads
+      required and with a connection style of No Connect.
 
 
-      The following three styles as per the TPlaneConnectionStyle type are available:
-
-
-      ePlaneNoConnect - do not connect a component pin to the power plane.
-
-
-      ePlaneReliefConnect - connect using solid copper to the pin.
-
-
-      ePlaneDirectConnect (default) - connect using a thermal relief connection.
+      The method returns `TPlaneConnectionStyle.ePlaneNoConnect` when the layer is not an internal plane layer, when
+      the pad is not on `TV6_Layer.eV6_MultiLayer`, when the pad has no net, or when the pad is not connected to the
+      plane on that layer.
     seeAlso:
       - PCB.TPlaneConnectionStyle
   Plated:
     summary: This property denotes whether the pad is plated or not.
   RotateAroundXY:
-    summary: This method rotates a pad object on the PCB document about the AX, AY coordinates with an angle in degrees.
-    remarks: To ensure the pad rotates without moving about, pass in its midpoint (between X1,X2 and Y1, Y2) attributes for
-      the AX,AY parameters or use the Rotation property.
+    summary: Rotates the pad about a point.
+    remarks: To rotate the pad without moving it, pass its own location (`XLocation`, `YLocation`) as the point, or use
+      the `Rotation` property.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
   Rotation:
-    summary: This Rotation property deals with the rotation of the pad object in degrees (of TAngle type 0 -360 degrees).
+    summary: The rotation of the pad, in degrees.
+    remarks: Assigning a new value rotates the pad about its location by the difference between the new and the old
+      angle. 0 and 360 are treated as the same angle.
   ShapeOnLayer:
     summary: This property determines what shape the pad is on this specified layer.
+    remarks: On an internal plane layer where the pad's hole straddles planes, returns `TShape.eRounded`.
     seeAlso:
       - PCB.TShape
+  SolderMaskExpansionFromHoleEdge:
+    summary: Whether the pad's solder mask expansion is measured from the edge of the hole instead of the edge of the
+      copper.
+    remarks: The setting applies only to a multi-layer pad whose solder mask expansion is set manually; when the
+      expansion comes from the design rules, the applicable rule decides. `SolderMaskExpansionFromHoleEdgeWithRule`
+      returns the setting that applies.
+  SolderMaskExpansionFromHoleEdgeWithRule:
+    summary: Returns whether the pad's solder mask expansion is measured from the edge of the hole, taking the design
+      rules into account.
+    remarks: When the solder mask expansion comes from the design rules, the applicable rule decides; when it is set
+      manually, the result is `SolderMaskExpansionFromHoleEdge`. Returns false for a pad that is not on
+      `TV6_Layer.eV6_MultiLayer`, and for a pad whose solder mask expansion neither comes from the rules nor is set
+      manually.
   StackShapeOnLayer:
     summary: This property determines what shape the pad stack is on that layer.
+    remarks: Assigning a value for a signal layer has no effect when `Mode` is `TPadMode.ePadMode_Simple` and the layer
+      is not the top layer, or when `Mode` is `TPadMode.ePadMode_LocalStack` and the layer is an internal signal layer
+      other than the first one.
     seeAlso:
       - PCB.TShape
+  SwapID_Pad:
+    summary: The pin swap identifier of the pad, used for gate and pin swapping.
+  SwapID_Part:
+    summary: The part swap identifier of the pad, used for gate and pin swapping.
+  SwappedPadName:
+    summary: The name of the pad after gate and pin swapping.
+  TemplateLink:
+    summary: The link from the pad to a pad and via template.
+    remarks: The SDK examples re-link a pad to another template by reading `TemplateLink` between `BeginModify` and
+      `EndModify` and assigning new `LibraryID` and `TemplateID` values to the returned link.
   TopShape:
-    summary: This property determines the top layer shape of the pad with a top-middle-bottom stack up.
+    summary: The shape of the pad on the top layer.
+    remarks: In a simple pad (`TPadMode.ePadMode_Simple`) it is the shape on all layers.
     seeAlso:
       - PCB.TShape
   TopXSize:
-    summary: This property determines the Top layer X Size of the pad with a top-middle-bottom stack up.
+    summary: The X size of the pad on the top layer.
+    remarks: In a simple pad (`TPadMode.ePadMode_Simple`) it is the X size on all layers.
   TopYSize:
-    summary: This property determines the Top layer Y Size of the pad with a top-middle-bottom stack up.
+    summary: The Y size of the pad on the top layer.
+    remarks: In a simple pad (`TPadMode.ePadMode_Simple`) it is the Y size on all layers.
+  UpdateCache:
+    summary: Recalculates the pad's cached design rule values that are out of date.
+    remarks: Covers the plane connection style and plane connections, the relief conductor width, entries and air gap,
+      the paste mask and solder mask expansion, the power plane clearance and relief expansion, and the tenting of
+      both sides. The pad's calculated sizes and shapes are brought up to date as well.
+  ValidateSizeShape:
+    summary: Recalculates the pad's calculated sizes and shapes if they are out of date.
+    remarks: Does nothing when they are up to date. `ReValidateSizeShape` always recalculates them.
+  ReValidateSizeShape:
+    summary: Marks the pad's calculated sizes and shapes as out of date and recalculates them.
   WidthOnLayer:
-    summary: This property retrieves the width of the pad on the specified layer.
+    summary: The width of the pad on the given layer, the smaller of its X and Y sizes on that layer.
   XLocation:
     summary: The Properties X and Y set the location of the pad with respect to the PCB document it is on.
   XPadOffsetOnLayer:
-    summary: This property is not implemented.
+    summary: The offset in X of the pad's copper shape from the pad's location on the given layer, in internal units
+      (10,000 per mil).
   XSizeOnLayer:
     summary: This property determines what size in X direction the pad is on this specified layer.
+    remarks: On an internal plane layer where the pad's hole straddles planes, the value is the hole's size in X plus
+      twice `PowerPlaneClearance`, so that the pad is not connected to the plane.
   XStackSizeOnLayer:
     summary: This XStackSizeOnLayer property determines the size of the pad in X direction on the specified layer only if
       the pad has an external stack (ePadMode_ExternalStack type).
+    remarks: Assigning a value for a signal layer has no effect when `Mode` is `TPadMode.ePadMode_Simple` and the layer
+      is not the top layer, or when `Mode` is `TPadMode.ePadMode_LocalStack` and the layer is an internal signal layer
+      other than the first one.
     seeAlso:
       - PCB.TPadMode
   YLocation:
     summary: The Properties X and Y set the location of the pad with respect to the PCB document it is on.
   YPadOffsetOnLayer:
-    summary: This property is not implemented.
+    summary: The offset in Y of the pad's copper shape from the pad's location on the given layer, in internal units
+      (10,000 per mil).
   YSizeOnLayer:
     summary: This property determines what size in Y direction the pad is on this specified layer.
+    remarks: On an internal plane layer where the pad's hole straddles planes, the value is the hole's size in Y (its
+      `HoleSize`) plus twice `PowerPlaneClearance`, so that the pad is not connected to the plane.
   YStackSizeOnLayer:
     summary: This YStackSizeOnLayer property determines the size of the pad in Y direction on the specified layer only if
       the pad has an external stack (ePadMode_ExternalStack type).
+    remarks: Assigning a value for a signal layer has no effect when `Mode` is `TPadMode.ePadMode_Simple` and the layer
+      is not the top layer, or when `Mode` is `TPadMode.ePadMode_LocalStack` and the layer is an internal signal layer
+      other than the first one.

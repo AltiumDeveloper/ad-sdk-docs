@@ -76,6 +76,7 @@ request.
 | --- | --- | --- |
 | The assemblies (`npm run api`, the generated pages) | what exists: names, signatures, types, enum values, constants, inheritance | Authoritative for the API surface. Never describe something that is not there. |
 | Knowledge of the SDK's implementation (Altium SDK developers) | behaviour, intent, constraints | Say who confirmed it. |
+| The Altium Designer source code (Altium developers with access) | behaviour: what a member does, units, defaults, edge cases | Cite file and line in the pull request, never in the page. Describe only what a caller can observe, not internal names. The current implementation wins over existing descriptions. |
 | Running code in Altium Designer | behaviour you observed | Give the Altium Designer version and what you ran. |
 | The [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) | how an API is used in practice | Supporting evidence: the examples have not all been verified. |
 | Existing descriptions | context | They came from earlier documentation and can be outdated or wrong. If you find a contradiction, fix it with better evidence or open an issue; do not guess. |
