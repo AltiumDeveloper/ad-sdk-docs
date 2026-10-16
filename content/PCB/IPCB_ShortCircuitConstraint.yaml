@@ -1,4 +1,11 @@
 # PCB.IPCB_ShortCircuitConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The short circuit constraint rule includes a constraint to test for short circuits between primitive objects on
-  the copper layers. A short circuit exists when two objects that have different net names touch.
-remarks: The Allowed property sets or returns the boolean value whether or not the short circuit constraint rule is allowed.
+summary: A short-circuit rule (`TRuleKind.eRule_ShortCircuit`) that tests for short circuits between objects on the
+  copper layers.
+remarks: >-
+  A short circuit exists when two objects that have different nets touch. On a signal layer, two touching objects without a
+  net also short-circuit when they belong to different components. On an internal plane layer, pads and vias on the
+  multi-layer are checked against the plane. Keepout objects are not checked.
+members:
+  Allowed:
+    summary: Whether short circuits between the objects in the rule's scope are allowed.
+    remarks: A new rule has false. While it is true, the rule reports no short circuits.

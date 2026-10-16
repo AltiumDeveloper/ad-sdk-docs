@@ -1,21 +1,40 @@
 # PCB.IPCB_FromTo: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_FromTo interface represents a FromTo object on a PCB document, as a node to a node (a pad of a
-  component to a pad of another component for example) and has a NetName property.
+summary: A from-to on a PCB document, a user-defined connection from one pad of a net to another pad of the same net.
+remarks: >-
+  The from-to refers to its net and its pads by name: `NetName` is the name of the net, and `FromPad` and `ToPad` are pin
+  descriptors as returned by `IPCB_Pad.PinDescriptorString`, that is the component designator, a hyphen and the pad
+  name, or `Free-` followed by the pad name for a pad that is not part of a component. `GetNet`, `GetFromPad` and
+  `GetToPad` find the objects on the board.
+
+
+  The from-to's `Identifier` is the net name followed by the two pin descriptors, separated by a colon, in parentheses;
+  `DescriptorString` returns `FromTo : ` followed by the identifier.
 members:
   FromPad:
-    summary: The FromTo object has two nodes, FromPad and ToPad. These have their Net Name properties.
-    remarks: This property represents the FromPad node and returns the name of the FromPad property.
+    summary: The pin descriptor of the pad at the start of the from-to.
+    remarks: Assigning a value only stores the text; `GetFromPad` returns the pad it names.
   GetFromPad:
-    summary: This method returns the pad interface associated with the FromPad of the FromTo object.
+    summary: Returns the pad named by `FromPad`.
+    remarks: >-
+      The pad is looked up among the pads of the net returned by `GetNet`; its `IPCB_Pad.PinDescriptorString` must
+      equal `FromPad` exactly. Returns null when the net or the pad is not found.
   GetNet:
-    summary: This method returns the net interface associated with the net of the FromTo object.
+    summary: Returns the net named by `NetName`.
+    remarks: Returns null when the from-to is not on a board or the board has no net of that name.
   GetToPad:
-    summary: This method returns the pad interface associated with the ToPad of the FromTo object.
+    summary: Returns the pad named by `ToPad`.
+    remarks: >-
+      The pad is looked up among the pads of the net returned by `GetNet`; its `IPCB_Pad.PinDescriptorString` must
+      equal `ToPad` exactly. Returns null when the net or the pad is not found.
   NetName:
-    summary: The FromTo object has two nodes, FromPad and ToPad. These have their Net Name properties.
-    remarks: This property represents the net name of the FromTo object.
+    summary: The name of the net the from-to belongs to.
+    remarks: Assigning a value only stores the text; `GetNet` returns the net it names.
   RoutedLength:
-    summary: This method returns the routed length of the FromTo object in TCoord units.
+    summary: The routed length of the from-to, in internal units (10,000 per mil).
+    remarks: >-
+      The sum of the lengths of the tracks and arcs on signal layers and the heights of the vias that connect the two
+      pads. These primitives are found when the connectivity of the net is analysed, and only when both pads are found
+      and connected to each other; otherwise the value is 0.
   ToPad:
-    summary: The FromTo object has two nodes, FromPad and ToPad. These have their Net Name properties.
-    remarks: This property represents the ToPad node and returns the name of the ToPad property..
+    summary: The pin descriptor of the pad at the end of the from-to.
+    remarks: Assigning a value only stores the text; `GetToPad` returns the pad it names.

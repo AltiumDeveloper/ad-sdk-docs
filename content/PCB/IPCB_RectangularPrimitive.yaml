@@ -1,34 +1,50 @@
 # PCB.IPCB_RectangularPrimitive: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_RectangularPrimitive interface is the ancestor interface for IPCB_Fill and IPCB_Text interfaces and
-  contains the rectangular coordinates as well as the rotation property.
+summary: The base interface of PCB primitives whose shape is a rectangle with a rotation, such as `IPCB_Fill`,
+  `IPCB_Text` and `IPCB_EmbeddedBoard`.
+remarks: >-
+  The corners (`X1Location`, `Y1Location`) and (`X2Location`, `Y2Location`) define the boundary of the rectangle,
+  `XLocation` and `YLocation` its reference point, and `Rotation` its rotation. The coordinates are in internal units
+  (10,000 per mil).
 members:
   IsRedundant:
-    summary: This method determines whether the object is redundant (unused object) on the PCB document or not.
+    summary: Returns whether the primitive is redundant.
+    remarks: >-
+      For a fill, returns true when the rectangle has no width or no height: `X1Location` equals `X2Location`, or
+      `Y1Location` equals `Y2Location`. For text and embedded boards the method always returns false.
   RotateAroundXY:
-    summary: This method rotates a rectangular primitive object such as a fill or a text object on the PCB document about
-      the AX, AY coordinates with an angle in degrees.
-    remarks: To ensure the rectangular primitive rotates without moving about, pass in its midpoint (between X1,X2 and Y1,
-      Y2) attributes for the AX,AY parameters or use the Rotation property.
+    summary: Rotates the primitive about a point by an angle.
+    remarks: >-
+      The primitive is moved around the point and the angle is added to `Rotation`; the size of the primitive is then
+      recalculated. For a fill, the centre of the rectangle is rotated about the point and the corners keep their
+      offsets from it, so passing the centre (midway between `X1Location` and `X2Location`, and between `Y1Location`
+      and `Y2Location`) rotates the fill without moving it; you can also use the `Rotation` property. For an embedded
+      board the method always rotates by 90 degrees, whatever angle is passed.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
   Rotation:
-    summary: This Rotation property deals with the rotation of the rectangular primitive (fill, text, embedded board for
-      example) object in degrees (of TAngle type 0 -360 degrees).
+    summary: The rotation of the primitive, in degrees.
   SetState_XSizeYSize:
-    summary: This method sets the XSize and YSize of the rectangular primitive.
+    summary: Recalculates the stored size of the primitive.
+    remarks: For a fill it also recalculates the area of the rectangle. `RotateAroundXY` calls this method itself.
   X1Location:
-    summary: The X1Location property determines the initial X1 location of the rectangular primitive. The X1,Y1 and X2,Y2
-      coordinates define the boundary of the rectangular primitive.
+    summary: The X coordinate of the first corner of the rectangle, in internal units (10,000 per mil).
+    remarks: The corners (`X1Location`, `Y1Location`) and (`X2Location`, `Y2Location`) define the boundary of the
+      primitive.
   X2Location:
-    summary: The X2Location property determines the final X2 location of the rectangular primitive. The X1,Y1 and X2,Y2
-      coordinates define the boundary of the rectangular primitive.
+    summary: The X coordinate of the second corner of the rectangle, in internal units (10,000 per mil).
+    remarks: The corners (`X1Location`, `Y1Location`) and (`X2Location`, `Y2Location`) define the boundary of the
+      primitive.
   XLocation:
-    summary: The XLocation property determines the reference X location of the rectangular primitive. The X,Y coordinates
-      define the reference point of the rectangular primitive.
+    summary: The X coordinate of the primitive's reference point, in internal units (10,000 per mil).
   Y1Location:
-    summary: The Y1Location property determines the initial Y1 location of the rectangular primitive. The X1,Y1 and X2,Y2
-      coordinates define the boundary of the rectangular primitive.
+    summary: The Y coordinate of the first corner of the rectangle, in internal units (10,000 per mil).
+    remarks: The corners (`X1Location`, `Y1Location`) and (`X2Location`, `Y2Location`) define the boundary of the
+      primitive.
   Y2Location:
-    summary: The Y2Location property determines the final Y2 location of the rectangular primitive. The X1,Y1 and X2,Y2
-      coordinates define the boundary of the rectangular primitive.
+    summary: The Y coordinate of the second corner of the rectangle, in internal units (10,000 per mil).
+    remarks: The corners (`X1Location`, `Y1Location`) and (`X2Location`, `Y2Location`) define the boundary of the
+      primitive.
   YLocation:
-    summary: The YLocation property determines the reference Y location of the rectangular primitive. The X,Y coordinates
-      define the reference point of the rectangular primitive.
+    summary: The Y coordinate of the primitive's reference point, in internal units (10,000 per mil).

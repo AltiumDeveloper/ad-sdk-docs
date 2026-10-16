@@ -1,6 +1,56 @@
 # PCB.IPCB_ClearanceConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: This interface defines the minimum clearance between any two primitive objects on a copper layer.
-remarks: |-
-  The PrimitivesViolate method checks if two primitives violate the minimum clearance or not.
+summary: A clearance rule (`TRuleKind.eRule_Clearance`) that defines the minimum clearance between any two objects on
+  the copper layers.
+remarks: >-
+  The rule has one clearance for all pairs of object kinds (`Gap`) and can have a clearance of its own for individual
+  pairs of object kinds, such as arcs and tracks (`Clearance`, `Clearance_1`). `Mode` tells whether any pair has a
+  clearance of its own. A new rule has a gap of 10 mil.
 
-  The Gap property determines the gap size of the track segments.
+
+  `PrimitivesViolate` checks whether two objects violate the rule.
+members:
+  Clearance:
+    summary: The clearance that the rule requires between two objects, in internal units (10,000 per mil).
+    remarks: >-
+      The kinds of the two objects select the clearance, as in `Clearance_1`: arcs, tracks, pads (through-hole pads on
+      the multi-layer, surface-mount pads on other layers), vias, fills, polygons, regions and text. When reading, a
+      track, arc or region that is part of a polygon uses the clearance of polygons. Reading returns `Gap` for an
+      object of another kind, and 0 when an argument is null. Assigning does nothing when an argument is null or an
+      object of another kind.
+    parameters:
+      argP1: The first object.
+      argP2: The second object.
+  Clearance_1:
+    summary: The clearance that the rule requires between two kinds of objects, in internal units (10,000 per mil).
+    remarks: >-
+      The order of the two kinds does not matter. Reading a pair that has no clearance of its own returns `Gap`;
+      assigning the value of `Gap` to a pair removes its own clearance. Each assignment can also change `Gap`: the
+      clearance that most pairs of object kinds have becomes the gap.
+    parameters:
+      argP1: The first object kind.
+      argP2: The second object kind.
+  Gap:
+    summary: The clearance that the rule requires between pairs of object kinds that have no clearance of their own,
+      in internal units (10,000 per mil).
+    remarks: >-
+      A new rule has 10 mil. Assigning a gap removes the clearances of individual pairs of object kinds (`Clearance`,
+      `Clearance_1`), so that the new gap applies to every pair.
+  Mode:
+    summary: Whether the rule has one clearance for all pairs of object kinds or clearances of their own for
+      individual pairs.
+    remarks: >-
+      It is `TClearanceConstraintMode.eClearanceConstraintMode_ObjectsClearance` while at least one pair of object
+      kinds has a clearance that differs from `Gap`, and `TClearanceConstraintMode.eClearanceConstraintMode_SingleClearance`
+      otherwise. Assigning `Gap` makes it `TClearanceConstraintMode.eClearanceConstraintMode_SingleClearance`.
+  PrimitivesViolate:
+    summary: Returns whether two objects violate the rule, that is, they are closer together than the clearance that
+      the rule requires for them.
+    remarks: >-
+      Returns false when both arguments are the same object, when an object is not on a signal layer, an internal
+      plane layer, the multi-layer or the keep-out layer, when the objects have no layer in common, or when they do not
+      have the net relationship that `NetScope` requires; keepout objects are checked whatever their nets. A clearance
+      of 0 is not checked. When an object has a hole, the hole is also checked against the other object, with the
+      clearance between `TObjectClearanceId.eObjectClearanceID_Hole` and the kind of the other object.
+    parameters:
+      argP1: The first object.
+      argP2: The second object.

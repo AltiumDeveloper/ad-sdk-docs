@@ -1,0 +1,23 @@
+# PCB.IPCB_ParametersFactory: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Creates parameters, parameter lists and the parameters view of a primitive.
+remarks: >-
+  `GetParametersFactory` of `IPCB_ServerInterface` returns the factory. Every call of its members returns a new object.
+members:
+  CreateParameter:
+    summary: Creates a parameter with the given name, value and inherited mark.
+    remarks: The parameter does not belong to any primitive; `AddOrSetParameter` of `IPCB_PrimitiveParameters` stores it
+      on a primitive.
+    parameters:
+      argName: The parameter name.
+      argValue: The parameter value.
+      argIsInherited: Whether the parameter is marked as inherited (`IsInherited` of `IPCB_Parameter`).
+  CreateParameterList:
+    summary: Creates a new, empty parameter list.
+  CreatePrimitiveParameters:
+    summary: Returns a new `IPCB_PrimitiveParameters` object for a primitive, switched to the given variant.
+    remarks: The variant is selected as by `SwitchToVariantByName` of `IPCB_PrimitiveParameters`, which raises an error
+      when the project has no variant of that name.
+    parameters:
+      argPrimitive: The primitive, for example an `IPCB_Component`.
+      argVariantName: The variant name; `[No Variations]` selects the default variant and an empty string the project's
+        current variant.

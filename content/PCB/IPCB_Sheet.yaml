@@ -1,27 +1,37 @@
 # PCB.IPCB_Sheet: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Sheet interface represents the background workspace for the PCB document and can include fabrication
-  and assembly documentation as well as the board outline. The IPCB_Board interface has the IPCB_Sheet interface as an
-  aggregation interface because a sheet is part of the PCB document.
+summary: The sheet of a PCB document, the rectangular area behind the board in the PCB editor that can hold the board
+  outline and fabrication and assembly details, returned by `IPCB_Board.PCBSheet`.
 remarks: >-
-  This property is useful for situations where you need to have references to objects (not to object interfaces) and
-  store them in a TList container for example.
-
-
-  The sheet behind the PCB can be shown or not.
-
-
-  The coordinates of the PCB sheet can be defined programmatically.
+  The sheet extends from (`SheetX`, `SheetY`) by `SheetWidth` to the right and `SheetHeight` upwards, in internal
+  units (10,000 per mil). `ShowSheet` sets whether it is drawn; when `LockSheet` is true, `UpdateSheetPosition` fits
+  it to the objects on the mechanical layers linked to the sheet.
 members:
   LockSheet:
-    summary: The LockSheet property represents whether the objects on a mechanical layer linked to the sheet is locked or not.
+    summary: Whether the sheet is fitted to the objects on the mechanical layers linked to it.
+    remarks: When true, `UpdateSheetPosition` moves and resizes the sheet to enclose those objects; when false,
+      `UpdateSheetPosition` does not change the sheet. The sheet of a newly created board starts with true.
+    seeAlso:
+      - PCB.IPCB_MechanicalLayer.LinkToSheet
   SheetHeight:
-    summary: The SheetHeight property represents the sheet's height.
+    summary: The height of the sheet, in internal units (10,000 per mil).
+    remarks: The top edge of the sheet is at `SheetY` plus this value. The sheet of a newly created board starts with
+      8000 mil.
   SheetWidth:
-    summary: The SheetWidth property represents the width of the sheet.
+    summary: The width of the sheet, in internal units (10,000 per mil).
+    remarks: The right edge of the sheet is at `SheetX` plus this value. The sheet of a newly created board starts with
+      10000 mil.
   SheetX:
-    summary: The SheetX property represents the X coordinate of the sheet.
+    summary: The X coordinate of the sheet's bottom-left corner, in internal units (10,000 per mil).
+    remarks: The sheet of a newly created board starts with 1000 mil.
   SheetY:
-    summary: The SheetY property represents the Y coordinate of the sheet.
+    summary: The Y coordinate of the sheet's bottom-left corner, in internal units (10,000 per mil).
+    remarks: The sheet of a newly created board starts with 1000 mil.
   ShowSheet:
-    summary: This property retrieves or sets the boolean value. The Sheet property represents the bounds where a board
-      outline and assembly / fabrication details are included within.
+    summary: Whether the sheet is drawn in the PCB editor.
+    remarks: The sheet of a newly created board starts with false.
+  UpdateSheetPosition:
+    summary: Fits the sheet to the objects on the mechanical layers linked to the sheet, when `LockSheet` is true.
+    remarks: >-
+      Sets `SheetX` and `SheetY` to the bottom-left corner of the bounding rectangle of the objects on the mechanical
+      layers linked to the sheet (`IPCB_MechanicalLayer.LinkToSheet`), and `SheetWidth` and `SheetHeight` to its size.
+      The sheet is not changed when `LockSheet` is false or when no objects are found on those layers.

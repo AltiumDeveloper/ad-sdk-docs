@@ -1,0 +1,42 @@
+# PCB.IPCB_PrimitiveComparator: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Compares the objects of two boards, or of two groups such as two footprints, layer by layer.
+remarks: >-
+  Get it with `IPCB_ServerInterface.PrimitiveComparator`. Both methods switch on the display of difference objects in
+  the PCB editor.
+members:
+  Compare:
+    summary: Compares two boards layer by layer and returns true when no differences are found.
+    remarks: >-
+      The layers of `argBoardA`, except the multi-layer, are compared with the same layers of `argBoardB`. Progress is
+      shown while the comparison runs; pressing Esc cancels it with an error.
+    parameters:
+      argBoardA: The first board.
+      argBoardB: The second board.
+      argTolerance: >-
+        The smallest area of difference that counts, in square internal units: a connected area without holes that is
+        covered on one board and not on the other is ignored when its area is smaller than this value. One square mil
+        is 100,000,000.
+  CompareGroup:
+    summary: Compares two groups, such as two footprints, layer by layer and returns the result.
+    remarks: >-
+      Footprint parameters are compared as well. The layers compared are the layers that the two groups use, the pad
+      and via hole layers, the top and bottom paste and solder mask layers and the multi-layer, limited to the layers
+      in `argLayers`.
+    parameters:
+      argGroupA: The first group.
+      argGroupB: The second group.
+      argLayers: >-
+        The layers to compare, or null for all layers that apply. On return it holds the layers that were compared.
+      argPCBViewA: >-
+        The PCB editor view in which the differences are shown. It can be null only when `argBShowStatus` is false;
+        then no differences are drawn.
+      argNumberOfCells: >-
+        The number of cells into which the longer side of the compared area is divided. Ignored when `argPCBViewA` is
+        null.
+      argBShowStatus: True to show the progress of the comparison.
+      argGroupADescription: >-
+        A label for the first group, put in front of the descriptions of its differences
+        (`IPCB_GroupComparisionResult.GetPrimitiveDescriptorForLayer`).
+      argGroupBDescription: >-
+        A label for the second group, put in front of the descriptions of its differences
+        (`IPCB_GroupComparisionResult.GetPrimitiveDescriptorForLayer`).

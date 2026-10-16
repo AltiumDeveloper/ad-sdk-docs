@@ -1,8 +1,20 @@
 # PCB.IPCB_InternalPlane: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: This IPCB_InternalPlane interface represents an existing internal plane used on a PCB document. 16 internal
-  planes are supported, and a net can be assigned to each of these layers or share a power plane between a number of
-  nets by splitting the it into two or more isolated areas.
-remarks: |-
-  Pad and via connections to power planes are controlled by the Plane design rules.
+summary: An internal plane of a board's layer stack, a copper layer that is connected to a net.
+remarks: >-
+  16 internal planes are supported. A net can be assigned to each internal plane, or a plane can be shared by several
+  nets by splitting it into two or more isolated areas. Pad and via connections to internal planes are controlled by the
+  Plane design rules.
 
-  The IPCB_InternalPlane interface is used by the IPCB_LayerStack interface.
+
+  The examples visit the internal planes of a board with `IPCB_Board.InternalPlaneLayerIterator` and cast each
+  `IPCB_LayerObjectIterator.LayerObject` to `IPCB_InternalPlane_V7`, which derives from `IPCB_InternalPlane`.
+members:
+  NetName:
+    summary: The name of the net that the internal plane is connected to.
+    remarks: >-
+      A new internal plane has the net name `(No Net)`. Setting the name only stores it; it does not check that the
+      board has a net of that name.
+  PullBackDistance:
+    summary: The distance by which the copper of the plane is pulled back from the board outline, in internal units
+      (10,000 per mil).
+    remarks: A new internal plane has a pull-back distance of 200,000 internal units (20 mil).

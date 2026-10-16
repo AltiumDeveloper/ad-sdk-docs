@@ -1,6 +1,45 @@
 # PCB.IPCB_PowerPlaneConnectStyleRule: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: This power plane connect style rule specifies the style of the connection from a component pin to a power
-  plane. There are two connection types - direct connections (the pin to solid copper) or thermal relief connection.
-remarks: The TPlaneConnectStyle type determines the connection style for a plane. If Thermal Relief connection is used,
-  then the thermal relief conductor width, the relief expansion, the width of the air gap and the number of relief
-  entries need to be determined. If direct connection style is used, then the previous parameters are not needed.
+summary: A power plane connect style rule (`TRuleKind.eRule_PowerPlaneConnectStyle`) that defines how pads and vias
+  connect to power planes.
+remarks: >-
+  The connection is a thermal relief connection, a direct connection (solid copper) or no connection; see
+  `PlaneConnectStyle`. The relief expansion, the conductor width, the air gap and the number of conductors describe a
+  thermal relief connection; a direct connection does not use them.
+
+
+  A rule can hold separate settings for pads and for vias, and a plane uses the settings for the kind of each pad or
+  via. The properties of this interface read the settings for pads. Assigning a property gives pads and vias the same
+  settings: those of pads with the new value.
+
+
+  A new rule has a thermal relief connection with a relief expansion of 20 mil, conductors 10 mil wide, an air gap of
+  10 mil and 4 conductors.
+members:
+  PlaneConnectStyle:
+    summary: The style of the connection between a pad or via and the power plane.
+    remarks: >-
+      `TPlaneConnectStyle.eReliefConnectToPlane` is a thermal relief connection,
+      `TPlaneConnectStyle.eDirectConnectToPlane` a connection with solid copper, and `TPlaneConnectStyle.eNoConnect` no
+      connection. A new rule has a thermal relief connection.
+  ReliefAirGap:
+    summary: The width of the air gap of a thermal relief connection, in internal units (10,000 per mil).
+    remarks: Write-only; `ReliefAirGap_1` reads the value.
+  ReliefAirGap_1:
+    summary: The width of the air gap of a thermal relief connection, in internal units (10,000 per mil).
+    remarks: Read-only; `ReliefAirGap` assigns the value. A new rule has 10 mil.
+  ReliefConductorWidth:
+    summary: The width of each conductor of a thermal relief connection, in internal units (10,000 per mil).
+    remarks: Write-only; `ReliefConductorWidth_1` reads the value.
+  ReliefConductorWidth_1:
+    summary: The width of each conductor of a thermal relief connection, in internal units (10,000 per mil).
+    remarks: Read-only; `ReliefConductorWidth` assigns the value. A new rule has 10 mil.
+  ReliefEntries:
+    summary: The number of conductors of a thermal relief connection.
+    remarks: Write-only; `ReliefEntries_1` reads the value.
+  ReliefEntries_1:
+    summary: The number of conductors of a thermal relief connection.
+    remarks: Read-only; `ReliefEntries` assigns the value. A new rule has 4.
+  ReliefExpansion:
+    summary: The distance between the edge of the hole of a pad or via and the inner edge of the air gap of a thermal
+      relief connection, in internal units (10,000 per mil).
+    remarks: A new rule has 20 mil.

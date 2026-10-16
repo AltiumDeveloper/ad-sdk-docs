@@ -1,11 +1,20 @@
 # PCB.IPCB_DifferentialPair: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: A differential signaling system is one where a signal is transmitted down a pair of tightly coupled carriers,
-  one of these carrying the signal, the other carrying an equal but opposite image of the signal. Differential signaling
-  was developed to cater for situations where the logic reference ground of the signal source could not be well
-  connected to the logic reference ground of the load. Differential signaling is inherently immune to common mode
-  electrical noise, the most common interference artifact present in an electronic product. Another major advantage of
-  differential signaling is that it minimizes electromagnetic interference (EMI) generated from the signal pair.
+summary: A differential pair on a PCB document, a named pair of nets, a positive and a negative net, that carry a signal
+  and its equal but opposite image.
 remarks: >-
+  The pair refers to its nets by name and finds them on the board when `PositiveNet` or `NegativeNet` is read. A net that
+  is assigned to or found by the pair belongs to it: its `IPCB_Net.InDifferentialPair` is true. When the pair is removed
+  from the board, its nets no longer belong to a differential pair.
+
+
+  A differential signaling system is one where a signal is transmitted down a pair of tightly coupled carriers, one of
+  these carrying the signal, the other carrying an equal but opposite image of the signal. Differential signaling was
+  developed to cater for situations where the logic reference ground of the signal source could not be well connected
+  to the logic reference ground of the load. Differential signaling is inherently immune to common mode electrical
+  noise, the most common interference artifact present in an electronic product. Another major advantage of
+  differential signaling is that it minimizes electromagnetic interference (EMI) generated from the signal pair.
+
+
   Differential pair routing is a design technique employed to create a balanced transmission system able to carry
   differential (equal and opposite) signals across a printed circuit board. Typically this differential routing will
   interface to an external differential transmission system, such as a connector and cable.
@@ -16,3 +25,25 @@ remarks: >-
   that the PCB routing task is not to try to ensure a specific differential impedance is achieved, rather the objective
   is to maintain the properties required to ensure the differential signal arrives in good condition at the target
   component as it travels from the external cabling.
+members:
+  GatherControl:
+    remarks: Saved as the `GatherControl` parameter; a pair loaded without that parameter gets false.
+  Name:
+    summary: The name of the differential pair.
+    remarks: >-
+      The name is also the pair's `Identifier`; `DescriptorString` returns `Differential Pair` followed by a space and
+      the name. Saved as the `Name` parameter.
+  NegativeNet:
+    summary: The negative net of the pair.
+    remarks: >-
+      Assigning a net stores its name and makes the net part of the pair; assigning null clears the stored name. When
+      the pair has a stored name but no net, for example after the document is loaded, reading the property looks up
+      the net with that name on the board; the result is null when no net has that name. Saved as the
+      `NegativeNetName` parameter.
+  PositiveNet:
+    summary: The positive net of the pair.
+    remarks: >-
+      Assigning a net stores its name and makes the net part of the pair; assigning null clears the stored name. When
+      the pair has a stored name but no net, for example after the document is loaded, reading the property looks up
+      the net with that name on the board; the result is null when no net has that name. Saved as the
+      `PositiveNetName` parameter.

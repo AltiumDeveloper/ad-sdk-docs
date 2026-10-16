@@ -1,0 +1,43 @@
+# PCB.IPCB_ObjectClass2: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A class on a PCB document, with members in addition to `IPCB_ObjectClass` for the display name, the number of
+  members, the membership of a design object and the members of a class that holds other classes.
+remarks: >-
+  A class that holds other classes is one whose `MemberKind` is `TClassMemberKind.eClassMemberKind_ObjectClass` or
+  `TClassMemberKind.eClassMemberKind_xNetClass`. Its members are listed by kind with `MembersCountByKind` and
+  `MemberName_1`; for any other class those two members return 0 and an empty string.
+members:
+  DisplayName:
+    summary: The name of the class for display.
+    remarks: >-
+      The same as `Name`, or `Name` in angle brackets (`<` and `>`) for a class whose `SuperClass` is true. A class that
+      holds other classes gets the angle brackets only when its `MemberKind` is
+      `TClassMemberKind.eClassMemberKind_xNetClass`. The SDK examples report each xSignal class by its display name.
+  IsMember_1:
+    summary: Returns whether a design object is a member of the class.
+    remarks: >-
+      For a class that holds objects other than classes, the result is the same as `IsMember` for the object's
+      `Identifier`; automatically generated component classes, such as the classes of the components on the top or the
+      bottom side, decide from the component itself. For a class that holds other classes, the object must be a class
+      that `IsValidObjectKind` accepts and whose name is among the members of its kind; a class is never a member of
+      itself.
+    parameters:
+      argP: The design object to test.
+  MemberName_1:
+    summary: The name of a member of a class that holds other classes, by the member's kind.
+    remarks: >-
+      Returns an empty string for a class that does not hold other classes, and when the index is outside the members
+      of that kind.
+    parameters:
+      argI: The zero-based index of the member among the members of that kind; the upper bound is
+        `MembersCountByKind` for the same kind.
+      argKind: The `MemberKind` of the member classes to list.
+  MembersCount:
+    summary: The number of members of the class.
+    remarks: >-
+      For a class that holds other classes, the member classes of all kinds are counted. For any other class the value
+      is the number of stored member names, which is also the number of indexes `MemberName` accepts.
+  MembersCountByKind:
+    summary: The number of member classes of one kind in a class that holds other classes.
+    remarks: Returns 0 for a class that does not hold other classes, and when the class has no members of that kind.
+    parameters:
+      argKind: The `MemberKind` of the member classes to count.

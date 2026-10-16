@@ -1,53 +1,70 @@
 # PCB.IPCB_EmbeddedBoard: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_EmbeddedBoard interface represents an embedded board object consisting of multiple child PCBs in a
-  matrix of rows and columns which is an embedded board array feature. Each board array can reference a different pcb
-  file.
+summary: An embedded board array, a rectangular object on a board that places copies of another PCB document (the
+  child board) in a matrix of rows and columns. Each board array can reference a different PCB document.
 remarks: >-
-  • The IPCB_EmbeddedBoard interface is inherited from the IPCB_RectangularPrimitive interface.
+  The interface extends `IPCB_RectangularPrimitive`. `DocumentPath` names the child PCB document and `ChildBoard`
+  returns its board.
 
 
-  • The RowSpacing and ColSpacing values determine the gap between items in the matrix of rows and columns.
-
-
-  • The DocumentPath string refers to the referenced PCB file. The corresponding ChildBoard interface represents the
-  child referenced PCB.
-
-
-  • The OriginMode property denotes how the array is referenced from the origin of the embedded board or let the PCB
-  editor build the array based on the bottom left of the objects in the referenced board's workspace.
-
-
-  • The MirrorFlag denotes whether the embedded board is to be flipped over or not.
+  The copies are arranged in `RowCount` rows and `ColCount` columns, `RowSpacing` and `ColSpacing` apart. The first
+  copy is placed with the point selected by `OriginMode` at the embedded board's location (`XLocation`,
+  `YLocation`); each further row is offset upwards by `RowSpacing` and each further column to the right by
+  `ColSpacing`. The copies are then mirrored when `Mirror` is true and rotated about the location by `Rotation`.
 members:
-  ChildBoard:
-    summary: This ChildBoard property represents the reference PCB document to be used for the embedded board panellization.
-  ColCount:
-    summary: This ColCount property represents the number of columns that the board array will have. You can also define the
-      RowCount property as well to define the size of the matrix for the board array.
-  ColSpacing:
-    summary: The ColSpacing property determines the height of the first board and the gap between two boards. This column
-      spacing and the row spacing values are used to generate an embedded board array.
-  DocumentPath:
-    summary: This DocumentPath property represents the path to the referenced PCB for the board panellization.
-  Mirror:
-    summary: The MirrorFlag property represents the mirrored state of the embedded board panel of PCBs. Set true to mirror
-      it, or false to leave the embedded board panel as is.
-  OriginMode:
-    summary: This OriginMode property references the board array from the origin of the embedded board or from the bottom
-      left of the referenced board's workspace.
+  ApplyFilterToIterator:
+    summary: Applies the embedded board's transmit filter to an iterator, so that the iterator returns only the objects
+      that the filter passes.
     remarks: >-
-      From the bottom left is the default value which has the software build the array based on the bottom left of the
-      objects in the referenced board's workspace (which is the child PCB document).
+      Board, spatial and group iterators are supported; any other iterator, or null, is left unchanged. The filter
+      rejects objects on layers for which `TransmitLayersEnabled` is false and, when the embedded board is set not to
+      transmit them, dimensions, drill tables and layer stack tables.
+    parameters:
+      argIterator: The iterator to filter, typically one created on `ChildBoard`.
+  ChildBoard:
+    summary: The board of the child PCB document that `DocumentPath` refers to.
+    remarks: Null when no PCB document with that path is loaded.
+  ColCount:
+    summary: The number of columns of child board copies in the array.
+    remarks: A newly created embedded board starts with 1.
+  ColSpacing:
+    summary: The horizontal distance from one column of copies to the next, in internal units (10,000 per mil).
+    remarks: The gap between two columns is this value minus the width of the child board. A newly created embedded
+      board starts with 1500 mil.
+  DocumentPath:
+    summary: The full path of the child PCB document used for the board array.
+    remarks: >-
+      When the embedded board belongs to a board, the path is kept relative to the folder of that board's document,
+      and reading it returns the full path resolved against that folder. Setting the path of the document that
+      contains the embedded board clears the stored path.
+  GetForbiddenParameterList:
+    summary: Returns the parameters whose transmission from the child board is disabled, or null when there are none.
+  Mirror:
+    summary: Whether the copies of the child board are mirrored.
+    remarks: Each copy is mirrored about a vertical line through the embedded board's `XLocation`, before the rotation is
+      applied.
+  OriginMode:
+    summary: Which point of the child board is placed at the embedded board's location, the child board's origin
+      (`TEmbeddedBoardOriginMode.eOriginMode_BoardOrigin`) or its bottom-left corner
+      (`TEmbeddedBoardOriginMode.eOriginMode_BottomLeft`).
+    remarks: >-
+      The bottom-left corner is that of the child board's outline, or of the child board's objects when it has no
+      outline. A newly created embedded board starts with `TEmbeddedBoardOriginMode.eOriginMode_BottomLeft`.
 
 
-      Note that the reference point (as a red cross) of the board array is defined by the child PCB document that is
-      used as the base for the board array to place on a PCB document. To change the reference point (origin) of the
-      child board object, click Edit » Origin » Reset / Set menu items to set the origin marker from the PCB menu.
+      The origin of the child board is defined in the child PCB document; to change it, use Edit » Origin » Set or
+      Reset in that document.
     seeAlso:
       - PCB.TEmbeddedBoardOriginMode
   RowCount:
-    summary: This RowCount property represents the number of rows that the board array will have. You can also define the
-      ColCount property as well to define the size of the matrix for the board array.
+    summary: The number of rows of child board copies in the array.
+    remarks: A newly created embedded board starts with 1.
   RowSpacing:
-    summary: The RowSpacing property determines the width of the first board and the gap between two boards. This row
-      spacing and the column spacing values are used to generate an embedded board array.
+    summary: The vertical distance from one row of copies to the next, in internal units (10,000 per mil).
+    remarks: The gap between two rows is this value minus the height of the child board. A newly created embedded board
+      starts with 2500 mil.
+  TransmitLayersEnabled:
+    summary: Whether objects of the child board on a layer pass the embedded board's transmit filter.
+    remarks: On a newly created embedded board, every layer passes. `ApplyFilterToIterator` applies the filter to an
+      iterator.
+    parameters:
+      argLayer: The layer of the child board.

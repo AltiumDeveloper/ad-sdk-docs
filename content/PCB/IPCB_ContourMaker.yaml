@@ -1,0 +1,112 @@
+# PCB.IPCB_ContourMaker: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: >-
+  Builds the shapes of PCB design objects as geometric polygons, and adds the vertices of rectangles, slots and arcs to
+  contours.
+remarks: >-
+  Get it with `IPCB_ServerInterface.PCBContourMaker`. Curved edges are approximated by straight segments; `ArcResolution`
+  sets how closely.
+members:
+  AddArcToContour:
+    summary: Appends the vertices of a circular arc, approximated by straight segments, to the end of a contour.
+    remarks: >-
+      The vertices lie on or outside the circle, so that the straight segments between them do not cut into the arc;
+      no vertex is more than `ArcResolution` away from the circle. The smaller `ArcResolution` is compared with the
+      radius, the more vertices are added.
+    parameters:
+      argContour: The contour that receives the vertices.
+      argStartAngle: >-
+        The angle at which the arc starts, in degrees, measured counterclockwise from the positive X axis.
+      argEndAngle: >-
+        The angle at which the arc ends, in degrees, measured counterclockwise from the positive X axis.
+      argcx: The X coordinate of the centre of the arc, in internal units.
+      argcy: The Y coordinate of the centre of the arc, in internal units.
+      argRadius: The radius of the arc, in internal units.
+      argClockwise: >-
+        True to run clockwise from the start angle to the end angle, false to run counterclockwise. Either way the arc
+        passes through 0 degrees when it has to, for example from 270 to 90 degrees counterclockwise.
+  ArcResolution:
+    summary: >-
+      How closely curved edges are approximated by straight segments: the largest distance between a vertex and the
+      curve, in internal units (10,000 per mil).
+    remarks: >-
+      A smaller value gives more and shorter segments. The default is 5,000 (0.5 mil); assigning 0 restores the
+      default. The value belongs to the object, and `IPCB_ServerInterface.PCBContourMaker` returns the same object on
+      every call.
+  MakeContour:
+    summary: >-
+      Returns the shape of a design object on a layer, grown or shrunk by a given amount, as a new geometric polygon.
+    remarks: >-
+      Tracks, arcs, fills, pads, vias, regions, texts, polygons and split planes are supported. For a text the shape is
+      a rectangle around the text; for a polygon or a split plane it is the area inside its outline. For a pad on an
+      internal plane layer the shape is that of its connection to the plane. The curved edges of tracks, arcs, pads
+      and vias are approximated according to `ArcResolution`.
+    parameters:
+      argPrim: The design object.
+      argExpansion: >-
+        The distance by which the shape is grown on every side, in internal units: 0 for the object's own shape, a
+        negative value to shrink it.
+      argLayer: >-
+        The layer whose shape is returned. Only pads and vias use it; the other objects ignore it.
+  MakeContour_1:
+    summary: >-
+      Returns the shape of a track, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_2:
+    summary: >-
+      Returns the shape of a pad on a layer, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_3:
+    summary: >-
+      Returns the shape of a fill, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_4:
+    summary: >-
+      Returns the shape of a via on a layer, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_5:
+    summary: >-
+      Returns the shape of an arc, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_6:
+    summary: >-
+      Returns the shape of a region, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_7:
+    summary: >-
+      Returns a rectangle around a text, grown or shrunk by a given amount, as a new geometric polygon; the same as
+      `MakeContour`.
+  MakeContour_8:
+    summary: >-
+      Returns the area inside the outline of a polygon, grown or shrunk by a given amount, as a new geometric polygon;
+      the same as `MakeContour`.
+  MakeContour_9:
+    summary: >-
+      Returns the area inside the outline of a split plane, grown or shrunk by a given amount, as a new geometric
+      polygon; the same as `MakeContour`.
+  MakeContour_AddSlot:
+    summary: >-
+      Appends the vertices of a slot, a rectangle with semicircular ends, to the end of a contour.
+    remarks: >-
+      The slot runs along the longer of the two sizes, and the radius of its ends is half the shorter size plus
+      `argExpansion`; with equal sizes the result is a circle. Nothing is added when that radius is not positive. The
+      ends are approximated according to `ArcResolution`.
+    parameters:
+      argContour: The contour that receives the vertices.
+      argXc: The X coordinate of the centre of the slot, in internal units.
+      argYc: The Y coordinate of the centre of the slot, in internal units.
+      argxSize: The overall width of the slot, in internal units.
+      argySize: The overall height of the slot, in internal units.
+      argExpansion: The distance by which the slot is grown on every side, in internal units; negative to shrink it.
+  MakeContour_AddSquare:
+    summary: Appends the four corners of an axis-aligned rectangle to the end of a contour.
+    remarks: >-
+      The corners are added counterclockwise, starting at the lower left corner. Nothing is added when half the width
+      or half the height plus `argExpansion` is not positive.
+    parameters:
+      argContour: The contour that receives the vertices.
+      argXc: The X coordinate of the centre of the rectangle, in internal units.
+      argYc: The Y coordinate of the centre of the rectangle, in internal units.
+      argxSize: The width of the rectangle, in internal units.
+      argySize: The height of the rectangle, in internal units.
+      argExpansion: >-
+        The distance by which the rectangle is grown on every side, in internal units; negative to shrink it.

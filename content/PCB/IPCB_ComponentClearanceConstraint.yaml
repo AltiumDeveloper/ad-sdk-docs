@@ -1,13 +1,24 @@
 # PCB.IPCB_ComponentClearanceConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: "The Component Clearance Constraint PCB Design rule has available Check Mode setting:"
+summary: A component clearance rule (`TRuleKind.eRule_ComponentClearance`) that defines the minimum distance between
+  components, horizontally (`Gap`) and vertically (`VerticalGap`).
 remarks: >-
-  Quick Check - uses a components' bounding rectangle to define its shape. The bounding rectangle is the smallest
-  rectangle that encloses all the primitives that make up a component.
-
-
-  Multi Layer Check - also uses a component bounding rectangle, but considers through-hole component pads on a board
-  with components on both sides, allowing surface mount components to be placed under a through-hole component.
-
-
-  Full Check - uses the exact shape that encloses all the primitives that make up each component. Use this option if the
-  design includes a large number of circular or irregular shaped components.
+  The rule checks pairs of components and component bodies (`IPCB_ComponentBody`). A new rule has a horizontal and a
+  vertical clearance of 10 mil. In `DescriptorString` and `DataSummaryString`, a clearance of 1,000,000,000 internal
+  units (100,000 mil) or more is shown as `Infinite`.
+members:
+  CollisionCheckMode:
+    summary: A check mode that the rule no longer uses.
+    remarks: >-
+      Reading always returns `TComponentCollisionCheckMode.eComponentBodyCheck`; assigning a value has no effect.
+  Gap:
+    summary: The minimum horizontal clearance between components, in the plane of the board, in internal units
+      (10,000 per mil).
+    remarks: A new rule has 10 mil.
+  ShowDistances:
+    summary: Whether the check searches for the closest points of two components that are closer than the clearance,
+      instead of stopping at the first points found within the clearance.
+    remarks: The default is false.
+  VerticalGap:
+    summary: The minimum vertical clearance between components, perpendicular to the board, in internal units (10,000
+      per mil).
+    remarks: A new rule has 10 mil.

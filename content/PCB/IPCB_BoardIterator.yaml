@@ -1,9 +1,18 @@
 # PCB.IPCB_BoardIterator: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_BoardIterator iterates through a PCB document to fetch PCB design objects on this PCB.
+summary: An iterator that fetches the design objects of a PCB document.
 remarks: >-
-  With the iterator, you can control which objects on which layers and within specified regions with the
-  AddFilter_ObjectSet , AddFilter_LayerSet and AddFilter_Area methods to be fetched.
-
-
-  `AddFilter_Method` controls how design objects are fetched. The TIterationMethod type has three different values:
-  `TIterationMethod.eProcessAll`, `TIterationMethod.eProcessFree` and `TIterationMethod.eProcessComponent`.
+  With the iterator, you can control which objects on which layers are fetched with the `AddFilter_ObjectSet` and
+  `AddFilter_LayerSet` methods, and with `AddFilter_Method` whether objects that belong to a component or another group
+  object are included. `AddFilter_Area` does not restrict a board iterator: use an `IPCB_SpatialIterator` to fetch the
+  objects in an area.
+members:
+  AddFilter_Method:
+    summary: Selects the objects to fetch by whether they belong to a group object, such as a component.
+    remarks: >-
+      A new iterator fetches all objects (`TIterationMethod.eProcessAll`). The setting applies to the objects fetched by
+      the following `FirstPCBObject` and `NextPCBObject` calls.
+    parameters:
+      argMethod: >-
+        `TIterationMethod.eProcessAll` fetches all objects. `TIterationMethod.eProcessFree` fetches only free objects:
+        objects that are not part of a component, polygon, coordinate or dimension, and group objects such as
+        components themselves. `TIterationMethod.eProcessComponent` fetches only the objects that are not free.
