@@ -1,3 +1,57 @@
 # PCB.IPCB_MaxMinWidthConstraint: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: This routing width constraint interface defines the minimum, favored and maximum width of tracks and arcs on
-  copper layers.
+summary: A width rule (`TRuleKind.eRule_MaxMinWidth`) that defines the minimum, preferred (favored) and maximum width
+  of tracks and arcs on signal layers.
+remarks: >-
+  The widths are set per layer. A new rule has a minimum, preferred and maximum width of 10 mil on every signal layer.
+
+
+  The rule checks tracks and arcs on signal layers that are not keepouts, not part of a polygon and not part of a
+  differential pair.
+
+
+  A rule can hold different widths for each layer stack of a board with several layer stacks (a rigid-flex board).
+  `MinWidth`, `FavoredWidth` and `MaxWidth` read and write the widths of the board's main layer stack.
+members:
+  CheckConnectedCopper:
+    summary: Whether the rule also checks the minimum width of the connected copper of each net, not only of single
+      tracks and arcs.
+    remarks: >-
+      The default is false. While it is true and the rule is not impedance-driven (`ImpedanceDriven` is false), single
+      tracks and arcs are checked only against the maximum width; the minimum width is checked on the net's connected
+      copper.
+  FavoredImpedance:
+    summary: The preferred target impedance, in ohms, of an impedance-driven rule (`ImpedanceDriven`).
+    remarks: A new rule has 50 ohms.
+  FavoredWidth:
+    summary: The preferred width of tracks and arcs on the given layer, in internal units (10,000 per mil).
+    remarks: >-
+      Reading a layer that has no width of its own returns the width the rule sets for all signal layers. Assigning a
+      value sets the width of that layer only.
+    parameters:
+      argL: The layer.
+  ImpedanceDriven:
+    summary: Whether the rule is impedance-driven, that is, its track widths come from an impedance profile of the
+      board's layer stack instead of fixed values.
+    remarks: >-
+      The default is false. While it is true, `DataSummaryString` lists the preferred, minimum and maximum impedance
+      instead of the widths.
+  MaxImpedance:
+    summary: The maximum target impedance, in ohms, of an impedance-driven rule (`ImpedanceDriven`).
+    remarks: A new rule has 50 ohms.
+  MaxWidth:
+    summary: The maximum width allowed for tracks and arcs on the given layer, in internal units (10,000 per mil).
+    remarks: >-
+      Reading a layer that has no width of its own returns the width the rule sets for all signal layers. Assigning a
+      value sets the width of that layer only.
+    parameters:
+      argL: The layer.
+  MinImpedance:
+    summary: The minimum target impedance, in ohms, of an impedance-driven rule (`ImpedanceDriven`).
+    remarks: A new rule has 50 ohms.
+  MinWidth:
+    summary: The minimum width allowed for tracks and arcs on the given layer, in internal units (10,000 per mil).
+    remarks: >-
+      Reading a layer that has no width of its own returns the width the rule sets for all signal layers. Assigning a
+      value sets the width of that layer only.
+    parameters:
+      argL: The layer.

@@ -1,20 +1,27 @@
 # PCB.IPCB_Primitive: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Primitive interface is the ancestor interface object for all other PCB interface objects and therefore
-  the methods and properties declared in the IPCB_Primitive interface are also declared in the descendant interfaces.
+summary: The base interface of the PCB design objects; tracks, arcs, pads, vias, fills, text, components, polygons,
+  dimensions and the other PCB object interfaces inherit its members.
 remarks: >-
-  Every PCB object has an unique object address stored in a PCB design database for that document this object resides
-  on. Each PCB object address has the TPCBObjectHandle type.
+  Coordinates and sizes are in internal units (10,000 per mil): 10,000 per mil (`EDP.EDPConstant.InternalUnits`). Convert with
+  `EDP.Utils.MilsToCoord` and `EDP.Utils.MMsToCoord`, and back with `EDP.Utils.CoordToMils` and `EDP.Utils.CoordToMMs`.
 
 
-  Every existing PCB design object on a PCB document has the Board owner which represents the specific board document.
+  To change an object, call `BeginModify` before and `EndModify` after the change, between
+  `IPCB_ServerInterface.PreProcess` and `IPCB_ServerInterface.PostProcess`.
 
 
-  Each existing PCB design object on a PCB document has Query Rule Properties which can be queried.
+  Once the object has been destroyed, every call through this interface fails with the error "Object accessed after
+  being destroyed".
 
 
   A primitive has a bounding rectangle which encapsulates the region of the primitive. There are two other bounding
   rectangles which are for selection and for painting (refreshing and updating).
 members:
+  BeginModify:
+    summary: Starts a change of the object; saves the object's state and tells the board that the object is about to
+      change.
+    remarks: End the change with `EndModify`, or with `CancelModify` to restore the saved state. When the object is on a
+      board, the board's undo history is one of the receivers of the notification.
   Board:
     summary: The Board property determines the PCB document that the object itself is associated with.
   BoundingRectangle:
@@ -26,6 +33,8 @@ members:
   BoundingRectangleForSelection:
     summary: The bounding rectangle of a design object used for selection is a bit bigger than the bounding rectangle of a
       design object itself.
+  CancelModify:
+    summary: Ends a change started with `BeginModify` and restores the object's state that `BeginModify` saved.
   Component:
     summary: This property determines whether the object itself is associated with the component or not.
   Coordinate:
@@ -37,19 +46,20 @@ members:
   DetailString:
     summary: This property retrieves the Detail text string for this design object.
   Dimension:
-    summary: The Coordinate property returns the IPCB_Dimension only if this object itself is part of the IPCB_Dimension
-      type. A dimension object is a group object and is composed of design object primitives such as tracks, arcs and
-      text objects.
+    summary: The dimension the object belongs to, or null when it is not part of a dimension.
   DRCError:
     summary: The DRCError property determines whether the object is affected by the Design Rule Checker and thus if the
       object breaks one of the design rules, the DRCError is true.
+  EndModify:
+    summary: Ends a change started with `BeginModify` and tells the board that the object has changed.
+    remarks: Also updates the board's connectivity for the object. When the object has no board, no notification is sent.
   FlipXY:
     summary: This method flips the object about the axis depending on Axis and MirrOp parameters.
     seeAlso:
       - PCB.TMirrorOperation
   GraphicallyInvalidate:
-    summary: This method renders the object graphically invalidate which forces a system graphical update /refresh on the
-      PCB document.
+    summary: Redraws the object in the board's view.
+    remarks: Does nothing for the board itself or for an object that has no board.
   InBoard:
     summary: This InBoard property determines whether the object itself is part of the board object or not.
   InComponent:
@@ -57,9 +67,13 @@ members:
   InCoordinate:
     summary: This InCoordinate property determines whether the object itself is part of the coordinate object or not.
   InDimension:
-    summary: This InDimension property determines whether the obejct itself is part of the dimension object or not.
+    summary: This InDimension property determines whether the object itself is part of the dimension object or not.
   InPolygon:
     summary: This InPolygon property determines whether the object itself is part of the polygon object or not.
+  InSelectionMemory:
+    remarks: Setting the property for an index outside 0 to 7 has no effect.
+    parameters:
+      argIndex: The selection memory, from 0 to 7.
   IsElectricalPrim:
     summary: This property determines whether this PCB object possesses an electrical property- tracks, fills, polygons,
       arcs, vias all have electrical properties - basically those objects that have a Net property will possess an
@@ -68,8 +82,7 @@ members:
   IsFreePrimitive:
     summary: This method determines whether the object is a free primitive (not connected to a net) or just a standalone object.
   IsHidden:
-    summary: This method determines whether this object is hidden from view or not.
-    remarks: This method tests whether the text object is hidden or not.
+    summary: Returns whether this object is hidden from view.
     seeAlso:
       - PCB.IPCB_Text
   IsKeepout:
@@ -92,7 +105,10 @@ members:
     summary: This property determines whether the solder mask of pad and via objects are tented or not on the top layer. A
       tenting closes an opening in the mask of pad or via objects.
   Layer:
-    summary: This layer denotes which layer the object is on.
+    summary: The layer the object is on, as a `TV6_Layer`.
+    remarks: A layer that `TV6_Layer` cannot represent reads as the nearest value; mid layers above 30 as
+      `TV6_Layer.eV6_MidLayer30`, internal planes above 16 as `TV6_Layer.eV6_InternalPlane16`, mechanical layers above 16
+      as `TV6_Layer.eV6_Mechanical16`, and other layers as `TV6_Layer.eV6_NoLayer`. `V7Layer` gives the exact layer.
   MiscFlag1:
     summary: This property determines the boolean value from the MiscFlag1 property and can be used for custom purposes.
   MiscFlag2:
@@ -102,47 +118,70 @@ members:
   Moveable:
     summary: This property determines whether this design object can be moved or not (by the autorouter for example).
   MoveByXY:
-    summary: This method moves the design object by an offset in horizontal and vertical directions specified by the AX and
-      AY parameters.
+    summary: Moves the design object by an offset in horizontal and vertical directions.
+    parameters:
+      argX: The horizontal offset, in internal units (10,000 per mil).
+      argY: The vertical offset, in internal units (10,000 per mil).
   MoveToXY:
-    summary: This method moves the design object to a new location specified by the AX and AY parameters.
+    summary: Moves the design object to a new location.
+    parameters:
+      argX: The X coordinate of the new location, in internal units (10,000 per mil).
+      argY: The Y coordinate of the new location, in internal units (10,000 per mil).
   Net:
     summary: The Net property of an object denotes it has an electrical property, meaning it is connected from one node to
       another.
   ObjectIDString:
     summary: This ObjectIDString property returns the Object Id string. For example eTrackObject type will yield a Track string.
+  PadCacheRobotFlag:
+    summary: Not used; the property reads false, and setting it has no effect.
+  PasteMaskExpansion:
+    summary: The paste mask expansion of the object, in internal units (10,000 per mil).
+    remarks: The value comes from the paste mask expansion rule that applies to the object, or is the object's manual
+      expansion when it has one; it is 0 when the object has no paste mask.
   Polygon:
     summary: This method retrieves the IPCB_Polygon interface that the design object primitive is associated with. For
-      example, a polygon may contain arcs and tracks, and when you only have the arc, you can retreive the polygon the
+      example, a polygon may contain arcs and tracks, and when you only have the arc, you can retrieve the polygon the
       arc is associated with.
   PolygonOutline:
     summary: This method determines whether the design object primitive is part of the polygon outline or not.
+  PowerPlaneClearance:
+    summary: The power plane clearance of the object, in internal units (10,000 per mil).
+    remarks: The value comes from the power plane clearance rule that applies to the object.
   PowerPlaneConnectStyle:
+    summary: The style of the object's connection to power planes.
+    remarks: The value comes from the power plane connect style rule that applies to the object;
+      `TPlaneConnectStyle.eNoConnect` when no rule applies.
     seeAlso:
       - PCB.TPlaneConnectStyle
+  PowerPlaneReliefExpansion:
+    summary: The relief expansion of the object's power plane connection, in internal units (10,000 per mil).
+    remarks: The value comes from the power plane connect style rule that applies to the object.
   ReliefAirGap:
-    summary: The ReliefAirGap property retrieves the relief air gap value for this pad/via object.
+    summary: The ReliefAirGap property retrieves the relief air gap value for this pad/via object, in internal units (10,000 per mil).
+    remarks: The value comes from the power plane connect style rule that applies to the object.
   ReliefConductorWidth:
-    summary: The ReliefConductorWidth property retrieves the relief conductor width value for a this pad/via object.
+    summary: The relief conductor width of the pad or via, in internal units (10,000 per mil).
+    remarks: The value comes from the power plane connect style rule that applies to the object.
   ReliefEntries:
     summary: This property retrieves the number of relief entries for a pad/via object.
+    remarks: The value comes from the power plane connect style rule that applies to the object.
+  Replicate:
+    summary: Returns a copy of the object.
+  RotateBy:
+    summary: Rotates the object by an angle about its reference point.
+    parameters:
+      argngle: The angle, in degrees.
   Selected:
     summary: This property determines whether this object is selected or not on the PCB document.
   SolderMaskExpansion:
-    summary: The solder mask expansion property determines the shape that is created on the solder mask layer at each pad
-      and via site. This shape is expanded or contracted radially by the amount specified by this rule. This property
-      over-rides the solder mask expansion design rule.
+    summary: The solder mask expansion of the object, in internal units (10,000 per mil).
     remarks: >-
+      The value comes from the solder mask expansion rule that applies to the object (its top side expansion), or is the
+      object's manual expansion when it has one; it is 0 when the object has no solder mask.
+
+
       A Solder Mask expansion property for a pad object is currently relevant just for pads on top and bottom copper
       layers.
-
-
-      Paste mask layers are used to design stencils which will selectively place solder paste on a blank PCB. Vias do
-      not have a paste mask layer.
-
-
-      Solder paste is only placed on pads where component leads are to be soldered to them. Vias normally don't have
-      anything soldered onto them.
   SwapLayerPairs:
     summary: This method swaps the current layer pair that the PCB design object (vias and pads only) has.
   TearDrop:
@@ -153,6 +192,9 @@ members:
       example.
     seeAlso:
       - PCB.IPCB_Component
+  V7Layer:
+    summary: The layer the object is on.
+    remarks: Identifies every layer, including the layers that `Layer` cannot represent.
   ViewableObjectID:
     summary: The read only property determines the ViewableObjectID of the design object. The TViewableObjectID type is a
       more descriptive ID of a design object than the TObjectID type.

@@ -98,7 +98,10 @@ whenever you add or change an example.
 
 ### Descriptions (`content/<NS>/<Type>.yaml`)
 
-- Keys: `summary`, `remarks`, `members.<Name>.{summary,remarks,seeAlso}`, `values.<EnumValue>`; see README.md. A member
+- Keys: `summary`, `remarks`, `members.<Name>.{summary,remarks,seeAlso,parameters.<param>}`, `values.<EnumValue>`,
+  `parameters.<param>` (delegates); see README.md. Parameter keys are the .NET names in the parameter table
+  (`argHitX`). Parameters are described only under `parameters` (the table's Description column), never in the
+  summary or remarks: `npm run apidocs` fails on "The X parameter …" prose. A member
   key is the member's section name: the property name (for an accessor pair) or the method name.
 - `npm run apidocs` fails when a key does not match the API (renamed type or member): fix the key, do not delete text.
 - Do not describe accessor methods in prose ("This property is supported by GetState_X and SetState_X"): the

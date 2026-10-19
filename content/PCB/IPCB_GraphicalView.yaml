@@ -1,0 +1,171 @@
+# PCB.IPCB_GraphicalView: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: >-
+  The graphical view of a PCB document: its 2D or 3D camera, its size, the conversion between screen and board
+  coordinates, and rendering of the view into a device context.
+remarks: >-
+  Get the main graphical view of a board from `IPCB_Board.MainGraphicalView`. Some members depend on the graphics
+  engine that draws the view: where an engine does not support a member, the member returns false or a fixed value and
+  has no effect.
+members:
+  AspectRatio:
+    summary: The aspect ratio of the view; always 1.
+  Camera:
+    summary: Sets the camera of the view, given the point it looks at, its orientation and its zoom.
+    remarks: The assigned value is the zoom of the camera. Read the current camera with `GetState_Camera`.
+    parameters:
+      argLookAtX: The X coordinate of the point the camera looks at.
+      argLookAtY: The Y coordinate of the point the camera looks at.
+      argLookAtZ: The Z coordinate of the point the camera looks at.
+      argQuatX: The X component of the quaternion that gives the orientation of the camera.
+      argQuatY: The Y component of the quaternion that gives the orientation of the camera.
+      argQuatZ: The Z component of the quaternion that gives the orientation of the camera.
+      argQuatW: The W component of the quaternion that gives the orientation of the camera.
+  CameraFov:
+    summary: Sets the field of view of the camera, in degrees.
+    remarks: Read the current field of view with `GetState_CameraFov`.
+  CameraUpVector:
+    summary: Sets the up direction of the camera.
+    remarks: >-
+      The assigned value is the Z component of the direction. Depending on the graphics engine of the view, setting it
+      has no effect; `GetState_CameraUpVector` then always returns (0, 1, 0).
+    parameters:
+      argUpX: The X component of the up direction.
+      argUpY: The Y component of the up direction.
+  ClientToPCBLocation:
+    summary: Converts a point of the view's client area, in pixels, to a board location in internal units (10,000 per
+      mil).
+    parameters:
+      argx: The X coordinate of the point in the client area, in pixels.
+      argy: The Y coordinate of the point in the client area, in pixels.
+      argPX: Returns the X coordinate of the board location, in internal units (10,000 per mil).
+      argPY: Returns the Y coordinate of the board location, in internal units (10,000 per mil).
+    seeAlso:
+      - PCBLocationToClient
+  CloseState_TemporaryWindow:
+    summary: Closes the temporary window set with `TemporaryWindow`, so that the view draws into its own window again.
+    remarks: Does nothing when no temporary window is open.
+  FoldingRate:
+    summary: The folding rate of a rigid-flex board in the view.
+    remarks: >-
+      Depending on the graphics engine of the view, assigning it has no effect and it reads 0. It also reads 0 when the
+      board has no bending lines to fold.
+  GetExtents_Camera:
+    summary: Computes the camera position, zoom and size that frame the board in the view.
+    remarks: >-
+      The framed area is the rectangle of the board outline. Returns true when the values were computed. Depending on
+      the graphics engine of the view, returns false without computing them.
+    parameters:
+      argLookAtX: Returns the X coordinate of the center of the framed area.
+      argLookAtY: Returns the Y coordinate of the center of the framed area.
+      argLookAtZ: Returns the height of the board surface that the camera looks at.
+      argZoom: Returns the zoom that fits the framed area into the view.
+      argWidth: Returns the width of the framed area, in internal units (10,000 per mil).
+      argHeight: Returns the height of the framed area, in internal units (10,000 per mil).
+      argBoardFlipped: Pass true to frame the board from its bottom side (`argLookAtZ` is then the bottom surface).
+  GetExtents_CameraIncludeComponents:
+    summary: Computes the camera position, zoom and size that frame the board and the 3D models of its components.
+    remarks: >-
+      The framed area is the rectangle of the board outline, extended to include the 3D models on the board. Returns
+      true when the values were computed; returns false when the view has no board.
+    parameters:
+      argLookAtX: Returns the X coordinate of the center of the framed area.
+      argLookAtY: Returns the Y coordinate of the center of the framed area.
+      argLookAtZ: Returns the height that the camera looks at.
+      argZoom: Returns the zoom that fits the framed area into the view.
+      argWidth: Returns the width of the framed area, in internal units (10,000 per mil).
+      argHeight: Returns the height of the framed area, in internal units (10,000 per mil).
+      argBoardFlipped: Pass true to frame the board from its bottom side.
+  GetState_Camera:
+    summary: Gets the camera of the view, as the point it looks at, its orientation and its zoom.
+    remarks: Returns true. Set the camera with `Camera`.
+    parameters:
+      argLookAtX: Returns the X coordinate of the point the camera looks at.
+      argLookAtY: Returns the Y coordinate of the point the camera looks at.
+      argLookAtZ: Returns the Z coordinate of the point the camera looks at.
+      argQuatX: Returns the X component of the quaternion that gives the orientation of the camera.
+      argQuatY: Returns the Y component of the quaternion that gives the orientation of the camera.
+      argQuatZ: Returns the Z component of the quaternion that gives the orientation of the camera.
+      argQuatW: Returns the W component of the quaternion that gives the orientation of the camera.
+      argZoom: Returns the zoom of the camera.
+  GetState_CameraFov:
+    summary: Gets the field of view of the camera, in degrees.
+    remarks: Returns true.
+    parameters:
+      argFov: Returns the field of view in degrees.
+  GetState_CameraUpVector:
+    summary: Gets the up direction of the camera.
+    remarks: Returns true.
+    parameters:
+      argUpX: Returns the X component of the up direction.
+      argUpY: Returns the Y component of the up direction.
+      argUpZ: Returns the Z component of the up direction.
+  GetState_ViewPortMils:
+    summary: Gets the size of the board area that the view shows.
+    remarks: >-
+      Despite the name, the size is in internal units (10,000 per mil). Returns true when the size was returned.
+      Depending on the graphics engine of the view, returns false without returning a size.
+    parameters:
+      argWidth: Returns the width of the shown area.
+      argHeight: Returns the height of the shown area.
+  GetState_WindowSize:
+    summary: Gets the size of the view's client area, in pixels.
+    remarks: Returns false when the width or the height is 0.
+    parameters:
+      argWidth: Returns the width in pixels.
+      argHeight: Returns the height in pixels.
+  HasPausedProcess:
+    summary: Whether an interactive process in the view is paused.
+  HasRunningProcess:
+    summary: Whether an interactive editing process is running in the view.
+  InRoutingProcess:
+    summary: Always returns false.
+  Is3D:
+    summary: Whether the view shows the board in 3D, that is, whether its active view configuration is a 3D
+      configuration.
+  PCBLocationToClient:
+    summary: Converts a board location in internal units (10,000 per mil) to a point of the view's client area, in
+      pixels.
+    parameters:
+      argx: The X coordinate of the board location, in internal units (10,000 per mil).
+      argy: The Y coordinate of the board location, in internal units (10,000 per mil).
+      argPX: Returns the X coordinate of the point in the client area, in pixels.
+      argPY: Returns the Y coordinate of the point in the client area, in pixels.
+    seeAlso:
+      - ClientToPCBLocation
+  RenderToDC:
+    summary: Renders the view into a device context.
+    remarks: The same as `RenderToDCTransparent` with an opaque background.
+    parameters:
+      argResX: The width, in pixels, of the image that is rendered.
+      argResY: The height, in pixels, of the image that is rendered.
+  RenderToDCTransparent:
+    summary: Renders the view into a device context, with a transparent or an opaque background.
+    parameters:
+      argResX: The width, in pixels, of the image that is rendered.
+      argResY: The height, in pixels, of the image that is rendered.
+      argTransparent: True to blend the rendered image into the device context using its transparency, false to copy
+        it.
+  TemporaryWindow:
+    summary: Makes the view draw into a temporary window of the given client size, for example to render it at a size
+      that differs from the view's window.
+    remarks: >-
+      The assigned value is the client height of the temporary window, in pixels. Nothing happens when the width or the
+      height is 0, or when the size equals the size of the view's window. Close the temporary window with
+      `CloseState_TemporaryWindow`.
+    parameters:
+      argWidth: The client width of the temporary window, in pixels.
+  ViewMode:
+    summary: The mode of the view, `TPCBViewMode.vmGeneralPCB` for normal editing or `TPCBViewMode.vmEditBoardOutline`
+      while the board outline is being edited.
+    remarks: A new view is in `TPCBViewMode.vmGeneralPCB`.
+  ViewPortMils:
+    summary: Sets the size of the board area that the view shows, keeping the center of the view.
+    remarks: >-
+      The assigned value is the height of the area to show. Despite the name, the size is in internal units (10,000 per
+      mil). It has an effect only in 2D, and depending on the graphics engine of the view it has no effect at all.
+    parameters:
+      argWidth: The width of the area to show.
+  ZoomBoard:
+    summary: Zooms the view to fit the board and redraws it.
+    remarks: >-
+      Fits the rectangle of the board outline. Does nothing when the view has no board.

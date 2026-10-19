@@ -1,0 +1,39 @@
+# PCB.IPCB_PadViaTemplate: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The common base of pad templates (`IPCB_PadTemplate`) and via templates (`IPCB_ViaTemplate`), with the
+  identity, name and description they share.
+remarks: >-
+  `IPCB_Board.FindLinkedBoardTemplate` returns the template a pad or via is linked to as an `IPCB_PadViaTemplate`;
+  `ObjectID` tells a pad template from a via template.
+members:
+  CreateTemplateLink:
+    summary: Creates a new template link that holds the template's `LibraryID`, `TemplateID` and `RevisionID`.
+    remarks: The link is a separate object; changing it does not change the template.
+  ExternalLink:
+    summary: The template's external link, which holds the library, template and revision identifiers of an external
+      template.
+    remarks: The returned object is the template's own link, not a copy. Its identifiers are empty for a new template.
+  GetFullTemplateID:
+    summary: Returns the template's full identifier, its `LibraryID` and `TemplateID` joined by `@`.
+  HasLocalChanges:
+    summary: Returns whether a pad or via differs from the template.
+    parameters:
+      argPrimitive: The pad or via to compare with the template.
+  LibraryID:
+    summary: The identifier of the pad and via library that the template belongs to.
+    remarks: Empty for a new template.
+  ObjectID:
+    summary: The object type of the template, `TObjectId.ePadObject` for a pad template and `TObjectId.eViaObject` for a
+      via template.
+  PrimLinkCount:
+    summary: The number of pads or vias that are linked to the template.
+  RevisionID:
+    summary: The revision identifier of the template.
+    remarks: Empty for a new template.
+  TemplateDescription:
+    summary: The free-text description of the template.
+    remarks: Empty for a new template.
+  TemplateID:
+    summary: The identifier of the template within its library.
+    remarks: A new template gets a newly generated GUID string.
+  TemplateName:
+    summary: The display name of the template.

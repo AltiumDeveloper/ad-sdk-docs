@@ -1,3 +1,26 @@
 # PCB.IPCB_AdvancedPlacerOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_AdvancedPlacerOptions interface represents the options for the placement application.
-remarks: Derived from IPCB_AbstractOptions interface
+summary: The automatic component placement settings of a PCB document, returned by `IPCB_Board.PlacerOptions`.
+remarks: >-
+  The interface extends `IPCB_AbstractOptions`. `Export_ToParameters` writes every setting as a parameter named after
+  its property; `Import_FromParameters` reads them.
+members:
+  PlaceByPassNet1:
+    remarks: Newly created options start with an empty string.
+  PlaceByPassNet2:
+    remarks: Newly created options start with an empty string.
+  PlaceLargeClear:
+    summary: The clearance kept around components with 14 or more pads when components are shoved apart, in internal
+      units (10,000 per mil).
+    remarks: Components with fewer pads use `PlaceSmallClear`. Newly created options start with 50 mil.
+  PlaceSmallClear:
+    summary: The clearance kept around components with fewer than 14 pads when components are shoved apart, in
+      internal units (10,000 per mil).
+    remarks: Components with 14 or more pads use `PlaceLargeClear`. Newly created options start with 20 mil.
+  PlaceUseAdvancedPlace:
+    remarks: Newly created options start with true.
+  PlaceUseGrouping:
+    remarks: Newly created options start with true.
+  PlaceUseLayerSwap:
+    remarks: Newly created options start with false.
+  PlaceUseRotation:
+    remarks: Newly created options start with true.

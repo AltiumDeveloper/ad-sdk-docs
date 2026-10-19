@@ -1,0 +1,96 @@
+# PCB.IPCB_ContourUtilities: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: >-
+  Geometry operations on contours and geometric polygons: union, intersection, difference and exclusive or, area,
+  winding direction, point and overlap tests, splitting a polygon into its connected parts, and the union of many
+  shapes at once.
+remarks: >-
+  Get it with `IPCB_ServerInterface.PCBContourUtilities`, which returns the same shared object on every call.
+
+
+  The operations that produce a shape replace the content of a result polygon that the caller supplies; create an
+  empty one with `IPCB_ServerInterface.PCBGeometricPolygonFactory`.
+members:
+  ClipContourContour:
+    summary: Replaces a geometric polygon with the result of a set operation on two contours.
+    remarks: >-
+      Each contour is taken as a solid contour (not a hole). The previous content of `argResultPolygon` is replaced.
+    parameters:
+      argSetOperation: >-
+        The set operation: union, intersection, exclusive or, or difference (`argContour` minus `argBContour`).
+      argContour: The first contour.
+      argBContour: The second contour; for a difference, the contour that is subtracted.
+      argResultPolygon: The geometric polygon that receives the result.
+  ClipSetContour:
+    summary: Replaces a geometric polygon with the result of a set operation on a geometric polygon and a contour.
+    remarks: >-
+      The contour is taken as a solid contour (not a hole). The previous content of `argResultPolygon` is replaced;
+      `argResultPolygon` can be the same object as `argGeometricPolygon`.
+    parameters:
+      argSetOperation: >-
+        The set operation: union, intersection, exclusive or, or difference (`argGeometricPolygon` minus
+        `argContour`).
+      argGeometricPolygon: The first operand.
+      argContour: The second operand; for a difference, the contour that is subtracted.
+      argResultPolygon: The geometric polygon that receives the result.
+  ClipSetSet:
+    summary: Replaces a geometric polygon with the result of a set operation on two geometric polygons.
+    remarks: >-
+      The previous content of `argResultPolygon` is replaced. `argResultPolygon` can be the same object as one of the
+      operands, for example to add shapes to a polygon one at a time.
+    parameters:
+      argSetOperation: >-
+        The set operation: union, intersection, exclusive or, or difference (`argGeometricPolygon` minus
+        `argBGeometricPolygon`).
+      argGeometricPolygon: The first operand.
+      argBGeometricPolygon: The second operand; for a difference, the polygon that is subtracted.
+      argResultPolygon: The geometric polygon that receives the result.
+  ContourArea:
+    summary: Returns the area enclosed by a contour, in square internal units; the same value as `IPCB_Contour.Area`.
+    remarks: >-
+      The area is positive or zero whatever the direction of the vertices, and is rounded to a whole number. A contour
+      with fewer than three vertices has an area of 0.
+  ContourIsCW:
+    summary: Returns true when the vertices of a contour run clockwise.
+    remarks: A contour with fewer than three vertices, or with an area of zero, returns false.
+  CreateInterfaceList:
+    summary: >-
+      Returns a new empty list, for the list arguments of `SplitIntoConnectedPolygons`, `UnionBatchSet` and
+      `UnionBatchContour`.
+  GeometricPolygonsTouch:
+    summary: Returns true when the intersection of two geometric polygons is not empty.
+  PointInContour:
+    summary: Returns true when a point lies inside a contour.
+    parameters:
+      argContour: The contour to test.
+      argx: The X coordinate of the point, in internal units (10,000 per mil).
+      argy: The Y coordinate of the point, in internal units (10,000 per mil).
+  SplitIntoConnectedPolygons:
+    summary: >-
+      Splits a geometric polygon into separate geometric polygons, one for each solid contour together with the holes
+      inside it.
+    remarks: >-
+      A hole goes with the smallest solid contour that contains its first vertex; a hole that lies inside no solid
+      contour is left out. The new polygons have their own copies of the vertices and are appended to
+      `argConnectedPolygons`; items already in the list stay. Does nothing when either argument is null.
+    parameters:
+      argGeometricPolygon: The polygon to split.
+      argConnectedPolygons: >-
+        The list that receives the new `IPCB_GeometricPolygon` objects, for example one returned by
+        `CreateInterfaceList`.
+  UnionBatchContour:
+    summary: Replaces a geometric polygon with the union of all contours in a list.
+    remarks: >-
+      Each contour is taken as a solid contour (not a hole). Items that are not contours are ignored; when the list
+      holds no contour, `argResultPolygon` becomes empty. Does nothing when either argument is null.
+    parameters:
+      argContours: The `IPCB_Contour` objects to unite, for example in a list returned by `CreateInterfaceList`.
+      argResultPolygon: The geometric polygon that receives the result.
+  UnionBatchSet:
+    summary: Replaces a geometric polygon with the union of all geometric polygons in a list.
+    remarks: >-
+      Items that are not geometric polygons are ignored; when the list holds no geometric polygon, `argResultPolygon`
+      becomes empty. Does nothing when either argument is null.
+    parameters:
+      argPolygons: >-
+        The `IPCB_GeometricPolygon` objects to unite, for example in a list returned by `CreateInterfaceList`.
+      argResultPolygon: The geometric polygon that receives the result.

@@ -1,10 +1,62 @@
 # PCB.IPCB_AngularDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_AngularDimension object interface allows for the dimensioning of angular distances. There are four
-  references (two reference points associated with two reference objects) which need to be defined and the dimension
-  text is then placed. The references may be tracks, fills, or polygons.
+summary: An angular dimension on a PCB document, which measures the angle between two lines.
 remarks: >-
-  The Radius property denotes the radius size of the IPCB_AngularDimension object.
+  An angular dimension has four references: references 0 and 1 define the first line and references 2 and 3 the
+  second. The references may be tracks, fills or polygons. The vertex of the angle is the intersection of the two lines;
+  when the primitives are regenerated, the dimension's location (`XLocation`, `YLocation`) is set to the vertex. When
+  the two lines are parallel, the dimension uses the first line for both and the first reference point as the vertex.
 
 
-  The Sector property denotes which sector the IPCB_AngularDimension is using. Sector 1 is the angle between 0 - 90
-  degrees. 2 = 90 - 180 degrees. 3 = 180 =270 degrees. 4 = 270 = 360 or 0 degrees.
+  The two lines divide the area around the vertex into four sectors. `Sector` selects the sector that is measured and
+  `Radius` the radius of the dimension arc. When the primitives are regenerated, `TextValue` is set to the angle of the
+  sector in degrees; a new angular dimension shows it in degrees (`TextDimensionUnit` is `TDimensionUnit.eDegrees`).
+
+
+  With `TextPosition` set to `TDimensionTextPosition.eTextAuto`, the text and arrowheads are drawn as with
+  `TDimensionTextPosition.eTextRight` and `TDimensionArrowPosition.eOutside` when the measured angle is less than 15
+  degrees, and as with `TDimensionTextPosition.eTextCenter` and `TDimensionArrowPosition.eInside` otherwise.
+
+
+  The text, arcs and tracks that draw the dimension are returned by `Text`, `Arc1`, `Arc2`, `Arrow1_Track1`,
+  `Arrow1_Track2`, `Arrow2_Track1`, `Arrow2_Track2`, `Extension1_Track` and `Extension2_Track`.
+members:
+  Arc1:
+    summary: Returns the first of the two arcs that draw the dimension arc.
+    remarks: >-
+      Both arcs are centered on the vertex, with radius `Radius` and line width `ArrowLineWidth`. With
+      `TDimensionArrowPosition.eInside`, `Arc1` runs from the start of the sector to the text and `Arc2` from the text
+      to the end of the sector; with `TDimensionArrowPosition.eOutside`, each arc runs outside the sector from one end
+      of it to the tail of the arrowhead there.
+  Arc2:
+    summary: Returns the second of the two arcs that draw the dimension arc.
+    remarks: >-
+      Both arcs are centered on the vertex, with radius `Radius` and line width `ArrowLineWidth`. With
+      `TDimensionArrowPosition.eInside`, `Arc1` runs from the start of the sector to the text and `Arc2` from the text
+      to the end of the sector; with `TDimensionArrowPosition.eOutside`, each arc runs outside the sector from one end
+      of it to the tail of the arrowhead there.
+  Arrow1_Track1:
+    summary: Returns one of the two tracks of the arrowhead at the start of the measured sector.
+  Arrow1_Track2:
+    summary: Returns one of the two tracks of the arrowhead at the start of the measured sector.
+  Arrow2_Track1:
+    summary: Returns one of the two tracks of the arrowhead at the end of the measured sector.
+  Arrow2_Track2:
+    summary: Returns one of the two tracks of the arrowhead at the end of the measured sector.
+  Extension1_Track:
+    summary: Returns the extension line from the line that bounds the start of the measured sector to the dimension arc.
+  Extension2_Track:
+    summary: Returns the extension line from the line that bounds the end of the measured sector to the dimension arc.
+  Radius:
+    summary: The radius of the dimension arc, the distance from the vertex of the angle, in internal units (10,000 per
+      mil).
+    remarks: >-
+      The arcs and the arrowheads are drawn at this distance from the vertex. `MoveTextToXY` sets it to the distance
+      from the vertex to the new text position.
+  Sector:
+    summary: Which of the four sectors formed by the two lines the dimension measures, from 1 to 4.
+    remarks: >-
+      Taking the direction of each line from its first reference point to its second, sector 1 is the angle of at most
+      180 degrees between the two directions; sectors 2, 3 and 4 follow counterclockwise, so sector 3 is the angle
+      opposite sector 1. `MoveTextToXY` sets it to the sector that contains the new text position.
+  Text:
+    summary: Returns the text that shows the measured angle.

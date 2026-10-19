@@ -45,8 +45,9 @@ members:
   DM_ParameterCount:
     summary: The method returns the number of parameters this object has.
   DM_Parameters:
-    summary: The method returns the indexed parameter object with the index parameter. Use the IParameter interface to wrap
-      the returned result.
+    summary: Returns the indexed parameter object. Use the IParameter interface to wrap the returned result.
+    parameters:
+      argIndex: The index of the parameter object.
   DM_PCBObjectHandle:
     summary: The method returns the object handle of a PCB object. If void, a null value is returned.
   DM_PrimaryCrossProbeString:

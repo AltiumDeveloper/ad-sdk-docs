@@ -1,69 +1,122 @@
 # PCB.IPCB_Via: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: When tracks from two layers need to be connected, vias are placed to carry a signal from one layer to the
-  other. Vias are like round pads, which are drilled and usually through-plated when the board is fabricated. Vias can
-  be multi-layered, blind or buried.
+summary: A via on a PCB document, a drilled and usually plated hole that carries a signal from one layer to another.
 remarks: >-
-  A multi-layer via passes through the board from the Top layer to the Bottom layer and allows connections to all other
+  Vias are like round pads, which are drilled and usually through-plated when the board is fabricated. Vias can be
+  multi-layered, blind or buried.
+
+
+  A multi-layer via passes through the board from the top layer to the bottom layer and allows connections to all other
   signal layers.
 
 
   A blind via connects from the surface of the board to an internal layer, a buried via connects from one internal layer
-  to another internal layer. In Altium Designer, Vias, including blind and buried, can connect to internal planes.
-
-
-  Vias do not have a paste mask layer.
+  to another internal layer.
 members:
   Cache:
-    summary: This Cache property represents the global cache that stores various design rule settings for pad and via objects.
-  HighLayer:
-    summary: The HighLayer property denotes the top layer.
-  HoleSize:
-    summary: This HoleSize property denotes the hole size of the via object.
-  IsConnectedToPlane:
-    summary: This property determines whether the via is connected to this specified plane or not by returning a boolean value.
-  LowLayer:
-    summary: The LowLayer property denotes the bottom layer.
-  PlaneConnectionStyleForLayer:
-    summary: Vias automatically connect to an internal power plane layer that is assigned the same net name. The via will
-      connect to the plane depending on the applicable Power Plane Connect Style design rule. If you do not want vias to
-      connect to power planes, add another Power Plane Connect Style design rule targeting the specific vias required
-      and with a connection style of No Connect.
+    summary: The via's cache of values derived from design rules, such as solder mask expansion, power plane clearance,
+      relief air gap and relief conductor width.
+    remarks: Assigning a cache does not change the via's tenting settings; they keep their previous values.
+  ClearStackSizes:
+    summary: Removes all per-layer copper sizes stored for the via.
+  DefinitionLayerIterator:
+    summary: Returns an iterator over the layers for which the via has a copper size stored.
+  Height:
+    summary: The vertical length of the via, in internal units (10,000 per mil).
     remarks: >-
-      The Connect Style defines the style of the connection from a pin of a component, targeted by the scope (Full
-      Query) of the rule, to a power plane. The following three styles as per the TPlaneConnectionStyle type are
-      available:
+      For a via without a net it is the distance from the top of `LowLayer` to the bottom of `HighLayer`. For a via in
+      a net it is the distance between the middles of the outermost layers on which tracks, arcs, pads or vias of the
+      same net touch the via; it is 0 when nothing touches the via, and the distance between the middles of
+      `StartLayer` and `StopLayer` when the via is touched on one layer only. Vias placed by via stitching or via
+      shielding have a height of 0.
+  HighLayer:
+    summary: One end layer of the via's span; together with `LowLayer` it defines the layers the via passes through.
+    remarks: >-
+      For a through-hole via, `LowLayer` is the top layer and `HighLayer` is the bottom layer. The two ends can be given
+      in either order: `StartLayer` and `StopLayer` return the upper and the lower of them in the layer stack. Only
+      electrical layers are accepted; assigning any other layer leaves the value unchanged.
+  HoleNegativeTolerance:
+    summary: The negative tolerance of the via's hole size, in internal units (10,000 per mil).
+    remarks: A negative value is stored as its absolute value.
+  HolePositiveTolerance:
+    summary: The positive tolerance of the via's hole size, in internal units (10,000 per mil).
+    remarks: A negative value is stored as its absolute value.
+  HoleSize:
+    summary: The diameter of the via's drilled hole, in internal units (10,000 per mil).
+  IntersectLayer:
+    summary: Returns whether the via passes through the given layer.
+    remarks: >-
+      Returns true for an electrical layer within the via's span from `LowLayer` to `HighLayer`, and for the
+      multi-layer and the keep-out layer; returns false for any other layer.
+  IsConnectedToPlane:
+    summary: Whether the via is connected to the given internal plane layer.
+    remarks: >-
+      Returns false for a layer that is not an internal plane layer, and while the via's plane connections have not
+      been calculated (`PlanesValid` of `Cache` is `TCacheState.eCacheInvalid`). Assigning a value for a layer that is
+      not an internal plane layer does nothing.
+  LowLayer:
+    summary: One end layer of the via's span; together with `HighLayer` it defines the layers the via passes through.
+    remarks: >-
+      For a through-hole via, `LowLayer` is the top layer and `HighLayer` is the bottom layer. The two ends can be given
+      in either order: `StartLayer` and `StopLayer` return the upper and the lower of them in the layer stack. Only
+      electrical layers are accepted; assigning any other layer leaves the value unchanged.
+  Mode:
+    summary: How the via's copper size is defined on its layers.
+    remarks: Assigning `Size` sets the mode to `TPadMode.ePadMode_Simple`.
+    seeAlso:
+      - PCB.TPadMode
+  PlaneConnectionStyleForLayer:
+    summary: Returns how the via connects to the given internal plane layer.
+    remarks: >-
+      The style of the connection comes from the applicable Power Plane Connect Style design rule:
+      `TPlaneConnectionStyle.ePlaneReliefConnect` (a thermal relief connection) or
+      `TPlaneConnectionStyle.ePlaneDirectConnect` (solid copper).
 
 
-      No Connect - do not connect a component pin to the power plane.
-
-
-      Direct Connect - connect using solid copper to the pin.
-
-
-      Relief Connect (default) - connect using a thermal relief connection.
+      The method returns `TPlaneConnectionStyle.ePlaneNoConnect` when the layer is not an internal plane layer, when
+      the via has no net, when the via does not pass through the layer, or when the via is not connected to the plane
+      on that layer.
     seeAlso:
       - PCB.TPlaneConnectionStyle
   RotateAroundXY:
-    summary: This method rotates a via object on the PCB document about the AX, AY coordinates with an angle in degrees. To
-      ensure the via rotates without moving about, pass in its midpoint (between X1,X2 and Y1, Y2) attributes for the
-      AX,AY parameters.
+    summary: Rotates the via about a point.
+    remarks: >-
+      The via's center (`XLocation`, `YLocation`) is moved by the rotation. Passing the via's own center as the point
+      leaves the via where it is.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
   ShapeOnLayer:
-    summary: The via can have different shapes on layers that the via is connected to.
+    summary: The shape of the via on the given layer; a via can have different shapes on the layers it connects.
     seeAlso:
       - PCB.TShape
   Size:
-    summary: The Size property denotes the size of the via object (the full diamater of the via).
+    summary: The diameter of the via, in internal units (10,000 per mil).
+    remarks: >-
+      Reading returns the largest copper size on the signal layers from `StartLayer` to `StopLayer`. Assigning a value
+      greater than 0 gives the via that size on all layers and sets `Mode` to `TPadMode.ePadMode_Simple`; a value of 0
+      or less is ignored.
   SizeOnLayer:
-    summary: This property denotes the size of the via on a specified layer.
+    summary: The copper diameter of the via on the given layer, in internal units (10,000 per mil).
+    remarks: Assigning a value sets `StackSizeOnLayer` for that layer.
+  SolderMaskExpansionFromHoleEdge:
+    summary: Whether the via's solder mask expansion is measured from the edge of the hole instead of the edge of the
+      copper.
+    remarks: >-
+      The setting applies only to a via that reaches the top or bottom layer and whose solder
+      mask expansion is set manually; when the expansion comes from the design rules, the applicable rule decides.
+  StackSizeOnLayer:
+    summary: The copper size stored for the via on the given layer, in internal units (10,000 per mil).
+    remarks: Returns 0 for a layer that is not a signal layer. Assigning `SizeOnLayer` for a layer sets this value.
   StartLayer:
-    summary: This property fetches the start layer of IPCB_LayerObject type that the via is connected to.
+    summary: The upper end layer of the via in the layer stack, the one of `LowLayer` and `HighLayer` that is higher.
     seeAlso:
       - PCB.IPCB_LayerObject
   StopLayer:
-    summary: This property fetches the last layer of IPCB_LayerObject type that the via is connected to.
+    summary: The lower end layer of the via in the layer stack, the one of `LowLayer` and `HighLayer` that is lower.
     seeAlso:
       - PCB.IPCB_LayerObject
   XLocation:
-    summary: The X and Y properties define the location of the Via object with respect to the PCB document.
+    summary: The X coordinate of the via's center, in internal units (10,000 per mil).
   YLocation:
-    summary: The X and Y properties define the location of the Via object with respect to the PCB document.
+    summary: The Y coordinate of the via's center, in internal units (10,000 per mil).

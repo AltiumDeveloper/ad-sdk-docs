@@ -48,7 +48,7 @@ members:
   LaunchCommand:
     summary: This method launches a command from a server module or from Client. (Client also has its own command launcher
       table since Client has its own processes as well).
-    remarks: The AContext parameter denotes which IServerDocumentView interface to launch the process onto. If the command
-      can be launched, the method returns a true value.
+    parameters:
+      argContext: The IServerDocumentView interface to launch the process onto.
     seeAlso:
       - DXP.IServerDocumentView

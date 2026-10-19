@@ -13,7 +13,7 @@ remarks: >-
   IServerModule interface along with the ISch_ServerInterface interface.
 
 
-  Invoke the SchServer method to obtain the ISch_ServerInterface object interface which represents the Schematic Editor
+  Read `SCH.GlobalVars.SchServer` to obtain the ISch_ServerInterface object interface which represents the Schematic Editor
   server.
 members:
   CreateComponentMetafilePainter:
@@ -81,7 +81,7 @@ members:
     summary: The SchObjectFactory method creates a new object based on TObjectID and TObjectCreationMode values.
     remarks: When you wish to create a new design object with the ISch_ServerInterface's SchObjectFactory method, you will
       need to have a specific design object type, assign this object with new attribute values and register this object
-      with in the schematic document with the ISch_Document's RegisterSchObjectInContainer method.
+      with in the schematic document with the `ISch_Document.RegisterSchObjectInContainer` method.
     seeAlso:
       - SCH.TObjectCreationMode
   SchPreferences:

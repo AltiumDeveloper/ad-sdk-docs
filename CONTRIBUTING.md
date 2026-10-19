@@ -76,6 +76,7 @@ request.
 | --- | --- | --- |
 | The assemblies (`npm run api`, the generated pages) | what exists: names, signatures, types, enum values, constants, inheritance | Authoritative for the API surface. Never describe something that is not there. |
 | Knowledge of the SDK's implementation (Altium SDK developers) | behaviour, intent, constraints | Say who confirmed it. |
+| The Altium Designer source code (Altium developers with access) | behaviour: what a member does, units, defaults, edge cases | Cite file and line in the pull request, never in the page. Describe only what a caller can observe, not internal names. The current implementation wins over existing descriptions. |
 | Running code in Altium Designer | behaviour you observed | Give the Altium Designer version and what you ran. |
 | The [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) | how an API is used in practice | Supporting evidence: the examples have not all been verified. |
 | Existing descriptions | context | They came from earlier documentation and can be outdated or wrong. If you find a contradiction, fix it with better evidence or open an issue; do not guess. |
@@ -109,11 +110,16 @@ Never put caveats such as "this is not documented" or "probably" into a page.
        summary: ...
        remarks: ...
        seeAlso: [SCH.TRotationBy90, SCH.ISch_Component.OrientationWithoutRotating]
+     GetObjectAtXYAskUserIfAmbiguous:
+       parameters:         # one entry per parameter, by the name in the parameter table
+         argHitX: The X coordinate, in internal units (10,000 per mil).
    values:                 # enumerations only, one entry per value
      eRotate90: ...
    ```
 
-   `seeAlso` entries are type ids (`SCH.TRotationBy90`) or `<type id>.<member key>`.
+   `seeAlso` entries are type ids (`SCH.TRotationBy90`) or `<type id>.<member key>`. Parameter keys are the names
+   in the page's parameter table (`argHitX`, often with an `arg` prefix); describe parameters only there, not in the
+   summary or remarks.
 4. **Check:** `npm test && npm run apidocs`, then look at the page in `npm start`.
 
 `npm run apidocs` fails if a key does not match a type or member: you mistyped it, or the API was renamed. Fix the key;

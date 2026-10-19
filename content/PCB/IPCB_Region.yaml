@@ -1,9 +1,53 @@
 # PCB.IPCB_Region: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Region interface represents a solid polygon pour as the region object. This region object allows the
-  creation of multi sided polygon regions on the PCB. The region object can also be used to create polygonal shaped
-  fills in PCB footprints.
-remarks: You can use IPCB_Primitive methods and properties that are relevant to the IPCB_Region interface.
+summary: A solid polygonal region on a PCB document, such as a copper region, a cutout, a named region, a board cutout
+  or a cavity.
+remarks: >-
+  A region can also be used in a footprint as a fill of any polygonal shape. `Kind` determines what the region is.
+
+
+  The shape of a region is an outline contour with any number of hole contours: `GetMainContour` returns the outline,
+  `GetHoleCount` and `GetHole` the holes, and `GeometricPolygon` the whole shape.
 members:
+  Area:
+    summary: The area enclosed by the region's outline.
+    remarks: >-
+      The value is recalculated from the current shape each time it is read. Only the outline contour is measured: the
+      areas of the holes are not subtracted.
+  CavityHeight:
+    summary: The region's cavity height, in internal units (10,000 per mil).
+  GeometricPolygon:
+    summary: The region's shape as a geometric polygon, with the outline and all holes.
+    remarks: >-
+      Assigning a polygon replaces the region's outline and all its holes with a copy of the polygon's contours; the
+      first contour that is not a hole becomes the outline. `Area` is recalculated.
+  GetHole:
+    summary: Returns a hole contour of the region.
+    parameters:
+      argI: The zero-based index of the hole, from 0 to `GetHoleCount` minus 1.
+  GetHoleCount:
+    summary: Returns the number of hole contours in the region.
+    remarks: The value is one less than the number of contours of the shape, so it is -1 for a region without an outline.
+  GetMainContour:
+    summary: Returns the outline contour of the region.
+  IsSimpleRegion:
+    summary: Returns whether the region is an ordinary region rather than a board region.
+    remarks: Returns false for a board region (`IPCB_BoardRegion`) and true for every other region.
   Kind:
+    summary: The kind of the region, which determines what it is on the board.
+    remarks: The default is `TRegionKind.eRegionKind_Copper`.
     seeAlso:
       - PCB.TRegionKind
+  Name:
+    summary: The region's name.
+  RotateAroundXY:
+    summary: Rotates the region about the given point.
+    remarks: The outline and all holes of the region are rotated.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
+  SetOutlineContour:
+    summary: Replaces the region's outline with the given contour.
+    remarks: All holes of the region are removed, and `Area` is recalculated.
+    parameters:
+      argContour: The new outline contour.

@@ -1,0 +1,33 @@
+# PCB.IPCB_LayerObject_V7: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An electrical layer of a board in the version 7 layer model, deprecated, together with the dielectric below
+  it.
+remarks: >-
+  `IPCB_LayerStack_V7.FirstLayer`, `IPCB_LayerStack_V7.NextLayer`, `IPCB_LayerStack_V7.LayerObject` and the other
+  layer members of `IPCB_LayerStack_V7` return it. It adds to the members of `IPCB_ElectricalLayer` the dielectric
+  below the layer and whether the layer is shown in the view of a board.
+members:
+  Dielectric:
+    summary: Returns the dielectric below the layer, which combines the dielectric layers that directly follow it in the
+      layer stack.
+    remarks: >-
+      The combined dielectric layers run up to the next layer that is not a dielectric layer or that is a coverlay
+      layer. `DielectricHeight` is their total height. `DielectricMaterial` is their common material, or
+      `Composite dielectric` when their materials differ; `DielectricType` is their common type, or
+      `TDielectricType.eCore` when their types differ. A layer with an empty material or the type
+      `TDielectricType.eNoDielectric` does not count for these two values. Setting `DielectricHeight` on the returned object distributes the new height over those layers in proportion to
+      their heights; setting `DielectricMaterial`, `DielectricType` or `DielectricConstant` sets the value on each of
+      them.
+
+
+      For a layer that is not in a layer stack, and for the bottom layer when no dielectric layer follows it, the
+      returned object has default values: the material `FR-4`, a height of 126,000 internal units (12.6 mil), a
+      dielectric constant of 4.8 and the type `TDielectricType.eNoDielectric`.
+  IsDisplayed:
+    summary: Whether the layer is shown in the view of a board.
+    remarks: >-
+      Reads false when the board is null; setting the property then has no effect. The SDK examples set it and then call
+      `IPCB_Board.Update_PCBGraphicalView` to show the change.
+    parameters:
+      argBoard: The board whose view is read or changed.
+  LayerId:
+    summary: Returns the layer ID of the layer as a `TV6_Layer` value, the same value as `V6_LayerID`.

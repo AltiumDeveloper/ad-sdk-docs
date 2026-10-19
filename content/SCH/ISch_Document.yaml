@@ -38,7 +38,9 @@ members:
       TCoordRect type) for the Spatial iterator where it needs the bounds of a rectangle on the schematic document to
       search within.
   CountContextMenuObjects:
-    summary: The method counts the contextual objects based on the AObjectSet parameter of TObjectSet type.
+    summary: The method counts the contextual objects based on an object set.
+    parameters:
+      argObjectSet: The object set the contextual objects are counted by.
     seeAlso:
       - SCH.TObjectSet
   CreateHitTest:
@@ -51,9 +53,10 @@ members:
       - SCH.THitTestMode
       - SCH.ISch_Document.ChooseLocationInteractively
   CreateLibraryFromProject:
-    summary: This method creates a schematic library based on the components on a schematic project. If AddLibToProject
-      parameter is set to true, then the created library is put in the same project where the components are in. The
-      RunQuiet parameter set to true avoids the Information dialog from coming up.
+    summary: This method creates a schematic library based on the components on a schematic project.
+    parameters:
+      argddLibToProject: If true, the created library is put in the same project where the components are in.
+      argRunQuiet: If true, the Information dialog does not come up.
   CustomMarginWidth:
     summary: The CustomMarginWidth property sets the margin from the bounds of the schematic sheet inwards.
     remarks: The UseCustomSheet property must be set to true before you can massage the attributes for the custom style of

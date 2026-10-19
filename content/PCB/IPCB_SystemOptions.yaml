@@ -1,3 +1,56 @@
 # PCB.IPCB_SystemOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_SystemOptions interface represents the global system options in the PCB Editor server.
-remarks: Derived from IPCB_AbstractOptions interface
+summary: The global settings of the PCB Editor, returned by `IPCB_ServerInterface.SystemOptions`.
+remarks: >-
+  The interface extends `IPCB_AbstractOptions`. `Export_ToParameters_Version3` and `Import_FromParameters_Version3`
+  handle only part of the settings, with the per-layer settings in the version 3 layer numbering.
+members:
+  AmbiguityThreshold:
+    remarks: Reading always returns 0; setting the property does nothing.
+  DoOnlineDRC:
+    summary: Whether online design rule checking is on.
+    remarks: When false, objects are not checked against the online design rules as they change.
+  DraftTrackThreshold:
+    summary: >-
+      The width at or below which tracks and arcs drawn in outline form are drawn as a single thin line instead, in
+      internal units (10,000 per mil).
+  DrawMode:
+    summary: The draw mode of one kind of object in the PCB document of the active view.
+    remarks: >-
+      When the active view does not show a PCB document, reading returns `TDrawMode.eDrawFull` and setting the
+      property does nothing.
+    parameters:
+      argOId: The kind of object.
+  Export_ToIniFile:
+    summary: Saves the system options to the stored preferences of the PCB Editor.
+    remarks: It replaces the stored system options.
+  FromTosDisplayMode:
+    remarks: >-
+      Reading always returns `TFromToDisplayMode.eFromToDisplayMode_Automatic`; setting the property does nothing.
+  Import_FromIniFile:
+    summary: Loads the system options from the stored preferences of the PCB Editor.
+  LayerColors:
+    remarks: Reads and writes the same colour as `LayerColors_V7` for the same layer.
+  PadTypesDisplayMode:
+    remarks: >-
+      Reading always returns `TFromToDisplayMode.eFromToDisplayMode_Automatic`; setting the property does nothing.
+  PadViaMinFontSize:
+    summary: The size of the pad and via font, the font named by `PadViaFontName`.
+  PolygonRepour:
+    remarks: >-
+      Setting `TPolygonRepourMode.eAlwaysRepour` stores that value; any other value is stored as
+      `TPolygonRepourMode.eNeverRepour`.
+  RotationStep:
+    summary: >-
+      The angle, in degrees, by which the object being moved or placed is rotated when Space is pressed (Shift+Space
+      rotates it the other way).
+  SingleLayerMode:
+    summary: Whether single layer mode is on.
+    remarks: >-
+      Reading returns the state for PCB library documents when the active view shows a PCB library, and the state for
+      PCB documents otherwise. Setting true turns on single layer mode with the other layers hidden for both PCB and
+      PCB library documents; setting false turns it off for both.
+  UndoRedoStackSize:
+    summary: The size of the undo stack of the PCB Editor.
+    remarks: The value is fixed by the product; setting the property does nothing.
+  UseNetColorForHighlight:
+    remarks: Reading always returns false; setting the property does nothing.

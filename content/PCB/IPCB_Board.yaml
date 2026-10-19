@@ -1,54 +1,65 @@
 # PCB.IPCB_Board: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_Board interface encapsulates an opened PCB document in Altium Designer and from this board interface
-  object, you can add, delete PCB design objects, find out which layers are used and so on.
+summary: An open PCB document, through which you add and delete design objects, find out which layers are used and so on.
 remarks: >-
-  The IPCB_Board interface has iterative methods and interactive feedback methods. Basically you can retrieve an object
-  interface for the PCB design object on the PCB that was clicked on. You can also retrieve the coordinates based on the
-  mouse click on the PCB and also you can conduct defined searches on a PCB document with the parameters you have set up
-  for the iterator. Refer to the Iterators section for more details.
+  A PCB library document also has a board (`IPCB_Library.Board`): the library holds a list of footprints
+  (`IPCB_LibComponent`, components with unnamed designators), and each footprint is shown on the library's board.
 
 
-  This IPCB_Board is also used in the IPCB_Library interface. A library document is a bit more complex because it has a
-  list of footprints (components with unnamed designators) and each footprint is shown in a PCB Library document. There
-  is a three way relationship: the IPCB_Board , the IPCB_LibComponent and the IPCB_Library interfaces that all work
-  together for the PCB library document.
+  Check that the PCB server exists and that there is a PCB document before you call any PCB interface methods.
 
 
-  Check if the PCB server exists and if there is a PCB document before you invoke any PCB interface methods.
+  To add a new object, create it with `IPCB_ServerInterface.PCBObjectFactory` and add it with `AddPCBObject`.
 
 
-  Some properties are only read only, meaning you can only retrieve data from property but not modify the data.
+  To look for objects, use a board iterator (`BoardIterator_Create`), a spatial iterator (`SpatialIterator_Create`), a
+  group iterator (`IPCB_Group.GroupIterator_Create`) or, on a PCB library document, a library iterator
+  (`IPCB_Library.LibraryIterator_Create`).
 
 
-  To create a new object and add to the board object, firstly invoke the PCBObjectFactory from the IPCB_ServerInterface
-  interface and then invoke the AddPCBObject method from a IPCB_Board interface.
-
-
-  To look for objects on a PCB document, use one of the following iterators; Board Iterator, Group Iterator, Spatial
-  iterator or a library iterator for PCB Library documents.
-
-
-  Interactive feedback from the board can be done with the following methods: GetObjectAtCursor ,
-  GetObjectAtXYAskUserIfAmbiguous , ChooseRectangleByCorners and ChooseLocation methods.
+  The interactive methods `GetObjectAtCursor`, `GetObjectAtXYAskUserIfAmbiguous`, `ChooseRectangleByCorners` and
+  `ChooseLocation` return the object or the coordinates that the user clicks on.
 members:
+  AddObjectToHighlightObjectList:
+    summary: Adds a primitive to the board's list of objects to highlight.
+    seeAlso:
+      - PCB.IPCB_Board.Navigate_HighlightObjectList
   AddPCBObject:
-    summary: The AddPCBObject method adds a new Design Object into the PCB document after this object was created by the
-      PCBObjectFactory method from the IPCB_ServerInterface interface.
-    remarks: To successfully create and register a PCB design object onto a PCB document, you need to employ the
-      IPCB_PCBServer's PreProcess, PostProcess and SendMessageToRobots messages. A ViewManager_FullUpdate
+    summary: Adds an object created with `IPCB_ServerInterface.PCBObjectFactory` to the board.
+    remarks: >-
+      Does nothing when the object is null. When the board is fully loaded, references that the object holds to a
+      component, net, polygon, dimension or coordinate of another board are cleared before it is added.
+
+
+      A rule (`IPCB_Rule`) without a name is named after its kind, for example Clearance. When the name is already
+      used by another rule of the board, trailing digits and underscores are removed from it and an underscore and a
+      number are appended that make it unique.
+
+
+      On a PCB library board, adding an `IPCB_LibComponent` inserts a copy of that footprint into the library; the
+      object passed in is not added itself.
+
+
+      Make the change between `IPCB_ServerInterface.PreProcess` and `IPCB_ServerInterface.PostProcess`, then refresh
+      the document with `ViewManager_FullUpdate` (see the example).
+
+
+      The examples assign the board to the new object (`IPCB_Primitive.Board`) and set its layer and location before
+      adding it, and redraw the view with `GraphicalView_ZoomRedraw` afterwards. Rules created with
+      `IPCB_ServerInterface.PCBRuleFactory` are added in the same way.
   AnalyzeNet:
     summary: This method analyzes a supplied net object in the form of IPCB_Net interface.
+    remarks: Does nothing when the argument is null or is not a net.
   AutomaticSplitPlanes:
-    summary: The AutomaticSplitPlanes property returns you the boolean value whether the split planes are system generated
-      automatically or not.
+    summary: Whether split planes are generated automatically; always `true`.
+    remarks: Setting the property has no effect.
   BigVisibleGridSize:
-    summary: This property retrieves or sets the Big Visible Grid Size in TReal type. This Grid Size is used for reference
-      purposes and there are two visible grids.
+    summary: The size of the big (coarse) visible grid. This grid is used for reference purposes and there are two
+      visible grids.
     seeAlso:
       - PCB.IPCB_Board.VisibleGridSize
   BigVisibleGridUnit:
-    summary: This property retrieves or sets the big visible grid's measurement units in Imperial or Metric units. There are
-      two visible grids to use for reference purposes.
+    summary: The measurement unit of the big (coarse) visible grid, imperial or metric. There are two visible grids to
+      use for reference purposes.
     seeAlso:
       - PCB.IPCB_Board.VisibleGridUnit
       - PCB.TUnit
@@ -56,21 +67,35 @@ members:
     summary: The BoardIterator_Create method creates a board iterator which is used to search for design objects on the PCB
       document. After the search has been conducted, invoke the BoardIterator_Destroy method to destroy the board
       iterator object.
+    remarks: >-
+      The examples set the filters with `IPCB_AbstractIterator.AddFilter_ObjectSet`,
+      `IPCB_AbstractIterator.AddFilter_LayerSet` and `IPCB_BoardIterator.AddFilter_Method`, walk the objects with
+      `IPCB_AbstractIterator.FirstPCBObject` and `IPCB_AbstractIterator.NextPCBObject`, and call `BoardIterator_Destroy`
+      in a `finally` block.
   BoardIterator_Destroy:
     summary: The BoardIterator_Destroy method destroys the board iterator object after it has been used to conduct a search
       on the PCB document for specified board objects.
+    remarks: The variable passed by reference is set to null.
   BoardOutline:
     summary: The Board Outline represents the board outline which encompasses a board design on a PCB document. The board
       outline is represented by the IPCB_BoardOutline interface and inherited from the IPCB_Polygon interface because
       the Board Outline is composed of vertices (tracks and arcs only).
+    remarks: To get the size of the board, the examples take the outline's `IPCB_Primitive.BoundingRectangle` (in
+      internal units).
     seeAlso:
       - PCB.IPCB_BoardOutline
+  BoardVersion:
+    summary: The file format version that was read from the board's file.
   ChooseLocation:
     summary: The method returns you the X1 and Y1 coordinates of the PCB Document after you have clicked on a location on
-      the PCB document. When this method is excuted, you are prompted with a cross hair cursor (being in the interactive
+      the PCB document. When this method is executed, you are prompted with a cross hair cursor (being in the interactive
       mode) and the status bar of the Altium Designer appears with the Prompt string.
-    remarks: This method returns a boolean value whether a location has been retrieved or not. if you click Escape key for
-      example, the method does not return the location values and returns a false value.
+    remarks: >-
+      Returns whether a location was chosen; if you press the Escape key, the method returns false.
+
+
+      The coordinates are in internal units (10,000 per mil) and are set to 0 before the prompt. When the board has no
+      view, the method returns false without prompting.
   ChooseRectangleByCorners:
     summary: The ChooseRectangleByCorners method prompts you twice to choose the two sets of coordinates that define a
       boundary rectangle on the PCB document. When this method is executed, the PCB is in interactive mode with a cross
@@ -82,53 +107,72 @@ members:
 
       However if the method was exit prematurely for example the user clicks Escape key or the right mouse button, the
       method returns a false value.
+
+
+      The coordinates are in internal units (10,000 per mil) and are set to 0 before the prompts. When the board has no
+      view, the method returns false without prompting.
     seeAlso:
       - PCB.IPCB_SpatialIterator
       - PCB.IPCB_Board.ChooseLocation
   CleanNet:
-    summary: The CleanNet method cleans up the net represented by the IPCB_Net parameter. It cleans up by re-organizing and
-      re-arranging the net topology of this net.
+    summary: Cleans up a net by re-organizing and re-arranging its net topology.
+    remarks: Does nothing when the argument is null or is not a net.
+    parameters:
+      argNet: The net to clean up.
   ClearUndoRedo:
-    summary: This clears out the UndoRedo facility in the PCB editor.
+    summary: Has no effect.
   ComponentGridSize:
-    summary: This property represents the component grid size for components to be accurately placed on. This component grid
-      size sets the X and Y values simultaneously. If you wish to define different X and Y grid sizes, then use the
-      ComponentGridSizeX and ComponentGridSizeY properties.
+    summary: The component placement grid size, for X and Y together.
+    remarks: Setting the property has no effect.
     seeAlso:
       - PCB.IPCB_Board.ComponentGridSizeX
       - PCB.IPCB_Board.ComponentGridSizeY
   ComponentGridSizeX:
-    summary: This property represents the component grid size for components to be accurately placed on. To define different
-      X and Y grid sizes, use the ComponentGridSizeX and ComponentGridSizeY properties, otherwise to set the same values
-      for the component grid sizes X and Y simultaneously.
+    summary: The X size of the component placement grid.
+    remarks: Setting the property has no effect.
     seeAlso:
       - PCB.IPCB_Board.ComponentGridSize
       - PCB.IPCB_Board.ComponentGridSizeY
   ComponentGridSizeY:
-    summary: This property represents the component grid size for components to be accurately placed on. To define different
-      X and Y grid sizes, use the ComponentGridSizeX and ComponentGridSizeY properties, otherwise to set the same values
-      for the component grid sizes X and Y simultaneously.
+    summary: The Y size of the component placement grid.
+    remarks: Setting the property has no effect.
+    seeAlso:
+      - PCB.IPCB_Board.ComponentGridSize
+      - PCB.IPCB_Board.ComponentGridSizeX
   ConnectivelyValidateNets:
     summary: This method validates the connectivity of nets on the PCB document.
+  ContextMenuObjectCount:
+    summary: Returns the number of objects of the given kind that the context menu of the board's view applies to.
+    remarks: Returns 0 when the board has no view.
   CreateBoardOutline:
-    summary: The method creates a board outline represented by the IPCB_BoardOutline interface. To adjust the parameters of
-      the Board outline, please consult the IPCB_BoardOutline interface entry.
+    summary: Creates a board outline with default settings, makes it the outline of the board and returns it.
+    remarks: To adjust the parameters of the board outline, see the IPCB_BoardOutline interface.
     seeAlso:
       - PCB.IPCB_BoardOutline
   CurrentLayer:
     summary: This property denotes the current PCB layer being displayed in the PCB workspace in Altium Designer.
+    remarks: Read-only; set `CurrentLayerV7` to change the current layer.
+  CurrentLayerV7:
+    summary: The current layer of the board's view.
+    remarks: Reads no layer when the board has no view; setting the property then has no effect.
   DisplayUnit:
     summary: This property retrieves or sets the measurement units for the PCB document display purposes in Imperial or
       Metric units.
+    remarks: Setting the property also updates the cursor coordinates shown on the status bar.
+  DispatchMessage:
+    summary: Sends a PCB message with a source, a destination and message data to the board's message handlers.
+    remarks: In the overload that takes `IPCB_Primitive` arguments, a null source, destination or data object is sent as
+      no object.
   DoRedo:
-    summary: This method invokes the Redo facility in the PCB editor.
+    summary: Has no effect.
   DoUndo:
-    summary: This method invokes the Undo facility in the PCB editor.
+    summary: Has no effect.
   DrawDotGrid:
-    summary: This property denotes whether the grid has dotted or continuous lines.
+    summary: Whether the grid is drawn as dots (`true`) or as continuous lines (`false`).
   DrillLayerPairsCount:
     summary: This property returns the number of drill layer pairs for the board. A drill layer pair is represented by the
       IPCB_DrillLayerPair interface.
+    remarks: Read each pair with `LayerPair`, at indexes 0 to `DrillLayerPairsCount` - 1.
     seeAlso:
       - PCB.IPCB_Board.LayerPair
       - PCB.IPCB_DrillLayerPair
@@ -138,35 +182,40 @@ members:
     seeAlso:
       - PCB.IPCB_ECOOptions
   EnableAllPrimitives:
-    summary: This method enables all primitives on the PCB document.
+    summary: Enables or disables all primitives on the PCB document.
+    remarks: >-
+      Sets `IPCB_Primitive.Enabled` of every primitive, and of the board outline, to the argument, and clears the
+      highlighting. On a PCB library board it applies to the primitives of all footprints.
   EndUndo:
-    summary: This method ends the Undo process in the PCB editor.
+    summary: Has no effect.
   FileName:
     summary: The FileName property denotes the filename of the PCB document that the IPCB_Board interface is associated
       with. The Filename property is read only, which means you can retrieve the filename string only.
   FindDominantRuleForObject:
-    summary: This method returns the dominant specified rule for the primitive which is targetted by this rule.
+    summary: This method returns the dominant specified rule for the primitive which is targeted by this rule.
+    remarks: Returns null when the primitive is null.
   FindDominantRuleForObjectPair:
-    summary: This method returns the dominant specified binary rule for the two primitives which are targetted by this rule.
+    summary: This method returns the dominant specified binary rule for the two primitives which are targeted by this rule.
+    remarks: Returns null when either primitive is null or belongs to another board.
+  FindLinkedBoardTemplate:
+    summary: Returns the pad and via template that a primitive, for example a pad, is linked to.
+    remarks: The examples treat null as "not linked"; otherwise they read the template's `IPCB_PadViaTemplate.LibraryID`,
+      `IPCB_PadViaTemplate.TemplateID`, `IPCB_PadViaTemplate.RevisionID`, `IPCB_PadViaTemplate.TemplateName` and
+      `IPCB_PadViaTemplate.TemplateDescription`.
   GerberOptions:
     summary: This property returns you the IPCB_GerberOptions interface which represents the Options for the Gerbers
       facility in the PCB editor.
     seeAlso:
       - PCB.IPCB_GerberOptions
   GetObjectAtCursor:
-    summary: This method returns the design object that is within the mouse's clicked coordinates on the PCB document.
+    summary: Asks the user to click on the PCB document and returns the design object at the clicked point.
     remarks: >-
-      Parameters:
-
-
-      The ObjectSet parameter specifies which object types can be returned.
-
-
-      The LayerSet parameter specifies the objects on which layers that can be returned.
-
-
-      The StatusbarText parameter specifies the text on the status bar of the Altium Designer application when the
-      method is invoked.
+      The prompt repeats until the user clicks an object that matches the object set and the layer set, or cancels; when
+      several objects overlap, the user chooses one. Returns null when the user cancels or when the board has no view.
+    parameters:
+      argObjectSet: The object types that can be returned.
+      argLayerSet: The layers whose objects can be returned.
+      argStatusBarText: The text on the status bar of the Altium Designer application when the method is invoked.
   GetObjectAtXYAskUserIfAmbiguous:
     summary: This method returns you the specified object with the specified X and Y coordinates which could be retrieved by
       the ChooseLocation method for example.
@@ -175,83 +224,102 @@ members:
       object type.
 
 
-      The method returns the design object with the following parameters.
-
-
-      Parameters:
-
-
-      The HitX parameter specifies the X coordinate value.
-
-
-      The HitY parameter specifies the Y coordinate value.
-
-
-      The ObjectSet parameter specifies which object types can be returned.
-
-
-      The LayerSet parameter specifies the objects on which layers that can be returned.
-
-
-      The Action parameter specifies what is happening when this method is invoked.
+      Returns null when the board has no view. The examples get the point with `ChooseLocation`, pass
+      `TEditingAction.eEditAction_Select`, and stop when the result is null.
+    parameters:
+      argHitX: The X coordinate, in internal units (10,000 per mil).
+      argHitY: The Y coordinate, in internal units (10,000 per mil).
+      argObjectSet: The object types that can be returned.
+      argLayerSet: The layers whose objects can be returned.
+      argction: What is happening when the method is invoked.
     seeAlso:
       - PCB.IPCB_Board.ChooseLocation
       - PCB.TObjectSet
       - PCB.TEditingAction
   GetPcbComponentByRefDes:
-    summary: This method returns the component by its valid reference designator.
+    summary: Returns the component with the given designator, or null when the board has none.
   GetPrimitiveCount:
-    summary: The method returns the number of primitives which is dependent on the parameters supplied - the object kinds to
-      look for, which layers to look for and how the search is conducted.
-    remarks: |-
-      The ObjectSet parameter specifies which object types can be returned.
-
-      The LayerSet parameter specifies the objects on which layers that can be returned.
-
-      The AMethod parameter specifies how the search is conducted.
+    summary: Returns the number of primitives that match the object kinds, the layers and the search method supplied.
+    parameters:
+      argObjSet: The object kinds to look for.
+      argLayerSet: The layers to look in.
+      argMethod: How the search is conducted.
     seeAlso:
       - PCB.TObjectSet
       - PCB.TIterationMethod
   GetPrimitiveCounter:
-    summary: The IPCB_PrimitiveCounter interface gives you the means of obtaining the hole count and string count for the
-      focussed PCB document.
-    remarks: The IPCB_PrimitiveCounter interface gives you the means of obtaining the object count, hole count and string
-      count for the focussed PCB document via the IPCB_Board's PrimitiveCounter property.
+    summary: Returns the primitive counter of the board, which gives the object count, hole count and string count of the
+      PCB document.
     seeAlso:
       - PCB.IPCB_PrimitiveCounter
+  GraphicalView_ZoomRedraw:
+    summary: Redraws the board's view.
+    remarks: The examples call it right after `AddPCBObject` to show the new object.
   HidePCBObject:
     summary: This method hides the specified object on the PCB document from view.
+    remarks: Does nothing when the object is null or belongs to another board.
     seeAlso:
       - PCB.IPCB_Board.InvertPCBObject
       - PCB.IPCB_Board.ShowPCBObject
   InternalPlane1NetName:
-    summary: This property represents the Internal Plane 1 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 1.
+    remarks: Empty when the board has no internal plane 1; setting the property then has no effect.
   InternalPlane2NetName:
-    summary: This property represents the Internal Plane 2 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 2.
+    remarks: Empty when the board has no internal plane 2; setting the property then has no effect.
   InternalPlane3NetName:
-    summary: This property represents the Internal Plane 3 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 3.
+    remarks: Empty when the board has no internal plane 3; setting the property then has no effect.
   InternalPlane4NetName:
-    summary: This property represents the Internal Plane 1 Netname (for P99SE and earlier products).
+    summary: The net name of internal plane 4.
+    remarks: Empty when the board has no internal plane 4; setting the property then has no effect.
+  InternalPlaneLayerIterator:
+    summary: Returns an iterator over the internal plane layers of the board.
+    remarks: The examples call `IPCB_LayerIterator.SetBeforeFirst`, then `IPCB_LayerIterator.Next` in a loop, and read
+      each layer with `IPCB_LayerIterator.Layer`.
   InternalPlaneNetName:
-    summary: This property returns or sets the net name for the targetted internal plane.
+    summary: This property returns or sets the net name for the targeted internal plane.
+    remarks: Empty when the layer is not an internal plane in the board's layer stack; setting the property then has no
+      effect.
   InvertPCBObject:
     summary: This method inverts the colors of the specified object on the PCB document.
+    remarks: Does nothing when the object is null or belongs to another board.
     seeAlso:
       - PCB.IPCB_Board.ShowPCBObject
       - PCB.IPCB_Board.HidePCBObject
   LayerColor:
-    summary: This property returns the layer color of TColorRef type.
+    summary: The display colour of a layer.
+    remarks: The colour comes from the application's layer colour settings, so it is the same for every board.
   LayerIsDisplayed:
-    summary: The LayerIsDisplayed property controls the display of layers for the PCB document. You can fetch or set the
+    summary: Whether a layer is shown in the board's view.
+    remarks: Setting the property has no effect for a layer that is not in the board's layer stack, or when the board
+      has no view.
+    seeAlso:
+      - PCB.IPCB_Board.LayerIsUsed
   LayerIsUsed:
     summary: This property retrieves or sets the boolean value for whether the layer is used by primitives or not. Normally
       when a layer has primitives (design objects) on it, the layer is used.
+    remarks: >-
+      Reads `false` for a layer that is not in the board's layer stack; setting the property then has no effect.
+
+
+      After creating a layer with `IPCB_MasterLayerStack.CreateLayer`, the examples make it appear by setting
+      `LayerIsUsed` and then `LayerIsDisplayed` to `true`.
+  LayerName:
+    summary: Returns the name of a layer.
+    remarks: When the board has more than one substack (`IPCB_MasterLayerStack.SubstackCount`), the name is taken from
+      the first substack.
   LayerPair:
     summary: This property returns you the layer pair associated with the IPCB_DrillLayerPair interface. A drill layer pair
       has two drill layers.
+    remarks: Null when the index is outside 0 to `DrillLayerPairsCount` - 1.
+  LayerPairByPair:
+    summary: "Deprecated: use `LayerPairByPairEx`."
   LayerPositionInSet:
     summary: This method returns a positive value with 1 being the first layer and a higher number being the lower layer in
       the list. This method is useful for checking low and high layers of a layer pair.
+    remarks: Only the layers of the set are counted, from the top of the layer stack. Returns 0 when the layer object is
+      null or its layer is not in the set.
     seeAlso:
       - PCB.IPCB_LayerObject
       - PCB.IPCB_DrillLayerPair
@@ -261,10 +329,25 @@ members:
     seeAlso:
       - PCB.IPCB_LayerStack
       - PCB.IPCB_LayerObject
+  LayerStack_V7:
+    summary: The master layer stack of the board, the same stack as `MasterStack`, as an `IPCB_LayerStack_V7`.
+    remarks: The examples walk its layers with `IPCB_LayerStack_V7.FirstLayer` and `IPCB_LayerStack_V7.NextLayer`, change
+      a layer's `IPCB_LayerObject_V7.IsDisplayed`, and then call `Update_PCBGraphicalView` to show the change.
+  MainGraphicalView:
+    summary: The graphical view of the board.
+    remarks: The examples read and set the 3D camera of this view with `IPCB_GraphicalView.GetState_Camera` and
+      `IPCB_GraphicalView.Camera`.
+  MechanicalLayerIterator:
+    summary: Returns an iterator over the mechanical layers of the board.
+    remarks: The examples walk it with `IPCB_LayerIterator.First` and `IPCB_LayerIterator.Next` and read each layer with
+      `IPCB_LayerObjectIterator.LayerObject`, as an `IPCB_MechanicalLayer`.
   MechanicalPairs:
-    summary: There are 16 general purpose mechanical layers for defining the board layout, placing dimensions on, including
-      fabrication details on, or any other mechanical details the design requires.
+    summary: The mechanical layer pairs of the board, as an `IPCB_MechanicalLayerPairs`.
     remarks: >-
+      There are 16 general purpose mechanical layers for defining the board layout, placing dimensions on, including
+      fabrication details on, or any other mechanical details the design requires.
+
+
       The purpose of the IPCB_MechanicalLayerPairs Interface is to provide which Mechanical layers are paired to one
       another.
 
@@ -274,8 +357,18 @@ members:
       just like objects on the non-Mechanical layers which have always been paired to one another, along with the Top
       and Bottom (copper) layers, the Top and Bottom Overlay layers, the Top and Bottom Paste Mask layers, and the Top
       and Bottom Solder Mask layers.
+  Navigate_HighlightObjectList:
+    summary: Highlights the objects in the board's highlight list with the given highlight methods.
+    remarks: The assigned value says whether the existing highlighting is cleared first.
+    seeAlso:
+      - PCB.IPCB_Board.AddObjectToHighlightObjectList
+  Navigate_RedrawChangedObjectsInBoard:
+    summary: Has no effect.
+  NetNameIsUnique:
+    summary: Returns whether no other net on the board has the given name.
+    remarks: The net passed in may itself have the name. Returns `false` for an empty name.
   NewUndo:
-    summary: This method creates a new undo process in the PCB editor.
+    summary: Has no effect.
   OutputOptions:
     summary: This property returns you the IPCB_OutputOptions interface which represents the Options for the Output facility
       in the PCB editor.
@@ -286,24 +379,49 @@ members:
       encapsulates the sheet borders, the fabrication and assembly information, and the board outline.
     seeAlso:
       - PCB.IPCB_Sheet
+  PinPairsManager:
+    summary: The manager of the board's pin pairs.
+    remarks: The examples check the result for null, create a pin pair with `IPCB_PinPairsManager.CreateFromPinsDescriptors`
+      from a descriptor such as `"U1-16|U4-23"`, and then call `IPCB_PinPairsManager.InvalidateAll`.
   PlacerOptions:
-    summary: This property returns you the IPCB_PlacerOptions interface which represents the Options for the Placement
-      facility in the PCB editor.
+    summary: This property returns you the IPCB_AdvancedPlacerOptions interface which represents the Options for the
+      Placement facility in the PCB editor.
+    seeAlso:
+      - PCB.IPCB_AdvancedPlacerOptions
+  PrimPrimDistance:
+    summary: Returns the distance between two primitives, in internal units (10,000 per mil).
+    remarks: >-
+      Returns `PCBConstant.MaxCoord` when either primitive is null or does not belong to this board.
+
+
+      The example collects the primitives with a board iterator first, destroys the iterator, and then measures every
+      pair.
   PrinterOptions:
     summary: This property returns you the IPCB_PrinterOptions interface which represents the Options for the Printer setup
       facility in the PCB editor.
     seeAlso:
       - PCB.IPCB_PrinterOptions
+  RebuildBoardOutline:
+    summary: Rebuilds the board outline from the given defining layer.
+    remarks: After changing the outline's segments, the example calls `UpdateBoardOutline` and then
+      `RebuildBoardOutline` with the outline's own layer.
   RemovePCBObject:
-    summary: This method removes the PCB object from the PCB board but it is not completely destroyed, which means it can be
-      undone. Then with this TInterfaceList or TList object, you go thru the items one at a time, and for each item
-      fetched, call the RemovePCBObject method from the IPCB_Board interface and call the SendMessageToRobots to
-      remember this deleted track in the Undo system.
-    remarks: It is generally not a good idea to delete objects while iterating for objects within a While or Repeat loop
-      body because it messes up the data structure that the iterator is traversing.
+    summary: Removes an object from the board without destroying it.
+    remarks: >-
+      Does nothing when the object is null or is not a primitive, a rule, a class or a union. On a PCB library board only
+      footprints (`IPCB_LibComponent`) are removed, from the library's list of footprints; other objects stay in place.
+
+
+      Do not remove objects while an iterator is walking the board, because it changes the data the iterator traverses:
+      collect the objects in a list first, then remove them (see the example). The examples also remove rules and
+      violations that were added only for a check.
+  RuleNameUnique:
+    summary: Returns whether no other rule on the board has the given name.
+    remarks: The rule passed in may itself have the name. Returns `false` for an empty name.
   SelectecObject:
     summary: This property represents the indexed selected object found on the PCB document. This is to be used in
       conjunction with the SelectecObjectCount property.
+    remarks: Null when the selected item at the index is not a primitive.
   SelectecObjectCount:
     summary: This property represents the number of selected objects found on the PCB document. This is to be used in
       conjunction with the SelectecObject property.
@@ -312,8 +430,13 @@ members:
   SetState_DocumentHasChanged:
     summary: This method forces the document has changed flag to true denoting that the document has been marked dirty so
       that when you close this document, you are prompted to save this document.
+  SetState_SaveCurrentStatusOfObjectsInBoard:
+    summary: Has no effect.
+  SetState_ViewManager_FilterChanging:
+    summary: Tells the board's views that the object filter is changing.
   ShowPCBObject:
     summary: This method makes this hidden PCB object visible on the PCB document.
+    remarks: Does nothing when the object is null or belongs to another board.
     seeAlso:
       - PCB.IPCB_Board.InvertPCBObject
       - PCB.IPCB_Board.HidePCBObject
@@ -344,21 +467,37 @@ members:
     summary: This method creates a spatial iterator which conducts a search within defined boundary on a PCB document. A
       spatial iterator only looks for primitive objects on a PCB document such as tracks and arcs not group objects such
       as dimensions and components.
+    remarks: >-
+      The examples set the filters with `IPCB_AbstractIterator.AddFilter_ObjectSet`,
+      `IPCB_AbstractIterator.AddFilter_AllLayers` and `IPCB_AbstractIterator.AddFilter_Area` (corners in internal
+      units), walk the objects with `IPCB_AbstractIterator.FirstPCBObject` and `IPCB_AbstractIterator.NextPCBObject`, and
+      then call `SpatialIterator_Destroy`.
     seeAlso:
       - PCB.IPCB_Board.SpatialIterator_Destroy
   SpatialIterator_Destroy:
     summary: This method destroys the spatial iterator object after it has finished conducting a search within a defined
       boundary on the PCB document. A spatial iterator only looks for primitive objects on a PCB document such as tracks
       and arcs not group objects such as dimensions and components.
+    remarks: The variable passed by reference is set to null.
     seeAlso:
       - PCB.IPCB_Board.SpatialIterator_Create
   TrackGridSize:
     summary: This property retrieves or sets the track grid size in both X and Y directions simultaneously.
     seeAlso:
       - PCB.IPCB_Board.ViaGridSize
+  Update_PCBGraphicalView:
+    summary: Updates the board's view.
+    remarks: The examples call `Update_PCBGraphicalView(false, true)` after changing which layers are displayed or the
+      current layer, to show the change.
   UpdateBoardOutline:
     summary: This method refreshes the Board outline on the PCB document for example if you have programmatically altered
       the outline, it is a good time to invoke the UpdateBoardOutline method to refresh the PCB document.
+    remarks: >-
+      Recalculates the size of the outline and rebuilds its region, including the board cutouts. Does nothing when the
+      board has no outline.
+
+
+      After changing the outline's segments, the example calls `UpdateBoardOutline` and then `RebuildBoardOutline`.
   ViaGridSize:
     summary: This property retrieves or sets the via grid size in both X and Y directions simultaneously.
     seeAlso:
@@ -368,26 +507,43 @@ members:
       is useful if a document has been modified programmatically especially with library documents.
   ViewManager_GraphicallyInvalidatePrimitive:
     summary: This method forces a repaint of the targeted design object (PCBObject parameter) on the PCB document.
+    remarks: The example passes the board itself to redraw it after changing the board outline.
+  ViewManager_UpdateLayerTabs:
+    summary: Refreshes the layer tabs of the board's view.
   VisibleGridSize:
-    summary: This property retrieves or sets the Visible Grid Size in TReal type. This Grid Size is used for reference
-      purposes and there are two visible grids.
+    summary: The size of the (fine) visible grid. This grid is used for reference purposes and there are two visible
+      grids.
     seeAlso:
       - PCB.IPCB_Board.BigVisibleGridSize
   VisibleGridUnit:
-    summary: This property retrieves or sets the big visible grid's measurement units in Imperial or Metric units. There are
-      two visible grids to use for reference purposes.
+    summary: The measurement unit of the (fine) visible grid, imperial or metric. There are two visible grids to use for
+      reference purposes.
     seeAlso:
       - PCB.IPCB_Board.BigVisibleGridUnit
       - PCB.TUnit
   Window:
     summary: This property returns the raw Windows handle for a window handle of a PCB document in Altium Designer.
+    remarks: Returns 0 when the document is not open in a PCB editor view.
   WindowBoundingRectangle:
     summary: This method returns the coordinates of the bounds of a PCB window.
+    remarks: The coordinates are in internal units (10,000 per mil).
+  WorldXOrigin:
+    summary: The X coordinate of the world origin of the board, in internal units (10,000 per mil).
+  WorldYOrigin:
+    summary: The Y coordinate of the world origin of the board, in internal units (10,000 per mil).
   XCursor:
-    summary: This property retrieves or sets the x coordinate of the cursor of the latest mouse click on the PCB document.
+    summary: The X coordinate of the cursor in the current PCB view, in internal units (10,000 per mil).
+    remarks: Reads 0 when there is no current PCB view. Setting the property moves the cursor in that view.
   XOrigin:
-    summary: This property sets or retrieves the X coordinate of the absolute origin of the board.
+    summary: This property sets or retrieves the X coordinate of the absolute origin of the board, in internal units
+      (10,000 per mil).
+    remarks: To get a coordinate relative to the board origin, the examples subtract `XOrigin` from the absolute
+      coordinate.
   YCursor:
-    summary: This property retrieves or sets the Y coordinate of the cursor of the latest mouse click on the PCB document.
+    summary: The Y coordinate of the cursor in the current PCB view, in internal units (10,000 per mil).
+    remarks: Reads 0 when there is no current PCB view. Setting the property moves the cursor in that view.
   YOrigin:
-    summary: This property sets or retrieves the Y coordinate of the absolute origin of the board.
+    summary: This property sets or retrieves the Y coordinate of the absolute origin of the board, in internal units
+      (10,000 per mil).
+    remarks: To get a coordinate relative to the board origin, the examples subtract `YOrigin` from the absolute
+      coordinate.

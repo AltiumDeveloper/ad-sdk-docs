@@ -6,13 +6,13 @@ remarks: >-
 
 
   1. Create an object and pass in the filename of a schematic library file. This object is represented by the
-  ILibCompInfoReader interface by the SchServer.CreateLibCompInfoReader(FileName);
+  ILibCompInfoReader interface by `ISch_ServerInterface.CreateLibCompInfoReader`.
 
 
-  2. Invoke the ReadAllComponentInfo method to load the library and its components.
+  2. Invoke the `ILibCompInfoReader.ReadAllComponentInfo` method to load the library and its components.
 
 
-  3. Invoke the NumComponentInfos method to obtain the number of components for this library
+  3. Invoke the `ILibCompInfoReader.NumComponentInfos` method to obtain the number of components for this library
 
 
   4. Obtain the indexed ComponentInfos method. This ComponentInfos method returns the indexed IComponentInfo interface.

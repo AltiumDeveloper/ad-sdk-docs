@@ -7,14 +7,15 @@ summary: The IProcessControl interface controls the process depth for each desig
 members:
   PostProcess:
     summary: This method performs a post processing within in a main server which could involve finalizing the states of the
-      environment of the server such as the Undo system. The AContext parameter is usually the focussed document in
-      Altium Designer such as the ISch_Document and IPCB_Board interfaces.
+      environment of the server such as the Undo system.
+    parameters:
+      argContext: Usually the focussed document in Altium Designer such as the ISch_Document and IPCB_Board interfaces.
     seeAlso:
       - DXP.IProcessControl.PreProcess
   PreProcess:
     summary: Performs pre processing within in a main server which could involve resetting the environment of the server.
-      The AContext parameter is usually the focussed document in Altium Designer such as the ISch_Document and
-      IPCB_Board interfaces
+    parameters:
+      argContext: Usually the focussed document in Altium Designer such as the ISch_Document and IPCB_Board interfaces.
     seeAlso:
       - DXP.IProcessControl.PostProcess
   ProcessDepth:

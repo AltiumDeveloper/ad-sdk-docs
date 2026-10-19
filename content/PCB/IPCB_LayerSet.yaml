@@ -1,0 +1,92 @@
+# PCB.IPCB_LayerSet: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A set of PCB layers, for example to restrict an iterator to those layers with
+  `IPCB_AbstractIterator.AddFilter_IPCB_LayerSet`.
+remarks: >-
+  New layer sets are created with `IPCB_LayerSetUtils` (from `IPCB_ServerInterface.LayerSet`), for example with
+  `CreateLayerSet`, `EmptySet` or `AllLayers`.
+
+
+  A set keeps signal, mechanical, internal plane, standard and dielectric layers as separate groups. A group is either
+  included as a whole (`IncludeSignalLayers` and similar), with individual layers then excluded from it by `Exclude`,
+  or not included, with individual layers added by `Include`. Including or excluding a whole group discards the
+  individual exceptions recorded for that group.
+
+
+  `Include`, `Exclude` and the methods that include or exclude a whole group change this set and return it, so calls
+  can be chained. `Complement`, `Intersection`, `Union` and `Replicate` return a new set and leave this set unchanged.
+members:
+  Complement:
+    summary: Returns a new set that contains exactly the layers this set does not contain.
+  Contains:
+    summary: Returns whether the set contains the given layer.
+  ContainsInternalPlaneLayers:
+    summary: Returns true when the set includes the internal plane layers as a group or contains at least one internal
+      plane layer added individually.
+  EqualTo:
+    summary: Returns whether this set and the given set contain exactly the same layers.
+  EqualTo_1:
+    summary: Returns whether the set contains exactly the layers of the given set of layer values.
+  Exclude:
+    summary: Removes the given layer from the set and returns the set.
+  Exclude_1:
+    summary: Removes each layer of the given set of layer values from the set and returns the set.
+  ExcludeInternalPlaneLayers:
+    summary: Removes all internal plane layers from the set, including those added individually, and returns the set.
+  ExcludeMechanicalLayers:
+    summary: Removes all mechanical layers from the set, including those added individually, and returns the set.
+  ExcludeSignalLayers:
+    summary: Removes all signal layers from the set, including those added individually, and returns the set.
+  GetFirstLayer:
+    summary: Returns one layer of the set, or no layer when the set is empty.
+    remarks: >-
+      When `IsFinite` is true this is the first layer that `LayerIterator` returns, so for a set that includes a whole
+      layer group with some of its layers excluded the call fails with the same error as `LayerIterator`. When
+      `IsFinite` is false it is the first of internal plane 1, mechanical layer 1 and the top overlay that the set contains, or
+      the top layer when it contains none of them.
+  Include:
+    summary: Adds the given layer to the set and returns the set.
+  IncludeAllLayers:
+    summary: Includes the signal, internal plane, mechanical and standard layer groups as a whole and returns the set.
+  IncludeInternalPlaneLayers:
+    summary: Adds all internal plane layers to the set and returns the set.
+    remarks: Internal plane layers excluded individually before the call are included again.
+  IncludeMechanicalLayers:
+    summary: Adds all mechanical layers to the set and returns the set.
+    remarks: Mechanical layers excluded individually before the call are included again.
+  IncludeMiscLayers:
+    summary: Adds all standard layers to the set and returns the set; the same as `IncludeStandardLayers`.
+  IncludeSignalLayers:
+    summary: Adds all signal layers to the set and returns the set.
+    remarks: Signal layers excluded individually before the call are included again.
+  IncludeStandardLayers:
+    summary: Adds all standard layers to the set and returns the set.
+    remarks: Standard layers excluded individually before the call are included again.
+  Intersection:
+    summary: Returns a new set with the layers that are in both this set and the given set.
+  IsAllLayers:
+    summary: Returns true when the set includes every layer group (signal, mechanical, internal plane, standard and
+      dielectric layers) as a whole, with no layer excluded.
+    remarks: Returns false for a set made with `IncludeAllLayers` or `IPCB_LayerSetUtils.AllLayers`, which do not
+      include the dielectric layers.
+  IsEmpty:
+    summary: Returns true when the set contains no layer.
+  IsFinite:
+    summary: Returns false when the set includes at least one layer group as a whole with no layer excluded from it;
+      otherwise true.
+    remarks: A set that includes a whole group with some of its layers excluded counts as finite, but `LayerIterator`
+      still fails for it.
+  LayerIterator:
+    summary: Returns an iterator over the layers of the set.
+    remarks: >-
+      The call fails with an error when the set includes any layer group as a whole (after `IncludeSignalLayers`,
+      `IncludeAllLayers` and similar), even if layers were excluded from that group afterwards. The iterator returns
+      the signal layers first, then the mechanical, internal plane, standard and dielectric layers.
+  Replicate:
+    summary: Returns an independent copy of the set; changing the copy does not change this set.
+  SerializeToString:
+    summary: Returns the set as a string from which `IPCB_LayerSetUtils.SerializeFromString` creates an equal set.
+  ToString:
+    summary: Returns a readable description of the set, listing for each layer group whether the whole group is
+      included and which layers are included or excluded individually.
+  Union:
+    summary: Returns a new set with the layers that are in this set, in the given set, or in both.

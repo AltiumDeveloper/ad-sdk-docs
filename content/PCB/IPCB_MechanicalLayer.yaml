@@ -1,25 +1,43 @@
 # PCB.IPCB_MechanicalLayer: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: There are 16 general purpose mechanical layers for defining the board layout, placing dimensions on, including
-  fabrication details on, or any other mechanical details the design requires.
+summary: A mechanical layer of a PCB document, a general-purpose layer for the board layout, dimensions, fabrication
+  details or any other mechanical details the design requires.
 remarks: >-
-  To obtain mechanical layers, you iterate for layers on a PCB document, and once you determine it is a mechanical
-  layer, you can wrap the layer as a IPCB_MechanicalLayer interface.
+  A board can have up to 1,024 mechanical layers.
 
 
-  Note that the Layer stack only stores existing copper based layers, but you can use the LayerObject property from the
-  IPCB_LayerStack interface to fetch all layers by using a Layer loop.
-
-
-  Code snippet
+  The examples visit the mechanical layers of a board with `IPCB_Board.MechanicalLayerIterator` and cast each
+  `IPCB_LayerObjectIterator.LayerObject` to `IPCB_MechanicalLayer`. Mechanical layers are not in the layer stack, but
+  `IPCB_LayerStack.LayerObject` also returns the layer object of a mechanical layer.
 members:
   DisplayInSingleLayerMode:
-    summary: This property determines whether the document is displayed in the single layer mode. Set it true to override
-      the system's single layer mode setting and the design objects on these enabled single layer mode mechanical layers
-      still show up in the single layer mode.
+    summary: Whether the objects on the mechanical layer stay visible while single layer mode hides the other layers.
+    remarks: Reads false, and setting it does nothing, when the layer does not belong to a board.
+  Kind:
+    summary: The kind of the mechanical layer, the role it has on the board, such as assembly notes, dimensions or board
+      shape.
+    remarks: >-
+      Setting a kind does nothing when the layer already has that kind, when another mechanical layer of the board
+      already has it, or when it is a kind of a layer pair: the kinds that end in `Top` or `Bottom`, such as
+      `TMechanicalLayerKind.mlAssemblyTop`.
+
+
+      Setting `TMechanicalLayerKind.mlSheet` also sets `LinkToSheet` to true, and changing the kind from it sets
+      `LinkToSheet` to false. Setting `TMechanicalLayerKind.mlRouteToolPath` makes the layer the board's
+      `IPCB_Board.RouteToolPathLayer`, and changing the kind from it sets that property to no layer.
+    seeAlso:
+      - PCB.IPCB_MechanicalLayerPairs.LayerPairKind
   LinkToSheet:
-    summary: This property determines whether this mechanical layer is linked to the sheet on the PCB document or not. Once
-      a sheet is linked to the mechanical layer, the sheet is re-sized automatically to fit the objects on the linked
-      layer when a zoom command is executed.
+    summary: Whether the mechanical layer is linked to the sheet of the PCB document.
+    remarks: >-
+      Once a layer is linked to the sheet, the sheet is resized automatically to fit the objects on the linked layer
+      when a zoom command is executed. Reads false, and setting it does nothing, when the layer does not belong to a
+      board.
   MechLayerEnabled:
-    summary: This property determines whether this mechanical layer is enabled or not for the current PCB document. You
-      cannot disable the mechanical layers that already have design objects on them.
+    summary: Whether the mechanical layer is enabled on the PCB document.
+    remarks: Setting it to false does not check whether design objects are on the layer.
+  MirroredLayer:
+    summary: Returns whether the mechanical layer belongs to a mechanical layer pair, and gives the other layer of the
+      pair.
+    parameters:
+      argMirrorLayer: Receives the other layer of the pair, or the layer itself when it is not in a pair.
+      argBoard: The board whose `IPCB_Board.MechanicalPairs` are used; null for the board the layer belongs to.

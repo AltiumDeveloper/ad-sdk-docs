@@ -1,14 +1,55 @@
 # PCB.IPCB_AbstractOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_AbstractOptions interface is the base interface for other options related interfaces such as
-  SystemOptions and InteractiveRoutingOptions through IPCB_ServerInterface. These option objects are global objects
-  created by the PCB Server.
+summary: >-
+  The base interface of the PCB options interfaces: it identifies the kind of options object and writes its settings
+  to and reads them from a parameter string.
 remarks: >-
-  The other OutputOptions, ECOOptions, GerberOptions, PrinterOptions and PlacerOptions interfaces are referenced through
-  IPCB_Board interface.
+  `IPCB_ServerInterface.SystemOptions` and `IPCB_ServerInterface.InteractiveRoutingOptions` return global options
+  objects created by the PCB Server. `IPCB_Board.OutputOptions`, `IPCB_Board.ECOOptions`, `IPCB_Board.GerberOptions`,
+  `IPCB_Board.PrinterOptions` and `IPCB_Board.PlacerOptions` return the options of a PCB document.
 
 
-  Ancestor interface for ECO Options, Output Options, Gerber Options, Printer Options, Advanced Placer Options,
-  SystemOptions, Design Rule Checker Options, SpecctraRouter Options and Interactive Routing options interfaces.
+  Which settings the export and import methods handle depends on the options interface; see the derived interfaces.
+  `Export_ToParameters_Version4` and `Import_FromParameters_Version4` handle the same parameters as
+  `Export_ToParameters` and `Import_FromParameters`.
 members:
+  Export_ToParameters:
+    summary: Writes the settings of the options object to a parameter string.
+    remarks: The previous content of the string is discarded.
+    parameters:
+      argParameters: The parameter string that receives the settings.
+  Export_ToParameters_Version3:
+    summary: Writes the settings of the options object to a parameter string in the version 3 layout.
+    remarks: The previous content of the string is discarded.
+    parameters:
+      argParameters: The parameter string that receives the settings.
+  Export_ToParameters_Version4:
+    summary: Writes the settings of the options object to a parameter string, as `Export_ToParameters` does.
+    remarks: The previous content of the string is discarded.
+    parameters:
+      argParameters: The parameter string that receives the settings.
   Import_FromParameters:
-    summary: "OptionsObjectID : TOptionsObjectId"
+    summary: Reads the settings of the options object from a parameter string.
+    parameters:
+      argDisplayUnit: >-
+        The unit of coordinate values in the string that have no `mm` or `mil` suffix: millimetres for
+        `TUnit.eMetric`, mils for `TUnit.eImperial`.
+      argParameters: The parameter string to read.
+  Import_FromParameters_Version3:
+    summary: Reads the settings of the options object from a parameter string in the version 3 layout.
+    parameters:
+      argDisplayUnit: >-
+        The unit of coordinate values in the string that have no `mm` or `mil` suffix: millimetres for
+        `TUnit.eMetric`, mils for `TUnit.eImperial`.
+      argParameters: The parameter string to read.
+  Import_FromParameters_Version4:
+    summary: Reads the settings of the options object from a parameter string, as `Import_FromParameters` does.
+    parameters:
+      argDisplayUnit: >-
+        The unit of coordinate values in the string that have no `mm` or `mil` suffix: millimetres for
+        `TUnit.eMetric`, mils for `TUnit.eImperial`.
+      argParameters: The parameter string to read.
+  ObjectID:
+    summary: >-
+      The kind of options object, set by each options object when it is created: for example
+      `TOptionsObjectId.eSystemOptions` for the system options and `TOptionsObjectId.ePrinterOptions` for printer
+      options.

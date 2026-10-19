@@ -1,0 +1,12 @@
+# PCB.IPCB_ElectricalLayer: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A copper layer of a board's layer stack, the common base of `IPCB_SignalLayer` and `IPCB_InternalPlane`.
+members:
+  CopperThickness:
+    summary: The thickness of the copper on the layer, in internal units (10,000 per mil).
+    remarks: >-
+      A new electrical layer has a copper thickness of 14,000 internal units (1.4 mil). Convert the value with
+      `EDP.Utils.CoordToMils` or `EDP.Utils.CoordToMMs`.
+
+
+      On an `IPCB_LayerObject_V7` of a layer that is not an electrical layer, the property reads 14,000 internal units
+      and assigning a value does nothing.

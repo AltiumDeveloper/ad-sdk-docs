@@ -68,9 +68,10 @@ members:
       ApplicationIdle method in all active running servers gets invoked. The messages sent by Altium Designer get the
       chance to be followed up.
   CreateDocument:
-    summary: The CreateDocument method creates a document supported by the server based on the AKind and AFilename parameters.
-    remarks: The AKind parameter represents the document kind that the server supports and the AFileName parameter is
-      assigned to the new document.
+    summary: Creates a document supported by the server, of the given kind and with the given file name.
+    parameters:
+      argKind: The document kind that the server supports.
+      argFileName: The file name assigned to the new document.
   CreateDocumentShowOrHide:
     summary: The CreateDocumentShowOrHide method controls how a document when created is displayed in Altium Designer.
   CreateOptionsView:
@@ -83,7 +84,9 @@ members:
     summary: The CreateServerView method creates a IServerView object representing a system panel. You need to invoke the
       AddServerView method to add the object within Altium Designer.
   DestroyDocument:
-    summary: The DestroyDocument method closes and removes the design document as specified by the ADocument parameter.
+    summary: Closes and removes a design document.
+    parameters:
+      argDocument: The design document to close and remove.
   GetClient:
     summary: The GetClient method returns the IClient interface of the client subsystem of Altium Designer. This IClient
       interface can be used to invoke its methods.
@@ -221,7 +224,7 @@ members:
   ReceiveNotification:
     summary: The ReceiveNotification method of the server module intercepts notifications broadcasted by Altium Designer.
     remarks: >-
-      The system has a BroadCastNotification or a DispatchNotification method which all running servers in Altium
+      The system has an `IClient.BroadcastNotification` or an `IClient.DispatchNotification` method which all running servers in Altium
       Designer can receive and process accordingly.
 
 

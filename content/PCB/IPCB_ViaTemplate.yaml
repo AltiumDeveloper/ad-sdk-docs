@@ -1,0 +1,78 @@
+# PCB.IPCB_ViaTemplate: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A via template, a reusable set of via properties (hole size, solder mask settings, per-layer diameters and
+  thermal reliefs, and the via structure) that vias can be linked to.
+remarks: >-
+  The template's name, identifiers and library are members of `IPCB_PadViaTemplate`.
+  `IPCB_Board.FindLinkedBoardTemplate` returns the template a via is linked to, as an `IPCB_PadViaTemplate`.
+members:
+  AddStackData:
+    summary: Adds a per-layer entry to the template's via stack and returns its index.
+    remarks: Returns -1 and adds nothing when the value is null.
+    parameters:
+      argValue: The entry to add. The template stores a copy of it.
+  ClearStackData:
+    summary: Removes all entries from the template's via stack.
+  CreateDefaultStackData:
+    summary: Creates a new via stack entry with default values.
+    remarks: >-
+      The entry is not added to the template; pass it to `AddStackData` or assign it to `StackData`. It has no layer, a
+      diameter of 50 mil and a thermal relief taken from the design rules (`TThermalReliefDefinedType.trdRule`).
+  HoleSize:
+    summary: The size of the via's hole, in internal units (10,000 per mil).
+  IsTenting_Bottom:
+    summary: Whether the via is tented (covered by solder mask) on the bottom side.
+    remarks: When the template is applied to a via, the setting takes effect only for a via that starts or ends on the
+      bottom layer.
+  IsTenting_Top:
+    summary: Whether the via is tented (covered by solder mask) on the top side.
+    remarks: When the template is applied to a via, the setting takes effect only for a via that starts or ends on the
+      top layer.
+  ManualSolderMask:
+    summary: Whether the template sets the via's solder mask expansion itself instead of taking it from the design
+      rules.
+    remarks: When the value is false, `SolderMaskExpansion`, `SolderMaskBottomExpansion` and `UseSeparateExpansions`
+      are not applied to vias, and the applicable design rule decides the solder mask expansion.
+  Mode:
+    summary: How the via's diameter is defined on its layers.
+    remarks: >-
+      Assigning a different mode replaces the entries of `StackData` with default entries: one for the top layer for
+      `TPadMode.ePadMode_Simple`, and one each for the top layer, the mid layers and the bottom layer for
+      `TPadMode.ePadMode_LocalStack` and `TPadMode.ePadMode_ExternalStack`. Assigning the current mode changes nothing.
+    seeAlso:
+      - PCB.TPadMode
+  SolderMaskBottomExpansion:
+    summary: The solder mask expansion of the via on the bottom side, in internal units (10,000 per mil).
+    remarks: Applies only when `ManualSolderMask` is true.
+  SolderMaskExpansion:
+    summary: The solder mask expansion of the via, in internal units (10,000 per mil).
+    remarks: Applies only when `ManualSolderMask` is true.
+  SolderMaskHoleEdge:
+    summary: Whether the via's solder mask expansion is measured from the edge of the hole instead of the edge of the
+      copper.
+  StackData:
+    summary: An entry of the template's via stack, which describes the via's diameter and thermal relief on one layer.
+    remarks: >-
+      Reading an entry returns a copy: changes to the returned object take effect only when it is assigned back.
+      Assigning null changes nothing.
+
+
+      When the template is applied to a via, the entry for each layer is found by its
+      `IPCB_ViaTemplateStackData.Layer`; a layer without an entry gets default values (in
+      `TPadMode.ePadMode_ExternalStack`, a mid layer without an entry gets the values of the entry for the mid layers).
+      An entry's `IPCB_ViaTemplateStackData.ThermalRelief` is applied only when its `PadViaThermalReliefData.DefinedType` is
+      `TThermalReliefDefinedType.trdUser`.
+    parameters:
+      argIndex: The zero-based index of the entry, from 0 to `StackDataCount` - 1.
+  StackDataCount:
+    summary: Returns the number of entries in the template's via stack.
+  UseSeparateExpansions:
+    summary: Whether the via has separate solder mask expansions for the top side (`SolderMaskExpansion`) and the bottom
+      side (`SolderMaskBottomExpansion`).
+    remarks: Applies only when `ManualSolderMask` is true.
+  ViaStructure:
+    summary: The via structure (the via's protection features, such as tenting, plugging or filling) that the template
+      gives its vias.
+    remarks: >-
+      The returned object is the template's own via structure: changes to it change the template. When the template is
+      applied to a via, the via gets a copy of it; when its `IPCB_ViaStructure.StructureType` is
+      `TViaStructureType.eViaStructureType_None`, the via gets no via structure.

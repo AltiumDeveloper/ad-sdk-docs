@@ -1,17 +1,47 @@
 # PCB.IPCB_LayerObject: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_LayerObject interface represents a layer used in a PCB document. Each layer has properties such as
-  layer id, name, used by primitives and whether it is displayed for example. This interface is a property in the
-  IPCB_LayerStack interface.
+summary: A layer of a PCB document, with its layer ID, its name and whether primitives use it.
 remarks: >-
-  The layer stack for a PCB document only deals with copper based layers such as signal and internal plane layers. Each
-  layer in the layer stack can have dielectric information and layer pairs can be specified. However there is a
-  LayerObject property in the IPCB_LayerStack interface which allows you to access any PCB layer for the PCB board.
+  Layer objects come from the layer stacks of the board, for example from `IPCB_LayerStack.LayerObject`,
+  `IPCB_LayerStack_V7.LayerObject`, the layer walk of `IPCB_LayerStack_V7` (`FirstLayer`, `NextLayer`) or an
+  `IPCB_LayerObjectIterator` from `IPCB_LayerStackBase.Iterator`. Each kind of layer has its own derived interface,
+  such as `IPCB_SignalLayer`, `IPCB_InternalPlane`, `IPCB_DielectricLayer` and `IPCB_MechanicalLayer`.
 
 
-  Iterating for any PCB layer of a PCB document
+  `IPCB_LayerStack.LayerObject` returns a layer object for any layer of the board, also for a layer that is not in the
+  layer stack, such as a keep-out layer or a mechanical layer.
+members:
+  IsInLayerStack:
+    summary: Returns whether the layer is in the layer stack of its board.
+    remarks: Returns false for a layer that does not belong to a layer stack.
+  LayerDisplayName:
+    summary: The name of the layer in a given format.
+    remarks: >-
+      A coverlay layer takes its name from the solder mask layer it is linked to, in every format.
 
 
-  Although the IPCB_LayerStack interface basically deals with copper based layers that are used in the layer stack, this
-  Layer Stack interface can be used to look for other PCB layers that are not in the layer stack. The LayerObject
-  property from this layer stack interface obtains any PCB layer whether it is a keep out layer, top signal layer or a
-  mechanical 16 layer.
+      On a rigid-flex board with more than one substack, a mechanical layer of a paired kind that is used in a
+      mechanical layer pair gets a suffix in parentheses: the index of the pair's substack in the short and medium
+      formats, the substack's name in the long format.
+    parameters:
+      argValue: >-
+        The format. `TLayerNameDisplayMode.eLayerNameDisplay_Short` and `TLayerNameDisplayMode.eLayerNameDisplay_Medium`
+        give the short and the medium standard name of the layer; `TLayerNameDisplayMode.eLayerNameDisplay_Long` gives
+        `LayerName`.
+  LayerName:
+    summary: The name of the layer.
+    remarks: >-
+      While the stored name is empty, for example after an empty name is set, it is the standard name of the layer.
+      Setting the name
+      has no effect on the layer that is the board's `IPCB_Board.RouteToolPathLayer`.
+  UsedByPrims:
+    summary: Whether the layer is marked as used by primitives.
+    remarks: >-
+      The value is a stored flag: reading it does not check the board for primitives, and setting it changes only the
+      flag. `IPCB_Board.LayerIsUsed` reads and sets the same flag for a layer of the board.
+  V6_LayerID:
+    summary: Returns the layer ID of the layer as a `TV6_Layer` value.
+    remarks: >-
+      `TV6_Layer` has values only for mid layers 1 to 30, internal planes 1 to 16 and mechanical layers 1 to 16, and none
+      for dielectric layers; use `V7_LayerID` for other layers.
+  V7_LayerID:
+    summary: Returns the layer ID of the layer.

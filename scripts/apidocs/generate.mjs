@@ -6,7 +6,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
 import { categoryOf, editUrl, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
-import { buildModel } from './lib/model.mjs';
+import { buildModel, parameterNames, parameterProblems } from './lib/model.mjs';
 import { buildXrefIndex, serializeXrefIndex } from './lib/xref.mjs';
 import { loadExamples } from './lib/examples.mjs';
 import {
@@ -43,9 +43,12 @@ for (const ns of namespaces) {
     const id = type?.id ?? `${ns.id}.${base}`;
     const doc = parse(readFileSync(join(dir, name), 'utf8')) ?? {};
     if (!type) { problems.push(`content/${ns.id}/${name}: no type ${id}`); continue; }
-    for (const slug of Object.keys(doc.members ?? {})) {
-      if (!type.members?.some((m) => m.slug === slug)) problems.push(`content/${ns.id}/${name}: no member ${slug}`);
+    for (const [slug, entry] of Object.entries(doc.members ?? {})) {
+      const member = type.members?.find((m) => m.slug === slug);
+      if (!member) { problems.push(`content/${ns.id}/${name}: no member ${slug}`); continue; }
+      problems.push(...parameterProblems(`content/${ns.id}/${name}: ${slug}`, entry, parameterNames(member)));
     }
+    if (type.kind === 'delegate') problems.push(...parameterProblems(`content/${ns.id}/${name}`, doc, (type.signature?.parameters ?? []).map((p) => p.name)));
     for (const value of Object.keys(doc.values ?? {})) {
       if (!type.values?.some((v) => v.name === value)) problems.push(`content/${ns.id}/${name}: no enum value ${value}`);
     }

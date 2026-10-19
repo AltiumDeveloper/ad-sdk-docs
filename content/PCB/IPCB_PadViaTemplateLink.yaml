@@ -1,0 +1,24 @@
+# PCB.IPCB_PadViaTemplateLink: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A link to a pad and via template, which holds the identifiers of the template's library, of the template and
+  of its revision.
+remarks: >-
+  The link holds only the identifiers, not the template itself. `TemplateLink` of `IPCB_Pad` and of `IPCB_Via` returns
+  the pad's or via's own link, not a copy. `CreateTemplateLink` of `IPCB_PadViaTemplate` creates a separate link.
+members:
+  Clear:
+    summary: Sets `LibraryID`, `TemplateID` and `RevisionID` to empty strings.
+  CopyTo:
+    summary: Copies `LibraryID`, `TemplateID` and `RevisionID` to another link.
+    parameters:
+      argDest: The link that receives the identifiers.
+  GetFullTemplateID:
+    summary: Returns the full identifier of the linked template, `LibraryID` and `TemplateID` joined by `@`.
+  LibraryID:
+    summary: The identifier of the pad and via library that holds the linked template.
+    remarks: Empty after `Clear`.
+  RevisionID:
+    summary: The identifier of the revision of the linked template.
+    remarks: Empty after `Clear`.
+  TemplateID:
+    summary: The identifier of the linked template within its library.
+    remarks: Empty after `Clear`.

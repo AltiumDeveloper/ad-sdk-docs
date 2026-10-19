@@ -82,9 +82,10 @@ members:
     seeAlso:
       - DXP.IClient
   GetParameter:
-    summary: The GetParameter method returns the indexed parameter string depending on the index parameter. This is to be
-      used in conjunction with the GetParameterCount method. A server process can be parametric, and thus can have a
-      number of parameters.
+    summary: Returns the indexed parameter string. This is to be used in conjunction with the GetParameterCount method. A
+      server process can be parametric, and thus can have a number of parameters.
+    parameters:
+      argIndex: The index of the parameter string.
     seeAlso:
       - DXP.IClient
       - DXP.IServerProcess.GetParameterCount

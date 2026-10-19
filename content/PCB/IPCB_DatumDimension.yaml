@@ -1,4 +1,36 @@
 # PCB.IPCB_DatumDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_DatumDimension interface references the dimensioning of a linear distance of a collection of objects,
-  relative to a single object. The dimension value is the distance between each reference object and the base object
-  measured in the default units. The references may be tracks, arcs, pads, vias, text, fills, polygons or components.
+summary: A datum dimension on a PCB document, which measures the linear distances of a collection of references from a
+  single base reference along a common datum line.
+remarks: >-
+  The first reference is the base reference, and the dimension value of each reference is its distance from the base
+  reference. The references may be tracks, arcs, pads, vias, text, fills, polygons or components.
+
+
+  The datum line passes through the text location (`TextX`, `TextY`) in the direction given by `Angle`. The extension
+  line of each reference runs from the referenced object, perpendicular to the datum line, up to the datum line, and
+  the text of each reference shows the distance along the datum line between its extension line and that of the base
+  reference. When the primitives are regenerated, `TextValue` is set to this distance for the last reference and the
+  dimension's location (`XLocation`, `YLocation`) is set to the point of the base reference.
+
+
+  Each reference has its own text and extension line, which `Texts` and `Extension_Track` return for its index.
+  `References_Add` adds them with a new reference and `References_DeleteLast` removes them with the last reference. A
+  new datum dimension has one reference, an `Angle` of 0 and `TextPosition` set to
+  `TDimensionTextPosition.eTextUniDirectional`. `MoveByXY` moves the dimension only when every referenced
+  object is selected or it refers to no object.
+members:
+  Angle:
+    summary: The angle of the datum line to the horizontal, in degrees.
+    remarks: >-
+      The default is 0, at which the dimension measures horizontal distances. Rotating the dimension with
+      `RotateAroundXY` changes the angle by the rotation angle.
+  Extension_Track:
+    summary: Returns the extension line of a reference, which runs from the referenced object to the datum line.
+    parameters:
+      argI: The zero-based index of the reference, from 0 to `References_Count` - 1.
+  Text:
+    summary: Returns the text of the base reference, the same object as `Texts` returns for index 0.
+  Texts:
+    summary: Returns the text that shows the distance of a reference from the base reference.
+    parameters:
+      argI: The zero-based index of the reference, from 0 to `References_Count` - 1.

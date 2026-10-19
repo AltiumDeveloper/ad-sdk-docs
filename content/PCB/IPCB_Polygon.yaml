@@ -1,109 +1,192 @@
 # PCB.IPCB_Polygon: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: Polygons are similar to area fills, except that they can fill irregular shaped areas of a board and can connect
-  to a specified net as they are poured. By adjusting the grid and track size, a polygon plane can be either solid
-  (copper) areas or a cross hatched lattice. Polygons can be poured on any layer, however if a polygon is placed on a
-  non signal layer, it will not be poured around existing objects.
+summary: A polygon pour on a PCB document, an irregular area of copper that connects to a net and is poured around
+  existing objects.
 remarks: >-
-  Polygons are group objects, therefore they have child objects such as tracks and arcs. You can use the
-  IPCB_GroupIterator interface with the GroupIterator_Create and GroupIterator_Destroy methods from the IPCB_Polygon to
-  fetch child objects.
+  Polygons are similar to area fills, except that they can fill irregular shaped areas of a board and can connect to a
+  specified net as they are poured. By adjusting the grid and track size, a polygon can be either a solid copper area
+  or a cross-hatched lattice. Polygons can be placed on any layer except an internal plane layer; a polygon on a layer
+  that is not a signal layer is not poured around existing objects.
 
 
-  Polygons can be on internal planes. For example if there are multi layer pads on a PCB document, then all the internal
-  planes are connected to these multi-layer pads as split planes and are called split plane polygons. Check the
-  PolygonType property.
+  Polygons are group objects: the tracks, arcs and regions created when a polygon is poured are its child objects. Use
+  `GroupIterator_Create` and `GroupIterator_Destroy` to iterate them. To copy a polygon together with its poured copper,
+  the examples use `ReplicateWithChildren`.
 
 
-  The grid property denotes the grid which the tracks within a polygon are placed. Ideally this grid is a fraction of
-  the component pin pitch, to allow the most effective placement of the polygon tracks.
-
-
-  The segments property denotes the array of segments used to construct a polygon. Each segment consists of a record
-  consisting of one group of points in X, Y coordinates as a line ( ePolySegmentline type) or an arc, a radius and two
-  angles ( ePolySegmentArc type). Each segment record has a Kind field which denotes the type of segment it is.
+  Split planes on internal plane layers are represented by `IPCB_SplitPlane`, not by this interface.
 members:
+  AcceptsLayer:
+    summary: Returns whether the polygon can be placed on the given layer.
+    remarks: Returns false for internal plane layers and true for any other layer.
   ArcApproximation:
-    summary: The polygon drawn around a pad or via is drawn by line segments. The arc resolution value dictates how accurate
-      the polygon is drawn around a pad for example. The segments are drawn between a system defined outer circle and
-      inner circle with a radial distance between these two circles being equal to the arc resolution.
-    remarks: The default value is 0.5mil. The lower the value the more smooth the arc is and the higher the value, the more
-      coarse the arc is with longer line segments.
+    summary: The arc resolution of the pour, the maximum distance by which the line segments that approximate an arc, for
+      example around a pad or via, may deviate from a perfect arc.
+    remarks: >-
+      The value is in internal units (10,000 per mil). The default value is 0.5 mil. The lower the value, the smoother
+      the arc; the higher the value, the coarser the arc, with longer line segments.
   AreaSize:
-    summary: The AreaSize property returns the size of the polygon in Extended type. The GetState_AreaSize and
-      SetState_AreaSize are methods for this property.
+    summary: The area enclosed by the polygon's outline, in square internal units.
+    remarks: >-
+      The value is approximate: it does not take the width of the outline or the hatching into account.
+      `SetState_XSizeYSize_1` recalculates it from the outline; an assigned value is stored as given.
+  AutoGenerateName:
+    summary: Whether the polygon's name is generated automatically.
+    remarks: >-
+      Only polygons on signal layers are named automatically: on other layers the property reads false and assigning
+      it does nothing. While it is true and the polygon is on a board, `Name` returns the generated name. Setting it to
+      false keeps the last generated name as the polygon's name.
+  AvoidObsticles:
+    summary: Whether the polygon is poured around the other objects in its area.
+    remarks: When false, the pour does not cut voids around other objects.
+  CopperPourInvalid:
+    summary: Whether the polygon's pour is marked as out of date.
+  CopperPourValidate:
+    summary: Repours the polygon if its pour is marked as out of date (`CopperPourInvalid`).
+  DrawDeadCopper:
+    summary: A diagnostic drawing option for dead copper.
   DrawRemovedIslands:
-    summary: If this property is true, every time a polygon is created on a PCB document, islands are often created and
-      those islands that are less than the quoted area threshold are not created, otherwise if false, islands are left
-      drawn nonetheless.
+    summary: A diagnostic drawing option for the islands that the pour removes.
+  DrawRemovedNecks:
+    summary: A diagnostic drawing option for the narrow necks that the pour removes.
+  GetDefaultName:
+    summary: Returns a unique name for the polygon, generated for the board the polygon is on.
+    remarks: Returns an empty string when the polygon is not on a board.
   Grid:
-    summary: The Grid property denotes the grid which the tracks within a polygon are placed. Ideally this grid is a
-      fraction of the component pin pitch, to allow the most effective placement of the polygon tracks.
+    summary: The grid on which the hatch tracks of the polygon are placed, in internal units (10,000 per mil).
+    remarks: Ideally this grid is a fraction of the component pin pitch, to allow the most effective placement of the
+      polygon tracks.
+  GrowPolyshape:
+    summary: Moves the edges of the polygon's outline outwards or inwards by the given distance.
+    remarks: Does nothing when the distance is 0 or the outline has fewer than two points.
+    parameters:
+      argDist: The distance, in internal units (10,000 per mil). A positive value moves the edges outwards, so the area
+        grows; a negative value moves them inwards.
   HitPrimitive:
-    summary: This method checks if a primitive that is not part of the board outline is touching or overlapping on the edge
-      of the outline (whether being touched or enclosed by the outline).
-    remarks: This primitive could be placed by the user or created and placed programmatically. If the result is false, it
-      means the primitive is definitely outside the outline.
+    summary: Whether the given primitive touches the polygon's outline or lies inside it.
+    remarks: >-
+      Returns true when the primitive's reference point is inside the outline or the primitive overlaps one of the
+      outline's segments. On a board outline (`IPCB_BoardOutline`) the primitive's layer is not taken into account.
     seeAlso:
       - PCB.IPCB_BoardOutline
+  IgnoreViolations:
+    summary: Whether on-line DRC violations are ignored for the polygon.
+  InRepour:
+    summary: Whether the polygon is being repoured.
   IslandAreaThreshold:
-    summary: Every time a polygon is created on a PCB document, islands are often created and those islands that are less
-      than the quoted area threshold, these islands are not created.
-    remarks: This property represents a value in mils squared that defines the area of an island and the default value is
-      2500 mils sq.
+    summary: The area below which the islands created when the polygon is poured are removed, in square internal units
+      (100,000,000 per square mil).
+    remarks: Islands are removed only when `RemoveIslandsByArea` is true. The default value is 2500 square mils.
+  MinTrack:
+    summary: The minimum length of the primitives created when the polygon is poured, in internal units (10,000 per mil).
+  Name:
+    summary: The polygon's name.
+    remarks: While `AutoGenerateName` is true, assigning a name does nothing.
   NeckWidthThreshold:
-    summary: The minimum width threshold value for the regions of a polygon. Narrow regions that violate this under width
-      value will be removed by the system. The default value is 5 mils.
+    summary: The width below which narrow sections of the pour are removed, in internal units (10,000 per mil).
+    remarks: Narrow sections are removed only when `RemoveNarrowNecks` is true. The default value is 5 mils.
+  PointCount:
+    summary: The number of segments in the polygon's outline.
+    remarks: '`Segments` accepts indexes from 0 to `PointCount` inclusive.'
+  PointInPolygon:
+    summary: Returns whether the given point lies inside the polygon's outline.
+    parameters:
+      argHitX: The X coordinate of the point, in internal units (10,000 per mil).
+      argHitY: The Y coordinate of the point, in internal units (10,000 per mil).
   PolygonType:
-    summary: The PolygonType property defines what type the polygon is, whether it is a polygon on a signal layer, or a
-      split plane polygon.
+    summary: The kind of polygon.
+    remarks: >-
+      The property is read-only in effect: it always returns `TPolygonType.eSignalLayerPolygon`, and assigning a value
+      does not change it.
     seeAlso:
       - PCB.TPolygonType
   PolyHatchStyle:
-    summary: The property denotes the style of polygon hatching. If the hatching style ( ePolySolid ) is solid, then a
-      region object is used instead.
+    summary: How the polygon is filled when it is poured.
     remarks: >-
-      ePolyHatch90, ePolyHatch45, ePolyVHatch, ePolyHHatch,
+      `TPolyHatchStyle.ePolySolid` fills the polygon with solid copper regions. `TPolyHatchStyle.ePolyHatch90`,
+      `TPolyHatchStyle.ePolyHatch45`, `TPolyHatchStyle.ePolyVHatch` and `TPolyHatchStyle.ePolyHHatch` fill it with a
+      hatch of tracks and arcs (90 degree, 45 degree, vertical or horizontal).
 
 
-      ePolyNoHatch type : the polygon is not filled at all. Only the boundary tracks will be present. You may wish to
-      use this option if you want to place a polygon during the design phase, but do not want it to slow system
-      performance. The polygon can be before re-poured with the desired hatching before generating output.
-
-
-      ePolySolid type: the polygon is filled in solid. You may wish to use this option if you want to place a solid
-      polygon during the design phase. There are further Solid Fill Options to define and control how a solid polygon is
-      drawn on the PCB document.
+      `TPolyHatchStyle.ePolyNoHatch` does not fill the polygon at all: only the boundary tracks are present. You may
+      wish to use this option if you want to place a polygon during the design phase, but do not want it to slow
+      system performance. The polygon can be re-poured with the desired hatching before generating output.
     seeAlso:
       - PCB.TPolyHatchStyle
       - PCB.IPCB_Region
+  Poured:
+    summary: Whether the polygon is poured, that is, not shelved.
+    remarks: Assigning a value does nothing.
+  PourIndex:
+    summary: The polygon's position in the board's pour order.
+    remarks: When `AutoGenerateName` is true, assigning a value regenerates the polygon's name, which contains the pour
+      index.
   PourOver:
-    summary: The pourover property if true will indicate that any existing tracks and arcs within the polygon which are part
-      of the net being connected to will be covered by the polygon.
-    remarks: If this property is false, the polygon will pour around existing tracks on the same net.
+    summary: Which existing copper of the polygon's own net the polygon pours over.
+    remarks: >-
+      With `TPolygonPourOver.ePolygonPourOver_None` the polygon pours around existing tracks and arcs of the same net.
+      With `TPolygonPourOver.ePolygonPourOver_SameNet` it covers existing tracks and arcs of the same net. With
+      `TPolygonPourOver.ePolygonPourOver_SameNetPolygons` it covers only same-net copper that belongs to a polygon.
+    seeAlso:
+      - PCB.TPolygonPourOver
   PrimitiveInsidePoly:
-    summary: This method determines whether a primitive is indeed part of a polygon or not.
+    summary: Returns whether the given primitive lies completely inside the polygon's outline.
+    remarks: Returns true when the primitive's reference point is inside the outline and the primitive does not touch any
+      of the outline's segments.
   Rebuild:
-    summary: This Rebuild method is called by the Validate method. This method rebuilds the board outline after it has been
-      graphically altered which potentially could affect the internal/split planes that are connected to this outline.
-    remarks: This method forces a rebuild of the polygon especially after it has been poured.
+    summary: Repours the polygon, regenerating its child copper.
+    remarks: On a board outline (`IPCB_BoardOutline`) it rebuilds the outline instead and deletes all of the outline's
+      bending lines.
     seeAlso:
       - PCB.IPCB_BoardOutline
   RemoveDead:
-    summary: If the RemoveDead property is enabled, any regions of "dead" copper within the polygon will be removed. Dead
-      copper is created when an area of the polygon can not be connected to the selected net. You can view dead copper
-      as unconnected "islands" of copper within the polygon created when existing tracks, pads and vias prevent the
-      plane pouring as one continuous area.
+    summary: Whether regions of dead copper are removed from the polygon when it is poured.
     remarks: >-
-      If this property is disabled, any areas of dead copper will not be removed.
+      Dead copper is created when an area of the polygon can not be connected to the selected net. You can view dead
+      copper as unconnected "islands" of copper within the polygon created when existing tracks, pads and vias prevent
+      the plane pouring as one continuous area. If this property is false, areas of dead copper are not removed.
 
 
-      Note: The entire polygon is removed if it does not enclose any pads on the selected net, as it is all viewed as
-      dead copper.
+      The entire polygon is removed if it does not enclose any pads on the selected net, as it is all viewed as dead
+      copper.
+  RemoveIslandsByArea:
+    summary: Whether islands of the pour with an area less than `IslandAreaThreshold` are removed.
   RemoveNarrowNecks:
-    summary: If this property is true, thin sections (composing of tracks and arcs for example) are removed from this
-      polygon on the PCB document that violate the minimum width threshold value. If false, narrow necks are left alone.
+    summary: Whether sections of the pour narrower than `NeckWidthThreshold` are removed.
+    remarks: If false, narrow necks are left alone.
   RotateAroundXY:
-    summary: This method rotates the polygon about its reference point by an angle.
+    summary: Rotates the polygon about the given point.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
+  Segments:
+    summary: The segments of the polygon's outline, by index.
+    remarks: >-
+      Each segment is a line (`Kind` is `TPolySegmentType.ePolySegmentLine`) given by its vertex `Vx`, `Vy`, or an arc
+      (`TPolySegmentType.ePolySegmentArc`) given by its center `Cx`, `Cy`, its `Radius` and the angles `Angle1` and
+      `Angle2`. Coordinates are in internal units (10,000 per mil). Valid indexes are from 0 to `PointCount` inclusive; any other index
+      returns a segment with all fields zero, and assigning a segment at such an index does nothing.
+    seeAlso:
+      - PCB.PolySegment
+  SetState_AutoNameInvalidate:
+    summary: Marks the polygon's automatically generated name as out of date.
+  SetState_CopperPourInvalid:
+    summary: Marks the polygon's pour as out of date.
+    remarks: '`CopperPourValidate` then repours the polygon.'
+  SetState_CopperPourValid:
+    summary: Marks the polygon's pour as up to date.
+  SetState_XSizeYSize_1:
+    summary: Recalculates the polygon's bounding rectangle and `AreaSize` from its outline.
+    remarks: Returns true. The examples call it after assigning `PointCount` and `Segments` of a board outline.
+  StrictHitTest:
+    summary: Whether the given point lies inside the polygon's bounding rectangle and inside its outline.
+    parameters:
+      argHitX: The X coordinate of the point, in internal units (10,000 per mil).
+      argHitY: The Y coordinate of the point, in internal units (10,000 per mil).
+  TrackSize:
+    summary: The width of the tracks that hatch the polygon, in internal units (10,000 per mil).
   UseOctagons:
-    summary: The UseOctagons property determines that octagons are to surround pads if true. If false, pads are surrounded
-      by arcs. Octagons give smaller Gerber files and faster photoplotting.
+    summary: Whether pads are surrounded by octagons rather than arcs when the polygon is poured.
+    remarks: Octagons give smaller Gerber files and faster photoplotting.
+  XBoundingRectangle:
+    summary: Returns the bounding rectangle of the polygon's outline.

@@ -1,49 +1,52 @@
 # PCB.IPCB_LayerStack: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_LayerStack interface represents the layer stack for the current PCB document. This Layer Stack
-  interface is a property within in the IPCB_Board interface.
+summary: A layer stack of a board, such as the one `IPCB_Board.LayerStack` returns or a substack of the board's
+  `IPCB_MasterLayerStack`.
 remarks: >-
-  Strictly speaking, the IPCB_LayerStack interface represents the layer stack and therefore only has copper based layers
-  such as top, mid1-30, bottom layers and internal planes. However you can use the LayerObject property with the
-  IPCB_Board parameter passed in to obtain any PCB layer for the PCB document.
+  Walk its layers with the members inherited from `IPCB_LayerStackBase`, such as `IPCB_LayerStackBase.Iterator`,
+  `IPCB_LayerStackBase.First` and `IPCB_LayerStackBase.Next`. The layer walk with `FirstLayer` and `NextLayer` belongs
+  to `IPCB_LayerStack_V7`, which `IPCB_Board.LayerStack_V7` returns.
 
 
-  Iterating copper layers within the Layer Stack
-
-
-  To query for existing copper layers (signal layers and internal players) within the layer stack, you can use the
-  FirstLayer and NextLayer properties of the IPCB_LayerStack interface to iterate for such layers.
-
-
-  Each layer can be represented as a IPCB_LayerObject, IPCB_InternalPlane, IPCB_DrillLayerPair or
-  IPCB_MechanicalLayerPairs interfaces.
-
-
-  A layer can have dielectric properties which is represented by a IPCB_DielectricObject interface.
-
-
-  To have access to other layers of the PCB document, use the LayerObject property of the IPCB_LayerStack interface.
+  Each kind of layer has its own interface derived from `IPCB_LayerObject`, such as `IPCB_SignalLayer`,
+  `IPCB_InternalPlane`, `IPCB_DielectricLayer` and `IPCB_SolderMaskLayer`.
 members:
   Board:
-    summary: This property returns the PCB document that is represented by the IPCB_Board interface, that the layer stack is
-      associated with.
+    summary: Returns the board that owns the layer stack, or null when there is none.
     seeAlso:
       - PCB.IPCB_Board
+  BottomSignalLayer:
+    summary: The layer ID of the last electrical layer of the layer stack that is not a coverlay layer.
+    remarks: It is the bottom layer when the stack has no such layer.
   DielectricBottom:
-    summary: This property returns the IPCB_DielectricObject interface associated with the dielectric information for the
-      bottom layer of the layer stack.
+    summary: Returns the bottom solder mask layer of the layer stack, or null when the stack has none.
     seeAlso:
-      - PCB.IPCB_DielectricObject
+      - PCB.IPCB_SolderMaskLayer
   DielectricTop:
-    summary: This property returns the IPCB_DielectricObject interface associated with the dielectric information for the
-      top layer of the layer stack.
+    summary: Returns the top solder mask layer of the layer stack, or null when the stack has none.
     seeAlso:
-      - PCB.IPCB_DielectricObject
+      - PCB.IPCB_SolderMaskLayer
   LayerObject:
-    summary: The LayerObject property retrieves the layer object interface for the specified layer, L of TLayer type. It is
-      a read only property.
+    summary: Returns the layer object of the given layer.
+    remarks: >-
+      For a layer that is not in the layer stack it returns the master layer stack's layer object with that layer ID,
+      created when needed. So it also returns a layer object for a layer that is not in the stack, such as a keep-out
+      layer or a mechanical layer.
+    parameters:
+      argLayer: The layer, from `TV6_Layer.eV6_TopLayer` to `TV6_Layer.eV6_ViaHoleLayer`; any other value returns null.
+    seeAlso:
+      - PCB.IPCB_LayerObject
+  LayerObject_1:
+    summary: Returns the layer object of the given layer.
+    remarks: >-
+      For a layer that is not in the layer stack it returns the master layer stack's layer object with that layer ID,
+      created when needed. So it also returns a layer object for a layer that is not in the stack, such as a keep-out
+      layer or a mechanical layer.
     seeAlso:
       - PCB.IPCB_LayerObject
   ShowBotDielectric:
-    summary: This property enables or disables the dielectric layer for the bottom layer.
+    remarks: The value is a stored flag of the layer stack; setting it changes only the flag.
   ShowTopDielectric:
-    summary: This property enables or disables the dielectric layer for the top layer.
+    remarks: The value is a stored flag of the layer stack; setting it changes only the flag.
+  TopSignalLayer:
+    summary: The layer ID of the first electrical layer of the layer stack that is not a coverlay layer.
+    remarks: It is the top layer when the stack has no such layer.

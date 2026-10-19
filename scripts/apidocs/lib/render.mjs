@@ -29,7 +29,9 @@ function relativePath(from, to) {
 }
 
 // --- text --------------------------------------------------------------------------------------------------------
-export const escapeText = (text) => String(text ?? '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// `<` and `>` are escaped outside code spans only: inside a code span an entity would be shown literally.
+export const escapeText = (text) => String(text ?? '').split(/(`[^`]+`)/)
+  .map((part, i) => (i % 2 ? part : part.replace(/</g, '&lt;').replace(/>/g, '&gt;'))).join('');
 const cell = (text) => escapeText(text).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
 // Heading text: a leading `_` (`_Finalize`) would start emphasis.
 const headingText = (text) => escapeText(String(text).replace(/^_/, '\\_'));
@@ -56,6 +58,22 @@ function prose(ctx, link, type, text, { anchor = null } = {}) {
   });
 }
 const proseCell = (ctx, link, type, text, options) => prose(ctx, link, type, text, options).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
+
+// Parameter table of a method or delegate. The Description column (content `parameters.<name>`) is shown only when
+// at least one parameter is described, so undescribed methods keep the short table.
+function parameterRows(ctx, link, type, parameters, descriptions = {}, anchor = null) {
+  if (!parameters.length) return [];
+  const described = parameters.some((p) => descriptions?.[p.name]);
+  const rows = described
+    ? ['| Parameter | Type | Passing | Description |', '| --- | --- | --- | --- |']
+    : ['| Parameter | Type | Passing |', '| --- | --- | --- |'];
+  for (const p of parameters) {
+    const cells = [`\`${p.name}\``, link.type(p.type), p.direction ?? 'value'];
+    if (described) cells.push(descriptions[p.name] ? proseCell(ctx, link, type, descriptions[p.name], { anchor }) : '');
+    rows.push(`| ${cells.join(' | ')} |`);
+  }
+  return [...rows, ''];
+}
 
 // --- type names --------------------------------------------------------------------------------------------------
 // C# type text: namespaces dropped, `Nullable<int>` written `int?`.
@@ -109,17 +127,23 @@ export class Linker {
     const text = String(typeName);
     const named = namedTypes(text);
     if (!named.length) return `\`${shortType(text)}\``;
+    // Text that is not a link is collected into one code span, written before the next link: adjacent code spans
+    // (`` `Dictionary``<` ``) would merge into a double-backtick delimiter.
     let out = '';
+    let code = '';
     let rest = text;
     for (const name of named) {
       const at = rest.indexOf(name);
-      out += codeIfAny(rest.slice(0, at));
+      code += rest.slice(0, at);
       const href = this.typeHref(name);
       const display = href ? name.slice(name.lastIndexOf('.') + 1) : name.startsWith('System.') ? name.slice(name.lastIndexOf('.') + 1) : name;
-      out += href ? `[${display}](${href})` : `\`${display}\``;
+      if (href) {
+        out += codeIfAny(code) + `[${display}](${href})`;
+        code = '';
+      } else code += display;
       rest = rest.slice(at + name.length);
     }
-    return out + codeIfAny(rest);
+    return out + codeIfAny(code + rest);
   }
 
   ref(id) {
@@ -247,9 +271,7 @@ export function renderType(model, type, ctx) {
   if (type.kind === 'delegate' && type.signature) {
     if (type.signature.parameters.length) {
       page.heading(2, 'Parameters');
-      page.push('| Parameter | Type | Passing |', '| --- | --- | --- |');
-      for (const p of type.signature.parameters) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
-      page.push('');
+      page.push(...parameterRows(ctx, link, type, type.signature.parameters, content.parameters));
     }
     page.push(`**Returns:** ${type.signature.returnType === 'void' ? 'nothing (`void`)' : link.type(type.signature.returnType)}`, '');
   }
@@ -391,7 +413,8 @@ function renderProperty(page, type, member, link, ctx) {
   const access = readable && writable ? 'read/write' : readable ? 'read-only' : 'write-only';
   const facts = [`**Type:** ${link.type(member.type)}`, `**Access:** ${access}`];
   if (member.indexParameters.length) {
-    facts.push(`**Index:** ${member.indexParameters.map((p) => `\`${p.name}\` (${link.type(p.type)})`).join(', ')}`);
+    const described = (p) => content.parameters?.[p.name];
+    facts.push(`**Index:** ${member.indexParameters.map((p) => `\`${p.name}\` (${link.type(p.type)})${described(p) ? `: ${proseCell(ctx, link, type, described(p), { anchor })}` : ''}`).join(', ')}`);
   }
   page.push(facts.join(' · '), '');
   const helperSig = member.getter?.extension ? member.getter : member.setter?.extension ? member.setter : null;
@@ -408,12 +431,7 @@ function renderMethod(page, type, member, link, ctx) {
   const overloads = member.overloads ?? [s, s.alternate].filter(Boolean);
   const line = (x) => `${x.isStatic ? 'static ' : ''}${methodSignature(x)}`;
   page.push('```csharp', ...overloads.map(line), '```', '');
-  const parameterTable = (x) => {
-    if (!x.parameters.length) return;
-    page.push('| Parameter | Type | Passing |', '| --- | --- | --- |');
-    for (const p of x.parameters) page.push(`| \`${p.name}\` | ${link.type(p.type)} | ${p.direction ?? 'value'} |`);
-    page.push('');
-  };
+  const parameterTable = (x) => page.push(...parameterRows(ctx, link, type, x.parameters, content.parameters, anchor));
   const returns = (x) => (x.returnType === 'void' ? 'nothing (`void`)' : link.type(x.returnType));
   if (member.overloads && member.overloads.length > 1) {
     // Several overloads (class methods): parameters and result per overload.

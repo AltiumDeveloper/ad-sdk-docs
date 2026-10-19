@@ -2,7 +2,7 @@
 summary: The ISch_FontManager2 interface represents the internal font manager in Schematic Editor that manages fonts for
   text based objects on schematic documents. The ISch_FontManager2 is the same as ISch_FontManager, but all the methods
   have the Safecall calling convention which is important for SDK purposes.
-remarks: To have access to the ISch_FontManager interface, you need to invoke the SchServer method;
+remarks: To have access to the ISch_FontManager interface, read `SCH.GlobalVars.SchServer`;
 members:
   Bold:
     summary: This Bold property determines the Bold style for the font.

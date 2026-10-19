@@ -1,28 +1,31 @@
 # PCB.IPCB_Pad2: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: Pad objects are hole connectors for components and for connection to signal tracks. The IPCB_Pad2 interface
-  represents the extra attributes such as the Corner radius attribute of rounded rectangular pads.
+summary: Extends `IPCB_Pad` with the corner radius of rounded rectangular pads on each layer.
 members:
   CornerRadiusOnLayer:
-    summary: This property returns the corner radius of a rectangular pad on the specified layer in TCoord units.
+    summary: The corner radius of the pad's shape on the given layer, in internal units (10,000 per mil).
+    remarks: >-
+      0 unless the pad's shape on the layer is rounded rectangular (`TShape.eRoundedRectangular`) or a custom shape of
+      kind `TShapeSubKind.eRoundedRectangle` or `TShapeSubKind.eChamferedRectangle`. On the top and bottom solder mask
+      and paste mask layers, a radius greater than 0 includes the pad's mask expansion on that layer. The value is
+      never negative.
+    parameters:
+      argL: The layer to query.
   CRPercentageOnLayer:
-    summary: This method returns the percentage of the corner radius of a rectangular pad on the specified layer as a byte
-      value (0-100).
+    summary: The corner radius percentage that applies to the pad's shape on the given layer, from 0 to 100.
     remarks: >-
-      The corner radius percentage of the rounded corners of a pad on the bottom layer and the radius percentage is per
-      layer and is a percentage of half of the shortest side of a pad object. The value of 0% corresponds to a
-      rectangular pad and 100% to a normal rounded pad shape. This value only applies when the Shape field is set to
-      Rounded Rectangle.
+      The percentage is of half the shorter side of the pad: 0% gives a rectangular pad and 100% a fully rounded pad
+      shape. It applies only when the pad's shape is rounded rectangular (`TShape.eRoundedRectangular`).
 
 
-      The Property uses GetState_CRPercentageOnLayer method.
+      For the top and bottom solder mask and paste mask layers, the value is that of the top or bottom layer on the
+      same side. Returns 0 for a layer on which the pad does not appear, such as a solder mask layer on a tented side.
+    parameters:
+      argL: The layer to query.
   StackCRPctOnLayer:
-    summary: This property returns the percentage of the corner radius of a stack up pad on the specified layer as a byte
-      value (0-100).
+    summary: The corner radius percentage stored in the pad's stack for the given layer, from 0 to 100.
     remarks: >-
-      The corner radius percentage of the rounded corners of a pad on the bottom layer and the radius percentage is per
-      layer and is a percentage of half of the shortest side of a pad object. The value of 0% corresponds to a
-      rectangular pad and 100% to a normal rounded pad shape. This value only applies when the Shape field is set to
-      Rounded Rectangle.
-
-
-      This property uses GetState_StackCRPctOnLayer and SetState_StackCRPctOnLayer methods.
+      The percentage is of half the shorter side of the pad on that layer: 0% gives a rectangular pad and 100% a fully
+      rounded pad shape. It applies only when the pad's shape on the layer is rounded rectangular
+      (`TShape.eRoundedRectangular`). Assigning a value greater than 100 stores 100.
+    parameters:
+      argL: The layer of the pad stack.

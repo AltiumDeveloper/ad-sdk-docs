@@ -1,16 +1,62 @@
 # PCB.IPCB_GerberOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The tolerance range used when matching apertures for each item in the plots. If no exact match for an item is
-  available in the current aperture list, the software checks to see if a larger aperture exists within this tolerance
-  range and uses it instead.
+summary: The Gerber (photoplot) settings stored with a PCB document, returned by `IPCB_Board.GerberOptions`.
 remarks: >-
-  If no suitable aperture exists within the tolerance range, the software will attempt to "paint" with a larger aperture
-  to create the required shape. This requires that a suitable larger aperture is available, and that this aperture can
-  be used for "painting".
+  The interface extends `IPCB_AbstractOptions`. `Export_ToParameters` writes every setting as a parameter named after
+  its property; `Import_FromParameters` reads them.
 
 
-  Note: Match tolerances are normally only used when you are targeting a vector photoplotter, which require a fixed, or
-  supplied aperture file. They will not be required if the apertures have been created from the PCB. If match tolerances
-  are not required they should be left at the default of 0.005 mil.
-
-
-  Derived from IPCB_AbstractOptions interface
+  `PlusTol` and `MinusTol` are the tolerance range used when matching apertures for each item in the plots. If no
+  exact match for an item is available in the current aperture list, an aperture within this tolerance range is used
+  instead. Match tolerances are normally used only for a vector photoplotter that requires a fixed or supplied
+  aperture file; they are not required when the apertures have been created from the PCB.
+members:
+  AptTable:
+    remarks: Newly created options start with an empty string.
+  BorderSize:
+    summary: The border size of the photoplot, in internal units (10,000 per mil).
+    remarks: Newly created options start with 1000 mil.
+  CenterPhotoPlots:
+    remarks: Newly created options start with true.
+  EmbedApertures:
+    remarks: Newly created options start with false.
+  FilmSizeX:
+    summary: The film width, in internal units (10,000 per mil).
+    remarks: Newly created options start with 20000 mil.
+  FilmSizeY:
+    summary: The film height, in internal units (10,000 per mil).
+    remarks: Newly created options start with 16000 mil.
+  FlashAllFills:
+    summary: Whether fills get flash apertures of their full size.
+    remarks: >-
+      When an aperture list is created from the board and this is true, each fill gets a rectangular flash aperture of
+      the fill's size and rotation. When it is false, fills get smaller draw apertures that paint the fill. Newly created
+      options start with false.
+  G54:
+    remarks: Newly created options start with false.
+  GerberDecs:
+    remarks: Newly created options start with 1.
+  GerberUnits:
+    remarks: Newly created options start with 3.
+  MaxAperSize:
+    summary: The maximum aperture size, in internal units (10,000 per mil).
+    remarks: Newly created options start with 250 mil.
+  MinusTol:
+    summary: The minus tolerance used when matching apertures, in internal units (10,000 per mil).
+    remarks: Newly created options start with 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
+  PadsFlashOnly:
+    summary: Whether flash apertures are used only for flashing.
+    remarks: When an aperture list is created from the board and this is false, apertures created for flashing are
+      marked for multiple use (flash and draw). Newly created options start with true.
+  Panelize:
+    remarks: Newly created options start with false.
+  PlusTol:
+    summary: The plus tolerance used when matching apertures, in internal units (10,000 per mil).
+    remarks: Newly created options start with 0.005 mil (50 internal units). See the type remarks for how the tolerances are used.
+  ReliefShapesAllowed:
+    summary: Whether pads and vias with a relief shape get relief apertures.
+    remarks: When an aperture list is created from the board and this is false, a relief-shaped pad or via gets a
+      round draw aperture the size of its relief air gap instead of a relief flash aperture. Newly created options start with true.
+  SortOutput:
+    remarks: Newly created options start with false.
+  UseSoftwareArcs:
+    remarks: Newly created options start with true.

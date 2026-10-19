@@ -27,6 +27,13 @@ test('members: dotted names, accessor names, the current type\'s own member name
   assert.match(linkify('`EDP.Utils.GetBomManagerFactory()`', index, { ns: 'SCH', href }), /^\[`EDP\.Utils\.GetBomManagerFactory\(\)`\]\(\/reference\/edp\/Utils#getbommanagerfactory\)$/);
 });
 
+test('code spans are never cut by entities or URLs inside them; links with code text stay one link', () => {
+  const out = linkify('call it with `Name=&lt;x&gt;|y` and then `ISch_MapDefiner`.', index, { ns: 'SCH', href });
+  assert.equal(out, 'call it with `Name=&lt;x&gt;|y` and then [`ISch_MapDefiner`](/reference/sch/ISch_MapDefiner).');
+  const linked = 'See [`ISch_MapDefiner`](/reference/sch/ISch_MapDefiner) and `see https://x.test/a`.';
+  assert.equal(linkify(linked, index, { ns: 'SCH', href }), linked);
+});
+
 test('in a member section, the member itself is code without a link; other members are links', () => {
   const text = 'The SchIterator_Destroy method destroys the iterator created with the SchIterator_Create method.';
   const local = { ...current, members: new Map([...current.members, ['SchIterator_Destroy', 'schiterator_destroy']]) };
@@ -55,4 +62,18 @@ test('existing links and URLs are left alone', () => {
 test('the check reports plain-text mentions in guides, not code spans the plugin links', () => {
   const guide = 'Create an ISch_MapDefiner, then call `ISch_Component.Orientation`.\n\n```csharp\nISch_MapDefiner x;\n```';
   assert.deepEqual(unlinkedMentions(guide, index, { codeSpansLinked: true }), ['ISch_MapDefiner']);
+});
+
+test('inherited member names link to the base interface that declares them', () => {
+  const idx = loadXrefIndex({
+    types: [
+      { id: 'PCB.IPCB_AbstractIterator', ns: 'PCB', name: 'IPCB_AbstractIterator', route: '/reference/pcb/IPCB_AbstractIterator', members: { AddFilter_Area: 'addfilter_area' } },
+      { id: 'PCB.IPCB_BoardIterator', ns: 'PCB', name: 'IPCB_BoardIterator', route: '/reference/pcb/IPCB_BoardIterator', members: { AddFilter_Method: 'addfilter_method' }, bases: ['PCB.IPCB_AbstractIterator'] },
+    ],
+  });
+  const board = idx.byId.get('PCB.IPCB_BoardIterator');
+  assert.equal(linkify('Use AddFilter_Area and AddFilter_Method.', idx, { ns: 'PCB', current: board, href }),
+    'Use [`AddFilter_Area`](/reference/pcb/IPCB_AbstractIterator#addfilter_area) and [`AddFilter_Method`](/reference/pcb/IPCB_BoardIterator#addfilter_method).');
+  assert.match(linkify('See `IPCB_BoardIterator.AddFilter_Area`.', idx, { ns: 'PCB', href }), /\(\/reference\/pcb\/IPCB_AbstractIterator#addfilter_area\)/);
+  assert.deepEqual(unlinkedMentions('Use AddFilter_Area.', idx, { ns: 'PCB', current: board }), ['AddFilter_Area']);
 });

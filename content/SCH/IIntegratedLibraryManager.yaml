@@ -55,8 +55,12 @@ members:
 
       SI
   CreateIntegratedLibrary:
-    summary: This CreateIntegratedLibrary method creates an integrated library from a project into the specified
-      AnOutputPath path and depending on the Install parameter is installed in the Available Libraries dialog.
+    summary: This CreateIntegratedLibrary method creates an integrated library from a project into the specified path and,
+      depending on a flag, installs it in the Available Libraries dialog.
+    parameters:
+      argProject: The project the integrated library is created from.
+      argnOutputPath: The path the integrated library is created into.
+      argInstall: Determines whether the integrated library is installed in the Available Libraries dialog.
   ExtractSources:
     summary: This ExtractSources method extracts the source files such as PCBLIB and PCB3DLIb files from the Integrated
       Library specified by its ALibraryPath parameter.
@@ -65,102 +69,69 @@ members:
       (ADestinationPath parameter) from the Integrated Library specified by its ALibraryPath parameter.
   FindComponentLibraryPath:
     summary: The method returns the path of the library the component is part of.
-    remarks: >-
-      The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-
-      The ALIbraryIdentifier parameter is the library identifier string that the component is associated with.
-
-
-      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
-      Integrated Library or an unique part number from a record within a table of a Database.
+    parameters:
+      argLibIdentifierKind: Denotes which type of library the component is from.
+      argLibraryIdentifier: The library identifier string that the component is associated with.
+      argDesignItemID: The symbol reference (library reference) of the component from a Schematic or Integrated Library,
+        or a unique part number from a record within a table of a Database.
   FindComponentSymbol:
     summary: The method validates whether if the component symbol is available or not dependent on the supplied parameters.
-    remarks: >-
-      The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-
-      The ALibraryIdentifier parameter is the library identifier string that the component is associated with.
-
-
-      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
-      Integrated Library or an unique part number from a record within a table of a Database.
-
-
-      The ASymbolLibraryPath is the library.
-
-
-      The ASymbolReference is the name of the component symbol.
+    parameters:
+      argLibIdentifierKind: Denotes which type of library the component is from.
+      argLibraryIdentifier: The library identifier string that the component is associated with.
+      argDesignItemID: The symbol reference (library reference) of the component from a Schematic or Integrated Library,
+        or a unique part number from a record within a table of a Database.
+      argSymbolLibraryPath: The library.
+      argSymbolReference: The name of the component symbol.
   FindDatafileEntityDatafilePath:
     summary: The method returns the path of the library the component is part of.
-    remarks: |-
-      The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-      The ALibraryIdentifier parameter is the library identifier string that the component is associated with.
-
-      The ADatafileEntityName parameter
-
-      The ADatafileType parameter
-
-      The AUseIntAndDBLibrary parameter
+    parameters:
+      argLibIdentifierKind: Denotes which type of library the component is from.
+      argLibraryIdentifier: The library identifier string that the component is associated with.
   FindDatafileEntitySourceDatafilePath:
     summary: This method returns the path of the data file in library .
   FindDatafileInStandardLibs:
-    summary: This method returns the path of the data file for the specified model in an integrated library. You need to
-      specify the ADataFileEntityName parameter which is the footprint name, 3D model name, Sim name or SI name.
-    remarks: >-
-      The ADataFileType parameter denotes the model type represented by the datafiletype (PCB, PCB3DLIB, SIM, SI).
-
-
-      The ADatafileLocation parameter is optional.
-
-
-      The ForComponentInstance is a Boolean and is true if it is in an integrated library, false otherwise.
-
-
-      The FoundInLibraryPath parameter is a returnable value and returns the location of the data file if all the
-      supplied parameters are valid.
+    summary: This method returns the path of the data file for the specified model in an integrated library.
+    parameters:
+      argDatafileEntityName: The footprint name, 3D model name, Sim name or SI name. Required.
+      argDatafileType: Denotes the model type represented by the datafiletype (PCB, PCB3DLIB, SIM, SI).
+      argDatafileLocation: Optional.
+      argForComponentInstance: True if it is in an integrated library, false otherwise.
+      argFoundInLibraryPath: Returns the location of the data file if all the supplied parameters are valid.
   FindLibraryInformation:
     summary: The method validates the existence of the library.
-    remarks: >-
-      The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-
-      The ALIbraryIdentifier parameter is the library identifier string that the component is associated with. Normally
-      a path to a library.
-
-
-      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
-      Integrated Library or an unique part number from a record within a table of a Database.
-
-
-      The ALibraryPath parameter is returned for the valid design item of a component.
-
-
-      The ADBTableName is returned if a component is from a database.
+    parameters:
+      argLibIdentifierKind: Denotes which type of library the component is from.
+      argLibraryIdentifier: The library identifier string that the component is associated with. Normally a path to a
+        library.
+      argDesignItemID: The symbol reference (library reference) of the component from a Schematic or Integrated Library,
+        or a unique part number from a record within a table of a Database.
+      argLibraryPath: Returned for the valid design item of a component.
+      argDBTableName: Returned if a component is from a database.
   FindModelLibraryPath:
     summary: The method returns the path of the library the model is part of.
-    remarks: >-
-      The ALibIdentifierKind parameter denotes which type of library the component is from.
-
-
-      The ALIbraryIdentifier parameter is the library identifier string that the component is associated with.
-
-
-      The ADesignItemID parameter is the symbol reference (library reference) of the component from a Schematic or
-      Integrated Library or an unique part number from a record within a table of a Database.
-
-
-      The AModelName parameter is the name of the implementation (model) linked to this component.
-
-
-      The AModelType parameter is the model type of the implementation (model) linked to this component.
+    parameters:
+      argLibIdentifierKind: Denotes which type of library the component is from.
+      argLibraryIdentifier: The library identifier string that the component is associated with.
+      argDesignItemID: The symbol reference (library reference) of the component from a Schematic or Integrated Library,
+        or a unique part number from a record within a table of a Database.
+      argModelName: The name of the implementation (model) linked to this component.
+      argModelType: The model type of the implementation (model) linked to this component.
   GetComponentCount:
-    summary: This method retrieves the count of components within the integrated library specified by the LibraryPath parameter.
+    summary: This method retrieves the count of components within the specified integrated library.
+    parameters:
+      argLibraryPath: Specifies the integrated library.
   GetComponentDatafileLocation:
     summary: This GetComponentDatafileLocation method obtains the location of the datafile for the component with the
       specified data file index, model name and its model type, component name and the full library. The result is
-      returned in the FoundInLibraryPath parameter or by the method itself.
+      returned by the method itself or in an output parameter.
+    parameters:
+      argDatafileIndex: The data file index.
+      argModelName: The model name.
+      argModelType: The model type.
+      argComponentName: The component name.
+      argComponentLibraryName: The full library.
+      argFoundInLibraryPath: Returns the result, the location of the datafile.
   GetComponentLocation:
     summary: This GetComponentLocation returns the path of the specified component name within the specified library.
   GetComponentName:
@@ -209,20 +180,24 @@ members:
     summary: This method makes the current library in the Libraries panel based on the project.
   ModelCount:
     summary: This ModelCount method returns the number of models of the same type associated with the component within the
-      specified library. The AComponentName parameter is the name of the component. The AComponentLibraryName parameter
-      is the full path of the library the component is from, and the AModelType parameter is the model type you wish to
-      find how many.
+      specified library.
+    parameters:
+      argComponentName: The name of the component.
+      argComponentLibraryName: The full path of the library the component is from.
+      argModelType: The model type whose models are counted.
   ModelName:
     summary: This ModelName method returns the name of the model type associated with the component within a specified library.
   PlaceLibraryComponent:
     summary: This method places a component from a specified library with Library Reference and Parameters that
       describe/define this component.
-    remarks: |-
-      The ALIbReference parameter defines the component. For example 'Res2'
-
-      The ALibraryPath parameter defines the path to the library that the component is from. For example 'Miscellaneous Devices.IntLib'
-
-      The Parameters parameter defines the parameters needed for the component to be able to be placed on the schematic sheet. For example 'ModelType=SIM|ModelParameterName0=Value|ModelParameterValue0=1K|Orientation=1|Location.X=10000000|Location.Y=20000000'. Normally you will need Location.X and Location.Y parameters at the least to be able to place this component on the schematic sheet.
+    parameters:
+      argLibReference: Defines the component. For example 'Res2'.
+      argLibraryPath: The path to the library that the component is from. For example 'Miscellaneous Devices.IntLib'.
+      argParameters: >-
+        The parameters needed for the component to be able to be placed on the schematic sheet. For example
+        'ModelType=SIM|ModelParameterName0=Value|ModelParameterValue0=1K|Orientation=1|Location.X=10000000|Location.Y=20000000'.
+        Normally you will need Location.X and Location.Y parameters at the least to be able to place this component on
+        the schematic sheet.
   UninstallLibrary:
     summary: This method removes the specified library (full path) in the Available Libraries dialog (in the Installed page)
       in Altium Designer

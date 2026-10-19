@@ -1,0 +1,21 @@
+# PCB.IPCB_Parameter: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A parameter, a name with a string value, held separately from any primitive.
+remarks: >-
+  `CreateParameter` of `IPCB_ParametersFactory` creates a parameter. Changing a parameter does not change the parameters
+  of a primitive: `AddOrSetParameter` and the other members of `IPCB_PrimitiveParameters` that take a parameter store
+  its name, value and inherited mark, and the parameters they return are copies.
+members:
+  GetAttributes:
+    summary: Returns the attributes of the parameter, additional information kept with it.
+    remarks: The attributes are the parameter's own, not a copy.
+  IsInherited:
+    summary: Whether the parameter is marked as inherited.
+    remarks: >-
+      The mark affects only the value, not whether the parameter exists: in a variant of a primitive's parameters
+      (`IPCB_PrimitiveParameters`), a parameter marked as inherited shows the value of the default variant's parameter of
+      the same name, or an empty value when the default variant has no such parameter. Setting `Value` removes the mark.
+  Name:
+    summary: The name of the parameter.
+  Value:
+    summary: The value of the parameter, as a string.
+    remarks: Setting it sets `IsInherited` to false.

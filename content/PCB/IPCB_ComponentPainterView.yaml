@@ -1,0 +1,106 @@
+# PCB.IPCB_ComponentPainterView: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A preview panel that displays a single PCB component (footprint) in 2D or 3D.
+remarks: >-
+  `IPCB_ServerInterface.CreateComponentPainter` creates a new preview. The preview draws the component on a board of
+  its own (`GetDummyBoard`), not on an open PCB document.
+
+
+  The preview uses one of two views. The DirectX view shows the component in 3D (or in 2D after `SetDirectXMode`); it
+  is used only when DirectX can be used. Otherwise the preview uses a standard 2D view. A button on the panel lets the
+  user switch between 2D and 3D.
+
+
+  `SetCamera`, `SetCameraAngle`, `SetViewRect`, `SetVisibleLayer`, `SetAllLayersVisibilityState`, `KeyDown`,
+  `RefreshView` and `ClearGraphicalObjects` act on the DirectX view only and do nothing in the standard 2D view.
+  `SetVariantOption` acts on the standard 2D view only.
+members:
+  ClearGraphicalObjects:
+    summary: Removes all graphical objects from the DirectX view of the preview.
+  ConfigView:
+    summary: Configures the preview from a string of named parameters.
+    remarks: >-
+      `2DOnly=True` switches the preview to the standard 2D view and hides the 2D/3D button; `3DOnly=True` switches it
+      to the DirectX view, when DirectX can be used, and hides the button. A value of `False` shows the button again
+      without switching. When `2DOnly` is given, `3DOnly` is ignored. In the DirectX view, `CameraYaw`, `CameraPitch`
+      and `CameraRoll` set the camera rotation, in degrees; angles that are not given keep their current values.
+    parameters:
+      argParameters: The parameters, as name and value pairs.
+  GetDummyBoard:
+    summary: Returns the board on which the preview places the component it displays.
+    remarks: The board belongs to the preview; it is not an open PCB document.
+  KeyDown:
+    summary: Passes a key press to the DirectX view of the preview, so that a host form can forward keyboard input to
+      it.
+    parameters:
+      argKey: The key that was pressed; the preview can change it.
+      argShift: The state of the modifier keys.
+  RefreshView:
+    summary: Redraws the DirectX view of the preview.
+  SetAllLayersVisibilityState:
+    summary: Shows or hides all layers in the DirectX view of the preview.
+    parameters:
+      argVisible: True to show all layers, false to hide them.
+  SetCamera:
+    summary: Aims the camera of the DirectX view at a rectangle of the preview's board.
+    parameters:
+      argLowX: The left edge of the rectangle, in internal units (10,000 per mil).
+      argLowY: The bottom edge of the rectangle, in internal units (10,000 per mil).
+      argHighX: The right edge of the rectangle, in internal units (10,000 per mil).
+      argHighY: The top edge of the rectangle, in internal units (10,000 per mil).
+  SetCameraAngle:
+    summary: Sets the camera of the DirectX view from a point to look at, a rotation and a zoom factor.
+    parameters:
+      argLookAtX: The X coordinate of the point the camera looks at.
+      argLookAtY: The Y coordinate of the point the camera looks at.
+      argLookAtZ: The Z coordinate of the point the camera looks at.
+      argRotationX: The X component of the camera rotation, a quaternion.
+      argRotationY: The Y component of the camera rotation, a quaternion.
+      argRotationZ: The Z component of the camera rotation, a quaternion.
+      argRotationW: The W component of the camera rotation, a quaternion.
+      argZoomMultiplier: The zoom factor.
+  SetComponentByHandle:
+    summary: Displays a placed component in the preview.
+    remarks: >-
+      The preview displays copies of the component's primitives and of its designator, placed on the preview's own
+      board; the component itself is not changed. The copies replace the component displayed before.
+    parameters:
+      argComponent: The component to display.
+  SetComponentByHandle_1:
+    summary: Displays a library component (footprint) in the preview.
+    remarks: >-
+      The preview displays a copy of the footprint, which replaces the component displayed before; the footprint itself
+      is not changed. Passing null does nothing.
+    parameters:
+      argComponent: The footprint to display.
+  SetComponentByPath:
+    summary: Loads a footprint from a library file and displays it in the preview.
+    remarks: The footprint replaces the component displayed before.
+    parameters:
+      argPattern: The name of the footprint in the library.
+      argLibraryPath: The path of the library file that contains the footprint.
+  SetDirectXMode:
+    summary: Switches the preview to the DirectX view in 2D.
+    remarks: >-
+      The preview recreates its view and hides and disables the 2D/3D button. When DirectX cannot be used, the preview
+      keeps the standard 2D view.
+  SetVariantOption:
+    summary: Applies a variant option to the component displayed in the standard 2D view.
+    remarks: >-
+      The standard 2D view draws the component with the variant option's PCB display settings, such as the
+      struck-through designator, the cross or mesh graphics and the variant text. The DirectX view ignores the variant
+      option.
+    parameters:
+      argVariantOption: The variant option to apply.
+  SetViewRect:
+    summary: Centers the DirectX view of the preview on a rectangle of the preview's board and resets the camera
+      rotation.
+    parameters:
+      argLowX: The left edge of the rectangle, in internal units (10,000 per mil).
+      argLowY: The bottom edge of the rectangle, in internal units (10,000 per mil).
+      argHighX: The right edge of the rectangle, in internal units (10,000 per mil).
+      argHighY: The top edge of the rectangle, in internal units (10,000 per mil).
+  SetVisibleLayer:
+    summary: Shows or hides a layer in the DirectX view of the preview.
+    parameters:
+      argLayer: The layer.
+      argbState: True to show the layer, false to hide it.

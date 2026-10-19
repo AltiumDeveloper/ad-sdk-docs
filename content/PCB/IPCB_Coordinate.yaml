@@ -1,40 +1,81 @@
 # PCB.IPCB_Coordinate: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: Coordinate markers are used to indicate the coordinates of specific points in a PCB workspace. A coordinate
-  marker consists of a point marker and the X and Y coordinates of the position
+summary: >-
+  A coordinate marker on a PCB document: a cross of two tracks at a point and a text that shows the X and Y
+  coordinates of that point.
+remarks: >-
+  A coordinate is a group with three child primitives: the text (`Text`), the horizontal track (`Track1`) and the
+  vertical track (`Track2`). The marked point is the group's `XLocation` and `YLocation`; the children are placed on
+  the coordinate's `Layer`. The text is placed at the right end of the horizontal track and shows the location relative
+  to the board origin, in the board's `DisplayUnit`, formatted as set by `Style`. It is empty when the coordinate does
+  not belong to a board.
+
+
+  `SetState_XSizeYSize_1` regenerates the children from the coordinate's properties only when the location or the
+  layer has changed since the last regeneration, or when its TrueType text must be rebuilt. Changing only a size, style
+  or font property therefore does not regenerate the marker. `MoveByXY` moves the coordinate and regenerates the
+  children.
 members:
   Bold:
-    summary: This property sets or gets the bold property of the PCB string true Type text on a PCB document.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+    summary: Whether the text of the coordinate is bold when it uses a TrueType font.
+    remarks: A new coordinate is not bold.
   FontName:
-    summary: This property sets or gets the FontName property of the PCB string true Type text on a PCB document. For
-      example one of the true Type font strings could be 'Arial', 'Arial Narrow', 'Courier New' and 'Verdana'.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
-    seeAlso:
-      - PCB.IPCB_Primitive
-      - PCB.IPCB_Group
-      - PCB.IPCB_GroupIterator
+    summary: The name of the TrueType font of the coordinate's text, for example Arial or Courier New.
+    remarks: The value is used when `UseTTFonts` is true. A new coordinate uses Arial.
   Italic:
-    summary: The Italic property sets or gets the italic property of the PCB string true Type text on a PCB document.
-    remarks: Once the UseTTFonts property is enabled, you can use the Bold, Italic, FontName, Inverted, InvertedTTTextBorder
-      and TTTextOutline properties.
+    summary: Whether the text of the coordinate is italic when it uses a TrueType font.
+    remarks: A new coordinate is not italic.
   LineWidth:
-    summary: The LineWidth property determines the line width or the outline of the coordinate object.
+    summary: The width of the two tracks of the coordinate's cross, in internal units (10,000 per mil).
+    remarks: A new coordinate has a line width of 10 mil.
+  RotateAroundXY:
+    summary: Does nothing for a coordinate.
   Rotation:
-    summary: The Rotation property determines the coordinate object's orientation of TAngle type.
+    summary: The rotation of the coordinate's text, in degrees.
+    remarks: >-
+      Only the text is rotated; the tracks of the cross stay horizontal and vertical. A new coordinate has a rotation
+      of 0.
+  SetState_XSizeYSize_1:
+    summary: Regenerates the text and the tracks of the coordinate from its properties and recalculates its bounds.
+    remarks: >-
+      The children are regenerated only when the location or the layer has changed since the last regeneration, or
+      when the TrueType text must be rebuilt.
   Size:
-    summary: The Size property determines the size of the coordinate object.
+    summary: Half the length of each track of the coordinate's cross, in internal units (10,000 per mil).
+    remarks: >-
+      Each track extends by `Size` on both sides of the marked point, and the text starts `Size` to the right of it.
+      When the value is less than 10 (0.001 mil), the tracks extend by 1 mil instead. A new coordinate has a size of
+      10 mil.
+  StrictHitTest:
+    summary: Whether the given point hits the text or one of the tracks of the coordinate.
+    parameters:
+      argHitX: The X coordinate of the point, in internal units (10,000 per mil).
+      argHitY: The Y coordinate of the point, in internal units (10,000 per mil).
   Style:
-    summary: The Style property determines the style used for the measurement units of the coordinate object. Display no
-      units, show units as Mils or MM or show Units with parenthesises.
+    summary: How the text of the coordinate shows the units of the X and Y values.
+    remarks: >-
+      With `TUnitStyle.eNoUnits` the text shows the two values separated by a comma, without units. With
+      `TUnitStyle.eYesUnits` each value has its unit. With `TUnitStyle.eParenthUnits` the values are followed by
+      "(mm)" when the board's `DisplayUnit` is `TUnit.eMetric`, otherwise by "(mil)". A new coordinate uses
+      `TUnitStyle.eParenthUnits`.
     seeAlso:
       - PCB.TUnitStyle
+  Text:
+    summary: Returns the text primitive of the coordinate, which shows the X and Y values.
+    remarks: Its value, position and font are overwritten when the children are regenerated.
   TextFont:
-    summary: The TextFont property determines the font id of TFontID type used for the coordinate object.
+    summary: The stroke font of the coordinate's text.
+    remarks: A new coordinate uses font 1.
   TextHeight:
-    summary: The TextHeight property determines the text height of the coordinate object.
+    summary: The height of the coordinate's text, in internal units (10,000 per mil).
+    remarks: A new coordinate has a text height of 60 mil.
   TextWidth:
-    summary: The TextHeight property determines the text width of the coordinate object.
+    summary: The stroke width of the coordinate's text, in internal units (10,000 per mil).
+    remarks: A new coordinate has a text width of 6 mil.
+  Track1:
+    summary: Returns the horizontal track of the coordinate's cross.
+  Track2:
+    summary: Returns the vertical track of the coordinate's cross.
   UseTTFonts:
-    summary: The UseTTFonts property determines whether the text of the coordinate object is of true Type Font type.
+    summary: Whether the text of the coordinate uses a TrueType font (`FontName`, `Bold`, `Italic`) rather than the
+      stroke font `TextFont`.
+    remarks: A new coordinate uses the stroke font.

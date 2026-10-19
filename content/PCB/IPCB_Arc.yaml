@@ -1,34 +1,54 @@
 # PCB.IPCB_Arc: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: Arcs are circular track segments with a definable width and can be placed on any layer. Arcs can have
-  resizeable angles. You can set the angles to 0 and 360 respectively to obtain a circle object. Arcs have a variety of
-  uses in the PCB design layout.
+summary: A circular arc on a PCB document, a track segment of width `LineWidth` around the center (`CenterX`,
+  `CenterY`) with `Radius`, from `StartAngle` to `EndAngle`.
 remarks: >-
-  For example, arcs can be used to outline component shapes. Arcs can also be placed on a signal layer and be
-  electrically connected to tracks.
+  Arcs can be placed on any layer. On a signal layer an arc can be electrically connected to tracks; arcs are also used,
+  for example, to outline component shapes.
 
 
-  You can use IPCB_Primitive methods and properties that are relevant to the IPCB_Arc interface.
+  The angles are in degrees, and the arc runs counter-clockwise from `StartAngle` to `EndAngle`. A `StartAngle` of 0
+  and an `EndAngle` of 360 make a full circle. The start and end points (`StartX`, `StartY`, `EndX`, `EndY`) are not
+  stored: they are calculated from the center, the radius and the angles each time they are read.
 members:
   CenterX:
-    summary: The XCenter property denotes the X coordinate of the center of the arc.
+    summary: The X coordinate of the arc's center, in internal units (10,000 per mil).
   CenterY:
-    summary: The YCenter property denotes the X coordinate of the center of the arc.
+    summary: The Y coordinate of the arc's center, in internal units (10,000 per mil).
   EndAngle:
-    summary: The EndAngle property denotes the end angle of the arc.
+    summary: The angle of the arc's end point, in degrees.
   EndX:
-    summary: The EndX property denotes the end X coordinate of the arc.
+    summary: The X coordinate of the arc's end point, in internal units (10,000 per mil).
+    remarks: Calculated on every read as `CenterX` + `Radius` × cos(`EndAngle`), rounded to an integer.
   EndY:
-    summary: The EndY property denotes the end Y coordinate of the arc.
+    summary: The Y coordinate of the arc's end point, in internal units (10,000 per mil).
+    remarks: Calculated on every read as `CenterY` + `Radius` × sin(`EndAngle`), rounded to an integer.
   LineWidth:
-    summary: The LineWidth property denotes the line thickness or width of the arc.
+    summary: The stroke width of the arc, in internal units (10,000 per mil).
   Radius:
-    summary: The Radius property denotes the radius of the arc.
+    summary: The radius of the arc, in internal units (10,000 per mil).
   RotateAroundXY:
-    summary: This method rotates an arc on the PCB document about the AX, AY coordinates with an angle in degrees. To ensure
-      the arc rotates without moving about, pass in its XCenter and YCenter attributes for the AX,AY parameters.
+    summary: Rotates the arc about a point by an angle.
+    remarks: >-
+      The center of the arc is rotated about the point, and the angle is added to both `StartAngle` and `EndAngle`. To
+      rotate the arc without moving it, pass its own center (`CenterX`, `CenterY`) as the point.
+    parameters:
+      argX: The X coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argY: The Y coordinate of the point to rotate about, in internal units (10,000 per mil).
+      argngle: The rotation angle, in degrees.
   StartAngle:
-    summary: The StartAngle property denotes the initial angle of the arc.
+    summary: The angle of the arc's start point, in degrees.
   StartX:
-    summary: The StartX property denotes the starting X coordinate of the arc.
+    summary: The X coordinate of the arc's start point, in internal units (10,000 per mil).
+    remarks: Calculated on every read as `CenterX` + `Radius` × cos(`StartAngle`), rounded to an integer.
   StartY:
-    summary: The StartY property denotes the end Y coordinate of the arc.
+    summary: The Y coordinate of the arc's start point, in internal units (10,000 per mil).
+    remarks: Calculated on every read as `CenterY` + `Radius` × sin(`StartAngle`), rounded to an integer.
+  StrictHitTest:
+    summary: Whether a point lies on the arc.
+    remarks: >-
+      Returns false when the arc does not belong to a board. Otherwise it returns true when the point is inside the
+      arc's bounding rectangle and on the arc's stroke or within 10 internal units of it, and also when the point is
+      exactly the arc's center, its start point, its end point or the middle point of the arc.
+    parameters:
+      argHitX: The X coordinate of the point, in internal units (10,000 per mil).
+      argHitY: The Y coordinate of the point, in internal units (10,000 per mil).

@@ -1,0 +1,7 @@
+# PCB.IPCB_SplitPlaneRegion: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A region with a link to the split plane it belongs to.
+remarks: Every region supports this interface; `SplitPlane` is null for a region that does not belong to a split plane.
+members:
+  SplitPlane:
+    summary: The split plane that the region belongs to.
+    remarks: Null when the region does not belong to a split plane. Assigning null does nothing.

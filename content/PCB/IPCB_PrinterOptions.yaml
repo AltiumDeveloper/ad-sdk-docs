@@ -1,3 +1,140 @@
 # PCB.IPCB_PrinterOptions: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_PrinterOptions interface represents the Printer options setup in the PCB Editor server.
-remarks: Derived from IPCB_AbstractOptions interface
+summary: The printer and plotter settings of a PCB document in the PCB Editor, returned by `IPCB_Board.PrinterOptions`.
+remarks: >-
+  The interface extends `IPCB_AbstractOptions`. The settings form two groups: general options (device, scaling, plot
+  modes, pad annotation and pen-plotter settings) and per-layer composite options (`CompositePlotLayers`,
+  `CompositePlotPens`, `CompositePlotMonoLayers`, `CompositePlotColorLayers`). Each group can be written to and read
+  from a parameter string.
+
+
+  `Export_ToParameters` writes every setting as a parameter; `Import_FromParameters` reads them. Both handle the two
+  groups; `Import_FromParameters_Version3` and `Export_ToParameters_Version3` handle the general options and the
+  per-layer options in the version 3 layer numbering.
+members:
+  BatchType:
+    summary: The print batch mode, plot per sheet (`TPrinterBatch.ePlotPerSheet`) or panelize
+      (`TPrinterBatch.ePanelize`).
+  cBorderSize:
+    summary: The border size of the printout, in internal units (10,000 per mil).
+  CompositePlotColorLayers:
+    summary: The colour used for a layer in a colour composite plot.
+    parameters:
+      argL: The layer.
+  CompositePlotLayers:
+    summary: Whether a layer is included in composite plots.
+    parameters:
+      argL: The layer.
+  CompositePlotMonoLayers:
+    summary: The colour used for a layer in a monochrome composite plot.
+    parameters:
+      argL: The layer.
+  CompositePlotPens:
+    summary: The pen-plotter pen number assigned to a layer.
+    parameters:
+      argL: The layer.
+  CompositeType:
+    summary: The composite print mode, colour (`TPrinterComposite.eColorComposite`) or monochrome
+      (`TPrinterComposite.eMonoComposite`).
+  Device:
+    summary: The name of the target printer device.
+  Driver:
+    summary: The name of the printer driver.
+  Export_ToParameters_GeneralOptions:
+    summary: Writes the general printer settings to a parameter string.
+    remarks: >-
+      Writes `Device`, `Driver`, `OutPut`, `ShowHoles`, `ScaleToFitPage`, `UsePrinterFonts`, `UseSoftwareArcs`,
+      `BatchType`, `CompositeType`, `cBorderSize`, `Scale`, `XCorrect`, `YCorrect`, `PlotPadNets`, `PlotPadNumbers`,
+      the pen-plotter settings including `PlotterPens` for pens 1 to 8, `PlotMode` and `OutputDriverType`. The
+      per-layer settings are not written: use `Export_ToParameters_LayerOptions`.
+    parameters:
+      argParameters: The parameter string that receives the settings.
+  Export_ToParameters_LayerOptions:
+    summary: Writes the per-layer composite settings to a parameter string.
+    remarks: Writes `CompositePlotLayers`, `CompositePlotPens`, `CompositePlotMonoLayers` and `CompositePlotColorLayers`
+      for every layer.
+    parameters:
+      argParameters: The parameter string that receives the settings.
+  Export_ToParameters_LayerOptions_Version3:
+    summary: Writes the per-layer composite settings to a parameter string in the version 3 layer numbering.
+    remarks: Writes the same settings as `Export_ToParameters_LayerOptions`, but numbers the layers as the version 3
+      format does; layers that have no version 3 equivalent are left out.
+    parameters:
+      argParameters: The parameter string that receives the settings.
+  Import_FromParameters_GeneralOptions:
+    summary: Reads the general printer settings from a parameter string.
+    remarks: >-
+      Reads the settings that `Export_ToParameters_GeneralOptions` writes; the per-layer settings are read by
+      `Import_FromParameters_LayerOptions`. Every object kind gets the draw mode of the first character of the
+      `PlotMode` value, so per-kind draw modes written by `Export_ToParameters_GeneralOptions` do not survive a round
+      trip.
+    parameters:
+      argDisplayUnit: The unit used to read coordinate values, such as `cBorderSize`, the plotter offsets and the pen
+        thicknesses.
+      argParameters: The parameter string to read.
+  Import_FromParameters_LayerOptions:
+    summary: Reads the per-layer composite settings from a parameter string.
+    remarks: Reads the settings that `Export_ToParameters_LayerOptions` writes. A layer whose setting is missing from
+      the string keeps its current value.
+    parameters:
+      argParameters: The parameter string to read.
+  Import_FromParameters_LayerOptions_Version3:
+    summary: Reads the per-layer composite settings from a parameter string that uses the version 3 layer numbering.
+    remarks: Reads the same settings as `Import_FromParameters_LayerOptions` and converts each version 3 layer
+      number to the corresponding current layer. A layer whose setting is missing from the string keeps its current
+      value.
+    parameters:
+      argParameters: The parameter string to read.
+  OutPut:
+    summary: The printer output string.
+  OutputDriverType:
+    summary: The type of output driver.
+  PlotMode:
+    summary: The draw mode (full, draft or hidden) used to plot objects of a given kind.
+    parameters:
+      argOId: The object kind.
+  PlotPadNets:
+    summary: Whether pad net names are printed.
+  PlotPadNumbers:
+    summary: Whether pad numbers are printed.
+  PlotterLanguage:
+    summary: The command language of the pen plotter, HPGL (`TPlotterLanguage.ePlotterLanguageHPGL`) or DMPL
+      (`TPlotterLanguage.ePlotterLanguageDMPL`).
+  PlotterOutputPort:
+    summary: The port or file the pen plotter output is sent to.
+  PlotterPens:
+    summary: The speed and thickness of a pen-plotter pen.
+    remarks: The pen's `Thickness` is in internal units (10,000 per mil).
+    parameters:
+      argPen: The pen number.
+  PlotterScale:
+    summary: The scale factor of pen-plotter output.
+  PlotterShowHoles:
+    summary: Whether holes are drawn on pen-plotter output.
+  PlotterUseSoftwareArcs:
+    summary: Whether arcs on pen-plotter output are drawn in software.
+  PlotterWaitBetweenSheets:
+    summary: Whether the pen plotter pauses between sheets.
+  PlotterXCorrect:
+    summary: The horizontal correction factor of pen-plotter output.
+  PlotterXOffset:
+    summary: The horizontal offset of pen-plotter output, in internal units (10,000 per mil).
+  PlotterYCorrect:
+    summary: The vertical correction factor of pen-plotter output.
+  PlotterYOffset:
+    summary: The vertical offset of pen-plotter output, in internal units (10,000 per mil).
+  Scale:
+    summary: The print scale factor, used when `ScaleToFitPage` is false.
+    remarks: The `Print_Scale` special string shows this value with two decimals, or `SCALED TO FIT` when
+      `ScaleToFitPage` is true.
+  ScaleToFitPage:
+    summary: Whether the printout is scaled to fit the page instead of using `Scale`.
+  ShowHoles:
+    summary: Whether pad and via holes are shown on printed output.
+  UsePrinterFonts:
+    summary: Whether text is printed with the printer's fonts.
+  UseSoftwareArcs:
+    summary: Whether arcs on printed output are drawn in software.
+  XCorrect:
+    summary: The horizontal scale correction factor of the printer.
+  YCorrect:
+    summary: The vertical scale correction factor of the printer.

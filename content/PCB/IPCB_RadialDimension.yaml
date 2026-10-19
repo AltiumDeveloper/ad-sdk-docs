@@ -1,7 +1,49 @@
 # PCB.IPCB_RadialDimension: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The IPCB_RadialDimension object interface allows for the dimensioning of a radius with respect to an arc or a
-  circle. The dimension can be placed internally or externally on an arc or a circle.
-remarks: This field shows the current angular step setting for the dimension. This is the rotation step used when
-  placing the arrow portion of the dimension. Moving the arrow around the circle or arc during placement of the
-  dimension, the number and position of possible places to anchor the dimension are determined by this angular step
-  value.
+summary: A radial dimension on a PCB document, which measures the radius of an arc or a circle.
+remarks: >-
+  A radial dimension has two references: reference 0 is the arc whose radius is measured and reference 1 is the point
+  where the dimension line bends. When the primitives are regenerated, `TextValue` is set to the radius of the arc (for
+  a pad with a round hole, half the hole size; 0 when reference 0 refers to neither) and the dimension's location
+  (`XLocation`, `YLocation`) is set to the bend point.
+
+
+  The dimension line runs from the arc to the bend point and from there to the text location (`TextX`, `TextY`), with
+  the arrowhead on the arc. The directions of both parts are rounded to multiples of `AngleStep`. With `ArrowPosition`
+  set to `TDimensionArrowPosition.eInside`, the first part starts at the center of the arc instead. When the text
+  location lies inside the circle, the dimension is drawn inside it, with the bend point halfway between the arc and
+  the text location.
+
+
+  A new radial dimension has the text prefix "R ", `TextPosition` set to `TDimensionTextPosition.eTextUniDirectional`,
+  `ArrowPosition` set to `TDimensionArrowPosition.eOutside` and an `AngleStep` of 45. While the dimension refers to an
+  arc that is not selected, `MoveByXY` and `RotateAroundXY` do not change its references or its text location.
+
+
+  The text and the four tracks that draw the dimension are returned by `Text`, `Arrow_Track1`, `Arrow_Track2`,
+  `Line1_Track` and `Line2_Track`.
+members:
+  AngleStep:
+    summary: The angular step, in degrees, to which the directions of the dimension line are rounded.
+    remarks: >-
+      When the primitives are regenerated, the direction from the center of the arc to the bend point (reference 1) is
+      rounded to a multiple of this step within the arc's range of angles, or to the nearest end of that range when it
+      lies outside it, and the direction from the bend point to the text location (`TextX`, `TextY`) is rounded to a
+      multiple of this step. The default is 45.
+  Arrow_Track1:
+    summary: Returns one of the two tracks of the arrowhead on the arc.
+  Arrow_Track2:
+    summary: Returns one of the two tracks of the arrowhead on the arc.
+  Line1_Track:
+    summary: Returns the part of the dimension line that runs from the arc to the bend point.
+    remarks: >-
+      With `ArrowPosition` set to `TDimensionArrowPosition.eInside` and the text location outside the circle, the line
+      starts at the center of the arc. It is drawn with the width `ArrowLineWidth`.
+  Line2_Track:
+    summary: Returns the part of the dimension line that runs from the bend point to the text location.
+    remarks: It is drawn with the width `ArrowLineWidth`.
+  Text:
+    summary: Returns the text that shows the measured radius.
+    remarks: >-
+      With `TextPosition` set to `TDimensionTextPosition.eTextUniDirectional` (the default), the text is horizontal,
+      vertically centered on the text location and placed `TextGap` to its right, or to its left when the line from the
+      bend point runs leftwards.

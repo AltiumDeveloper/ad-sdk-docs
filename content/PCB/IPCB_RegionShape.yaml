@@ -1,0 +1,38 @@
+# PCB.IPCB_RegionShape: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The outline of a shaped object as an editable list of segments.
+remarks: >-
+  Regions (including component bodies), polygons, split planes and confinement constraint rules provide this
+  interface. Each segment is a `PolySegment`.
+
+
+  For a region, the segments and the region's shape are kept separately: after changing the segments, call
+  `UpdateContourFromShape` so that the region's shape follows them.
+members:
+  ShapeSegment:
+    summary: A segment of the outline.
+    remarks: >-
+      For a region, a polygon or a split plane, reading a segment outside the valid range returns a segment with all
+      values zero, assigning one outside the range does nothing, and assigning the first segment also updates the
+      closing segment after the last one.
+    parameters:
+      argI: >-
+        The zero-based index of the segment. For a region it runs from 0 to `ShapeSegmentCount`, where the last
+        index is the closing segment, which repeats the first one as a line segment; for a polygon or a split plane it
+        runs from 0 to `ShapeSegmentCount` - 1.
+  ShapeSegmentCount:
+    summary: The number of segments of the outline.
+    remarks: >-
+      Assigning a value keeps the existing segments up to the new number, and sets the closing segment after the last
+      one to repeat the first segment as a line segment.
+  UpdateContourFromShape:
+    summary: Rebuilds a region's shape from its segments.
+    remarks: >-
+      The outline of the region is recreated from the segments, with arcs approximated by straight segments, and its
+      area is recalculated. For a polygon or a split plane the call does nothing; for a confinement constraint it
+      raises an error.
+    parameters:
+      argConserveExistingHoles: True to keep the holes of the region, false to remove them and keep only the outline.
+  UpdateShapeFromContour:
+    summary: Rebuilds a region's segments from its current shape.
+    remarks: >-
+      For a polygon or a split plane the call does nothing; for a confinement constraint it raises an error.

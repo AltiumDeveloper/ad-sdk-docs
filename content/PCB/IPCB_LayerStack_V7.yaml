@@ -1,0 +1,91 @@
+# PCB.IPCB_LayerStack_V7: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The layer stack of a board in the version 7 layer model, deprecated; `IPCB_Board.LayerStack_V7` returns it.
+remarks: >-
+  It is the same master layer stack that `IPCB_Board.MasterStack` returns as an `IPCB_MasterLayerStack`. The layer
+  walk with `FirstLayer`, `NextLayer`, `PreviousLayer` and `LastLayer` visits the electrical layers of the stack:
+  signal layers and internal planes.
+members:
+  DielectricBottom:
+    summary: The bottom solder mask layer of the layer stack, or null when the stack has none.
+  DielectricTop:
+    summary: The top solder mask layer of the layer stack, or null when the stack has none.
+  FirstAvailableInternalPlane:
+    summary: Returns the first internal plane layer that is not in the layer stack, or null when every internal plane is
+      in the stack.
+    remarks: The internal planes are tried in order of their number, starting with internal plane 1.
+  FirstAvailableSignalLayer:
+    summary: Returns the first signal layer that is not in the layer stack, or null when every signal layer is in the
+      stack.
+    remarks: The top layer is tried first, then the mid layers in order of their number, then the bottom layer.
+  FirstLayer:
+    summary: Returns the first electrical layer (signal layer or internal plane) of the layer stack, or null when the stack
+      has none.
+    remarks: Continue with `NextLayer` until it returns null to visit every electrical layer.
+  InsertInStackAbove:
+    summary: Inserts a signal layer or an internal plane into the layer stack above a reference layer, together with a new
+      dielectric layer below it.
+    remarks: >-
+      The new dielectric layer takes its properties from the inserted layer's dielectric. Both layers are enabled in
+      every substack of the master layer stack. Nothing is inserted when the layer is not a signal layer or an internal
+      plane, or when a layer with the same layer ID is already in the stack.
+    parameters:
+      argRefL: The layer of the stack above which the layer is inserted.
+      argL: The layer to insert.
+  InsertInStackBelow:
+    summary: Inserts a signal layer or an internal plane into the layer stack below a reference layer, together with a new
+      dielectric layer below it.
+    remarks: >-
+      The layer is placed below the reference layer and the dielectric layers that directly follow it. The new
+      dielectric layer takes its properties from the inserted layer's dielectric. Both layers are enabled in every
+      substack of the master layer stack. Nothing is inserted when the layer is not a signal layer or an internal plane,
+      or when a layer with the same layer ID is already in the stack.
+    parameters:
+      argRefL: The layer of the stack below which the layer is inserted.
+      argL: The layer to insert.
+  InsertLayer:
+    summary: Adds a signal layer or an internal plane to the layer stack, together with a new dielectric layer below it,
+      at a position chosen automatically.
+    remarks: >-
+      An internal plane is placed below the last internal plane of the stack. A signal layer is placed below the last
+      signal layer, counted from the top, whose layer number is not higher than its own. When there is no such layer,
+      the layer is placed below the first electrical layer. Nothing is added when the layer is already in the stack.
+    parameters:
+      argL: The layer to add; only a signal layer or an internal plane is added.
+  LastInternalPlane:
+    summary: Returns the last internal plane of the layer stack, or null when the stack has none.
+  LastLayer:
+    summary: Returns the last electrical layer (signal layer or internal plane) of the layer stack, or null when the stack
+      has none.
+    remarks: Continue with `PreviousLayer` until it returns null to visit every electrical layer in reverse order.
+  LayerObject:
+    summary: The layer object of the given layer, or null when the layer stack has none for it.
+    remarks: Returns the same object as `LayerObject_V7` for the same layer.
+    parameters:
+      argL: The layer, from `TV6_Layer.eV6_TopLayer` to `TV6_Layer.eV6_ViaHoleLayer`; any other value returns null.
+  LayerObject_V7:
+    summary: The layer object of the given layer, or null when the layer stack has none for it.
+  LayersInStackCount:
+    summary: Returns the number of electrical layers (signal layers and internal planes) in the layer stack.
+  LayerStackStyle:
+    summary: The layer stack style of the master layer stack.
+    seeAlso:
+      - PCB.TLayerStackStyle
+  NextLayer:
+    summary: Returns the electrical layer (signal layer or internal plane) that follows the given layer in the layer stack,
+      or null when there is none.
+    parameters:
+      argL: The layer to continue from.
+  PreviousLayer:
+    summary: Returns the electrical layer (signal layer or internal plane) that precedes the given layer in the layer
+      stack, or null when there is none.
+    parameters:
+      argL: The layer to continue from.
+  RemoveFromStack:
+    summary: Removes a signal layer or an internal plane from the layer stack, together with the dielectric layers that
+      directly follow it.
+    remarks: Solder mask layers are not removed. Nothing is removed when the layer is not a signal layer or an internal
+      plane.
+    parameters:
+      argL: The layer to remove.
+  SignalLayerCount:
+    summary: Returns the number of signal layers in the layer stack.
