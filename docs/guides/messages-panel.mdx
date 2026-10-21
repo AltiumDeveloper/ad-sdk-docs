@@ -1,0 +1,61 @@
+---
+title: The Messages panel
+sidebar_position: 11
+description: Report results in the Messages panel - adding messages with an error-level icon, running a command when the user double-clicks a message, and clearing one extension's messages.
+---
+
+# The Messages panel
+
+The Messages panel is reached through the workspace: `IWorkspace.DM_MessagesManager` returns its
+[`IDXPMessagesManager`](../reference/dxp/IDXPMessagesManager.md), and `IWorkspace.DM_ShowMessageView` shows the panel.
+
+```csharp
+using DXP;
+using EDP;
+
+var workspace = DXP.GlobalVars.Client.GetDXPWorkspace() as IWorkspace;
+IDXPMessagesManager messages = workspace.DM_MessagesManager();
+
+messages.BeginUpdate();
+try
+{
+    messages.AddMessage("[MyExtension Error]", "U7: supply pin VCC is not connected", "MyExtension", "Controller.SchDoc",
+        "MyExtension:Run", "Cmd=Navigate|Designator=U7",
+        DXPConstant.ImageIndexErrorLevels[(int)TErrorLevel.eErrorLevelError], false, string.Empty, string.Empty);
+}
+finally
+{
+    messages.EndUpdate();
+}
+
+workspace.DM_ShowMessageView();
+```
+
+## Adding a message
+
+`IDXPMessagesManager.AddMessage` takes:
+
+| Parameter | Value |
+| --- | --- |
+| `argMessageClass` | The message's class, shown in the **Class** column, such as `[MyExtension Error]`. |
+| `argMessageText` | The message, shown in the **Message** column. |
+| `argMessageSource` | Shown in the **Source** column, such as the extension's name. |
+| `argMessageDocument` | Shown in the **Document** column, such as the file name of the document the message is about. |
+| `argMessageCallBackProcess` | The process to run when the user double-clicks the message, `<server>:<command>`; empty for none. |
+| `argMessageCallBackParameters` | The parameters passed to that process. |
+| `argImageIndex` | The message's icon: `DXPConstant.ImageIndexErrorLevels`, indexed by a `DXP.TErrorLevel` value. |
+| `argReplaceLastMessageIfSameClass` | `false` adds a new message. |
+| `argMessageCallBackProcess2`, `argMessageCallBackParameters2` | `string.Empty`. |
+
+## Navigating on double-click
+
+The callback process can be one of the extension's own commands: register a command (for example `Run`, with a
+`Cmd=Navigate` parameter) that finds the object again from the parameters and shows it, such as zooming the board to a
+location or cross-probing a component. The parameters are a `|`-separated list of `Name=Value` pairs (see
+[Menus and the .rcs file](./menus.mdx#commands-process-launchers-and-parameters)), so encode any `|` in the values.
+
+## Clearing messages
+
+`IDXPMessagesManager.ClearMessagesOfClass` removes the messages of one class. Give each kind of result its own
+classes (for example `[MyExtension ERC Error]` and `[MyExtension DRC Error]`), so that a new run clears only its own
+earlier messages, and leaves those of Altium Designer and of other runs.
