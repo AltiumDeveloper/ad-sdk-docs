@@ -122,6 +122,9 @@ members:
       - PCB.IPCB_Pad.IsPadStack
   Name:
     summary: The designator of the pad.
+    remarks: >-
+      For a pad of a component, the designator is the number of the schematic pin that the pad implements
+      (INetItem.DM_PinNumber).
   OwnerPart_ID:
     summary: The identifier of the component part that owns the pad, used for gate and pin swapping.
   PinDescriptorString:

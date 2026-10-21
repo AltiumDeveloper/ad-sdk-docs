@@ -1,0 +1,55 @@
+---
+title: Design data notes
+sidebar_position: 12
+description: What design data values mean - library references and workspace item IDs, manufacturer data of workspace components, matching schematic pins to PCB pads, and PCB coordinates.
+---
+
+# Design data notes
+
+## Library references and workspace item IDs
+
+`IPart.DM_LibraryReference` is the name of the component's symbol in its library. For a component placed from a
+workspace library, that is an internal name, not the workspace item ID. The item ID (such as `CMP-00016-2`) is the value
+of the component's parameter named `Library Reference`:
+
+```csharp
+using EDP;
+
+IDocument flattened = project.DM_DocumentFlattened();
+for (int i = 0; i < flattened.DM_ComponentCount(); i++)
+{
+    IComponent component = flattened.DM_Components(i);
+    string itemId = null;
+    for (int p = 0; p < component.DM_ParameterCount(); p++)
+    {
+        EDP.IParameter parameter = component.DM_Parameters(p);
+        if (parameter.DM_Name() == "Library Reference")
+            itemId = parameter.DM_Value();
+    }
+}
+```
+
+## Manufacturer data of workspace components
+
+A component placed from a workspace library has no manufacturer or manufacturer part number parameters: that data is
+in the component's Part Choices. Checks that require such parameters apply only to components that do not come from a
+workspace library.
+
+## From schematic pins to PCB pads
+
+A schematic pin and the PCB pad that implements it are matched by designator and number:
+
+| Schematic (`EDP`) | PCB |
+| --- | --- |
+| `IPart.DM_PhysicalDesignator` of the component | The designator of the pad's component: `pad.GetState_Component()?.GetState_Name()?.GetState_Text()` |
+| `INetItem.DM_PinNumber` of the pin | `IPCB_Pad.Name` |
+
+The pins of a component are `IPart.DM_Pins`; for a multi-part component, read them from each part
+(`IComponent.DM_SubParts`). The pins of a net (`INet.DM_Pins`) give the component's designator as
+`INetItem.DM_PhysicalPartDesignator`.
+
+## PCB coordinates
+
+PCB coordinates are integers in internal units, 10,000 per mil (`EDP.EDPConstant.InternalUnits`), and absolute:
+subtract `IPCB_Board.XOrigin` and `IPCB_Board.YOrigin` to get the location that the PCB editor shows. See
+[Working with PCBs](./pcb-basics.mdx#coordinates).

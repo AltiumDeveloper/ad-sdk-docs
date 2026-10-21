@@ -109,6 +109,9 @@ members:
     summary: The method denotes which layer this part is on.
   DM_LibraryReference:
     summary: The method denotes the name of the component from the library
+    remarks: >-
+      For a component placed from a workspace library, this is an internal name of its symbol, not the workspace item
+      ID. The item ID (such as CMP-00016-2) is the value of the component's parameter named Library Reference.
   DM_LogicalDesignator:
     summary: The method denotes the logical designator of this part on a schematic sheet.
   DM_LogicalOwnerDocument:
