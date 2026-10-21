@@ -89,8 +89,11 @@ Server
 End
 ```
 
-Extensions installed with Altium Designer declare one such server each, for example `'AdvSch'` (schematic editor),
-`'AdvPCB'` (PCB editor) and `'Dxp'`.
+The value is the name of the target server's installation file in the `System` folder, not its `EditorName`:
+`'AdvSch'` (`AdvSch.ins`, the schematic editor `Sch`), `'AdvPCB'` (`AdvPCB.ins`, the PCB editor `PCB`),
+`'WorkspaceManager'` (`WorkspaceManager.ins`, which owns `MNNoDocument` and the Projects panel menus) or `'Dxp'`
+(`Dxp.ins`). An extension that changes the menus of several servers has one `Updates` line for each, as the
+extensions installed with Altium Designer do (for example `Updates = 'AdvSch'` and `Updates = 'AdvPcb'`).
 
 ## Common insertion points
 
