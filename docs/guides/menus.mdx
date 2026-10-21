@@ -6,10 +6,11 @@ description: Add an extension's commands to Altium Designer menus - process laun
 
 # Menus and the .rcs file
 
-An extension's commands reach the user through the `.rcs` file next to its assembly. Altium Designer reads it when it
-starts, so a change takes effect after a restart (see [Development loop](./development-loop.mdx)). The `.rcs` files of
-Altium Designer itself are in the `System` folder of the installation; they use the same format and are the reference
-for menu IDs.
+An extension's commands reach the user through the `.rcs` file next to its assembly. A change to it takes effect
+after a restart (see [Development loop](./development-loop.mdx)), and menus inserted into another server's menus need
+an `Updates` entry in the `.ins` file (see [Inserting into other menus](#inserting-into-other-menus)). The `.rcs`
+files of Altium Designer itself are in the `System` folder of the installation; they use the same format and are the
+reference for menu IDs.
 
 ## Commands, process launchers and parameters
 
@@ -68,6 +69,29 @@ End
 Every element has an ID. Prefix the IDs with the extension's name, as Altium Designer's own files do (`PLSch:`,
 `PLPCB:`), so that they do not collide with other extensions.
 
+## Inserting into other menus
+
+Altium Designer starts an extension's server on first use: when one of its commands runs, not when Altium Designer
+starts. Without more information it merges the extension's `.rcs` file only when the server starts, which is after
+the menu bar has been built, so a menu inserted into the schematic or PCB editor's menus never appears. The
+extension's commands still work, for example from search.
+
+`Updates` in the `Server` block of the `.ins` file names the server whose menus the extension changes. Altium
+Designer then merges the extension's `.rcs` file at startup, without loading the extension's assembly:
+
+```text
+Server
+    EditorName        = 'MyExtension'
+    EditorExePath     = 'MyExtension.DLL'
+    EditorDescription = 'My first extension'
+    Version           = 'Version 1.0.0.1'
+    Updates           = 'AdvSch'
+End
+```
+
+Extensions installed with Altium Designer declare one such server each, for example `'AdvSch'` (schematic editor),
+`'AdvPCB'` (PCB editor) and `'Dxp'`.
+
 ## Common insertion points
 
 | Where | `TargetID` | `RefID0` | `InsertType` |
@@ -76,6 +100,10 @@ Every element has an ID. Prefix the IDs with the extension's name, as Altium Des
 | Schematic editor main menu, before **Window** | `MNSchematicMenu` | `MNSchematic_Window1` | `Before` |
 | PCB editor main menu, before **Window** | `MNPCBMenu` | `MNPCBMenu_Window1` | `Before` |
 | Project context menu in the Projects panel, after the item that compiles (validates) the project | `MNWorkspaceManagerMenu_PopupProject` | `MNWorkspaceManager_PopupProject010` | `After` |
+
+These IDs exist in the `System` `.rcs` files. A top-level menu inserted with them appears only with an `Updates`
+entry (see [Inserting into other menus](#inserting-into-other-menus)); with `Updates = 'AdvSch'`, the schematic
+insertion appears before **Window**.
 
 To find other insertion points, search the `System` `.rcs` files for the caption of a nearby menu item, then use the
 ID of its `Tree` as `TargetID` and the ID of the item as `RefID0`.
