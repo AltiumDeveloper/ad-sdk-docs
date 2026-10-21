@@ -1,0 +1,55 @@
+---
+title: Development loop
+sidebar_position: 8
+description: What takes effect only after an Altium Designer restart, what does not, and how a hot-reload setup lets you rebuild an extension while Altium Designer keeps running.
+---
+
+# Development loop
+
+## What needs a restart
+
+Altium Designer reads an extension's installation files and loads its assembly when it starts:
+
+| Change | Takes effect |
+| --- | --- |
+| `.ins` file (server, commands) | after a restart |
+| `.rcs` file (menus, toolbars, shortcuts) | after a restart |
+| The extension assembly (the `EditorExePath` of the `.ins` file) | after a restart |
+| Files the extension reads itself (settings, data) | when the extension reads them again |
+| Assemblies the extension loads itself into a collectible `AssemblyLoadContext` | when the extension loads them again |
+
+While Altium Designer runs, the extension assembly is locked: it cannot be overwritten, but it can be renamed, so a
+deployment script can move it aside and copy the new build in for the next start.
+
+## Hot reload
+
+The last row of the table is the basis of hot reload: keep the code that changes out of the assembly that Altium
+Designer loads.
+
+- **A stable shim** is the extension assembly. It registers a few generic commands, for example a `Run` command whose
+  parameters name the operation to run (`Params='Cmd=Hello'` in the `.rcs` file), and rarely changes, so the `.ins`
+  file, the `.rcs` file and the shim stay the same while you work.
+- **The implementation** is a separate assembly. The shim loads it into a new collectible `AssemblyLoadContext` for
+  each build, from a copy of its bytes (`AssemblyLoadContext.LoadFromStream`) so that the file stays free for the next
+  build, and unloads the previous context.
+- The collectible context resolves `Altium.SDK.dll`, `Altium.SDK.Interfaces.dll` and the shim from the default load
+  context, so that the shim and the implementation use the same SDK types.
+- The contract between shim and implementation uses only base class library types (`string`, dictionaries), so
+  changing the implementation never requires rebuilding the shim.
+- A file watcher, or a command, triggers the reload; the reload itself runs on the main thread (see
+  [Runtime and hosting](./runtime-and-hosting.mdx#the-main-thread)).
+
+Use hot reload in Debug builds only. A Release build loads the implementation once, and needs no watcher.
+
+An old implementation is collected only when nothing references it any more. These keep it alive:
+
+- handlers on static or Altium Designer events that the implementation does not remove before unloading;
+- open forms, running timers and threads;
+- the shim holding objects created by the implementation;
+- framework caches, such as the type cache of `System.Text.Json`. Calling the `ClearCache` method of each
+  `[MetadataUpdateHandler]` type before unloading clears them; .NET Hot Reload uses the same mechanism;
+- WPF's references to newly loaded assemblies (see
+  [Runtime and hosting](./runtime-and-hosting.mdx#frameworks-in-the-process)): the first load of each new build stays
+  in memory until Altium Designer exits.
+
+The [`Altium.Designer.HotReload`](https://example.invalid/Altium.Designer.HotReload) package implements this setup.
