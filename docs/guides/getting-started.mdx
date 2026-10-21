@@ -22,7 +22,7 @@ Create a C# class library and reference the SDK assemblies:
 The current SDK assemblies target .NET 8 (they reference `System.Runtime` 8.0). Many projects in the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository were written for earlier SDK versions
 and target .NET Framework 4.x; their source code still shows the API usage, but use the target framework that matches
-your SDK version.
+your SDK version. [Project setup](./project-setup.mdx) has a complete project file.
 
 ## The plugin factory and the server module
 
@@ -94,7 +94,8 @@ Next to the assembly, an extension ships two text files with the extension's nam
   Command Name='HelloSchematic' End
   ```
 
-- **`.rcs`** defines the menus, toolbars and shortcuts that invoke the commands.
+- **`.rcs`** defines the menus, toolbars and shortcuts that invoke the commands; see
+  [Menus and the .rcs file](./menus.mdx).
 
 The assembly and both files go into a folder under the Altium Designer `Extensions` folder; Altium Designer loads the
 extension on start.
@@ -103,3 +104,6 @@ extension on start.
 
 - [API conventions](./api-conventions.mdx) explains how the interfaces are organised.
 - [Working with schematics](./schematic-basics.mdx) completes `Command_HelloSchematic`.
+- [Runtime and hosting](./runtime-and-hosting.mdx) and [Development loop](./development-loop.mdx) explain how Altium
+  Designer runs the extension, and what needs a restart.
+- [Gotchas](./gotchas.mdx) lists the most common surprises.
