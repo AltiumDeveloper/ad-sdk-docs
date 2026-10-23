@@ -8,6 +8,8 @@ description: Short list of the surprises that cost extension developers the most
 
 | Surprise | Explained in |
 | --- | --- |
+| An extension copied into the `Extensions` folder never loads, and nothing reports it: register it in `ExtensionsRegistry.xml`. | [Getting started](./getting-started.mdx#registering-the-extension) |
+| A project's BOM manager casts to `IActiveBomManager`, but its ActiveBOM members fail with "Interface not supported". | [Working with bills of materials](./bom.mdx#getting-a-bom) |
 | `obj is IPCB_Region` and `as` succeed for every object; calling a member the object lacks throws a `COMException`. Branch on `IPCB_Primitive.ObjectID` or `ISch_BasicContainer.ObjectId`. | [Interfaces at run time](./interfaces-at-run-time.mdx#type-tests-succeed-for-every-object) |
 | A typed member such as `GetState_ObjectID()` does not exist: add `using DXP; using EDP; using PCB; using SCH;`. | [Interfaces at run time](./interfaces-at-run-time.mdx#typed-helpers-need-their-namespace) |
 | A reference kept from an earlier command fails. Get the workspace, project, document or board again in each command. | [Interfaces at run time](./interfaces-at-run-time.mdx#get-references-again-in-each-command) |

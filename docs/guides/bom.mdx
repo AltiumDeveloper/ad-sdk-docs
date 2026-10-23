@@ -22,12 +22,17 @@ The BOM is an [`IBomManager`](../reference/edp/IBomManager.md), or an
 | A whole project | `factory.GetManagerForProject(project)` |
 | A whole project, with a PCB document as an additional source of PCB parameters | `factory.GetManagerForProjectPcb(project, pcbDocument)` |
 
-To find out which kind of manager you have, cast it:
+Which kind of manager you have follows from its source, not from a cast. The cast to `IActiveBomManager` succeeds
+for every manager (see [Interfaces at run time](./interfaces-at-run-time.mdx)); on a project's manager, calling
+`IActiveBomManager.GetOptions()` then fails with "Interface not supported". Use the ActiveBOM interfaces only for
+the manager of an ActiveBOM document (a BomDoc):
 
 ```csharp
 IBomManagerFactory factory = EDP.Utils.GetBomManagerFactory();
-IBomManager bomManager = factory.GetManagerForProject(project);
-var activeBomManager = bomManager as IActiveBomManager; // null unless the source is an ActiveBOM document
+IBomManager bomManager = factory.GetManagerForProject(project);            // a project: IBomManager only
+
+IBomManager bomDocManager = factory.GetManagerForDocument(bomDocument);    // a BomDoc
+var activeBomManager = (IActiveBomManager)bomDocManager;                   // ActiveBOM members work here
 ```
 
 ## Reading the BOM
@@ -59,6 +64,11 @@ All columns (parameters) of the BOM are in its schema:
 ```csharp
 IBomParameterDefinitionList columns = bomManager.GetSchema().GetParameterDefinitions();
 ```
+
+`IBomParameterDefinition.GetIsSystem()` marks the BOM engine's own columns. On a project in Altium Designer 26.1
+these are `#`, `%ID%`, `%PARENTID%`, `%CATALOGID%` and `%CATALOGITEMUNIQUEID%`; every component parameter, including
+internal ones such as `SPICEModelCache…` on components with simulation models, is not marked. To leave such columns
+out of an export, filter them by name.
 
 An ActiveBOM document can define column aliases (custom column names) and custom columns. Custom columns are in the
 same parameter definition list as the generated columns; to get them separately, and to read the aliases, use the

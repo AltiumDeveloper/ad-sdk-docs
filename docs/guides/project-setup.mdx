@@ -56,7 +56,8 @@ class library for `net8.0-windows`. A complete project file:
 - **CA1416** is the platform compatibility analyzer; suppress it if the build reports Windows-only APIs.
 
 The `.ins` and `.rcs` files (see [Getting started](./getting-started.mdx#installation-files)) are copied next to the
-assembly. Copy the build output into the extension's folder under the Altium Designer `Extensions` folder, then
+assembly. Copy the build output into the extension's folder under the Altium Designer `Extensions` folder, register the
+extension once (see [Registering the extension](./getting-started.mdx#registering-the-extension)), then
 restart Altium Designer (see [Development loop](./development-loop.mdx)).
 
 ## Projects from the Altium Developer generator

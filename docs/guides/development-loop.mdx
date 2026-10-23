@@ -38,6 +38,19 @@ Until the first command runs, none of the extension's code runs: not the plugin 
 and not a file watcher, pipe server or hot-reload host that the extension starts there. After a restart, run any of the
 extension's commands once before a tool connects to it.
 
+## When the extension does not load
+
+| What you see after a restart | Cause |
+| --- | --- |
+| No menu, and the extension's commands are not found by the search | The extension is not registered in `Extensions\ExtensionsRegistry.xml` (see [Getting started](./getting-started.mdx#registering-the-extension)), or its folder does not contain the `.ins` file and the assembly that `EditorExePath` names. |
+| The commands are found by the search, but the top-level menu is missing | The `.ins` file has no `Updates` entry (see [Menus and the .rcs file](./menus.mdx#inserting-into-other-menus)). |
+| A tool cannot connect to the extension | Its server has not started yet: run one of its commands (see [When the extension starts](#when-the-extension-starts)). |
+| A change has no effect | It needs a restart (see [What needs a restart](#what-needs-a-restart)), or the new build was copied to a different folder than the one registered. |
+
+`%LOCALAPPDATA%\Altium\Altium Designer {<installation GUID>}\DXP_Startup.log` records the steps of each start of
+Altium Designer, with times; it does not list the extensions it loads. For problems inside the extension, have the
+extension write its own log file.
+
 ## Hot reload
 
 The last row of the table is the basis of hot reload: keep the code that changes out of the assembly that Altium
@@ -70,3 +83,14 @@ An old implementation is collected only when nothing references it any more. The
   in memory until Altium Designer exits.
 
 The [`Altium.Designer.HotReload`](https://example.invalid/Altium.Designer.HotReload) package implements this setup.
+
+## Running commands from scripts and tests
+
+A hot-reload host can also accept requests from outside Altium Designer, for example on a named pipe that only the
+current Windows user can open. A script then runs one of the extension's commands inside the running Altium Designer,
+on its main thread, and reads the result as text and an exit code. Builds, test suites and AI coding assistants can
+check a change against real designs this way, without a person clicking through the user interface.
+
+A command called this way must not wait for a person: pass it the information a dialog would ask for, and have it
+return its result instead of showing a message box or a modal dialog. Keep the pipe out of release builds: any process
+of the user can run the extension's commands through it.
