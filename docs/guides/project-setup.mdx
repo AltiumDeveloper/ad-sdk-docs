@@ -1,13 +1,14 @@
 ---
 title: Project setup
 sidebar_position: 6
-description: An SDK-style net8.0-windows project file for an extension - the SDK references from the installation, Windows Forms and WPF, dynamic loading and the installation files.
+description: An SDK-style project file for an extension (net8.0-windows or net10.0-windows) - the SDK references from the installation, Windows Forms and WPF, dynamic loading and the installation files.
 ---
 
 # Project setup
 
-Altium Designer hosts .NET 8 (see [Runtime and hosting](./runtime-and-hosting.mdx)), so an extension is an SDK-style
-class library for `net8.0-windows`. A complete project file:
+An extension is an SDK-style class library for the .NET version that Altium Designer hosts: `net8.0-windows` for
+Altium Designer 26.1, `net10.0-windows` from 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
+A complete project file, for 26.1:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">

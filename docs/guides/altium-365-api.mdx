@@ -1,0 +1,127 @@
+---
+title: Calling the Altium 365 API
+sidebar_position: 5.7
+description: Call the Altium 365 Platform API (GraphQL) for the workspace Altium Designer is signed in to - the endpoint, the access token of the user's session, the workspace URL and a first query.
+---
+
+# Calling the Altium 365 API
+
+An extension can call the [Altium 365 Platform API](https://docs.developer.altium.com/platform-api-docs/), a GraphQL
+API for workspace data, as the user who is signed in to Altium Designer, without an application registration of its
+own. Altium Designer provides the endpoint and an access token for the connected workspace. This works from Altium
+Designer 26.12; see [Versions](#versions).
+
+## The endpoint, the token and the workspace
+
+All three come from the server manager, `EDP.Utils.GetDXPServerManager()` (`DXP.IEDMS_DXPServerManager`):
+
+| What | Call | Example value |
+| --- | --- | --- |
+| Signed in? | `server.IsConnected()` | `true` |
+| The API endpoint | `server.GetDiscoveryService().GetServiceURL("PLATFORMAPI")` | `https://eur.365.altium.com/napi/gateway/graphql/` |
+| The access token | `server.GetSessionID()` | a JWT, used as `Authorization: Bearer <token>` |
+| The workspace | the host of `server.GetDiscoveryService().VaultUrl()` | `acme.365.altium.com` |
+
+- **The endpoint** is the GraphQL endpoint of the region that hosts the connected workspace. Use it as returned; do
+  not choose a regional endpoint yourself.
+- **The token** is an OAuth access token (a JWT) that `https://auth.altium.com` issued for the signed-in user's
+  session. Its scopes include `a365` and `a365:workspace:<workspace id>`: it gives access to the connected workspace
+  as that user. It expires (about a month after it was issued, in Altium Designer 26.12), so read it again for each
+  request instead of keeping it.
+- **The workspace** is the one Altium Designer is signed in to. `desProjects` without its `workspaceUrl` argument
+  returns that workspace's projects. `desWorkspaceInfos` lists all of the user's workspaces; the connected one has the
+  same host as the Vault URL, and its `workspaceId` contains the ID of the token's workspace scope.
+
+## A first query
+
+This command lists the connected workspace and its projects. Send the request off the main thread and wait for it, so
+that waiting does not block Altium Designer's message loop:
+
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using DXP;
+using EDP;
+
+static class Altium365
+{
+    const string Query =
+        "query { desWorkspaceInfos { name url workspaceId } desProjects(first: 10) { totalCount nodes { name projectId } } }";
+
+    public static string ListProjects()
+    {
+        IEDMS_DXPServerManager server = EDP.Utils.GetDXPServerManager();
+        if (server == null || !server.IsConnected())
+            return "Altium Designer is not signed in to a workspace.";
+
+        IEDMS_DiscoveryServiceManager discovery = server.GetDiscoveryService();
+        string endpoint = discovery.GetServiceURL("PLATFORMAPI");
+        string workspaceHost = new Uri(discovery.VaultUrl()).Host;
+
+        using JsonDocument result = Post(endpoint, server.GetSessionID(), Query);
+        JsonElement data = result.RootElement.GetProperty("data");
+
+        var text = new StringBuilder();
+        foreach (JsonElement workspace in data.GetProperty("desWorkspaceInfos").EnumerateArray())
+        {
+            string url = workspace.GetProperty("url").GetString();
+            if (string.Equals(new Uri(url).Host, workspaceHost, StringComparison.OrdinalIgnoreCase))
+                text.AppendLine($"Workspace: {workspace.GetProperty("name").GetString()} {url}");
+        }
+        JsonElement projects = data.GetProperty("desProjects");
+        text.AppendLine($"Projects: {projects.GetProperty("totalCount").GetInt32()}");
+        foreach (JsonElement project in projects.GetProperty("nodes").EnumerateArray())
+            text.AppendLine($"  {project.GetProperty("name").GetString()}");
+        return text.ToString();
+    }
+
+    static JsonDocument Post(string endpoint, string token, string query)
+    {
+        using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = new StringContent(JsonSerializer.Serialize(new { query }), Encoding.UTF8, "application/json"),
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        string body = Task.Run(async () =>
+        {
+            using HttpResponseMessage response = await http.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        }).GetAwaiter().GetResult();
+
+        JsonDocument json = JsonDocument.Parse(body);
+        if (json.RootElement.TryGetProperty("errors", out JsonElement errors) && errors.GetArrayLength() > 0)
+        {
+            string message = errors[0].GetProperty("message").GetString();
+            json.Dispose();
+            throw new InvalidOperationException("Altium 365 API: " + message);
+        }
+        return json;
+    }
+}
+```
+
+The API reports errors in the response body with HTTP status 200: check the `errors` member, as `Post` does. An
+invalid or expired token gives the error code `AuthInvalidToken` or `AuthExpiredToken`. The
+[Platform API documentation](https://docs.developer.altium.com/platform-api-docs/) has the schema, its types and more
+examples; its Nitro IDE (`https://<workspace host>/api/graphql/`) helps to write queries.
+
+## The token is the user's
+
+The token carries the signed-in user's access to the workspace. Never write it to a log, a message, a file or a
+setting, and send it only to the endpoint that `GetServiceURL("PLATFORMAPI")` returns.
+
+## Versions
+
+| Altium Designer | `GetSessionID()` returns | The API accepts it |
+| --- | --- | --- |
+| 26.1 | an opaque workspace session ID (72 characters, not a JWT) for the workspace's SOAP services | no: `AuthInvalidToken` |
+| 26.12 | a JWT access token for the connected workspace | yes |
+
+To support both, check the token before using it: a JWT has three parts separated by dots.

@@ -19,7 +19,8 @@ Create a C# class library and reference the SDK assemblies:
 | `Altium.SDK.Interfaces.dll` | The API: interfaces, enumerations and structures (this reference). |
 | `Altium.SDK.dll` | Hosting classes ([`DXP.ServerModule`](../reference/dxp/ServerModule.md), [`DXP.CommandLauncher`](../reference/dxp/CommandLauncher.md)), entry points (`SCH.GlobalVars`, `PCB.GlobalVars`, `DXP.GlobalVars`), constants ([`SCH.SCHConstant`](../reference/sch/SCHConstant.md)) and utilities ([`DXP.Utils`](../reference/dxp/Utils.md), [`EDP.Utils`](../reference/edp/Utils.md)). |
 
-The current SDK assemblies target .NET 8 (they reference `System.Runtime` 8.0). Many projects in the
+The SDK assemblies target the .NET version that Altium Designer hosts: .NET 8 in Altium Designer 26.1, .NET 10 from
+26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)). Many projects in the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository were written for earlier SDK versions
 and target .NET Framework 4.x; their source code still shows the API usage, but use the target framework that matches
 your SDK version. [Project setup](./project-setup.mdx) has a complete project file.
@@ -149,4 +150,5 @@ starts.
 - [Runtime and hosting](./runtime-and-hosting.mdx) and [Development loop](./development-loop.mdx) explain how Altium
   Designer runs the extension, and what needs a restart.
 - [Writing an OutJob outputer](./outputers.mdx) adds an output to Output Job files.
+- [Calling the Altium 365 API](./altium-365-api.mdx) reads workspace data as the signed-in user.
 - [Gotchas](./gotchas.mdx) lists the most common surprises.

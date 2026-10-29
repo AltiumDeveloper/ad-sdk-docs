@@ -1,17 +1,26 @@
 ---
 title: Runtime and hosting
 sidebar_position: 7
-description: How Altium Designer runs an extension - the .NET 8 runtime it hosts, the load context and location of the extension assembly, the main thread, and the frameworks loaded next to it.
+description: How Altium Designer runs an extension - the .NET runtime it hosts, the load context and location of the extension assembly, the main thread, and the frameworks loaded next to it.
 ---
 
 # Runtime and hosting
 
 ## The .NET runtime
 
-Altium Designer hosts .NET 8 (CoreCLR) in its own process. The runtime is a private copy in the `System\DotNet\Runtime`
+Altium Designer hosts .NET (CoreCLR) in its own process. The runtime is a private copy in the `System\DotNet\Runtime`
 folder of the installation (`Microsoft.NETCore.App` and `Microsoft.WindowsDesktop.App`), not a machine-wide .NET
-installation; Altium Designer 26.1, for example, ships .NET 8.0.15. An extension is a `net8.0-windows` class library:
-see [Project setup](./project-setup.mdx).
+installation, and the version depends on the Altium Designer version:
+
+| Altium Designer | Hosted runtime | SDK assemblies reference | Extension target framework |
+| --- | --- | --- | --- |
+| 26.1 | .NET 8.0.15 | .NET 8 (`System.Runtime` 8.0) | `net8.0-windows` |
+| 26.12 | .NET 10.0.10 | .NET 10 (`System.Runtime` 10.0) | `net10.0-windows` |
+
+`X2.runtimeconfig.json` in the installation folder names the hosted version (`"tfm"` and the framework versions).
+An extension targets that version, and is built with a .NET SDK that supports it; it is a class library (see
+[Project setup](./project-setup.mdx)). A `net8.0-windows` project that references the .NET 10 SDK assemblies fails to
+build with error CS1705 ("uses `System.Runtime, Version=10.0.0.0` which has a higher version than referenced assembly").
 
 ## How the extension assembly is loaded
 
