@@ -136,6 +136,8 @@ their accessor names, so `GetState_Orientation` finds the `Orientation` property
 - `build/llms.txt`: site index (guides, namespaces);
 - `build/reference/<ns>/llms.txt`: every type of a namespace with its summary, by area;
 - `build/reference/<ns>/api.cs.txt`: the whole namespace as compact C# declarations with `///` summaries;
+- `build/reference/<ns>/llms-full.txt`: every page of the namespace as Markdown, each under front matter (`title`,
+  `url`, `namespace`, `kind`) in the format of the Altium 365 API reference's `llms-full.txt`;
 - a `.md` twin of every page (`/reference/sch/ISch_Component` → `/reference/sch/ISch_Component.md`), advertised by
   `<link rel="alternate" type="text/markdown">` and the **View as Markdown** link.
 

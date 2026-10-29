@@ -44,7 +44,7 @@ If you have it, read `internal/HANDOFF.md` first: history, decisions, status and
 | `scripts/apidocs/generate.mjs` | writes `docs/reference/**`, `.generated/{sidebar,manifest,xref}.json` |
 | `scripts/apidocs/search-index.mjs`, `search-check.mjs` | search index; check that every record's page and anchor exist |
 | `scripts/apidocs/check-content.mjs`, `check-xrefs.mjs` | wording/syntax check of hand-written sources; unlinked API names |
-| `scripts/apidocs/llms.mjs` | `llms.txt`, per-namespace `llms.txt` and `api.cs.txt`, Markdown twins of every page |
+| `scripts/apidocs/llms.mjs` | `llms.txt`, per-namespace `llms.txt`, `api.cs.txt` and `llms-full.txt`, Markdown twins of every page |
 | `scripts/examples/index-examples.mjs`, `check-examples.mjs` | examples usage index; example compile check |
 | `plugins/remark-xref.mjs` | links API names in code spans of the guides |
 | `plugins/search-index.cjs` | publishes the search index under a content-hashed name in production builds |
