@@ -3,12 +3,14 @@
 //   build/llms.txt                       site index: guides, namespaces
 //   build/reference/<ns>/llms.txt        namespace index: every type with its summary, by area
 //   build/reference/<ns>/api.cs.txt      the namespace as compact C# declarations with /// summaries
+//   build/reference/<ns>/llms-full.txt   every page of the namespace as Markdown, each under front matter
 //   <route>.md next to every page        Markdown twin (see src/theme/markdownRoute.ts)
 // Reads only public inputs: the generated pages, the guides, .generated/manifest.json and config/*.yaml.
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, posix, relative, sep } from 'node:path';
 import { parse } from 'yaml';
 import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
+import { llmsFull } from './lib/llms-full.mjs';
 import { buildModel } from './lib/model.mjs';
 import { methodSignature, typeParameterList, whereClauses } from './lib/render.mjs';
 
@@ -64,10 +66,13 @@ function walk(dir, files = []) {
   }
   return files;
 }
+const references = [];
 for (const file of walk('docs/reference')) {
   const rel = relative('docs', file).split(sep).join('/').replace(/\.md$/, '');
   const route = `/${rel.replace(/\/index$/, '')}`;
-  writeTwin(route, absoluteLinks(stripFrontMatter(readFileSync(file, 'utf8')), `/${rel}`));
+  const markdown = absoluteLinks(stripFrontMatter(readFileSync(file, 'utf8')), `/${rel}`);
+  writeTwin(route, markdown);
+  references.push({ route, markdown });
 }
 
 // Indexes and declaration files.
@@ -76,13 +81,17 @@ const namespaces = loadNamespaces();
 const model = buildModel({ metadataPaths: [...new Set(namespaces.flatMap((n) => n.metadata))], namespaces: namespaces.map((n) => n.id), hidden: loadHidden() });
 const summaries = new Map(manifest.pages.filter((p) => !p.parent).map((p) => [`${p.ns}.${p.name}`, p.summary]));
 const memberSummaries = new Map(manifest.pages.filter((p) => p.parent).map((p) => [`${p.ns}.${p.parent}.${p.name}`, p.summary]));
+const typePages = new Map(manifest.pages.filter((p) => !p.parent).map((p) => [p.route, p]));
+const CHARS_PER_TOKEN = 4;
+const estimateTokens = (text) => Math.ceil(text.length / CHARS_PER_TOKEN);
+const thousands = (n) => `${Math.round(n / 1000)}k`;
 
 const llms = [
   `# ${site.title}`,
   '',
   `> ${site.tagline}. Extensions are C# class libraries referencing Altium.SDK.Interfaces.dll (the API) and Altium.SDK.dll (hosting classes and entry points such as SCH.GlobalVars.SchServer).`,
   '',
-  'Every page has a Markdown version at its URL plus `.md`. Each namespace has an index (`llms.txt`) and its whole API as compact C# declarations (`api.cs.txt`).',
+  'Every page has a Markdown version at its URL plus `.md`. Each namespace has an index (`llms.txt`), its whole API as compact C# declarations (`api.cs.txt`) and all its pages in one Markdown file (`llms-full.txt`).',
   '',
   '## Guides',
   '',
@@ -105,7 +114,21 @@ for (const ns of namespaces) {
   const types = [...model.types.values()].filter((t) => t.namespace === ns.id).sort((a, b) => a.name.localeCompare(b.name));
   const categories = loadCategories(ns.id);
   const catOf = (t) => categoryOf(t, categories);
-  const index = [`# ${ns.label} namespace`, '', `> ${ns.description}`, '', `All declarations: ${absolute(`/reference/${ns.slug}/api.cs.txt`)}`, ''];
+  const base = `/reference/${ns.slug}`;
+  const pages = references
+    .filter((r) => r.route === base || r.route.startsWith(`${base}/`))
+    .sort((a, b) => (a.route === base ? -1 : b.route === base ? 1 : a.route.localeCompare(b.route)))
+    .map((r) => {
+      const page = typePages.get(r.route);
+      const heading = /^# (.+)$/m.exec(r.markdown)?.[1];
+      return {
+        title: page?.name ?? heading ?? r.route, url: absolute(r.route), namespace: ns.id,
+        kind: r.route === base ? 'namespace' : page?.kind ?? 'page', markdown: r.markdown,
+      };
+    });
+  const full = llmsFull(pages);
+  const index = [`# ${ns.label} namespace`, '', `> ${ns.description}`, '', `All declarations: ${absolute(`${base}/api.cs.txt`)}`,
+    `All pages as Markdown: ${absolute(`${base}/llms-full.txt`)} (~${thousands(estimateTokens(full))} tokens)`, ''];
   for (const c of categories) {
     const inCat = types.filter((t) => catOf(t) === c.id);
     if (!inCat.length) continue;
@@ -119,6 +142,8 @@ for (const ns of namespaces) {
   const dir = join(BUILD, 'reference', ns.slug);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'llms.txt'), index.join('\n'));
+  writeFileSync(join(dir, 'llms-full.txt'), full);
+  console.log(`llms: ${ns.id} llms-full.txt ${pages.length} pages, ${(full.length / 1024).toFixed(0)} KiB (~${thousands(estimateTokens(full))} tokens)`);
 
   const cs = [`// ${site.title}: namespace ${ns.id} (${ns.title}). Generated from ${model.assemblies.map((a) => `${a.name} ${a.version}`).join(', ')}.`,
     '// Properties are accessor method pairs (GetState_X / SetState_X); members marked [helper] are extension methods of the',
@@ -158,8 +183,9 @@ for (const ns of namespaces) {
     }
   }
   cs.push('}', '');
-  writeFileSync(join(dir, 'api.cs.txt'), cs.join('\n'));
+  const declarations = cs.join('\n');
+  writeFileSync(join(dir, 'api.cs.txt'), declarations);
   const size = statSync(join(dir, 'api.cs.txt')).size;
-  console.log(`llms: ${ns.id} api.cs.txt ${(size / 1024).toFixed(0)} KiB (~${Math.round(size / 4 / 1000)}k tokens)`);
+  console.log(`llms: ${ns.id} api.cs.txt ${(size / 1024).toFixed(0)} KiB (~${thousands(estimateTokens(declarations))} tokens)`);
 }
 console.log(`llms: llms.txt, ${namespaces.length} namespace indexes, ${twins} Markdown twins -> ${BUILD}/`);
