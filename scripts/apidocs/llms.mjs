@@ -82,7 +82,9 @@ const model = buildModel({ metadataPaths: [...new Set(namespaces.flatMap((n) => 
 const summaries = new Map(manifest.pages.filter((p) => !p.parent).map((p) => [`${p.ns}.${p.name}`, p.summary]));
 const memberSummaries = new Map(manifest.pages.filter((p) => p.parent).map((p) => [`${p.ns}.${p.parent}.${p.name}`, p.summary]));
 const typePages = new Map(manifest.pages.filter((p) => !p.parent).map((p) => [p.route, p]));
-const tokens = (text) => Math.round(text.length / 4 / 1000);
+const CHARS_PER_TOKEN = 4;
+const estimateTokens = (text) => Math.ceil(text.length / CHARS_PER_TOKEN);
+const thousands = (n) => `${Math.round(n / 1000)}k`;
 
 const llms = [
   `# ${site.title}`,
@@ -126,7 +128,7 @@ for (const ns of namespaces) {
     });
   const full = llmsFull(pages);
   const index = [`# ${ns.label} namespace`, '', `> ${ns.description}`, '', `All declarations: ${absolute(`${base}/api.cs.txt`)}`,
-    `All pages as Markdown: ${absolute(`${base}/llms-full.txt`)} (~${tokens(full)}k tokens)`, ''];
+    `All pages as Markdown: ${absolute(`${base}/llms-full.txt`)} (~${thousands(estimateTokens(full))} tokens)`, ''];
   for (const c of categories) {
     const inCat = types.filter((t) => catOf(t) === c.id);
     if (!inCat.length) continue;
@@ -141,7 +143,7 @@ for (const ns of namespaces) {
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'llms.txt'), index.join('\n'));
   writeFileSync(join(dir, 'llms-full.txt'), full);
-  console.log(`llms: ${ns.id} llms-full.txt ${pages.length} pages, ${(full.length / 1024).toFixed(0)} KiB (~${tokens(full)}k tokens)`);
+  console.log(`llms: ${ns.id} llms-full.txt ${pages.length} pages, ${(full.length / 1024).toFixed(0)} KiB (~${thousands(estimateTokens(full))} tokens)`);
 
   const cs = [`// ${site.title}: namespace ${ns.id} (${ns.title}). Generated from ${model.assemblies.map((a) => `${a.name} ${a.version}`).join(', ')}.`,
     '// Properties are accessor method pairs (GetState_X / SetState_X); members marked [helper] are extension methods of the',
@@ -181,8 +183,9 @@ for (const ns of namespaces) {
     }
   }
   cs.push('}', '');
-  writeFileSync(join(dir, 'api.cs.txt'), cs.join('\n'));
+  const declarations = cs.join('\n');
+  writeFileSync(join(dir, 'api.cs.txt'), declarations);
   const size = statSync(join(dir, 'api.cs.txt')).size;
-  console.log(`llms: ${ns.id} api.cs.txt ${(size / 1024).toFixed(0)} KiB (~${Math.round(size / 4 / 1000)}k tokens)`);
+  console.log(`llms: ${ns.id} api.cs.txt ${(size / 1024).toFixed(0)} KiB (~${thousands(estimateTokens(declarations))} tokens)`);
 }
 console.log(`llms: llms.txt, ${namespaces.length} namespace indexes, ${twins} Markdown twins -> ${BUILD}/`);
