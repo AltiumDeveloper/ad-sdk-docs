@@ -90,7 +90,7 @@ export function runSearchIndex({ manifestPath = '.generated/manifest.json', docs
   return { records: records.length, bytes: statSync(out).size, gzipBytes: gzipSync(json).length, payload };
 }
 
-if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop())) {
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split(/[\\/]/).pop())) {
   const { records, bytes, gzipBytes, payload } = runSearchIndex();
   const byKind = {};
   for (const record of payload.records) byKind[record.k] = (byKind[record.k] ?? 0) + 1;
