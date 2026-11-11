@@ -23,8 +23,8 @@ The BOM is an [`IBomManager`](../reference/edp/IBomManager.md), or an
 | A whole project, with a PCB document as an additional source of PCB parameters | `factory.GetManagerForProjectPcb(project, pcbDocument)` |
 
 Which kind of manager you have follows from its source, not from a cast. The cast to `IActiveBomManager` succeeds
-for every manager (see [Interfaces at run time](./interfaces-at-run-time.mdx)); on a project's manager, calling
-`IActiveBomManager.GetOptions()` then fails with "Interface not supported". Use the ActiveBOM interfaces only for
+also for a project's manager (see [Interfaces at run time](./interfaces-at-run-time.mdx)), but calling
+`IActiveBomManager.GetOptions()` on it then fails with "Interface not supported". Use the ActiveBOM interfaces only for
 the manager of an ActiveBOM document (a BomDoc):
 
 ```csharp
@@ -65,11 +65,6 @@ All columns (parameters) of the BOM are in its schema:
 IBomParameterDefinitionList columns = bomManager.GetSchema().GetParameterDefinitions();
 ```
 
-`IBomParameterDefinition.GetIsSystem()` marks the BOM engine's own columns. On a project in Altium Designer 26.1
-these are `#`, `%ID%`, `%PARENTID%`, `%CATALOGID%` and `%CATALOGITEMUNIQUEID%`; every component parameter, including
-internal ones such as `SPICEModelCache…` on components with simulation models, is not marked. To leave such columns
-out of an export, filter them by name.
-
 An ActiveBOM document can define column aliases (custom column names) and custom columns. Custom columns are in the
 same parameter definition list as the generated columns; to get them separately, and to read the aliases, use the
 ActiveBOM options:
@@ -78,8 +73,6 @@ ActiveBOM options:
 string aliases = activeBomManager.GetOptions().GetColumnsAliases();
 var customColumns = activeBomManager.GetOptions().GetCustomColumns();
 ```
-
-The aliases are one string: `|`-separated pairs, each pair `=`-separated.
 
 ## Configuring the BOM
 
@@ -97,8 +90,7 @@ IBomManagerOptions options = bomManager.GetOptions();
 
 Sorting is set with `SetSortOrder` and `SetAutoSort`.
 
-The options are shared with the rest of Altium Designer. Save them before changing them and restore them when you
-are done, so other BOMs are not affected:
+To leave the options as they were, save their state before changing them and restore it when you are done:
 
 ```csharp
 object savedState = options.GetState();
@@ -132,12 +124,12 @@ customRow.SetDescription("...");
 customRow.SetLineNumber("...");
 ```
 
-After changing line numbers or adding rows, call `bomManager.UpdateSchema(...)` to rebuild the BOM schema (this
-recreates the whole schema).
-
-To save the ActiveBOM document (`*.BomDoc`) after a change, save its server document:
+After changing line numbers or adding rows, rebuild the BOM schema (this recreates the whole schema), then save the
+ActiveBOM document (`*.BomDoc`) through its server document:
 
 ```csharp
-IServerDocument serverDocument = document.DM_ServerDocument();
-serverDocument.DoFileSave(document.DM_DocumentKind());
+bomDocManager.UpdateSchema(false);
+
+IServerDocument serverDocument = bomDocument.DM_ServerDocument();
+serverDocument.DoFileSave(bomDocument.DM_DocumentKind());
 ```

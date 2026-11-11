@@ -76,8 +76,9 @@ starts. Without more information it merges the extension's `.rcs` file only when
 the menu bar has been built, so a menu inserted into the schematic or PCB editor's menus never appears. The
 extension's commands still work, for example from search.
 
-`Updates` in the `Server` block of the `.ins` file names the server whose menus the extension changes. Altium
-Designer then merges the extension's `.rcs` file at startup, without loading the extension's assembly:
+`Updates` in the `Server` block of the `.ins` file makes Altium Designer merge the extension's `.rcs` file at
+startup, without loading the extension's assembly. `Updates = 'AdvSch'` is enough for insertions into the
+no-document, schematic and PCB editor menus (see [Common insertion points](#common-insertion-points)):
 
 ```text
 Server
@@ -89,11 +90,8 @@ Server
 End
 ```
 
-The value is the name of the target server's installation file in the `System` folder, not its `EditorName`:
-`'AdvSch'` (`AdvSch.ins`, the schematic editor `Sch`), `'AdvPCB'` (`AdvPCB.ins`, the PCB editor `PCB`),
-`'WorkspaceManager'` (`WorkspaceManager.ins`, which owns `MNNoDocument` and the Projects panel menus) or `'Dxp'`
-(`Dxp.ins`). An extension that changes the menus of several servers has one `Updates` line for each, as the
-extensions installed with Altium Designer do (for example `Updates = 'AdvSch'` and `Updates = 'AdvPcb'`).
+The value is the name of a server's installation file in the `System` folder, not its `EditorName`: `'AdvSch'` is
+`AdvSch.ins`, the schematic editor.
 
 ## Common insertion points
 
@@ -105,8 +103,7 @@ extensions installed with Altium Designer do (for example `Updates = 'AdvSch'` a
 | Project context menu in the Projects panel, after the item that compiles (validates) the project | `MNWorkspaceManagerMenu_PopupProject` | `MNWorkspaceManager_PopupProject010` | `After` |
 
 These IDs exist in the `System` `.rcs` files. A top-level menu inserted with them appears only with an `Updates`
-entry (see [Inserting into other menus](#inserting-into-other-menus)); with `Updates = 'AdvSch'`, the schematic
-insertion appears before **Window**.
+entry (see [Inserting into other menus](#inserting-into-other-menus)).
 
 To find other insertion points, search the `System` `.rcs` files for the caption of a nearby menu item, then use the
 ID of its `Tree` as `TargetID` and the ID of the item as `RefID0`.

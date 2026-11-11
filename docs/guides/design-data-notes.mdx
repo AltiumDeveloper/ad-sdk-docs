@@ -24,8 +24,12 @@ for (int i = 0; i < flattened.DM_ComponentCount(); i++)
     {
         EDP.IParameter parameter = component.DM_Parameters(p);
         if (parameter.DM_Name() == "Library Reference")
+        {
             itemId = parameter.DM_Value();
+            break;
+        }
     }
+    // itemId: the workspace item ID, or null when the component has no such parameter
 }
 ```
 

@@ -17,7 +17,8 @@ description: How the SDK API is organised - namespaces, entry points, properties
 
 ## Entry points
 
-Each editor is reached through a static property of `GlobalVars` in `Altium.SDK.dll` ([`SCH.GlobalVars`](../reference/sch/GlobalVars.md), [`PCB.GlobalVars`](../reference/pcb/GlobalVars.md), [`DXP.GlobalVars`](../reference/dxp/GlobalVars.md)):
+Each editor is reached through a static property of `GlobalVars` in `Altium.SDK.dll` (`SCH.GlobalVars`,
+`PCB.GlobalVars`, `DXP.GlobalVars`):
 
 | Entry point | Type | Use |
 | --- | --- | --- |
@@ -51,9 +52,8 @@ same way. Indexed properties take the index as the first argument (`GetState_Ali
 
 Many methods are provided as extension methods of a static helper class next to the interface, such as
 `ISch_ComponentHelper` for `ISch_Component`. The helpers return and accept the specific interface and enumeration
-types, for example [`ISch_Designator`](../reference/sch/ISch_Designator.md) from `GetState_SchDesignator()` and
-[`TRotationBy90`](../reference/sch/TRotationBy90.md) for `SetState_Orientation`. With `using SCH;` they are called
-like interface methods:
+types, for example `ISch_Designator` from `ISch_Component.SchDesignator` and `SCH.TRotationBy90` for
+`ISch_Component.Orientation`. With `using SCH;` they are called like interface methods:
 
 ```csharp
 using SCH;
@@ -79,4 +79,4 @@ objectSet.Add(SCH.TObjectId.eWire);
 ## Coordinates
 
 Coordinates are integers in internal units. `EDP.Utils` converts between internal units and mils or millimetres
-(`MilsToCoord`, `CoordToMils`, `MMsToCoord`, `CoordToMMs`); see [`EDP.Utils`](../reference/edp/Utils.md).
+(`EDP.Utils.MilsToCoord`, `EDP.Utils.CoordToMils`, `EDP.Utils.MMsToCoord`, `EDP.Utils.CoordToMMs`).

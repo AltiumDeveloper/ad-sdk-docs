@@ -1,7 +1,7 @@
 ---
 title: Development loop
 sidebar_position: 8
-description: What takes effect only after an Altium Designer restart, what does not, and how a hot-reload setup lets you rebuild an extension while Altium Designer keeps running.
+description: What takes effect only after an Altium Designer restart, when an extension starts, what to check when it does not load, and how to rebuild it without a restart.
 ---
 
 # Development loop
@@ -13,19 +13,16 @@ session:
 
 | Change | Takes effect |
 | --- | --- |
-| `.ins` file (server, commands) | after a restart |
+| `.ins` file (server, commands, panels in `PanelInfo` blocks) | after a restart |
 | `.rcs` file (menus, toolbars, shortcuts) | after a restart |
+| `.out` file (OutJob outputers, see [Writing an OutJob outputer](./outputers.mdx)) | after a restart |
 | The extension assembly (the `EditorExePath` of the `.ins` file) | after a restart |
 | Files the extension reads itself (settings, data) | when the extension reads them again |
 | Assemblies the extension loads itself into a collectible `AssemblyLoadContext` | when the extension loads them again |
 
 While Altium Designer runs, the extension assembly is locked: it cannot be overwritten, but it can be renamed, so a
-deployment script can move it aside and copy the new build in for the next start. Two pitfalls when deploying:
-
-- Do not copy a `runtimeconfig.json` into the extension's folder: a plug-in does not need one. Set
-  `GenerateRuntimeConfigurationFiles` to `false` in the project file.
-- In a PowerShell deployment script that renames the locked assembly aside, do not use `$_` inside a `catch` block
-  to mean the file: there `$_` is the error record.
+deployment script can move it aside and copy the new build in for the next start. Do not copy a `runtimeconfig.json`
+into the extension's folder (see [Project setup](./project-setup.mdx)).
 
 ## When the extension starts
 
@@ -36,7 +33,10 @@ startup, but still does not load the assembly.
 
 Until the first command runs, none of the extension's code runs: not the plugin factory, not `InitializeCommands`,
 and not a file watcher, pipe server or hot-reload host that the extension starts there. After a restart, run any of the
-extension's commands once before a tool connects to it.
+extension's commands once before a tool connects to it. The exception is an OutJob outputer: Altium Designer creates it
+without starting the server (see [Writing an OutJob outputer](./outputers.mdx#creating-the-outputer)).
+
+Several extensions run side by side in one Altium Designer process, each with its own server.
 
 ## When the extension does not load
 
@@ -47,50 +47,22 @@ extension's commands once before a tool connects to it.
 | A tool cannot connect to the extension | Its server has not started yet: run one of its commands (see [When the extension starts](#when-the-extension-starts)). |
 | A change has no effect | It needs a restart (see [What needs a restart](#what-needs-a-restart)), or the new build was copied to a different folder than the one registered. |
 
-`%LOCALAPPDATA%\Altium\Altium Designer {<installation GUID>}\DXP_Startup.log` records the steps of each start of
-Altium Designer, with times; it does not list the extensions it loads. For problems inside the extension, have the
+`DXP_Startup.log`, in the installation's folder under `%LOCALAPPDATA%\Altium` (the folder with the same name as the
+installation's data folder, for example `Altium Designer {<installation GUID>}`), records each server that starts,
+with times, an extension's server included when it starts on first use:
+`Starting server <EditorName>`, then `Server <EditorName> started`. For problems inside the extension, have the
 extension write its own log file.
 
 ## Hot reload
 
-The last row of the table is the basis of hot reload: keep the code that changes out of the assembly that Altium
-Designer loads.
+The last row of the table in [What needs a restart](#what-needs-a-restart) lets you change an extension without
+restarting Altium Designer: keep the code that changes out of the assembly that Altium Designer loads. A small, stable
+shim is the extension assembly; it loads the implementation, a separate assembly, into a collectible
+`AssemblyLoadContext` and loads it again after each build.
 
-- **A stable shim** is the extension assembly. It registers a few generic commands, for example a `Run` command whose
-  parameters name the operation to run (`Params='Cmd=Hello'` in the `.rcs` file), and rarely changes, so the `.ins`
-  file, the `.rcs` file and the shim stay the same while you work.
-- **The implementation** is a separate assembly. The shim loads it into a new collectible `AssemblyLoadContext` for
-  each build, from a copy of its bytes (`AssemblyLoadContext.LoadFromStream`) so that the file stays free for the next
-  build, and unloads the previous context.
-- The collectible context resolves `Altium.SDK.dll`, `Altium.SDK.Interfaces.dll` and the shim from the default load
-  context, so that the shim and the implementation use the same SDK types.
-- The contract between shim and implementation uses only base class library types (`string`, dictionaries), so
-  changing the implementation never requires rebuilding the shim.
-- A file watcher, or a command, triggers the reload; the reload itself runs on the main thread (see
-  [Runtime and hosting](./runtime-and-hosting.mdx#the-main-thread)).
-
-Use hot reload in Debug builds only. A Release build loads the implementation once, and needs no watcher.
-
-An old implementation is collected only when nothing references it any more. These keep it alive:
-
-- handlers on static or Altium Designer events that the implementation does not remove before unloading;
-- open forms, running timers and threads;
-- the shim holding objects created by the implementation;
-- framework caches, such as the type cache of `System.Text.Json`. Calling the `ClearCache` method of each
-  `[MetadataUpdateHandler]` type before unloading clears them; .NET Hot Reload uses the same mechanism;
-- WPF's references to newly loaded assemblies (see
-  [Runtime and hosting](./runtime-and-hosting.mdx#frameworks-in-the-process)): the first load of each new build stays
-  in memory until Altium Designer exits.
-
-The [`Altium.Designer.HotReload`](https://example.invalid/Altium.Designer.HotReload) package implements this setup.
-
-## Running commands from scripts and tests
-
-A hot-reload host can also accept requests from outside Altium Designer, for example on a named pipe that only the
-current Windows user can open. A script then runs one of the extension's commands inside the running Altium Designer,
-on its main thread, and reads the result as text and an exit code. Builds, test suites and AI coding assistants can
-check a change against real designs this way, without a person clicking through the user interface.
-
-A command called this way must not wait for a person: pass it the information a dialog would ask for, and have it
-return its result instead of showing a message box or a modal dialog. Keep the pipe out of release builds: any process
-of the user can run the extension's commands through it.
+The [Altium Designer extension template](https://github.com/AltiumDeveloper/ad-extension-template)
+(`dotnet new ad-extension`) sets this up with the
+[Altium.Designer.HotReload](https://www.nuget.org/packages/Altium.Designer.HotReload) package in Debug builds: edit,
+build, and the running Altium Designer uses the new code. Its README describes the workflow, running commands from
+scripts and tests, and what hot-reloaded code must release before it is unloaded. Release builds contain no hot
+reload code; deploy them as an ordinary extension.

@@ -7,8 +7,8 @@ description: An SDK-style project file for an extension (net8.0-windows or net10
 # Project setup
 
 An extension is an SDK-style class library for the .NET version that Altium Designer hosts: `net8.0-windows` for
-Altium Designer 26.1, `net10.0-windows` from 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
-A complete project file, for 26.1:
+Altium Designer 26.1, `net10.0-windows` in 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
+A complete project file, for 26.1 (for 26.12, change the target framework to `net10.0-windows`):
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -18,6 +18,7 @@ A complete project file, for 26.1:
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
     <!-- Only when the project keeps a Properties\AssemblyInfo.cs: -->
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <!-- An extension runs only on Windows. -->
@@ -48,18 +49,25 @@ A complete project file, for 26.1:
   Altium Designer installation that runs the extension: those are the assemblies Altium Designer loads. `Private` set
   to `false` keeps them out of the build output.
 - **Windows Forms and WPF.** `Altium.SDK.dll` references Windows Forms and WPF assemblies (`WindowsBase`,
-  `PresentationCore`, `PresentationFramework`, version 8.0). `UseWindowsForms` and `UseWPF` add them to the build;
-  without `UseWPF`, the build reports a version conflict for `WindowsBase` (warning MSB3277).
+  `PresentationCore`, `PresentationFramework`; version 8.0 in 26.1, 10.0 in 26.12). `UseWindowsForms` and `UseWPF` add
+  them to the build; without `UseWPF`, the build reports a version conflict for `WindowsBase` (warning MSB3277).
 - **`EnableDynamicLoading`** marks the library as a plug-in that a host loads: its NuGet dependencies are copied to the
   build output, next to the extension assembly.
+- **`GenerateRuntimeConfigurationFiles`** set to `false` keeps a `runtimeconfig.json` out of the build output: with
+  `EnableDynamicLoading` the build writes one, and it must not be deployed into the extension's folder.
 - **`GenerateAssemblyInfo`** set to `false` avoids duplicate assembly attributes when the project keeps an
   `AssemblyInfo.cs` file. Without one, leave it out and set `Version` and the other attributes in the project file.
 - **CA1416** is the platform compatibility analyzer; suppress it if the build reports Windows-only APIs.
 
+To build for the installation the extension runs in, the project can read the target framework from that
+installation: `X2.runtimeconfig.json` in its program folder (the parent of `System`) names the hosted version as
+`"tfm"` (for example `net10.0`). The `dotnet new ad-extension` template does this in its `Directory.Build.props`.
+
 The `.ins` and `.rcs` files (see [Getting started](./getting-started.mdx#installation-files)) are copied next to the
 assembly. Copy the build output into the extension's folder under the Altium Designer `Extensions` folder, register the
 extension once (see [Registering the extension](./getting-started.mdx#registering-the-extension)), then
-restart Altium Designer (see [Development loop](./development-loop.mdx)).
+restart Altium Designer. While Altium Designer runs, the extension assembly is locked (see
+[What needs a restart](./development-loop.mdx#what-needs-a-restart)).
 
 ## Projects from the Altium Developer generator
 

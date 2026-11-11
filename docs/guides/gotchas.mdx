@@ -9,22 +9,30 @@ description: Short list of the surprises that cost extension developers the most
 | Surprise | Explained in |
 | --- | --- |
 | An extension copied into the `Extensions` folder never loads, and nothing reports it: register it in `ExtensionsRegistry.xml`. | [Getting started](./getting-started.mdx#registering-the-extension) |
+| The extension is in an `Extensions` folder that Altium Designer does not read: each installation has its own data folder (development builds use `Altium Designer Dev {…}`); find it from the installation's registry key. | [Getting started](./getting-started.mdx#installation-files) |
 | A project's BOM manager casts to `IActiveBomManager`, but its ActiveBOM members fail with "Interface not supported". | [Working with bills of materials](./bom.mdx#getting-a-bom) |
 | `obj is IPCB_Region` and `as` succeed for every object; calling a member the object lacks throws a `COMException`. Branch on `IPCB_Primitive.ObjectID` or `ISch_BasicContainer.ObjectId`. | [Interfaces at run time](./interfaces-at-run-time.mdx#type-tests-succeed-for-every-object) |
-| A typed member such as `GetState_ObjectID()` does not exist: add `using DXP; using EDP; using PCB; using SCH;`. | [Interfaces at run time](./interfaces-at-run-time.mdx#typed-helpers-need-their-namespace) |
+| A `DM_…` method or `GetCurrentPCBBoard` does not exist (CS1061 or CS1929): add `using EDP;` or `using PCB;`. With all four namespaces imported, qualify names that exist in several, such as `PCB.TObjectId` (CS0104). | [Interfaces at run time](./interfaces-at-run-time.mdx#typed-helpers-need-their-namespace) |
 | A reference kept from an earlier command fails. Get the workspace, project, document or board again in each command. | [Interfaces at run time](./interfaces-at-run-time.mdx#get-references-again-in-each-command) |
 | Every iterator must be destroyed, also when the loop ends early. | [Interfaces at run time](./interfaces-at-run-time.mdx#destroy-every-iterator) |
 | SDK calls from a background thread: call the API only on the main thread, and post work back to it. | [Runtime and hosting](./runtime-and-hosting.mdx#the-main-thread) |
-| The project generator creates a .NET Framework 4.8 project; Altium Designer hosts .NET 8 (26.1) or .NET 10 (26.12). | [Project setup](./project-setup.mdx) |
+| The project generator creates a .NET Framework 4.8 project; Altium Designer hosts .NET 8 (26.1) or .NET 10 (26.12). | [Project setup](./project-setup.mdx#projects-from-the-altium-developer-generator) |
 | After an Altium Designer update the extension no longer builds (CS1705, `System.Runtime, Version=10.0.0.0`): the hosted .NET version changed; retarget the project. | [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime) |
 | `Altium.SDK.dll` copied to the extension's folder, or referenced from the wrong folder: reference it from the installation's `System` folder, without copying it. | [Project setup](./project-setup.mdx) |
-| A change to the `.ins` file, the `.rcs` file or the extension assembly does nothing until Altium Designer restarts. | [Development loop](./development-loop.mdx#what-needs-a-restart) |
-| A top-level menu inserted into the schematic or PCB menus never appears, although the commands work: add `Updates = '<server>'` to the `Server` block of the `.ins` file. | [Menus and the .rcs file](./menus.mdx#inserting-into-other-menus) |
+| A `runtimeconfig.json` in the extension's folder: build with `GenerateRuntimeConfigurationFiles` set to `false`, and deploy only the build output Altium Designer needs. | [Project setup](./project-setup.mdx) |
+| A change to the `.ins` file, the `.rcs` file, an `.out` file or the extension assembly does nothing until Altium Designer restarts. | [Development loop](./development-loop.mdx#what-needs-a-restart) |
+| A top-level menu never appears, although the commands work: add `Updates = 'AdvSch'` to the `Server` block of the `.ins` file. | [Menus and the .rcs file](./menus.mdx#inserting-into-other-menus) |
 | The extension's code (and any pipe server or hot-reload host it starts) runs only after its first command in a session. | [Development loop](./development-loop.mdx#when-the-extension-starts) |
-| A `runtimeconfig.json` in the extension's folder, or `$_` used as the file inside a PowerShell `catch` block of a deployment script. | [Development loop](./development-loop.mdx#what-needs-a-restart) |
-| A hot-reloaded build stays in memory: WPF keeps every newly loaded assembly. | [Runtime and hosting](./runtime-and-hosting.mdx#frameworks-in-the-process) |
-| Menu items go in the `.rcs` file, command declarations in the `.ins` file; `Params` arrives as the command's `ref string` parameter. | [Menus and the .rcs file](./menus.mdx) |
+| Menu items go in the `.rcs` file, command declarations in the `.ins` file; `Params` arrives as the command's `ref string` parameter. | [Menus and the .rcs file](./menus.mdx#commands-process-launchers-and-parameters) |
 | Double-clicking a message runs its callback process, which can be the extension's own command. | [The Messages panel](./messages-panel.mdx#navigating-on-double-click) |
+| A panel never opens: register its view with the client (`IClient.AddServerView`) as well as with the server module (`ServerModule.AddServerView`). | [Adding a panel](./panels.mdx#registering-the-view) |
+| An extension's panel is not under the **Panels** button, and does not come back after a restart, until the extension's first command in the session: give it a menu command that opens it. | [Adding a panel](./panels.mdx#when-the-panel-exists) |
+| A panel's content is cut off on a scaled display: lay it out with docking or a `TableLayoutPanel`, not fixed pixel sizes. | [Adding a panel](./panels.mdx#filling-and-laying-out-the-content) |
+| A panel is hard to read in the dark theme: give every control `DxpThemeManager` colours. | [Adding a panel](./panels.mdx#following-the-theme) |
+| An outputer fails when an OutJob is generated before any command of the extension ran: Altium Designer creates it without starting the extension's server, so it has to start what the extension needs itself. | [Writing an OutJob outputer](./outputers.mdx#creating-the-outputer) |
+| An outputer throws `NotImplementedException`: override `InternalRunGenerator` and `InternalRunPropertiesForm`, and keep `CanPreferencesForm = False`. | [Writing an OutJob outputer](./outputers.mdx#the-outputer-class) |
+| An Altium 365 API query for one project fails with "invalid format" or "Cannot return null for non-nullable field": pass the project's GRID, built from the workspace and project GUIDs, not the project GUID alone. | [Calling the Altium 365 API](./altium-365-api.mdx#the-open-project-in-the-api) |
+| The Altium 365 API returns HTTP 400 with no explanation: the explanation is in the body's `errors`; read it before checking the status. | [Calling the Altium 365 API](./altium-365-api.mdx#a-first-query) |
 | `IPart.DM_LibraryReference` is not the workspace item ID (`CMP-…`); that is the `Library Reference` parameter. | [Design data notes](./design-data-notes.mdx#library-references-and-workspace-item-ids) |
 | Workspace components have no manufacturer or part number parameters: that data is in Part Choices. | [Design data notes](./design-data-notes.mdx#manufacturer-data-of-workspace-components) |
 | PCB coordinates are absolute, in units of 1/10,000 mil: subtract the board origin. | [Working with PCBs](./pcb-basics.mdx#coordinates) |

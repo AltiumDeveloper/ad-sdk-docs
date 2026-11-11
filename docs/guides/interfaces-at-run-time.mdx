@@ -24,11 +24,11 @@ for (IPCB_Primitive obj = iterator.FirstPCBObject(); obj != null; obj = iterator
 {
     switch (obj.GetState_ObjectID())
     {
-        case TObjectId.eRegionObject:
+        case PCB.TObjectId.eRegionObject:
             var region = (IPCB_Region)obj;
             // ...
             break;
-        case TObjectId.ePolyObject:
+        case PCB.TObjectId.ePolyObject:
             var polygon = (IPCB_Polygon)obj;
             // ...
             break;
@@ -44,8 +44,10 @@ On a schematic, the kind is `ISch_BasicContainer.ObjectId` (`SCH.TObjectId`), fo
 Many members are typed extension methods in a helper class of the interface's namespace (see
 [API conventions](./api-conventions.mdx#typed-helper-methods)). Without a `using` directive for that namespace, only the
 untyped member is visible: `IPCB_Primitive` itself has `Internal_GetState_ObjectID()`, which returns an `int`, while
-`GetState_ObjectID()`, which returns a `PCB.TObjectId`, comes from `using PCB;`. Likewise
-`IWorkspace.DM_MessagesManager` and `IWorkspace.DM_FocusedProject` need `using EDP;`. Add all four:
+`GetState_ObjectID()`, which returns a `PCB.TObjectId`, comes from `using PCB;`, and so does
+`IPCB_ServerInterface.GetCurrentPCBBoard`. Likewise the `DM_*` methods of the workspace and projects, such as
+`IWorkspace.DM_MessagesManager` and `IWorkspace.DM_FocusedProject`, need `using EDP;`; without it the compiler reports
+CS1061 or CS1929. Add all four:
 
 ```csharp
 using DXP;
@@ -53,6 +55,10 @@ using EDP;
 using PCB;
 using SCH;
 ```
+
+Some names exist in more than one of these namespaces (`PCB.TObjectId` and `SCH.TObjectId`, `PCB.TObjectSet` and
+`SCH.TObjectSet`, `PCB.TObjectCreationMode` and `SCH.TObjectCreationMode`, `DXP.Utils` and `EDP.Utils`): with all four
+`using` directives, write them qualified, or the compiler reports CS0104 (an ambiguous reference).
 
 ## Get references again in each command
 

@@ -19,15 +19,16 @@ Like the `.ins` and `.rcs` files, the `.out` file is read when Altium Designer s
 
 ## The .out file
 
-The file is named after the extension (`MyExtension.out`) and sits next to its `.ins` file. This one declares a
-project report in the Report category:
+Altium Designer reads the `.out` files in the extension's folder; naming the file after the extension
+(`MyExtension.out`, next to its `.ins` file) is a convention. This one declares a project report in the Report
+category:
 
 ```text
 [OutputGenerator]
 Name                    = MyExtension Report
 Module                  = MyExtension.dll
 ServerName              = MyExtension
-ClassName               = MyExtension.PluginFactory
+ClassName               = CSharpPlugin.PluginFactory
 Description             = MyExtension project report
 DocumentKinds           = Project
 DefaultFolderName       = MyExtension Report
@@ -43,35 +44,37 @@ CanPropertiesForm       = False
 [Output1]
 Name            = MyExtension Report
 Caption         = MyExtension Report
-Description     = Components and nets of the project, as text
+Description     = Project file name, as text
 Category        = Report
 RequiresCompile = True
 ```
 
 | Key | Meaning |
 | --- | --- |
-| `Module` | The assembly, in the extension's folder. It can be the extension's own assembly (the `EditorExePath` of the `.ins` file). |
-| `ServerName` | The extension's server (the `EditorName` of the `.ins` file). |
-| `ClassName` | The full name of the class that has `InvokeOutputGenerator`. It can be the extension's plugin factory. |
+| `Module` | The assembly, relative to the `.out` file's folder. It can be the extension's own assembly (the `EditorExePath` of the `.ins` file). |
+| `ServerName` | The extension's server (the `EditorName` of the `.ins` file). Altium Designer does not start that server before it creates the outputer (see [Creating the outputer](#creating-the-outputer)). |
+| `ClassName` | The full name of the class that has `InvokeOutputGenerator`: the extension's plugin factory, `CSharpPlugin.PluginFactory`. |
 | `Name` (in `[OutputGenerator]`) | The outputer's name; the outputer passes the same name to the `OutputGenerator` constructor. |
 | `[Output1]` `Name` | The output type. An OutJob refers to the output by this name (see [The output in the OutJob](#the-output-in-the-outjob)). |
 | `Caption`, `Description` | The text of the output in the OutJob; an output added to an OutJob is named after the `Description`. |
 | `Category` | The OutJob group the output appears in, for example `Report`, `Netlist` or `Export`. |
 
-The other keys are copied from installed outputers. The installed outputers of Altium Designer have `.out` files of the same format, in its `System` folder and in the
-folders of its extensions.
+Keep the other keys as in the sample; `CanPreferencesForm` must stay `False` (see
+[The outputer class](#the-outputer-class)). The outputers of Altium Designer itself have `.out` files of the same
+format, in its `System` folder and in the folders of its extensions.
 
 ## Creating the outputer
 
-Altium Designer creates the outputer by calling `InvokeOutputGenerator()` on the class that `ClassName` names, by
-name. Declare that class with `ClassInterfaceType.AutoDispatch`, so that the method is reachable that way. The
-extension's plugin factory can serve both purposes:
+Altium Designer creates an instance of the `ClassName` class from the `Module` assembly and calls its
+`InvokeOutputGenerator()` method by name; declare the class with `ClassInterfaceType.AutoDispatch`, so that the
+method is reachable that way. The plugin factory (see
+[Getting started](./getting-started.mdx#the-plugin-factory-and-the-server-module)) serves both purposes:
 
 ```csharp
 using System.Runtime.InteropServices;
 using DXP;
 
-namespace MyExtension
+namespace CSharpPlugin
 {
     public interface IPluginFactory
     {
@@ -83,10 +86,16 @@ namespace MyExtension
     {
         public object InvokePluginFactory(IClient client) => new PluginServerModule(client, "MyExtension");
 
-        public object InvokeOutputGenerator() => new ReportGenerator();
+        public object InvokeOutputGenerator() => new MyExtension.ReportGenerator();
     }
 }
 ```
+
+Altium Designer does this without starting the extension's server: when an OutJob is generated before any command of
+the extension has run, `InitializeCommands` has not run either. Put what the extension starts in `InitializeCommands`
+into a method that does its work only once, and call it both from `InitializeCommands` and from the outputer before
+the outputer needs it. The outputer of the `dotnet new ad-extension` template (created with `--outputer`) does this:
+it writes its content through `Commands.Invoke`, which starts the extension first.
 
 ## The outputer class
 
@@ -99,9 +108,15 @@ namespace MyExtension
 | `InternalRunGenerator()` | Writes the files. Returns `true` on success. |
 | `InternalRunPropertiesForm()` | Configures the output; returning `true` accepts the configuration as it is. |
 
+Override `InternalRunGenerator` and `InternalRunPropertiesForm`: their base versions throw `NotImplementedException`.
+The base class's preferences form always throws, hence `CanPreferencesForm = False`. Altium Designer sets the output
+folder and the file naming before it predicts or generates the files, so compute the file names in the overrides,
+not in the constructor.
+
 During generation, the `Project` property is the project, `DocumentPath` the data source selected in the OutJob, and
 `TargetPrefix` and `ExplicitTargetFilename` the file naming set in the OutJob. Report each file with
-`Notify_BeginGeneratingOutputFile` and `Notify_FinishGeneratingOutputFile`, and errors with `HandleOutputerError`.
+`Notify_BeginGeneratingOutputFile` and `Notify_FinishGeneratingOutputFile`, and errors with `HandleOutputerError`: it
+shows an error dialog (except while a release runs) and adds the error to the Messages panel.
 
 ```csharp
 using System;
@@ -181,7 +196,7 @@ the output in its `[OutputGroup1]` section by the `[Output1]` `Name` of the `.ou
 
 ```text
 OutputType1=MyExtension Report
-OutputName1=Components and nets of the project, as text
+OutputName1=Project file name, as text
 OutputDocumentPath1=
 OutputEnabled1=1
 OutputEnabled1_OutputMedium3=1
@@ -193,7 +208,8 @@ OutputEnabled1_OutputMedium3=1
 ## Developing an outputer
 
 The `.out` file and the assembly that contains the outputer class take effect only after a restart (see
-[Development loop](./development-loop.mdx#what-needs-a-restart)). Keep the outputer class small and stable, and move
-the code that writes the content into an assembly that the extension loads itself. A hot-reload setup then changes
-the content of the next generated file without a restart: the outputer passes the project and the file name to a
-command of the hot-reloaded implementation.
+[Development loop](./development-loop.mdx#what-needs-a-restart)). Keep the outputer class small and stable, and let it
+pass the project and the file name to a command of the extension that writes the content. The
+[Altium Designer extension template](https://github.com/AltiumDeveloper/ad-extension-template) creates such an
+outputer (`dotnet new ad-extension --outputer`); its content command hot-reloads, so the next generated file uses the
+new code without a restart.

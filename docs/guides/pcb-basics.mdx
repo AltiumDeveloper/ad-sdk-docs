@@ -58,7 +58,7 @@ the last object:
 
 ```csharp
 IPCB_BoardIterator iterator = board.BoardIterator_Create();
-iterator.AddFilter_ObjectSet(new PCB.TObjectSet { TObjectId.eTrackObject });
+iterator.AddFilter_ObjectSet(new PCB.TObjectSet { PCB.TObjectId.eTrackObject });
 iterator.AddFilter_LayerSet(new TV6_LayerSet { TV6_Layer.eV6_TopLayer });
 
 for (var track = iterator.FirstPCBObject() as IPCB_Track; track != null; track = iterator.NextPCBObject() as IPCB_Track)
@@ -107,7 +107,7 @@ set their properties, then add them with `IPCB_Board.AddPCBObject`:
 ```csharp
 pcbServer.PreProcess();
 
-var via = pcbServer.PCBObjectFactory(TObjectId.eViaObject, TDimensionKind.eNoDimension, TObjectCreationMode.eCreate_Default) as IPCB_Via;
+var via = pcbServer.PCBObjectFactory(PCB.TObjectId.eViaObject, PCB.TDimensionKind.eNoDimension, PCB.TObjectCreationMode.eCreate_Default) as IPCB_Via;
 via.SetState_XLocation(board.GetState_XOrigin() + EDP.Utils.MilsToCoord(500));
 via.SetState_YLocation(board.GetState_YOrigin() + EDP.Utils.MilsToCoord(500));
 via.SetState_Size(EDP.Utils.MilsToCoord(50));
