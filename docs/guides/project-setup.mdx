@@ -1,14 +1,13 @@
 ---
 title: Project setup
-sidebar_position: 6
 description: An SDK-style project file for an extension (net8.0-windows or net10.0-windows) - the SDK references from the installation, Windows Forms and WPF, dynamic loading and the installation files.
 ---
 
 # Project setup
 
 An extension is an SDK-style class library for the .NET version that Altium Designer hosts: `net8.0-windows` for
-Altium Designer 26.1, `net10.0-windows` in 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
-A complete project file, for 26.1 (for 26.12, change the target framework to `net10.0-windows`):
+Altium Designer 26.1 to 26.11, `net10.0-windows` in 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
+A complete project file, for 26.1 to 26.11 (for 26.12, change the target framework to `net10.0-windows`):
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -49,7 +48,7 @@ A complete project file, for 26.1 (for 26.12, change the target framework to `ne
   Altium Designer installation that runs the extension: those are the assemblies Altium Designer loads. `Private` set
   to `false` keeps them out of the build output.
 - **Windows Forms and WPF.** `Altium.SDK.dll` references Windows Forms and WPF assemblies (`WindowsBase`,
-  `PresentationCore`, `PresentationFramework`; version 8.0 in 26.1, 10.0 in 26.12). `UseWindowsForms` and `UseWPF` add
+  `PresentationCore`, `PresentationFramework`; version 8.0 in 26.1 to 26.11, 10.0 in 26.12). `UseWindowsForms` and `UseWPF` add
   them to the build; without `UseWPF`, the build reports a version conflict for `WindowsBase` (warning MSB3277).
 - **`EnableDynamicLoading`** marks the library as a plug-in that a host loads: its NuGet dependencies are copied to the
   build output, next to the extension assembly.

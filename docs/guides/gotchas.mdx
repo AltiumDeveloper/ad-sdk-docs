@@ -1,6 +1,5 @@
 ---
 title: Gotchas
-sidebar_position: 13
 description: Short list of the surprises that cost extension developers the most time, each linked to the page that explains it.
 ---
 
@@ -16,7 +15,7 @@ description: Short list of the surprises that cost extension developers the most
 | A reference kept from an earlier command fails. Get the workspace, project, document or board again in each command. | [Interfaces at run time](./interfaces-at-run-time.mdx#get-references-again-in-each-command) |
 | Every iterator must be destroyed, also when the loop ends early. | [Interfaces at run time](./interfaces-at-run-time.mdx#destroy-every-iterator) |
 | SDK calls from a background thread: call the API only on the main thread, and post work back to it. | [Runtime and hosting](./runtime-and-hosting.mdx#the-main-thread) |
-| The project generator creates a .NET Framework 4.8 project; Altium Designer hosts .NET 8 (26.1) or .NET 10 (26.12). | [Project setup](./project-setup.mdx#projects-from-the-altium-developer-generator) |
+| The project generator creates a .NET Framework 4.8 project; Altium Designer hosts .NET 8 (26.1 to 26.11) or .NET 10 (26.12). | [Project setup](./project-setup.mdx#projects-from-the-altium-developer-generator) |
 | After an Altium Designer update the extension no longer builds (CS1705, `System.Runtime, Version=10.0.0.0`): the hosted .NET version changed; retarget the project. | [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime) |
 | `Altium.SDK.dll` copied to the extension's folder, or referenced from the wrong folder: reference it from the installation's `System` folder, without copying it. | [Project setup](./project-setup.mdx) |
 | A `runtimeconfig.json` in the extension's folder: build with `GenerateRuntimeConfigurationFiles` set to `false`, and deploy only the build output Altium Designer needs. | [Project setup](./project-setup.mdx) |

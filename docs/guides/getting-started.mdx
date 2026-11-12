@@ -1,6 +1,5 @@
 ---
 title: Getting started
-sidebar_position: 1
 description: The structure of an Altium Designer extension in C# - plugin factory, server module, commands and installation files.
 ---
 
@@ -24,7 +23,7 @@ Create a C# class library and reference the SDK assemblies:
 | `Altium.SDK.Interfaces.dll` | The API: interfaces, enumerations and structures (this reference). |
 | `Altium.SDK.dll` | Hosting classes (`DXP.ServerModule`, `DXP.CommandLauncher`), entry points (`SCH.GlobalVars`, `PCB.GlobalVars`, `DXP.GlobalVars`), constants (`SCH.SCHConstant`) and utilities (`DXP.Utils`, `EDP.Utils`). |
 
-The SDK assemblies target the .NET version that Altium Designer hosts: .NET 8 in Altium Designer 26.1, .NET 10 in
+The SDK assemblies target the .NET version that Altium Designer hosts: .NET 8 in Altium Designer 26.1 to 26.11, .NET 10 in
 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)). Many projects in the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository were written for earlier SDK versions
 and target .NET Framework 4.x; their source code still shows the API usage, but use the target framework that matches
@@ -81,8 +80,6 @@ namespace CSharpPlugin
 - `CommandLauncher.RegisterCommand` binds a command name to two methods: the command itself, and a *get state* method
   that Altium Designer calls to decide whether the command is enabled, checked or visible, and with which caption and
   image.
-- `ClassInterfaceType.AutoDispatch` on the factory lets Altium Designer call its members by name, as it does for an
-  OutJob outputer (see [Writing an OutJob outputer](./outputers.mdx#creating-the-outputer)).
 - `NewDocumentInstance` is used by extensions that implement a document editor; a command-only extension returns `null`.
 
 ## Installation files

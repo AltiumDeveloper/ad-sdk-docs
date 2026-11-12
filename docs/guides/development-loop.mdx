@@ -1,6 +1,5 @@
 ---
 title: Development loop
-sidebar_position: 8
 description: What takes effect only after an Altium Designer restart, when an extension starts, what to check when it does not load, and how to rebuild it without a restart.
 ---
 
@@ -44,6 +43,7 @@ Several extensions run side by side in one Altium Designer process, each with it
 | --- | --- |
 | No menu, and the extension's commands are not found by the search | The extension is not registered in `Extensions\ExtensionsRegistry.xml` (see [Getting started](./getting-started.mdx#registering-the-extension)), or its folder does not contain the `.ins` file and the assembly that `EditorExePath` names. |
 | The commands are found by the search, but the top-level menu is missing | The `.ins` file has no `Updates` entry (see [Menus and the .rcs file](./menus.mdx#inserting-into-other-menus)). |
+| A command found by the search fails when it first runs, and the Output panel shows `Failed to create server <name>` with the load error | The assembly that `EditorExePath` names exists but cannot be loaded. |
 | A tool cannot connect to the extension | Its server has not started yet: run one of its commands (see [When the extension starts](#when-the-extension-starts)). |
 | A change has no effect | It needs a restart (see [What needs a restart](#what-needs-a-restart)), or the new build was copied to a different folder than the one registered. |
 

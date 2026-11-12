@@ -1,6 +1,5 @@
 ---
 title: Writing an OutJob outputer
-sidebar_position: 5.5
 description: Add an output of your own to Output Job files - the .out descriptor, the plugin factory's InvokeOutputGenerator, the OutputGenerator class and how an OutJob refers to the output.
 ---
 
@@ -66,8 +65,7 @@ format, in its `System` folder and in the folders of its extensions.
 ## Creating the outputer
 
 Altium Designer creates an instance of the `ClassName` class from the `Module` assembly and calls its
-`InvokeOutputGenerator()` method by name; declare the class with `ClassInterfaceType.AutoDispatch`, so that the
-method is reachable that way. The plugin factory (see
+`InvokeOutputGenerator()` method by name. The plugin factory (see
 [Getting started](./getting-started.mdx#the-plugin-factory-and-the-server-module)) serves both purposes:
 
 ```csharp
@@ -116,7 +114,8 @@ not in the constructor.
 During generation, the `Project` property is the project, `DocumentPath` the data source selected in the OutJob, and
 `TargetPrefix` and `ExplicitTargetFilename` the file naming set in the OutJob. Report each file with
 `Notify_BeginGeneratingOutputFile` and `Notify_FinishGeneratingOutputFile`, and errors with `HandleOutputerError`: it
-shows an error dialog (except while a release runs) and adds the error to the Messages panel.
+shows an error dialog and adds the error to the Messages panel; while a release runs, it writes the error to the
+release log instead.
 
 ```csharp
 using System;

@@ -1,6 +1,5 @@
 ---
 title: Runtime and hosting
-sidebar_position: 7
 description: How Altium Designer runs an extension - the .NET runtime it hosts, the load context and location of the extension assembly, the main thread, and the frameworks loaded next to it.
 ---
 
@@ -14,7 +13,7 @@ installation, and the version depends on the Altium Designer version:
 
 | Altium Designer | Hosted runtime | SDK assemblies reference | Extension target framework |
 | --- | --- | --- | --- |
-| 26.1 | .NET 8.0.15 | .NET 8 (`System.Runtime` 8.0) | `net8.0-windows` |
+| 26.1 to 26.11 | .NET 8.0.15 | .NET 8 (`System.Runtime` 8.0) | `net8.0-windows` |
 | 26.12 | .NET 10.0.10 | .NET 10 (`System.Runtime` 10.0) | `net10.0-windows` |
 
 `X2.runtimeconfig.json` in the installation's program folder (the parent of `System`) names the hosted version

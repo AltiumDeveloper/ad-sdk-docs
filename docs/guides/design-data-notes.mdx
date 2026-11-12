@@ -1,6 +1,5 @@
 ---
 title: Design data notes
-sidebar_position: 12
 description: What design data values mean - library references and workspace item IDs, manufacturer data of workspace components, matching schematic pins to PCB pads, and PCB coordinates.
 ---
 
@@ -41,12 +40,18 @@ workspace library.
 
 ## From schematic pins to PCB pads
 
-A schematic pin and the PCB pad that implements it are matched by designator and number:
+A schematic pin and the PCB pad that implements it are matched by designator and number, unless the component's
+footprint model maps pins to other pads:
 
 | Schematic (`EDP`) | PCB |
 | --- | --- |
 | `IPart.DM_PhysicalDesignator` of the component | The designator of the pad's component: `pad.GetState_Component()?.GetState_Name()?.GetState_Text()` |
 | `INetItem.DM_PinNumber` of the pin | `IPCB_Pad.Name` |
+
+A footprint model can map a pin to a different pad, or to several pads. `ISch_Implementation.MapAsString` returns the
+map, for example `(1:5),(2:2, 3, 4)`: pin 1 to pad 5, pin 2 to pads 2, 3 and 4. On the compiled project,
+`IPart.DM_CurrentImplementation("PCBLIB")` returns the component's footprint model, whose
+`IComponentImplementation.DM_PortMap` holds the same map. When the map is empty, each pad's name is its pin's number.
 
 The pins of a component are `IPart.DM_Pins`; for a multi-part component, read them from each part
 (`IComponent.DM_SubParts`). The pins of a net (`INet.DM_Pins`) give the component's designator as
