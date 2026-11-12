@@ -165,8 +165,9 @@ never delete the text to make the error go away.
 
 ### Change a guide
 
-- Guides are `docs/guides/*.mdx`: `title`, `sidebar_position` and `description` in the front matter (the description is
-  also used in `llms.txt`). Do not use JSX or HTML: the source is also published as Markdown.
+- Guides are `docs/guides/*.mdx`: `title` and `description` in the front matter (the description is
+  also used in `llms.txt`), and an entry in `sidebars.js`, which sets the order (also in `llms.txt`). Do not use JSX
+  or HTML: the source is also published as Markdown.
 - Write API names as code spans, qualified when the short name exists in several namespaces (`` `SCH.TObjectId` ``):
   they are linked automatically. A bare member name (`` `GraphicallyInvalidate` ``) cannot be linked; write
   `` `ISch_GraphicalObject.GraphicallyInvalidate` ``.
