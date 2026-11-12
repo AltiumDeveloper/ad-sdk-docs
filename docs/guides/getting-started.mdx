@@ -1,6 +1,5 @@
 ---
 title: Getting started
-sidebar_position: 1
 description: The structure of an Altium Designer extension in C# - plugin factory, server module, commands and installation files.
 ---
 
@@ -10,6 +9,11 @@ An Altium Designer extension is a .NET class library that Altium Designer loads 
 *commands*; menus, toolbars and shortcuts invoke the commands, and each command works with the documents through the
 SDK interfaces.
 
+The quickest start is the `dotnet new ad-extension` template from the NuGet package
+[Altium.Designer.Extension.Templates](https://www.nuget.org/packages/Altium.Designer.Extension.Templates): it creates
+the project, the plugin factory and the installation files that this page describes, and a deployment script that
+registers the extension.
+
 ## Project setup
 
 Create a C# class library and reference the SDK assemblies:
@@ -17,30 +21,32 @@ Create a C# class library and reference the SDK assemblies:
 | Assembly | Contents |
 | --- | --- |
 | `Altium.SDK.Interfaces.dll` | The API: interfaces, enumerations and structures (this reference). |
-| `Altium.SDK.dll` | Hosting classes ([`DXP.ServerModule`](../reference/dxp/ServerModule.md), [`DXP.CommandLauncher`](../reference/dxp/CommandLauncher.md)), entry points (`SCH.GlobalVars`, `PCB.GlobalVars`, `DXP.GlobalVars`), constants ([`SCH.SCHConstant`](../reference/sch/SCHConstant.md)) and utilities ([`DXP.Utils`](../reference/dxp/Utils.md), [`EDP.Utils`](../reference/edp/Utils.md)). |
+| `Altium.SDK.dll` | Hosting classes (`DXP.ServerModule`, `DXP.CommandLauncher`), entry points (`SCH.GlobalVars`, `PCB.GlobalVars`, `DXP.GlobalVars`), constants (`SCH.SCHConstant`) and utilities (`DXP.Utils`, `EDP.Utils`). |
 
-The current SDK assemblies target .NET 8 (they reference `System.Runtime` 8.0). Many projects in the
+The SDK assemblies target the .NET version that Altium Designer hosts: .NET 8 in Altium Designer 26.1 to 26.11, .NET 10 in
+26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)). Many projects in the
 [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository were written for earlier SDK versions
 and target .NET Framework 4.x; their source code still shows the API usage, but use the target framework that matches
-your SDK version.
+your SDK version. [Project setup](./project-setup.mdx) has a complete project file.
 
 ## The plugin factory and the server module
 
-Altium Designer creates the extension through a plugin factory. The factory returns a `ServerModule` subclass, which
-registers the extension's commands:
+Altium Designer creates the extension through a plugin factory, `CSharpPlugin.PluginFactory`: keep that namespace and
+class name, as installed extensions do. The factory returns a `DXP.ServerModule` subclass, which registers the
+extension's commands:
 
 ```csharp
 using System.Runtime.InteropServices;
 using DXP;
 
-namespace MyExtension
+namespace CSharpPlugin
 {
     public interface IPluginFactory
     {
         object InvokePluginFactory(IClient client);
     }
 
-    [ClassInterface(ClassInterfaceType.None)]
+    [ClassInterface(ClassInterfaceType.AutoDispatch)]
     public class PluginFactory : IPluginFactory
     {
         public object InvokePluginFactory(IClient client) => new PluginServerModule(client, "MyExtension");
@@ -71,8 +77,9 @@ namespace MyExtension
 }
 ```
 
-- `RegisterCommand` binds a command name to two methods: the command itself, and a *get state* method that Altium
-  Designer calls to decide whether the command is enabled, checked or visible, and with which caption and image.
+- `CommandLauncher.RegisterCommand` binds a command name to two methods: the command itself, and a *get state* method
+  that Altium Designer calls to decide whether the command is enabled, checked or visible, and with which caption and
+  image.
 - `NewDocumentInstance` is used by extensions that implement a document editor; a command-only extension returns `null`.
 
 ## Installation files
@@ -89,17 +96,74 @@ Next to the assembly, an extension ships two text files with the extension's nam
       EditorExePath     = 'MyExtension.DLL'
       EditorDescription = 'My first extension'
       Version           = 'Version 1.0.0.1'
+      Updates           = 'AdvSch'
   End
 
   Command Name='HelloSchematic' End
   ```
 
-- **`.rcs`** defines the menus, toolbars and shortcuts that invoke the commands.
+  `Updates` makes Altium Designer merge the extension's menus at startup; without it, the extension's top-level menu
+  does not appear (see [Menus and the .rcs file](./menus.mdx#inserting-into-other-menus)).
 
-The assembly and both files go into a folder under the Altium Designer `Extensions` folder; Altium Designer loads the
-extension on start.
+- **`.rcs`** defines the menus, toolbars and shortcuts that invoke the commands; see
+  [Menus and the .rcs file](./menus.mdx).
+
+The assembly and both files go into a folder of their own, `<Extensions folder>\<extension name>`. Each installation
+of Altium Designer has its own `Extensions` folder: the installation's registry key under
+`HKLM\SOFTWARE\Altium\Builds` names its program folder (`ProgramsInstallPath`) and its data folder under
+`%ProgramData%` (`Application`, for example `Altium\Altium Designer {<installation GUID>}`), and the `Extensions`
+folder is `%ProgramData%\<Application>\Extensions`. Find it from the key rather than from a fixed folder name:
+development builds, for example, use `Altium Designer Dev {<installation GUID>}`.
+
+## Registering the extension
+
+Copying the files is not enough: Altium Designer loads only the extensions listed in `Extensions\ExtensionsRegistry.xml`.
+An extension folder without an entry is ignored silently: its menus do not appear, its commands are not found by the
+search, and none of its code runs. The project wizard of the Altium Developer extension adds the entry; an extension
+that you build and copy yourself needs a deployment step that adds it once (the template's deployment script does):
+
+```xml
+<Item HRID="MyExtension" Guid="<a GUID of your own, the same for every installation>">
+  <Path><full path of the extension folder></Path>
+  <Status>0</Status>
+  <VaultGuid></VaultGuid>
+  <CreatedBy>Altium Limited</CreatedBy>
+  <CategoryGuid>793A1F67-0B22-4E01-A5DE-3176A1E8C60D</CategoryGuid>
+  <CategoryName></CategoryName>
+  <ReadMe></ReadMe>
+  <Help></Help>
+  <Requirements></Requirements>
+  <Title>MyExtension</Title>
+  <ShortDescription></ShortDescription>
+  <LongDescription></LongDescription>
+  <SmallImage></SmallImage>
+  <LargeImage></LargeImage>
+  <Version></Version>
+  <VersionGuid></VersionGuid>
+  <ReleasedDate>0</ReleasedDate>
+  <ReleaseNotes></ReleaseNotes>
+  <DateInstalled>0</DateInstalled>
+  <PlatformVersions>
+    <DXP BuildNumber="1.0.6.0"/>
+    <EDP BuildNumber="10.0.6.0"/>
+    <MaxDXP BuildNumber="0.0.0.0"/>
+    <MaxEDP BuildNumber="0.0.0.0"/>
+  </PlatformVersions>
+</Item>
+```
+
+This is the entry the Altium Developer wizard writes. `HRID` and `Title` are the extension's name, and `Path` is the
+absolute path of its folder. Keep the rest of the file as it is: add the
+`Item` element before the closing `</Extensions>` tag, and keep a backup. Altium Designer reads the file when it
+starts: an entry added while it runs takes effect at the next start.
 
 ## Next steps
 
 - [API conventions](./api-conventions.mdx) explains how the interfaces are organised.
 - [Working with schematics](./schematic-basics.mdx) completes `Command_HelloSchematic`.
+- [Runtime and hosting](./runtime-and-hosting.mdx) and [Development loop](./development-loop.mdx) explain how Altium
+  Designer runs the extension, and what needs a restart.
+- [Writing an OutJob outputer](./outputers.mdx) adds an output to Output Job files.
+- [Adding a panel](./panels.mdx) adds a dockable panel of the extension's own.
+- [Calling the Altium 365 API](./altium-365-api.mdx) reads workspace data as the signed-in user.
+- [Gotchas](./gotchas.mdx) lists the most common surprises.

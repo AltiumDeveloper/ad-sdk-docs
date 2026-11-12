@@ -1,6 +1,5 @@
 ---
 title: Working with schematics
-sidebar_position: 3
 description: Find, change and create schematic objects - the current document, iterators, modification notifications and the object factory.
 ---
 
@@ -8,10 +7,10 @@ description: Find, change and create schematic objects - the current document, i
 
 ## The current document
 
-[`ISch_ServerInterface.GetCurrentSchDocument`](../reference/sch/ISch_ServerInterface.md#getcurrentschdocument) returns
-the active schematic document, or `null` when the active document is not a schematic. Schematic sheets are
-[`ISch_Sheet`](../reference/sch/ISch_Sheet.md) and schematic libraries [`ISch_Lib`](../reference/sch/ISch_Lib.md);
-both are [`ISch_Document`](../reference/sch/ISch_Document.md):
+`ISch_ServerInterface.GetCurrentSchDocument` returns the active schematic document, or `null` when the active
+document is not a schematic. Schematic sheets are `ISch_Sheet` and schematic libraries `ISch_Lib`; both are
+`ISch_Document`. Tell them apart by their object ID: a type test such as `document as ISch_Lib` succeeds for every
+document (see [Interfaces at run time](./interfaces-at-run-time.mdx#type-tests-succeed-for-every-object)):
 
 ```csharp
 ISch_ServerInterface schServer = SCH.GlobalVars.SchServer;
@@ -22,7 +21,10 @@ ISch_Document document = schServer.GetCurrentSchDocument();
 if (document == null)
     return;
 
-ISch_Lib library = document as ISch_Lib; // null on a schematic sheet
+if (document.GetState_ObjectId() == SCH.TObjectId.eSchLib)
+{
+    var library = (ISch_Lib)document; // a schematic library
+}
 ```
 
 ## Iterating over objects
@@ -52,23 +54,26 @@ consistent. The notifications go through the [`ISch_RobotManager`](../reference/
 ```csharp
 ISch_RobotManager robot = schServer.GetState_RobotManager();
 
-robot.SendMessage(wire, null, SCH.SCHConstant.SCHMBeginModify, SCH.SCHConstant.NoEventData);
+robot.SendMessage(wire, SCH.SCHConstant.BroadCast, SCH.SCHConstant.SCHMBeginModify, SCH.SCHConstant.NoEventData);
 wire.SetState_Color(0x0000C8);
-robot.SendMessage(wire, null, SCH.SCHConstant.SCHMEndModify, SCH.SCHConstant.NoEventData);
+robot.SendMessage(wire, SCH.SCHConstant.BroadCast, SCH.SCHConstant.SCHMEndModify, SCH.SCHConstant.NoEventData);
 
 wire.GraphicallyInvalidate();
 ```
 
-`GraphicallyInvalidate` redraws the object.
+`ISch_GraphicalObject.GraphicallyInvalidate` redraws the object.
 
 ## Creating objects
 
-[`ISch_ServerInterface.SchObjectFactory`](../reference/sch/ISch_ServerInterface.md#schobjectfactory) creates a design
-object of a [`TObjectId`](../reference/sch/TObjectId.md) kind. Position it, then add it to its owner: a document, or
-a component for pins and graphical primitives.
+`ISch_ServerInterface.SchObjectFactory` creates a design object of a `SCH.TObjectId` kind. Position it, then add it
+to its owner: a document, or a component for pins and graphical primitives. This one creates a component in the
+current schematic library:
 
 ```csharp
-ISch_Lib library = schServer.GetCurrentSchDocument() as ISch_Lib;
+ISch_Document document = schServer.GetCurrentSchDocument();
+if (document == null || document.GetState_ObjectId() != SCH.TObjectId.eSchLib)
+    return;
+var library = (ISch_Lib)document;
 
 var component = schServer.SchObjectFactory(SCH.TObjectId.eSchComponent, SCH.TObjectCreationMode.eCreate_Default) as ISch_Component;
 component.MoveToXY(0, 0);

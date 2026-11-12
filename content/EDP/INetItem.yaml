@@ -102,6 +102,10 @@ members:
   DM_PinNumber:
     summary: The method returns the Pin Number that this INetItem interface is associated with. An IPin interface is
       inherited from an INetItem interface.
+    remarks: >-
+      On the PCB, the pin's pad is the IPCB_Pad whose Name is this pin number, in the component whose designator is
+      DM_PhysicalPartDesignator, unless the component's footprint model maps the pin to other pads
+      (IComponentImplementation.DM_PortMap).
   DM_PinSwapId:
     summary: The method returns the wide string for the pin swap Id.
   DM_RangeDefinedByValue:

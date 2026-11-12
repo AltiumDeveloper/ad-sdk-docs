@@ -1,0 +1,224 @@
+---
+title: Adding a panel
+description: Add a dockable panel of your own - declare it in the .ins file, create its form and view and register them with Altium Designer, open it from a menu command, and lay out content that follows the display scaling and the light and dark themes.
+---
+
+# Adding a panel
+
+A panel is a dockable window, like the Messages or Properties panel, that the extension opens by name from one of its
+commands. It takes four pieces:
+
+1. a `PanelInfo` block in the `.ins` file, which declares the panel by name;
+2. a form derived from `DXP.ServerPanelForm`: the panel's window, a Windows Forms form;
+3. a view derived from `DXP.ServerPanelView`, which wraps the form under the panel's name;
+4. code in the server module that creates the view once and registers it with the server module **and** with the
+   client.
+
+A change to any of the four pieces takes effect after a restart (see [Development loop](./development-loop.mdx#what-needs-a-restart)); the panel's content can be
+hot-reloaded (see [Keeping the content hot-reloadable](#keeping-the-content-hot-reloadable)).
+
+## Declaring the panel
+
+Add a `PanelInfo` block to the `.ins` file, after the `Server` block:
+
+```text
+PanelInfo
+    Name     = 'MyExtensionPanel'
+    Category = 'MyExtension'
+End
+```
+
+`Name` is the panel's name: the code uses the same name as the view name and to open the panel. `Category` is text of
+your choice, such as the extension's name. With these two keys, the panel opens, is listed under the **Panels**
+button and docks like Altium Designer's own panels.
+
+## The form and the view
+
+`DXP.ServerPanelForm` is a Windows Forms form: give it a caption and add controls to it as to any form (see
+[Filling and laying out the content](#filling-and-laying-out-the-content)). `DXP.ServerPanelView` is abstract, so
+derive a view of your own; its constructor takes the form, the view name and the caption. Use the `PanelInfo` name as
+the view name; the caption can be any text.
+
+```csharp
+using DXP;
+
+internal sealed class MyPanelForm : ServerPanelForm
+{
+    public MyPanelForm()
+    {
+        Text = "My Panel";
+        BackColor = DxpThemeManager.ColorPanelBody;
+    }
+}
+
+internal sealed class MyPanelView : ServerPanelView
+{
+    public MyPanelView(ServerPanelForm form, string name, string caption) : base(form, name, caption) { }
+}
+```
+
+## Registering the view
+
+Create the view once, in the server module's constructor, and register it twice: with the server module
+(`ServerModule.AddServerView`) and with the client (`IClient.AddServerView`). Without the client registration the
+panel never opens. The server module is the one of
+[Getting started](./getting-started.mdx#the-plugin-factory-and-the-server-module), with a `Run` command that opens the
+panel:
+
+```csharp
+using System.Linq;
+using System.Runtime.InteropServices;
+using DXP;
+
+namespace CSharpPlugin
+{
+    [ClassInterface(ClassInterfaceType.AutoDispatch)]
+    public class PluginServerModule : ServerModule
+    {
+        public const string PanelName = "MyExtensionPanel"; // the PanelInfo Name
+        private readonly ServerPanelView _panel;
+
+        public PluginServerModule(IClient client, string moduleName) : base(client, moduleName)
+        {
+            _panel = new MyPanelView(new MyPanelForm(), PanelName, "My Panel");
+            AddServerView(_panel);        // the server module's views
+            client.AddServerView(_panel); // the client's views
+        }
+
+        protected override void InitializeCommands()
+        {
+            ((CommandLauncher)CommandLauncher).RegisterCommand("Run", Command_Run, GetState_Run);
+        }
+
+        protected override IServerDocument NewDocumentInstance(string kind, string fileName) => null;
+
+        private void Command_Run(IServerDocumentView view, ref string parameters)
+        {
+            if (parameters.Split('|').Contains("Cmd=ShowPanel"))
+                ShowPanel();
+        }
+
+        private void GetState_Run(IServerDocumentView context, ref string parameters, ref bool enabled,
+            ref bool isChecked, ref bool visible, ref string caption, ref string imageFile)
+        {
+            enabled = true;
+            visible = true;
+        }
+
+        private static void ShowPanel()
+        {
+            IGUIManager gui = DXP.GlobalVars.GUIManager;
+            gui.SetPanelVisibleInCurrentForm(PanelName, true);
+            gui.SetPanelActiveInCurrentForm(PanelName);
+        }
+    }
+}
+```
+
+The base constructor runs `InitializeCommands` before the code of the derived constructor: it can register the
+commands, but cannot use the view or other fields that the constructor sets.
+
+## Opening the panel
+
+`IGUIManager.SetPanelVisibleInCurrentForm` shows the panel by its name, and `IGUIManager.SetPanelActiveInCurrentForm`
+gives it the focus (`ShowPanel` above). A menu item runs the command (see [Menus and the .rcs file](./menus.mdx)): the
+`.ins` file declares `Command Name='Run'`, and the `.rcs` file has:
+
+```text
+PL PLMyExtension:ShowPanel
+    Command='MyExtension:Run'
+    Params='Cmd=ShowPanel'
+    Caption='Show &Panel'
+    Image=''
+    Description='Show the My Panel panel'
+End
+
+Tree MNMyExtension Caption='&My Extension' TopLevel=True
+    Link MNMyExtension_ShowPanel PLID='PLMyExtension:ShowPanel' End
+End
+```
+
+## When the panel exists
+
+The view exists once the server module does, and Altium Designer creates the server module on the extension's first
+command, not when it starts (see [Development loop](./development-loop.mdx#when-the-extension-starts)). So:
+
+- the panel is available, for example under the **Panels** button, only after the extension's first command in the
+  session; the menu command that opens the panel can be that first command;
+- the first time, the panel opens floating in the middle of the screen. Once the user docks it, Altium Designer opens
+  it there again.
+
+## Filling and laying out the content
+
+The form receives `Control.VisibleChanged` when Altium Designer shows the panel: build the content there, the first
+time. Lay it out with docking or a `TableLayoutPanel` rather than fixed pixel sizes: controls with fixed heights were
+clipped on a scaled display, while a `TableLayoutPanel` with `AutoSize` and `Percent` rows laid out correctly. The form
+of [The form and the view](#the-form-and-the-view), with content:
+
+```csharp
+using System.Windows.Forms;
+using DXP;
+
+internal sealed class MyPanelForm : ServerPanelForm
+{
+    public MyPanelForm()
+    {
+        Text = "My Panel";
+        BackColor = DxpThemeManager.ColorPanelBody;
+        VisibleChanged += (_, _) =>
+        {
+            if (Visible && Controls.Count == 0)
+                Controls.Add(CreateContent());
+        };
+    }
+
+    private static Control CreateContent()
+    {
+        var layout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
+        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));     // the header: as high as its text
+        layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // the list: the rest
+        layout.Controls.Add(new Label
+        {
+            Dock = DockStyle.Fill, AutoSize = true, Text = "Results",
+            ForeColor = DxpThemeManager.ColorPanelFont,
+        }, 0, 0);
+        layout.Controls.Add(new ListBox
+        {
+            Dock = DockStyle.Fill, IntegralHeight = false, BorderStyle = BorderStyle.None,
+            BackColor = DxpThemeManager.ColorEditBoxBack, ForeColor = DxpThemeManager.ColorDefaultFont,
+        }, 0, 1);
+        return layout;
+    }
+}
+```
+
+## Following the theme
+
+Altium Designer has a light and a dark theme. `DxpThemeManager` returns the current theme's colours as
+`System.Drawing.Color` values. Set them on the controls instead of fixed colours or the Windows defaults, so that the
+panel reads well in both themes:
+
+| Colour | Use |
+| --- | --- |
+| `DxpThemeManager.ColorPanelBody`, `DxpThemeManager.ColorPanelFont` | The panel's background and its text (labels, headers). |
+| `DxpThemeManager.ColorEditBoxBack`, `DxpThemeManager.ColorDefaultFont` | Lists and edit boxes, and their text. |
+
+Check the panel in both themes.
+
+## Commands run from the panel
+
+The panel's events (button clicks, double-clicks) arrive on the main thread, so they can call the SDK directly (see
+[Runtime and hosting](./runtime-and-hosting.mdx#the-main-thread)). Get the project from the workspace each time a
+command runs, as a menu command does (`IWorkspace.DM_FocusedProject`; see
+[Interfaces at run time](./interfaces-at-run-time.mdx#get-references-again-in-each-command)).
+
+A panel can list results next to the Messages panel and navigate the same way: let a double-click run the same command
+and parameters as the message's callback (see [The Messages panel](./messages-panel.mdx#navigating-on-double-click)).
+
+## Keeping the content hot-reloadable
+
+The [Altium Designer extension template](https://github.com/AltiumDeveloper/ad-extension-template) creates a panel
+whose content hot-reloads (`dotnet new ad-extension --panel`): the form and the view stay in the stable shim, and the
+implementation builds the content after each build. Its README lists what the content must release before it is
+unloaded. Changes to the form, the view or the `PanelInfo` block still need a restart.

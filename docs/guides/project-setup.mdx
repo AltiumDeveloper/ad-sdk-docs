@@ -1,0 +1,76 @@
+---
+title: Project setup
+description: An SDK-style project file for an extension (net8.0-windows or net10.0-windows) - the SDK references from the installation, Windows Forms and WPF, dynamic loading and the installation files.
+---
+
+# Project setup
+
+An extension is an SDK-style class library for the .NET version that Altium Designer hosts: `net8.0-windows` for
+Altium Designer 26.1 to 26.11, `net10.0-windows` in 26.12 (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
+A complete project file, for 26.1 to 26.11 (for 26.12, change the target framework to `net10.0-windows`):
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <AssemblyName>MyExtension</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
+    <!-- Only when the project keeps a Properties\AssemblyInfo.cs: -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!-- An extension runs only on Windows. -->
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
+    <!-- The System folder of the Altium Designer installation. -->
+    <AltiumSystemDir>...</AltiumSystemDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Altium.SDK">
+      <HintPath>$(AltiumSystemDir)\Altium.SDK.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Altium.SDK.Interfaces">
+      <HintPath>$(AltiumSystemDir)\Altium.SDK.Interfaces.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="MyExtension.ins" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="MyExtension.rcs" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
+```
+
+- **SDK references.** Reference `Altium.SDK.dll` and `Altium.SDK.Interfaces.dll` from the `System` folder of the
+  Altium Designer installation that runs the extension: those are the assemblies Altium Designer loads. `Private` set
+  to `false` keeps them out of the build output.
+- **Windows Forms and WPF.** `Altium.SDK.dll` references Windows Forms and WPF assemblies (`WindowsBase`,
+  `PresentationCore`, `PresentationFramework`; version 8.0 in 26.1 to 26.11, 10.0 in 26.12). `UseWindowsForms` and `UseWPF` add
+  them to the build; without `UseWPF`, the build reports a version conflict for `WindowsBase` (warning MSB3277).
+- **`EnableDynamicLoading`** marks the library as a plug-in that a host loads: its NuGet dependencies are copied to the
+  build output, next to the extension assembly.
+- **`GenerateRuntimeConfigurationFiles`** set to `false` keeps a `runtimeconfig.json` out of the build output: with
+  `EnableDynamicLoading` the build writes one, and it must not be deployed into the extension's folder.
+- **`GenerateAssemblyInfo`** set to `false` avoids duplicate assembly attributes when the project keeps an
+  `AssemblyInfo.cs` file. Without one, leave it out and set `Version` and the other attributes in the project file.
+- **CA1416** is the platform compatibility analyzer; suppress it if the build reports Windows-only APIs.
+
+To build for the installation the extension runs in, the project can read the target framework from that
+installation: `X2.runtimeconfig.json` in its program folder (the parent of `System`) names the hosted version as
+`"tfm"` (for example `net10.0`). The `dotnet new ad-extension` template does this in its `Directory.Build.props`.
+
+The `.ins` and `.rcs` files (see [Getting started](./getting-started.mdx#installation-files)) are copied next to the
+assembly. Copy the build output into the extension's folder under the Altium Designer `Extensions` folder, register the
+extension once (see [Registering the extension](./getting-started.mdx#registering-the-extension)), then
+restart Altium Designer. While Altium Designer runs, the extension assembly is locked (see
+[What needs a restart](./development-loop.mdx#what-needs-a-restart)).
+
+## Projects from the Altium Developer generator
+
+The project generator of the Altium Developer extension creates a .NET Framework 4.8 project in the old,
+non-SDK project format. It references an `Altium.SDK.dll` built for .NET Framework from the extension's own SDK
+folder, not the one that Altium Designer loads. Its source files work in the project file above: keep them, replace the
+project file, and reference the SDK assemblies from the installation's `System` folder.

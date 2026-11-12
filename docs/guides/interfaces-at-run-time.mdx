@@ -1,0 +1,90 @@
+---
+title: Interfaces at run time
+description: How SDK interfaces behave at run time - type tests that always succeed, branching on the object kind, the namespaces of typed helpers, references that go stale, and destroying iterators.
+---
+
+# Interfaces at run time
+
+## Type tests succeed for every object
+
+The SDK interfaces are COM dispatch interfaces: each is declared with
+`[InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]` and the same `[Guid]`, the identifier of `IDispatch`
+(`00020400-0000-0000-C000-000000000046`). A type test for an SDK interface therefore succeeds for any object that
+Altium Designer returns: `obj is IPCB_Region` is `true` for a track, and `obj as ISch_Pin` returns a wire. The mistake
+shows only when a member that the object does not implement is called, which throws a `COMException`
+("Interface not supported").
+
+Branch on the object's kind instead, then cast. On a PCB, the kind is `IPCB_Primitive.ObjectID` (`PCB.TObjectId`):
+
+```csharp
+using PCB;
+
+for (IPCB_Primitive obj = iterator.FirstPCBObject(); obj != null; obj = iterator.NextPCBObject())
+{
+    switch (obj.GetState_ObjectID())
+    {
+        case PCB.TObjectId.eRegionObject:
+            var region = (IPCB_Region)obj;
+            // ...
+            break;
+        case PCB.TObjectId.ePolyObject:
+            var polygon = (IPCB_Polygon)obj;
+            // ...
+            break;
+    }
+}
+```
+
+On a schematic, the kind is `ISch_BasicContainer.ObjectId` (`SCH.TObjectId`), for example
+`obj.GetState_ObjectId() == SCH.TObjectId.eWire`.
+
+## Typed helpers need their namespace
+
+Many members are typed extension methods in a helper class of the interface's namespace (see
+[API conventions](./api-conventions.mdx#typed-helper-methods)). Without a `using` directive for that namespace, only the
+untyped member is visible: `IPCB_Primitive` itself has `Internal_GetState_ObjectID()`, which returns an `int`, while
+`GetState_ObjectID()`, which returns a `PCB.TObjectId`, comes from `using PCB;`, and so does
+`IPCB_ServerInterface.GetCurrentPCBBoard`. Likewise the `DM_*` methods of the workspace and projects, such as
+`IWorkspace.DM_MessagesManager` and `IWorkspace.DM_FocusedProject`, need `using EDP;`; without it the compiler reports
+CS1061 or CS1929. Add all four:
+
+```csharp
+using DXP;
+using EDP;
+using PCB;
+using SCH;
+```
+
+Some names exist in more than one of these namespaces (`PCB.TObjectId` and `SCH.TObjectId`, `PCB.TObjectSet` and
+`SCH.TObjectSet`, `PCB.TObjectCreationMode` and `SCH.TObjectCreationMode`, `DXP.Utils` and `EDP.Utils`): with all four
+`using` directives, write them qualified, or the compiler reports CS0104 (an ambiguous reference).
+
+## Get references again in each command
+
+An interface reference is valid only while the object it stands for exists (see
+[Working with PCBs](./pcb-basics.mdx#objects-that-no-longer-exist)), and the user can change the design between two
+commands. Do not keep interface references in static fields or across commands: get the workspace, project, document
+or board again each time a command runs.
+
+```csharp
+var workspace = DXP.GlobalVars.Client.GetDXPWorkspace() as IWorkspace;
+IProject project = workspace?.DM_FocusedProject();
+```
+
+## Destroy every iterator
+
+Every iterator is created and destroyed by its owner (`IPCB_Board.BoardIterator_Create` and
+`IPCB_Board.BoardIterator_Destroy`, `ISch_BasicContainer.SchIterator_Create` and
+`ISch_BasicContainer.SchIterator_Destroy`, and so on). Destroy it also when the loop ends early or throws:
+
+```csharp
+IPCB_BoardIterator iterator = board.BoardIterator_Create();
+try
+{
+    // ...
+}
+finally
+{
+    board.BoardIterator_Destroy(ref iterator);
+}
+```
