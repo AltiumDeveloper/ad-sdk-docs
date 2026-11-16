@@ -1,0 +1,113 @@
+# Moves the SDK samples pin (config/site.yaml `samples.release`) to the newest samples index release, as a pull
+# request: weekly, and on demand (Actions > samples-bump > Run workflow).
+#
+# It builds the site with the new release before opening the pull request, and puts the resolver report
+# (.generated/samples-report.json: index ids with no reference page) in its description. A pull request opened with
+# the workflow's GITHUB_TOKEN does not start other workflows, so the checks run here; closing and reopening the pull
+# request also runs the regular CI (gh-pages.yaml).
+#
+# Repository setting it needs: Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+name: samples-bump
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: samples-bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find the newest samples index release
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo=$(node -e 'const y=require("fs").readFileSync("config/site.yaml","utf8"); console.log(/^samples:\n(?:[ \t]+.*\n)*?[ \t]+repo:[ \t]*(\S+)/m.exec(y)[1].replace(/^https:\/\/github.com\//,""))')
+          current=$(node -e 'const y=require("fs").readFileSync("config/site.yaml","utf8"); console.log(/^samples:\n(?:[ \t]+.*\n)*?[ \t]+release:[ \t]*(\S+)/m.exec(y)[1])')
+          latest=$(gh api "repos/$repo/releases/latest" --jq .tag_name)
+          case "$latest" in index-*) ;; *) echo "The latest release of $repo is $latest, not an index release."; exit 1;; esac
+          echo "Pinned: $current. Latest: $latest."
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          echo "branch=samples-bump/$latest" >> "$GITHUB_OUTPUT"
+          if [ "$current" = "$latest" ]; then echo "up-to-date=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if git ls-remote --exit-code --heads origin "samples-bump/$latest" > /dev/null; then
+            echo "Branch samples-bump/$latest exists already: its pull request is open or was closed on purpose."
+            echo "up-to-date=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Move the pin
+        if: steps.release.outputs.up-to-date != 'true'
+        env:
+          LATEST: ${{ steps.release.outputs.latest }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const y = fs.readFileSync("config/site.yaml", "utf8");
+            const out = y.replace(/^(samples:\n(?:[ \t]+.*\n)*?[ \t]+release:[ \t]*)\S+/m, (_, head) => head + process.env.LATEST);
+            if (out === y) throw new Error("config/site.yaml: samples.release not found");
+            fs.writeFileSync("config/site.yaml", out);'
+          git diff --stat
+
+      - uses: actions/setup-node@v4
+        if: steps.release.outputs.up-to-date != 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build and check the site with the new release
+        if: steps.release.outputs.up-to-date != 'true'
+        run: |
+          npm ci
+          npm test
+          npm run samples:fetch
+          npm run apidocs
+          npm run search:golden
+          npm run build
+          npm run search:check
+          npm run llms
+
+      - name: Open the pull request
+        if: steps.release.outputs.up-to-date != 'true'
+        shell: bash
+        env:
+          CURRENT: ${{ steps.release.outputs.current }}
+          LATEST: ${{ steps.release.outputs.latest }}
+          BRANCH: ${{ steps.release.outputs.branch }}
+        run: |
+          set -euo pipefail
+          report=$(node -e '
+            const r = JSON.parse(require("fs").readFileSync(".generated/samples-report.json", "utf8"));
+            const lines = [
+              `Built from ${r.commit}.`,
+              "",
+              `Index ids resolved: ${Object.entries(r.counts).map(([k, n]) => `${k} ${n}`).join(", ")}.`,
+              "",
+              r.unresolved.length ? "Ids with no reference page (hidden or not in the assemblies):" : "Every id has a reference page.",
+              ...r.unresolved.map((u) => `- \`${u.id}\` (${u.kind}): ${u.samples.join(", ")}`),
+            ];
+            console.log(lines.join("\n"));')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git commit -am "content: samples $LATEST"
+          git push origin "$BRANCH"
+          body=$(printf '%s\n\n%s\n\n%s\n' \
+            "Moves the SDK samples from $CURRENT to $LATEST. The site was built and checked with it (tests, apidocs, golden search queries, build, search check, LLM files)." \
+            "$report" \
+            "This pull request was opened by a workflow, so the regular CI does not start on its own: close and reopen it to run gh-pages.yaml.")
+          gh pr create --base "${{ github.event.repository.default_branch }}" --head "$BRANCH" --title "Samples: $LATEST" --body "$body"

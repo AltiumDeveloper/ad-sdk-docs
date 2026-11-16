@@ -202,11 +202,14 @@ writeFileSync(join(GENERATED, 'manifest.json'), JSON.stringify({
   assemblies: model.assemblies,
   namespaces: namespaces.map(({ id, title, slug, label, description }) => ({ id, title, slug, label, description })),
   pages,
-  // The samples, for search-index.mjs: one record each.
+  // The samples, for search-index.mjs (one record each) and llms.mjs (samples/llms.txt, the twins with sources).
   samples: (samples?.index.samples ?? []).map((x) => ({
-    id: x.id, title: x.title, summary: x.summary, domain: x.domain, phrasings: x.phrasings ?? [],
-    commands: (x.commands ?? []).map((c) => c.name), route: `/samples/${x.id}`,
+    id: x.id, title: x.title, summary: x.summary, category: x.category, domain: x.domain, task: x.task, surface: x.surface,
+    path: x.path, phrasings: x.phrasings ?? [], commands: (x.commands ?? []).map((c) => c.name), route: `/samples/${x.id}`,
+    // The types the sample is about (its "What it shows"), a member counted as its type.
+    primary: [...new Set(x.apis.filter((a) => a.primary).map((a) => (a.kind === 'type' ? a.id : a.id.slice(0, a.id.lastIndexOf('.')))))],
   })),
+  samplesSource: samples ? { repo: samples.index.repo, commit: samples.index.commit, release: samples.index.release, dir: samples.repoDir } : null,
 }));
 const byKind = {};
 for (const p of pages) byKind[p.kind] = (byKind[p.kind] ?? 0) + 1;

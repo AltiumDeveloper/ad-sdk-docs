@@ -210,6 +210,21 @@ never delete the text to make the error go away.
 4. Move the samples pin (`samples.release` in `config/site.yaml`) to a release built against the new SDK, then
    `npm run samples:fetch` and `npm run apidocs`; review `.generated/samples-report.json` for ids that no longer resolve.
 
+### Move the samples pin
+
+The site shows the SDK samples of one release of the samples repository, pinned in `config/site.yaml`
+(`samples.release`), so a build is reproducible. `.github/workflows/samples-bump.yaml` opens a pull request that moves
+the pin to the newest release every week (or on demand, from the Actions tab), after building and checking the site
+with it; its description lists the index ids with no reference page. To review it, or to move the pin by hand:
+
+1. Set `samples.release`, then `npm run samples:fetch` and `npm run apidocs`.
+2. Read `.generated/samples-report.json`: `unresolved` are ids the reference has no page for (a hidden type, or one
+   that is not in the assemblies). A sample that uses a hidden type is fine; an id that used to resolve and no longer
+   does means the samples and the reference disagree about a name.
+3. `npm run search:golden`, `npm run build`, then look at a few sample pages and a type page's Samples section.
+
+Never edit `docs/samples/**`: the text is the samples' READMEs, fixed in the samples repository.
+
 ### Change the generator
 
 Generator code is in `scripts/apidocs/lib/` (see the repository map in AGENTS.md). Add or update a test in `test/`

@@ -28,7 +28,8 @@ LLM surface follow the Altium 365 API reference (https://github.com/AltiumDevelo
 
 Generated, never edited by hand (git-ignored): `docs/reference/**`, `docs/samples/**`, `.generated/**`,
 `static/search-index.json`, `build/**`, `.cache/**`. The sample pages are the samples' READMEs: fix their text in the
-samples repository, not here. `internal/` (git-ignored) holds maintainers' working material; it is not part of the public repository.
+samples repository, not here. `internal/` (git-ignored) holds maintainers' working material; it is not part of the
+public repository.
 If you have it, read `internal/HANDOFF.md` first: history, decisions, status and backlog.
 
 ## Repository map
@@ -56,6 +57,7 @@ If you have it, read `internal/HANDOFF.md` first: history, decisions, status and
 | `src/css/custom.css` | theme; "Sidebar icons" section: `.bc-<id>` rules for namespaces and areas |
 | `test/*.test.mjs` | unit tests (`node --test`) |
 | `.github/workflows/gh-pages.yaml` | CI: test, generate, build, search check, LLM surface, deploy to GitHub Pages |
+| `.github/workflows/samples-bump.yaml` | weekly: a pull request that moves the samples pin to the newest release, built and checked first |
 
 ## Commands
 
@@ -79,8 +81,8 @@ SDK_DIR=<dir> npm run metadata        # re-extract metadata from new assemblies
 SDK_DIR=<dir> npm run check:examples  # compile all examples; --files a.cs,b.cs compiles only those, in a temp project
 ```
 
-CI runs `npm test`, `npm run samples:fetch`, `npm run apidocs`, `npm run search:golden` (which includes `check:xrefs`), `npm run build`, `npm run search:check` and
-`npm run llms`. **`check:examples` does not run in CI** (the assemblies are not in the repository): run it locally
+CI runs `npm test`, `npm run samples:fetch`, `npm run apidocs` (which includes `check:xrefs`), `npm run search:golden`,
+`npm run build`, `npm run search:check` and `npm run llms`. **`check:examples` does not run in CI** (the assemblies are not in the repository): run it locally
 whenever you add or change an example.
 
 ## Rules
