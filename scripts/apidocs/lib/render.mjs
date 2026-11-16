@@ -215,6 +215,32 @@ export function layoutAnchors(model, ctx) {
   for (const type of model.types.values()) renderType(model, type, ctx);
 }
 
+// Nested types: the model names a nested type `Outer.Inner` within its namespace (model.mjs), so its declaring type is
+// the name up to the last dot. Without these links a container such as `DXP.NotificationCode`, which holds only
+// nested classes, renders as an empty page and its nested classes cannot be found from it.
+export function declaringTypeId(type) {
+  const dot = type.name.lastIndexOf('.');
+  return dot > 0 ? `${type.namespace}.${type.name.slice(0, dot)}` : null;
+}
+
+const nestedIndex = new WeakMap();
+export function nestedTypes(model, type) {
+  let index = nestedIndex.get(model);
+  if (!index) {
+    index = new Map();
+    for (const t of model.types.values()) {
+      const outer = declaringTypeId(t);
+      if (outer && model.types.has(outer)) {
+        if (!index.has(outer)) index.set(outer, []);
+        index.get(outer).push(t);
+      }
+    }
+    for (const list of index.values()) list.sort((a, b) => a.name.localeCompare(b.name));
+    nestedIndex.set(model, index);
+  }
+  return index.get(type.id) ?? [];
+}
+
 export function renderType(model, type, ctx) {
   const file = typeFile(type);
   const link = new Linker(model, file);
@@ -234,6 +260,8 @@ export function renderType(model, type, ctx) {
   page.push(content.summary ? prose(ctx, link, type, content.summary) : gap, '');
   page.push('```csharp', declaration(type), '```', '');
   page.push(`**Namespace:** ${type.namespace} · **Assembly:** ${type.assembly}`, '');
+  const outer = declaringTypeId(type);
+  if (outer && model.types.has(outer)) page.push(`**Nested in:** ${link.ref(outer)}`, '');
 
   if (type.kind === 'interface') {
     if (orderBases(model, type).length) page.push(`**Inherits:** ${inheritanceChain(model, type, link)}`, '');
@@ -247,6 +275,13 @@ export function renderType(model, type, ctx) {
   if (typeExample) {
     page.heading(2, 'Example');
     page.push(...exampleBlock(ctx, link, type, typeExample));
+  }
+  const inner = nestedTypes(model, type);
+  if (inner.length) {
+    page.heading(2, 'Nested types');
+    page.push('| Type | Description |', '| --- | --- |');
+    for (const t of inner) page.push(`| ${link.ref(t.id)} | ${proseCell(ctx, link, type, firstSentence(ctx.content(t.id).summary, 160))} |`);
+    page.push('');
   }
 
   if (type.kind === 'interface') renderMembers(page, model, type, link, ctx);
