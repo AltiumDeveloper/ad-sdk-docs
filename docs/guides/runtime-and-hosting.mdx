@@ -1,0 +1,71 @@
+---
+title: Runtime and hosting
+description: How Altium Designer runs an extension - the .NET runtime it hosts, the load context and location of the extension assembly, the main thread, and the frameworks loaded next to it.
+---
+
+# Runtime and hosting
+
+## The .NET runtime
+
+Altium Designer hosts .NET (CoreCLR) in its own process. The runtime is a private copy in the `System\DotNet\Runtime`
+folder of the installation (`Microsoft.NETCore.App` and `Microsoft.WindowsDesktop.App`), not a machine-wide .NET
+installation, and the version depends on the Altium Designer version:
+
+| Altium Designer | Hosted runtime | SDK assemblies reference | Extension target framework |
+| --- | --- | --- | --- |
+| 26.1 to 26.11 | .NET 8.0.15 | .NET 8 (`System.Runtime` 8.0) | `net8.0-windows` |
+| 26.12 | .NET 10.0.10 | .NET 10 (`System.Runtime` 10.0) | `net10.0-windows` |
+
+`X2.runtimeconfig.json` in the installation's program folder (the parent of `System`) names the hosted version
+(`"tfm"` and the framework versions). Build the extension against the installation you target: target that version,
+with a .NET SDK that supports it, and reference that installation's SDK assemblies (see
+[Project setup](./project-setup.mdx)). A `net8.0-windows` project that references the .NET 10 SDK assemblies fails to
+build with error CS1705 ("uses `System.Runtime, Version=10.0.0.0` which has a higher version than referenced assembly").
+
+## How the extension assembly is loaded
+
+- The assembly named in the `.ins` file is loaded into the default load context, `AssemblyLoadContext.Default`, from
+  its file. `Assembly.Location` is its path, so files shipped next to it are found from there:
+
+  ```csharp
+  using System.IO;
+
+  string folder = Path.GetDirectoryName(typeof(CSharpPlugin.PluginFactory).Assembly.Location);
+  string settings = Path.Combine(folder, "MyExtension.json");
+  ```
+
+- `Altium.SDK.dll` and `Altium.SDK.Interfaces.dll` are already loaded from the installation's `System` folder.
+  Reference them without copying them to the build output.
+- The default load context cannot be unloaded, so a new build of the extension assembly takes effect only after a
+  restart. See [Development loop](./development-loop.mdx).
+
+## The main thread
+
+Altium Designer calls the plugin factory, the server module's `InitializeCommands`, commands and their get-state
+methods on its main (UI) thread. Call the SDK API only on that thread. Work that runs on another thread, such as
+`Task.Run`, a `System.Threading.Timer` callback or a pipe server, must post its API calls back to the main thread.
+
+A Windows Forms control created on the main thread does that: `Control.BeginInvoke` posts a window message, which the
+main thread's message loop dispatches. Altium Designer runs that loop; the extension does not call `Application.Run`.
+
+```csharp
+using System;
+using System.Windows.Forms;
+using PCB; // GetCurrentPCBBoard is an extension method (PCB.IPCB_ServerInterfaceHelper)
+
+// On the main thread, for example in InitializeCommands:
+var mainThread = new Control();
+_ = mainThread.Handle; // creates the control's window on this thread
+
+// Later, on any thread:
+mainThread.BeginInvoke(new Action(() =>
+{
+    IPCB_Board board = PCB.GlobalVars.PCBServer?.GetCurrentPCBBoard();
+    // ...
+}));
+```
+
+## Frameworks in the process
+
+Windows Forms, WPF and DevExpress (WPF and Windows Forms controls) are loaded in the Altium Designer process, from the
+installation's `System\DotNet` folder.

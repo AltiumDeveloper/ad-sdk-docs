@@ -7,6 +7,7 @@
 //   <route>.md next to every page        Markdown twin (see src/theme/markdownRoute.ts)
 // Reads only public inputs: the generated pages, the guides, .generated/manifest.json and config/*.yaml.
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { dirname, join, posix, relative, sep } from 'node:path';
 import { parse } from 'yaml';
 import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/config.mjs';
@@ -46,6 +47,15 @@ const writeTwin = (route, markdown) => {
   twins += 1;
 };
 
+// The guides in sidebar order (sidebars.js lists them, grouped by topic).
+const sidebarDocs = (items) =>
+  items.flatMap((item) => (typeof item === 'string' ? [item] : item.type === 'category' ? sidebarDocs(item.items) : []));
+const guideOrder = sidebarDocs(createRequire(import.meta.url)('../../sidebars.js').docs.find((item) => item.label === 'Guides').items);
+const positionOf = (route) => {
+  const index = guideOrder.indexOf(route.replace(/^\//, ''));
+  return index < 0 ? guideOrder.length : index;
+};
+
 // Guides and home page (MDX without JSX, so the source is the Markdown).
 const guides = [];
 for (const [file, route] of [['docs/index.mdx', '/'], ...readdirSync('docs/guides').filter((n) => /\.mdx?$/.test(n)).sort()
@@ -53,7 +63,7 @@ for (const [file, route] of [['docs/index.mdx', '/'], ...readdirSync('docs/guide
   const text = readFileSync(file, 'utf8');
   const fm = frontMatter(text);
   writeTwin(route, absoluteLinks(stripFrontMatter(text), route === '/' ? '/index' : route));
-  if (route !== '/') guides.push({ route, title: fm.title, description: fm.description, position: fm.sidebar_position ?? 99 });
+  if (route !== '/') guides.push({ route, title: fm.title, description: fm.description, position: positionOf(route) });
 }
 guides.sort((a, b) => a.position - b.position);
 

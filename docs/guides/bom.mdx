@@ -1,6 +1,5 @@
 ---
 title: Working with bills of materials
-sidebar_position: 5
 description: Read and configure project and document BOMs with the BOM engine - the BOM manager factory, BOM schema, rows, columns and ActiveBOM documents.
 ---
 
@@ -22,12 +21,17 @@ The BOM is an [`IBomManager`](../reference/edp/IBomManager.md), or an
 | A whole project | `factory.GetManagerForProject(project)` |
 | A whole project, with a PCB document as an additional source of PCB parameters | `factory.GetManagerForProjectPcb(project, pcbDocument)` |
 
-To find out which kind of manager you have, cast it:
+Which kind of manager you have follows from its source, not from a cast. The cast to `IActiveBomManager` succeeds
+also for a project's manager (see [Interfaces at run time](./interfaces-at-run-time.mdx)), but calling
+`IActiveBomManager.GetOptions()` on it then fails with "Interface not supported". Use the ActiveBOM interfaces only for
+the manager of an ActiveBOM document (a BomDoc):
 
 ```csharp
 IBomManagerFactory factory = EDP.Utils.GetBomManagerFactory();
-IBomManager bomManager = factory.GetManagerForProject(project);
-var activeBomManager = bomManager as IActiveBomManager; // null unless the source is an ActiveBOM document
+IBomManager bomManager = factory.GetManagerForProject(project);            // a project: IBomManager only
+
+IBomManager bomDocManager = factory.GetManagerForDocument(bomDocument);    // a BomDoc
+var activeBomManager = (IActiveBomManager)bomDocManager;                   // ActiveBOM members work here
 ```
 
 ## Reading the BOM
@@ -69,8 +73,6 @@ string aliases = activeBomManager.GetOptions().GetColumnsAliases();
 var customColumns = activeBomManager.GetOptions().GetCustomColumns();
 ```
 
-The aliases are one string: `|`-separated pairs, each pair `=`-separated.
-
 ## Configuring the BOM
 
 The BOM is configured through its options, [`IBomManagerOptions`](../reference/edp/IBomManagerOptions.md), or
@@ -87,8 +89,7 @@ IBomManagerOptions options = bomManager.GetOptions();
 
 Sorting is set with `SetSortOrder` and `SetAutoSort`.
 
-The options are shared with the rest of Altium Designer. Save them before changing them and restore them when you
-are done, so other BOMs are not affected:
+To leave the options as they were, save their state before changing them and restore it when you are done:
 
 ```csharp
 object savedState = options.GetState();
@@ -122,12 +123,12 @@ customRow.SetDescription("...");
 customRow.SetLineNumber("...");
 ```
 
-After changing line numbers or adding rows, call `bomManager.UpdateSchema(...)` to rebuild the BOM schema (this
-recreates the whole schema).
-
-To save the ActiveBOM document (`*.BomDoc`) after a change, save its server document:
+After changing line numbers or adding rows, rebuild the BOM schema (this recreates the whole schema), then save the
+ActiveBOM document (`*.BomDoc`) through its server document:
 
 ```csharp
-IServerDocument serverDocument = document.DM_ServerDocument();
-serverDocument.DoFileSave(document.DM_DocumentKind());
+bomDocManager.UpdateSchema(false);
+
+IServerDocument serverDocument = bomDocument.DM_ServerDocument();
+serverDocument.DoFileSave(bomDocument.DM_DocumentKind());
 ```

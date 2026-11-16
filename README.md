@@ -120,7 +120,7 @@ in [OPEN-ISSUES.md](OPEN-ISSUES.md), not in the published pages.
 
 ## Guides
 
-Hand-written pages live in `docs/guides/*.mdx` (sidebar order from `sidebar_position`; the front-matter
+Hand-written pages live in `docs/guides/*.mdx` (sidebar groups and order from `sidebars.js`; the front-matter
 `description` is reused in `llms.txt`). Keep them free of JSX: their source is also published as Markdown.
 
 ## Search

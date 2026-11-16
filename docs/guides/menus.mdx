@@ -1,0 +1,108 @@
+---
+title: Menus and the .rcs file
+description: Add an extension's commands to Altium Designer menus - process launchers, trees, links, tree copies and insertions in the .rcs file, common insertion points, and how parameters reach the command.
+---
+
+# Menus and the .rcs file
+
+An extension's commands reach the user through the `.rcs` file next to its assembly. A change to it takes effect
+after a restart (see [Development loop](./development-loop.mdx)), and menus inserted into another server's menus need
+an `Updates` entry in the `.ins` file (see [Inserting into other menus](#inserting-into-other-menus)). The `.rcs`
+files of Altium Designer itself are in the `System` folder of the installation; they use the same format and are the
+reference for menu IDs.
+
+## Commands, process launchers and parameters
+
+Three pieces connect a menu item to code:
+
+1. The command is registered in code with `CommandLauncher.RegisterCommand` (see
+   [Getting started](./getting-started.mdx#the-plugin-factory-and-the-server-module)) and declared in the `.ins` file:
+
+   ```text
+   Command Name='Run' LongSummary='Run a command of MyExtension' End
+   ```
+
+2. A **process launcher** (`PL`) in the `.rcs` file names the process to run, `<server>:<command>`, where the server
+   is the `EditorName` of the `.ins` file, and the parameters to pass:
+
+   ```text
+   PL PLMyExtension:Hello
+       Command='MyExtension:Run'
+       Params='Cmd=Hello|Verbose=True'
+       Caption='&Hello'
+       Image=''
+       Description='Say hello'
+   End
+   ```
+
+3. Menu items (`Link`) refer to the process launcher by its ID.
+
+The command receives `Params` as its `ref string` parameter (`DXP.CommandProc`); `|` separates the `Name=Value` pairs.
+One command can therefore serve several menu items with different parameters.
+
+## Menu elements
+
+```text
+Tree MNMyExtension Caption='&My Extension' TopLevel=True
+    Link      MNMyExtension_Hello PLID='PLMyExtension:Hello' End
+    Separator MNMyExtension_Sep10                            End
+    Tree MNMyExtension_More Caption='&More'
+        Link  MNMyExtension_Other PLID='PLMyExtension:Other' End
+    End
+End
+
+Insertion MNMyExtension_InsPCB TargetID='MNPCBMenu' InsertType='Before' RefID0='MNPCBMenu_Window1'
+    TreeCopy MNPCBMenu_MyExtension OriginalID=MNMyExtension IDSuffix='_1' End
+End
+```
+
+| Element | Meaning |
+| --- | --- |
+| `PL <id> … End` | A process launcher: `Command`, `Params`, `Caption`, `Image`, `Description`, optional `Shortcut1` and `Shortcut2`. |
+| `Tree <id> Caption='…' … End` | A menu. With `TopLevel=True` it is a menu of its own, to be copied into other menus; nested, it is a submenu. |
+| `Link <id> PLID='<pl id>' End` | A menu item that runs a process launcher. |
+| `Separator <id> End` | A separator line. |
+| `TreeCopy <id> OriginalID=<tree id> IDSuffix='<suffix>' End` | A copy of a tree. Give each copy of the same tree its own suffix. |
+| `Insertion <id> TargetID='<menu>' InsertType='<Before or After>' RefID0='<item>' … End` | Inserts the enclosed elements into an existing menu, before or after one of its items. |
+
+Every element has an ID. Prefix the IDs with the extension's name, as Altium Designer's own files do (`PLSch:`,
+`PLPCB:`), so that they do not collide with other extensions.
+
+## Inserting into other menus
+
+Altium Designer starts an extension's server on first use: when one of its commands runs, not when Altium Designer
+starts. Without more information it merges the extension's `.rcs` file only when the server starts, which is after
+the menu bar has been built, so a menu inserted into the schematic or PCB editor's menus never appears. The
+extension's commands still work, for example from search.
+
+`Updates` in the `Server` block of the `.ins` file makes Altium Designer merge the extension's `.rcs` file at
+startup, without loading the extension's assembly. `Updates = 'AdvSch'` is enough for insertions into the
+no-document, schematic and PCB editor menus (see [Common insertion points](#common-insertion-points)):
+
+```text
+Server
+    EditorName        = 'MyExtension'
+    EditorExePath     = 'MyExtension.DLL'
+    EditorDescription = 'My first extension'
+    Version           = 'Version 1.0.0.1'
+    Updates           = 'AdvSch'
+End
+```
+
+The value is the name of a server's installation file in the `System` folder, not its `EditorName`: `'AdvSch'` is
+`AdvSch.ins`, the schematic editor.
+
+## Common insertion points
+
+| Where | `TargetID` | `RefID0` | `InsertType` |
+| --- | --- | --- | --- |
+| Main menu with no document open, before **Window** | `MNNoDocument` | `MNNoDocument_Window` | `Before` |
+| Schematic editor main menu, before **Window** | `MNSchematicMenu` | `MNSchematic_Window1` | `Before` |
+| PCB editor main menu, before **Window** | `MNPCBMenu` | `MNPCBMenu_Window1` | `Before` |
+| Project context menu in the Projects panel, after the item that compiles (validates) the project | `MNWorkspaceManagerMenu_PopupProject` | `MNWorkspaceManager_PopupProject010` | `After` |
+
+These IDs exist in the `System` `.rcs` files. A top-level menu inserted with them appears only with an `Updates`
+entry (see [Inserting into other menus](#inserting-into-other-menus)).
+
+To find other insertion points, search the `System` `.rcs` files for the caption of a nearby menu item, then use the
+ID of its `Tree` as `TargetID` and the ID of the item as `RefID0`.
