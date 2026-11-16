@@ -4,10 +4,11 @@
 //
 // Record shape (short keys keep the index small): i id (= array index), n name, k kind (engine KINDS), p parent type
 // (members), c namespace index (into `contexts`), u url (without baseUrl), d description, s signature (type),
-// t page title (guides), a aliases (accessor method names of a property).
+// t page title (guides), a aliases (accessor method names of a property; a sample's id and command names).
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
 import { parse } from 'yaml';
 
@@ -82,6 +83,14 @@ export function runSearchIndex({ manifestPath = '.generated/manifest.json', docs
     });
   }
   for (const guide of guideRecords(docsDir)) push(guide);
+  // The SDK samples (generate.mjs, from the samples index): found by what they do (title, summary, phrasings), by id and
+  // by command name; not by the APIs they use, which the reference pages list.
+  for (const sample of manifest.samples ?? []) {
+    push({
+      n: sample.title, k: 'sample', u: sample.route, a: [sample.id, ...sample.commands],
+      d: clip([sample.summary, ...sample.phrasings.map((p) => `${p.replace(/\.?$/, '')}.`)].join(' '), DESCRIPTION_LIMIT),
+    });
+  }
 
   const payload = { version: 1, contexts, prefixes: config.prefixes ?? [], synonyms: config.synonyms ?? [], records };
   const json = JSON.stringify(payload);
@@ -90,7 +99,8 @@ export function runSearchIndex({ manifestPath = '.generated/manifest.json', docs
   return { records: records.length, bytes: statSync(out).size, gzipBytes: gzipSync(json).length, payload };
 }
 
-if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop())) {
+// Run as a script (not imported by a test); compared as paths, so it also holds on Windows.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const { records, bytes, gzipBytes, payload } = runSearchIndex();
   const byKind = {};
   for (const record of payload.records) byKind[record.k] = (byKind[record.k] ?? 0) + 1;

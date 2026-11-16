@@ -21,13 +21,14 @@ LLM surface follow the Altium 365 API reference (https://github.com/AltiumDevelo
 | API surface (types, members, signatures, enum values, constants) | `metadata/Altium.SDK.Interfaces.json`, `metadata/Altium.SDK.json` | `npm run metadata` only (from the assemblies) |
 | Descriptions | `content/<NS>/<Type>.yaml` | hand (this is the editorial source) |
 | C# examples | `examples/<NS>/<Type>[.<Member>].cs` | hand |
-| Where the public SDK examples use the API | `metadata/examples-index.json` | `npm run examples:index` only |
+| Which SDK samples use each type and member | the samples index of the release pinned in `config/site.yaml` (`samples.release`), fetched into `.cache/samples/` | the samples repository's CI; here, only the pin (a reviewed change) |
 | Guides and home page | `docs/guides/*.mdx`, `docs/index.mdx` | hand |
 | Namespaces, sidebar areas, hidden types, site, search knobs | `config/*.yaml` | hand |
 | Questions the material cannot answer | `OPEN-ISSUES.md` | hand |
 
-Generated, never edited by hand (git-ignored): `docs/reference/**`, `.generated/**`, `static/search-index.json`,
-`build/**`. `internal/` (git-ignored) holds maintainers' working material; it is not part of the public repository.
+Generated, never edited by hand (git-ignored): `docs/reference/**`, `docs/samples/**`, `.generated/**`,
+`static/search-index.json`, `build/**`, `.cache/**`. The sample pages are the samples' READMEs: fix their text in the
+samples repository, not here. `internal/` (git-ignored) holds maintainers' working material; it is not part of the public repository.
 If you have it, read `internal/HANDOFF.md` first: history, decisions, status and backlog.
 
 ## Repository map
@@ -40,13 +41,15 @@ If you have it, read `internal/HANDOFF.md` first: history, decisions, status and
 | `scripts/apidocs/lib/render.mjs` | Markdown rendering of type and namespace pages, member sections, anchors |
 | `scripts/apidocs/lib/xref.mjs` | cross-references from prose (linker and the unlinked-mention finder) |
 | `scripts/apidocs/lib/examples.mjs` | loading and parsing `examples/**` |
+| `scripts/apidocs/lib/samples.mjs`, `scripts/samples/fetch.mjs` | the SDK samples: fetch the pinned release, join its index to the reference, rank |
+| `scripts/apidocs/lib/sample-pages.mjs` | `docs/samples/**`: a page per sample, the samples index, the samples by API, the Samples sidebar |
 | `scripts/apidocs/lib/config.mjs` | namespaces, categories (sidebar areas), hidden types |
 | `scripts/apidocs/generate.mjs` | writes `docs/reference/**`, `.generated/{sidebar,manifest,xref}.json` |
 | `scripts/apidocs/search-index.mjs`, `search-check.mjs` | search index; check that every record's page and anchor exist |
 | `scripts/apidocs/check-content.mjs`, `check-xrefs.mjs` | wording/syntax check of hand-written sources; unlinked API names |
 | `scripts/apidocs/llms.mjs` | `llms.txt`, per-namespace `llms.txt`, `api.cs.txt` and `llms-full.txt`, Markdown twins of every page |
-| `scripts/examples/index-examples.mjs`, `check-examples.mjs` | examples usage index; example compile check |
-| `plugins/remark-xref.mjs` | links API names in code spans of the guides |
+| `scripts/examples/check-examples.mjs` | example compile check |
+| `plugins/remark-xref.mjs` | links API names in code spans of the guides and sample pages |
 | `plugins/search-index.cjs` | publishes the search index under a content-hashed name in production builds |
 | `src/search/engine.mjs`, `src/theme/SearchBar/` | browser search (MiniSearch) and its UI |
 | `src/theme/` (other) | breadcrumbs with "View as Markdown", Markdown alternate link, camelCase-friendly sidebar labels |
@@ -61,21 +64,22 @@ Requires Node 22. The .NET SDK (8 or later) and the SDK assemblies are needed on
 
 ```bash
 npm ci                     # install
+npm run samples:fetch      # the SDK samples pinned in config/site.yaml, into .cache/samples/
 npm test                   # unit tests + check:content
 npm run apidocs            # generate reference + search index + check:xrefs
 npm run api -- "NS.Type:regex"  # look up what exists (members, accessors, overloads, enum values, constants)
 npm run coverage           # most valuable documentation gaps; --ns <NS>, --type <Type>
 npm run build              # Docusaurus build (~2 min, ~240 MB)
 npm run search:check       # after build: every search record's page and #anchor exist
+npm run search:golden      # after apidocs: golden search queries for the samples
 npm run llms               # after build: LLM files and Markdown twins in build/
 npm run serve              # serve build/ (search uses the hashed index name; works only on a production build)
 npm start                  # dev server (Markdown twins and llms.txt do not exist in dev)
 SDK_DIR=<dir> npm run metadata        # re-extract metadata from new assemblies
 SDK_DIR=<dir> npm run check:examples  # compile all examples; --files a.cs,b.cs compiles only those, in a temp project
-npm run examples:index -- --dir <ad-sdk-examples checkout>
 ```
 
-CI runs `npm test`, `npm run apidocs` (which includes `check:xrefs`), `npm run build`, `npm run search:check` and
+CI runs `npm test`, `npm run samples:fetch`, `npm run apidocs`, `npm run search:golden` (which includes `check:xrefs`), `npm run build`, `npm run search:check` and
 `npm run llms`. **`check:examples` does not run in CI** (the assemblies are not in the repository): run it locally
 whenever you add or change an example.
 

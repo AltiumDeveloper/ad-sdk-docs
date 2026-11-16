@@ -258,6 +258,11 @@
   color: var(--ifm-color-content-secondary);
 }
 
+.kind_samples {
+  background: color-mix(in srgb, #8a5cd6 16%, transparent);
+  color: color-mix(in srgb, #8a5cd6 80%, var(--ifm-font-color-base));
+}
+
 .kind_guides {
   background: color-mix(in srgb, #2e9e5b 16%, transparent);
   color: color-mix(in srgb, #2e9e5b 80%, var(--ifm-font-color-base));

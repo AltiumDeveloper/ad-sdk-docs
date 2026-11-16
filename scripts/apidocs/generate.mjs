@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Generates the reference: docs/reference/** (Markdown pages), .generated/sidebar.json (the Reference sidebar) and
 // .generated/manifest.json (pages and model summary for search-index.mjs and llms.mjs). Inputs: metadata/*.json,
-// content/<NS>/*.yaml, metadata/examples-index.json, config/*.yaml.
+// content/<NS>/*.yaml, examples/**, config/*.yaml, and the samples index when it has been fetched
+// (.cache/samples/, npm run samples:fetch; lib/samples.mjs). Also writes .generated/samples-report.json.
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
@@ -9,11 +10,14 @@ import { categoryOf, editUrl, loadCategories, loadHidden, loadNamespaces } from 
 import { buildModel, parameterNames, parameterProblems } from './lib/model.mjs';
 import { buildXrefIndex, serializeXrefIndex } from './lib/xref.mjs';
 import { loadExamples } from './lib/examples.mjs';
+import { joinSamples, loadSamplesIndex, sampleLinks } from './lib/samples.mjs';
+import { renderSamplePages } from './lib/sample-pages.mjs';
 import {
   firstSentence, layoutAnchors, renderNamespace, renderReferenceIndex, renderType, typeRoute,
 } from './lib/render.mjs';
 
 const OUT = 'docs/reference';
+const SAMPLES_OUT = 'docs/samples';
 const GENERATED = '.generated';
 const site = parse(readFileSync('config/site.yaml', 'utf8'));
 const namespaces = loadNamespaces();
@@ -67,18 +71,35 @@ if (exampleProblems.length) {
   process.exit(1);
 }
 
-const examples = existsSync('metadata/examples-index.json')
-  ? JSON.parse(readFileSync('metadata/examples-index.json', 'utf8'))
-  : { types: {}, members: {}, commit: null };
+// The SDK samples that use each type and member (lib/samples.mjs). Without a fetched index, pages have no Samples
+// sections; ids the reference has no page for are reported, not fatal.
+let samples = null;
+try {
+  const index = loadSamplesIndex(site);
+  if (index) {
+    const joined = joinSamples(model, index);
+    samples = { ...joined, index, repoDir: index.repoDir, links: sampleLinks(index) };
+    mkdirSync(GENERATED, { recursive: true });
+    const perType = Object.fromEntries([...joined.byType].map(([id, list]) => [id, list.length]));
+    writeFileSync(join(GENERATED, 'samples-report.json'), `${JSON.stringify({ release: index.release, commit: index.commit, ...joined.report, perType }, null, 2)}\n`);
+    const { unresolved, typeOnly } = joined.report;
+    console.log(`apidocs: samples ${index.release}: ${index.samples.length} samples on ${joined.byType.size} type pages and ${joined.byMember.size} member sections`
+      + `; ${typeOnly.length} ids shown on their type page only, ${unresolved.length} with no page (${GENERATED}/samples-report.json)`);
+  } else {
+    console.log('apidocs: no samples index (npm run samples:fetch): pages have no Samples sections');
+  }
+} catch (error) {
+  console.error(`apidocs: ${error.message}`);
+  process.exit(1);
+}
 
 const ctx = {
   content: (id) => content.get(id) ?? {},
   editUrl: (type) => editUrl(site, type, content.has(type.id)),
   // Namespace and reference index pages: their text comes from config/namespaces.yaml.
   namespacesEditUrl: `${site.repo}/edit/${site.branch}/config/namespaces.yaml`,
-  examples,
   codeExample: (key) => codeExamples.get(key) ?? null,
-  examplesRepo: site.examples.repo,
+  samples,
   namespaces,
 };
 
@@ -86,6 +107,21 @@ const ctx = {
 // that links API names in descriptions (lib/xref.mjs), also written for the guides' remark plugin and check-xrefs.
 layoutAnchors(model, ctx);
 ctx.xref = buildXrefIndex(model, { route: typeRoute });
+
+// The samples section (lib/sample-pages.mjs): sample pages, the index and the per-namespace API lists, whose anchors
+// the reference pages' "N more" links need, so it is rendered first.
+rmSync(SAMPLES_OUT, { recursive: true, force: true });
+let samplesSidebar = [];
+if (samples) {
+  const rendered = renderSamplePages(model, namespaces, ctx);
+  samples.apiAnchors = rendered.apiAnchors;
+  samplesSidebar = rendered.sidebar;
+  for (const { file, text } of rendered.pages) {
+    const path = join(SAMPLES_OUT, file);
+    mkdirSync(dirname(path), { recursive: true });
+    writeFileSync(path, text);
+  }
+}
 
 rmSync(OUT, { recursive: true, force: true });
 const write = ({ file, text }) => {
@@ -161,10 +197,16 @@ for (const ns of namespaces) {
 mkdirSync(GENERATED, { recursive: true });
 writeFileSync(join(GENERATED, 'xref.json'), JSON.stringify(serializeXrefIndex(ctx.xref)));
 writeFileSync(join(GENERATED, 'sidebar.json'), JSON.stringify(sidebar.map(({ nsId, ...c }) => c)));
+writeFileSync(join(GENERATED, 'sidebar-samples.json'), JSON.stringify(samplesSidebar));
 writeFileSync(join(GENERATED, 'manifest.json'), JSON.stringify({
   assemblies: model.assemblies,
   namespaces: namespaces.map(({ id, title, slug, label, description }) => ({ id, title, slug, label, description })),
   pages,
+  // The samples, for search-index.mjs: one record each.
+  samples: (samples?.index.samples ?? []).map((x) => ({
+    id: x.id, title: x.title, summary: x.summary, domain: x.domain, phrasings: x.phrasings ?? [],
+    commands: (x.commands ?? []).map((c) => c.name), route: `/samples/${x.id}`,
+  })),
 }));
 const byKind = {};
 for (const p of pages) byKind[p.kind] = (byKind[p.kind] ?? 0) + 1;

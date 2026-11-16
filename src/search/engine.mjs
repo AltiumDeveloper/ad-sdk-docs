@@ -17,6 +17,7 @@ export const KINDS = {
   property: { label: 'Property', group: 'members', weight: 0.5 },
   method: { label: 'Method', group: 'members', weight: 0.45 },
   enumValue: { label: 'Enum value', group: 'members', weight: 0.35 },
+  sample: { label: 'Sample', group: 'samples', weight: 0.9 },
   overview: { label: 'Namespace', group: 'guides', weight: 1.6 },
   guide: { label: 'Guide', group: 'guides', weight: 1.2 },
 };
@@ -25,6 +26,7 @@ export const GROUPS = [
   { id: 'all', label: 'All' },
   { id: 'types', label: 'Types' },
   { id: 'members', label: 'Members' },
+  { id: 'samples', label: 'Samples' },
   { id: 'guides', label: 'Guides' },
 ];
 
@@ -264,6 +266,9 @@ export function search(index, records, query, options = {}) {
   const candidates = hits.slice(0, 600);
   const q = normalise(trimmed);
   const allowTypos = !candidates.some(({ id }) => normalise(records[id].n) === q || coreWords(records[id], prefixes).join('') === q);
+  // A query shaped like an API name (`IPCB_Board`, `GetState_Text`, `ISch_Pin.Name`) asks for the reference: samples
+  // sink below it, unless the query is the sample's own id or one of its commands.
+  const identifierQuery = isIdentifierQuery(trimmed);
   // `@deprecated` names a directive, not the guide about deprecation.
   const directiveQuery = trimmed.startsWith('@');
   const scored = candidates.map((hit) => {
@@ -274,6 +279,7 @@ export function search(index, records, query, options = {}) {
     // A synonym stands for a name as much as the query does ("reference design" → `ref design` → SupRefDesign).
     const bonus = Math.max(nameBonus(record, trimmed, prefixes, allowTypos), ...synonyms.map((synonym) => nameBonus(record, synonym, prefixes, false)));
     score *= bonus;
+    if (identifierQuery && record.k === 'sample' && bonus < 12) score *= SAMPLE_IDENTIFIER_FACTOR;
     if (bonus === 1) score *= nameFit(record, queryParts, prefixes);
     // A record matched through a synonym answers the phrase as well as one containing its words.
     score *= synonymWords.length ? Math.max(coverage(record, words), coverage(record, synonymWords)) : coverage(record, words);
@@ -291,6 +297,10 @@ export function search(index, records, query, options = {}) {
 }
 
 const MIN_RELATIVE_SCORE = 0.02;
+const SAMPLE_IDENTIFIER_FACTOR = 0.3;
+
+// One word with an inner capital, an underscore or a dot: an API name, not a phrase ("count pads", "board").
+export const isIdentifierQuery = (query) => /^[A-Za-z_][\w.]*$/.test(query) && /[A-Z_.]/.test(query.slice(1));
 
 // Members sharing a name (`id` on 400 types) collapse into their best-scored record; the others are kept in `others`
 // (in rank order) for the UI to expand, and counted in `more`.

@@ -74,6 +74,13 @@ for (const file of walk('docs/reference')) {
   writeTwin(route, markdown);
   references.push({ route, markdown });
 }
+// Sample pages (generated from the samples' READMEs): twins of the page as it is.
+if (existsSync('docs/samples')) {
+  for (const file of walk('docs/samples')) {
+    const rel = relative('docs', file).split(sep).join('/').replace(/\.md$/, '');
+    writeTwin(`/${rel.replace(/\/index$/, '')}`, absoluteLinks(stripFrontMatter(readFileSync(file, 'utf8')), `/${rel}`));
+  }
+}
 
 // Indexes and declaration files.
 const manifest = JSON.parse(readFileSync('.generated/manifest.json', 'utf8'));
@@ -103,7 +110,7 @@ const llms = [
   '',
   '## Optional',
   '',
-  `- [SDK examples](${site.examples.repo}): complete example extensions.`,
+  `- [SDK samples](${site.samples.repo}): complete extensions in C#, one task each; reference pages list the samples that use each type and member.`,
   '',
 ];
 writeFileSync(join(BUILD, 'llms.txt'), llms.join('\n'));
