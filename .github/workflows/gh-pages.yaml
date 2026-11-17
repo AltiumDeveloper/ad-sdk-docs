@@ -26,8 +26,14 @@ jobs:
       - run: npm ci
       - name: Test
         run: npm test
+      - name: Fetch the samples pinned in config/site.yaml
+        run: npm run samples:fetch
       - name: Generate API reference
         run: npm run apidocs
+      - name: Search golden queries (samples)
+        run: npm run search:golden
+        env:
+          SAMPLES_REQUIRED: '1'
       - name: Build site
         run: npm run build
       - name: Check search links

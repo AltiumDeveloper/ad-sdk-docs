@@ -78,7 +78,7 @@ request.
 | Knowledge of the SDK's implementation (Altium SDK developers) | behaviour, intent, constraints | Say who confirmed it. |
 | The Altium Designer source code (Altium developers with access) | behaviour: what a member does, units, defaults, edge cases | Cite file and line in the pull request, never in the page. Describe only what a caller can observe, not internal names. The current implementation wins over existing descriptions. |
 | Running code in Altium Designer | behaviour you observed | Give the Altium Designer version and what you ran. |
-| The [SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) | how an API is used in practice | Supporting evidence: the examples have not all been verified. |
+| The [SDK samples](https://github.com/AltiumDeveloper/ad-sdk-samples) | how an API is used in practice | Supporting evidence: they build against the current SDK; behaviour a sample reports still needs one of the sources above. |
 | Existing descriptions | context | They came from earlier documentation and can be outdated or wrong. If you find a contradiction, fix it with better evidence or open an issue; do not guess. |
 
 Not acceptable as evidence: inferring behaviour from a name, documentation of other products, or generated text
@@ -207,7 +207,23 @@ never delete the text to make the error go away.
 2. `npm run apidocs`: if it fails on content keys or example files, the API changed. Move the text to the new name
    (renamed member) or remove the key (member removed), and record what changed in the pull request.
 3. `SDK_DIR=… npm run check:examples` and fix examples that no longer compile.
-4. Update the examples index if the SDK examples changed: `npm run examples:index -- --dir <ad-sdk-examples checkout>`.
+4. Move the samples pin (`samples.release` in `config/site.yaml`) to a release built against the new SDK, then
+   `npm run samples:fetch` and `npm run apidocs`; review `.generated/samples-report.json` for ids that no longer resolve.
+
+### Move the samples pin
+
+The site shows the SDK samples of one release of the samples repository, pinned in `config/site.yaml`
+(`samples.release`), so a build is reproducible. `.github/workflows/samples-bump.yaml` opens a pull request that moves
+the pin to the newest release every week (or on demand, from the Actions tab), after building and checking the site
+with it; its description lists the index ids with no reference page. To review it, or to move the pin by hand:
+
+1. Set `samples.release`, then `npm run samples:fetch` and `npm run apidocs`.
+2. Read `.generated/samples-report.json`: `unresolved` are ids the reference has no page for (a hidden type, or one
+   that is not in the assemblies). A sample that uses a hidden type is fine; an id that used to resolve and no longer
+   does means the samples and the reference disagree about a name.
+3. `npm run search:golden`, `npm run build`, then look at a few sample pages and a type page's Samples section.
+
+Never edit `docs/samples/**`: the text is the samples' READMEs, fixed in the samples repository.
 
 ### Change the generator
 

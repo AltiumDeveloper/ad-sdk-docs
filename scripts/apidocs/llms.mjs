@@ -13,6 +13,7 @@ import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/co
 import { llmsFull } from './lib/llms-full.mjs';
 import { buildModel } from './lib/model.mjs';
 import { methodSignature, typeParameterList, whereClauses } from './lib/render.mjs';
+import { categoryTitle, sampleSource, samplesByCategory } from './lib/sample-pages.mjs';
 
 const BUILD = process.argv[2] ?? 'build';
 const site = parse(readFileSync('config/site.yaml', 'utf8'));
@@ -74,9 +75,44 @@ for (const file of walk('docs/reference')) {
   writeTwin(route, markdown);
   references.push({ route, markdown });
 }
-
 // Indexes and declaration files.
 const manifest = JSON.parse(readFileSync('.generated/manifest.json', 'utf8'));
+
+// The samples (docs/samples/**, generated from the samples index and the sample folders fetched into .cache/samples/).
+// A sample's twin is its page followed by its whole source (lib/sample-pages.mjs, sampleSource), so one fetch gives a
+// model a complete extension. samples/llms.txt lists them all.
+const samplesById = new Map((manifest.samples ?? []).map((s) => [s.id, s]));
+let sampleSources = 0;
+if (existsSync('docs/samples')) {
+  for (const file of walk('docs/samples')) {
+    const rel = relative('docs', file).split(sep).join('/').replace(/\.md$/, '');
+    let markdown = absoluteLinks(stripFrontMatter(readFileSync(file, 'utf8')), `/${rel}`);
+    const sample = samplesById.get(rel.replace(/^samples\//, ''));
+    const dir = sample && manifest.samplesSource ? join(manifest.samplesSource.dir, sample.path) : null;
+    if (dir && existsSync(dir)) {
+      const source = sampleSource(dir, `${manifest.samplesSource.repo}/tree/${manifest.samplesSource.commit}/${sample.path}`);
+      markdown = `${markdown.trimEnd()}\n\n${source.markdown}`;
+      sampleSources += source.files;
+    }
+    writeTwin(`/${rel.replace(/\/index$/, '')}`, markdown);
+  }
+}
+const samplesLlms = [];
+if (manifest.samples?.length) {
+  samplesLlms.push('# Altium Designer SDK samples', '',
+    `> ${manifest.samples.length} complete Altium Designer extensions in C#, one task each. Each link is a Markdown page with the sample's README, the SDK APIs its code uses and its whole source code.`, '',
+    `Source repository: ${manifest.samplesSource.repo} (this list is built from ${manifest.samplesSource.release}). By category; each entry: title, task, surface, summary, and the SDK types the sample is about.`, '');
+  for (const [category, list] of samplesByCategory(manifest.samples)) {
+    samplesLlms.push(`## ${categoryTitle(category)}`, '');
+    for (const s of list) {
+      const apis = s.primary.length ? ` APIs: ${s.primary.join(', ')}.` : '';
+      samplesLlms.push(`- [${s.title}](${absolute(`${s.route}.md`)}): ${s.task.join(', ')}; ${s.surface.join(', ')}. ${s.summary.replace(/\s+/g, ' ').trim()}${apis}`);
+    }
+    samplesLlms.push('');
+  }
+  mkdirSync(join(BUILD, 'samples'), { recursive: true });
+  writeFileSync(join(BUILD, 'samples', 'llms.txt'), samplesLlms.join('\n'));
+}
 const namespaces = loadNamespaces();
 const model = buildModel({ metadataPaths: [...new Set(namespaces.flatMap((n) => n.metadata))], namespaces: namespaces.map((n) => n.id), hidden: loadHidden() });
 const summaries = new Map(manifest.pages.filter((p) => !p.parent).map((p) => [`${p.ns}.${p.name}`, p.summary]));
@@ -101,10 +137,18 @@ const llms = [
   '',
   ...manifest.namespaces.map((ns) => `- [${ns.label}](${absolute(`/reference/${ns.slug}/llms.txt`)}): ${ns.description} Declarations: ${absolute(`/reference/${ns.slug}/api.cs.txt`)}`),
   '',
-  '## Optional',
-  '',
-  `- [SDK examples](${site.examples.repo}): complete example extensions.`,
-  '',
+  ...(samplesLlms.length ? [
+    '## Samples',
+    '',
+    `- [SDK samples](${absolute('/samples/llms.txt')}): ${manifest.samples.length} complete Altium Designer extensions in C#, one task each, built in CI against the SDK assemblies. Each sample's Markdown page has its README and its whole source code; reference pages list the samples that use each type and member.`,
+    `- [Samples repository](${site.samples.repo}): clone it to build, deploy and run a sample.`,
+    '',
+  ] : [
+    '## Optional',
+    '',
+    `- [SDK samples](${site.samples.repo}): complete extensions in C#, one task each.`,
+    '',
+  ]),
 ];
 writeFileSync(join(BUILD, 'llms.txt'), llms.join('\n'));
 
@@ -188,4 +232,4 @@ for (const ns of namespaces) {
   const size = statSync(join(dir, 'api.cs.txt')).size;
   console.log(`llms: ${ns.id} api.cs.txt ${(size / 1024).toFixed(0)} KiB (~${thousands(estimateTokens(declarations))} tokens)`);
 }
-console.log(`llms: llms.txt, ${namespaces.length} namespace indexes, ${twins} Markdown twins -> ${BUILD}/`);
+console.log(`llms: llms.txt, ${namespaces.length} namespace indexes, ${twins} Markdown twins (${sampleSources} sample source files), samples/llms.txt ${(samplesLlms.join('\n').length / 1024).toFixed(0)} KiB -> ${BUILD}/`);

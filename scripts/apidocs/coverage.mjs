@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Documentation coverage, to pick what to write next: per type, whether it has a summary, how many of its members are
-// described, whether it has a C# example, and how often the SDK examples use it. Types used most by the examples come
+// described, whether it has a C# example, and how many SDK samples use it. Types used by most samples come
 // first: they are what extension developers read. Run after `npm run apidocs`.
 //
 //   npm run coverage                      summary per namespace + the 25 most valuable undocumented types
@@ -20,7 +20,8 @@ if (!existsSync('.generated/manifest.json')) {
   process.exit(1);
 }
 const manifest = JSON.parse(readFileSync('.generated/manifest.json', 'utf8'));
-const usage = existsSync('metadata/examples-index.json') ? JSON.parse(readFileSync('metadata/examples-index.json', 'utf8')) : { types: {}, members: {} };
+// How many SDK samples use each type (written by apidocs when the samples index has been fetched).
+const samplesPerType = existsSync('.generated/samples-report.json') ? JSON.parse(readFileSync('.generated/samples-report.json', 'utf8')).perType : {};
 const withExample = new Set();
 if (existsSync('examples')) {
   for (const ns of readdirSync('examples')) {
@@ -36,17 +37,13 @@ for (const p of manifest.pages) {
   const t = types.get(id) ?? { id, ns: p.ns, name, kind: '', route: '', summary: false, members: 0, described: 0, undescribed: [], uses: 0 };
   if (!p.parent) {
     Object.assign(t, { kind: p.kind, route: p.route, summary: Boolean(p.summary) });
-    t.uses += usage.types[id]?.length ?? 0;
+    t.uses = samplesPerType[id] ?? 0;
   } else {
     t.members += 1;
     if (p.summary) t.described += 1;
     else t.undescribed.push(p.name);
   }
   types.set(id, t);
-}
-for (const [key, refs] of Object.entries(usage.members)) {
-  const id = key.slice(0, key.lastIndexOf('.'));
-  if (types.has(id)) types.get(id).uses += refs.length;
 }
 
 if (onlyType) {
@@ -79,8 +76,8 @@ for (const [ns, s] of byNs) console.log(`| ${ns} | ${s.summaries}/${s.types} (${
 
 const gaps = list.filter((t) => !t.summary || t.described < t.members)
   .sort((a, b) => b.uses - a.uses || (b.members - b.described) - (a.members - a.described));
-console.log(`\nMost valuable gaps (by use in the SDK examples, then undocumented members), top ${top}:\n`);
-console.log('| Type | Summary | Members described | Example | Uses in SDK examples |');
+console.log(`\nMost valuable gaps (by the number of SDK samples that use them, then undocumented members), top ${top}:\n`);
+console.log('| Type | Summary | Members described | Example | SDK samples |');
 console.log('| --- | --- | --- | --- | --- |');
 for (const t of gaps.slice(0, top)) {
   console.log(`| ${t.id} | ${t.summary ? 'yes' : '**no**'} | ${t.described}/${t.members} | ${withExample.has(t.id) ? 'yes' : 'no'} | ${t.uses} |`);

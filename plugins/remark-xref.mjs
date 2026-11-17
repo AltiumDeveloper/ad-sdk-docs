@@ -1,4 +1,5 @@
-// Remark plugin for the hand-written pages (docs/index.mdx, docs/guides/**): an inline code span that is exactly an
+// Remark plugin for the hand-written pages (docs/index.mdx, docs/guides/**) and the sample pages (docs/samples/**,
+// whose text is the samples' READMEs): an inline code span that is exactly an
 // API name (`ISch_Iterator`, `SCH.GlobalVars.SchServer`, `EDP.Utils.GetBomManagerFactory()`) becomes a link to its
 // reference page or member section. Uses .generated/xref.json (written by `npm run apidocs`); short names that are
 // ambiguous across namespaces (`TObjectId`) are not linked, so write them qualified (`SCH.TObjectId`).
@@ -11,7 +12,7 @@ const INDEX = '.generated/xref.json';
 export default function remarkXref() {
   const index = existsSync(INDEX) ? loadXrefIndex(JSON.parse(readFileSync(INDEX, 'utf8'))) : null;
   return (tree, file) => {
-    if (!index || !/[\\/]docs[\\/](guides[\\/]|index\.mdx$)/.test(file.path ?? '')) return;
+    if (!index || !/[\\/]docs[\\/](guides[\\/]|samples[\\/]|index\.mdx$)/.test(file.path ?? '')) return;
     const visit = (node, insideLink) => {
       if (!node.children) return;
       node.children = node.children.map((child) => {

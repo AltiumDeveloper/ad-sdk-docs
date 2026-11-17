@@ -9,6 +9,7 @@
 .cache-loader
 /.generated/
 /docs/reference/
+/docs/samples/
 /static/search-index.json
 
 # .NET build output
@@ -33,3 +34,6 @@ obj/
 .env.production.local
 npm-debug.log*
 
+
+# Samples fetched for the build (npm run samples:fetch)
+/.cache/

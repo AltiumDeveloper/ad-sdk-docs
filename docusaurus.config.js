@@ -20,6 +20,8 @@ module.exports = async function createConfig() {
   projectName: 'ad-sdk-docs',
   favicon: 'img/favicon.svg',
   onBrokenLinks: 'throw',
+  // Member sections, the "N more" links of the Samples sections and the samples by API pages link to #anchors.
+  onBrokenAnchors: 'throw',
   // Reference pages are plain CommonMark (.md); guides and the home page are MDX (.mdx).
   markdown: { format: 'detect', hooks: { onBrokenMarkdownLinks: 'throw' } },
   plugins: [
@@ -52,7 +54,7 @@ module.exports = async function createConfig() {
         title: `${site.title} - Reference Documentation`,
         logo: { alt: 'Altium', src: 'img/altium-logo.svg', width: 90, height: 20 },
         items: [
-          { href: site.examples.repo, label: 'SDK examples', position: 'right' },
+          { href: site.samples.repo, label: 'SDK samples', position: 'right' },
           { href: DEVELOPER_CENTER, label: 'Developer Center', position: 'right' },
           { href: site.repo, label: 'GitHub', position: 'right' },
         ],
@@ -71,7 +73,7 @@ module.exports = async function createConfig() {
             title: 'This site',
             items: [
               { label: 'For AI assistants (llms.txt)', href: 'pathname:///llms.txt' },
-              { label: 'SDK examples', href: site.examples.repo },
+              { label: 'SDK samples', href: site.samples.repo },
               { label: 'Source on GitHub', href: site.repo },
             ],
           },

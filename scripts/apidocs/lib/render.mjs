@@ -7,6 +7,7 @@
 import { createRequire } from 'node:module';
 import { inheritedMembers, namedTypes, orderBases } from './model.mjs';
 import { linkify } from './xref.mjs';
+import { SAMPLES_SHOWN } from './samples.mjs';
 
 const require = createRequire(import.meta.url);
 const GithubSlugger = require('github-slugger');
@@ -33,6 +34,8 @@ function relativePath(from, to) {
 export const escapeText = (text) => String(text ?? '').split(/(`[^`]+`)/)
   .map((part, i) => (i % 2 ? part : part.replace(/</g, '&lt;').replace(/>/g, '&gt;'))).join('');
 const cell = (text) => escapeText(text).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
+// Text of a link (a sample title): escaped, with brackets and table pipes taken literally.
+export const linkText = (text) => escapeText(text).replace(/[[\]|]/g, '\\$&');
 // Heading text: a leading `_` (`_Finalize`) would start emphasis.
 const headingText = (text) => escapeText(String(text).replace(/^_/, '\\_'));
 
@@ -176,10 +179,42 @@ function frontMatter(fields) {
 
 const gap = '*No description yet.*';
 
-function exampleLinks(refs, ctx) {
-  if (!refs?.length) return [];
-  const base = `${ctx.examplesRepo}/blob/${ctx.examples.commit ?? 'main'}`;
-  return refs.map((r) => `[${r.example}](${base}/${r.file.split('/').map(encodeURIComponent).join('/')}#L${r.line})`);
+// The SDK samples that use a type or member (lib/samples.mjs), best first; SAMPLES_SHOWN of them are named, and
+// "N more" links to the full list on the API's samples page (lib/sample-pages.mjs).
+function samplesOf(ctx, key, byMember) {
+  const list = ctx.samples?.[byMember ? 'byMember' : 'byType'].get(key) ?? [];
+  return { shown: list.slice(0, SAMPLES_SHOWN), more: Math.max(0, list.length - SAMPLES_SHOWN) };
+}
+// From docs/reference/<ns>/<Type>.md to docs/samples/<file>.
+const toSamples = (type, file) => `${'../'.repeat(typeFile(type).split('/').length)}samples/${file}`;
+const sampleTitle = (type, sample) => `[${linkText(sample.title)}](${toSamples(type, `${sample.id}.md`)})`;
+function moreLine(ctx, type, key, more, what) {
+  const text = `${more} more ${more === 1 ? 'sample uses' : 'samples use'} this ${what}`;
+  const target = ctx.samples.apiAnchors?.get(key);
+  return target ? `[${text}](${toSamples(type, target.file)}#${target.anchor}).` : `${text}.`;
+}
+
+// Type page: each sample with its summary and a link to where its code first uses the type.
+function renderSamples(page, ctx, link, type) {
+  const { shown, more } = samplesOf(ctx, type.id, false);
+  if (!shown.length) return;
+  page.heading(2, 'Samples');
+  for (const entry of shown) {
+    const sample = ctx.samples.samples.get(entry.sample);
+    page.push(`- ${sampleTitle(type, sample)}: ${prose(ctx, link, type, sample.summary)} ([source](${ctx.samples.links.source(entry)}))`);
+  }
+  page.push('');
+  if (more) page.push(moreLine(ctx, type, type.id, more, 'type'), '');
+}
+
+// Member section: the sample titles as a list, without summaries (the type page has them).
+function memberSamples(ctx, type, member) {
+  const key = `${type.id}.${member.slug}`;
+  const { shown, more } = samplesOf(ctx, key, true);
+  if (!shown.length) return [];
+  const lines = ['**Samples:**', '', ...shown.map((e) => `- ${sampleTitle(type, ctx.samples.samples.get(e.sample))}`), ''];
+  if (more) lines.push(moreLine(ctx, type, key, more, member.kind), '');
+  return lines;
 }
 
 function seeAlsoLinks(link, refs) {
@@ -187,7 +222,7 @@ function seeAlsoLinks(link, refs) {
 }
 
 // --- page writer: tracks heading anchors the way Docusaurus assigns them -----------------------------------------
-class Page {
+export class Page {
   constructor() {
     this.lines = [];
     this.slugger = new GithubSlugger();
@@ -276,6 +311,8 @@ export function renderType(model, type, ctx) {
     page.heading(2, 'Example');
     page.push(...exampleBlock(ctx, link, type, typeExample));
   }
+  // The inline example answers "how do I call this"; the samples, "how do I do this job" end to end.
+  renderSamples(page, ctx, link, type);
   const inner = nestedTypes(model, type);
   if (inner.length) {
     page.heading(2, 'Nested types');
@@ -319,11 +356,6 @@ export function renderType(model, type, ctx) {
   if (seeAlso.length) {
     page.heading(2, 'See also');
     page.push(...seeAlso.map((s) => `- ${s}`), '');
-  }
-  const examples = exampleLinks(ctx.examples.types[type.id], ctx);
-  if (examples.length) {
-    page.heading(2, 'Examples');
-    page.push(`Used in the SDK examples: ${examples.join(', ')}.`, '');
   }
   return { file, text: page.text() };
 }
@@ -417,7 +449,7 @@ function renderMembers(page, model, type, link, ctx) {
   }
 }
 
-// Details shared by property and method sections: remarks, see also, examples.
+// Details shared by property and method sections: remarks, example, see also, samples.
 // A C# example (lib/examples.mjs): its title as a lead-in, then the code.
 function exampleBlock(ctx, link, type, example, { anchor = null, label = null } = {}) {
   const lead = [label, example.title ? prose(ctx, link, type, `${example.title.replace(/\.?$/, '.')}`, { anchor }) : null].filter(Boolean).join(' ');
@@ -431,8 +463,7 @@ function memberTail(page, type, member, link, ctx, anchor) {
   if (example) page.push(...exampleBlock(ctx, link, type, example, { anchor, label: '**Example:**' }));
   const seeAlso = seeAlsoLinks(link, content.seeAlso);
   if (seeAlso.length) page.push(`**See also:** ${seeAlso.join(', ')}`, '');
-  const examples = exampleLinks(ctx.examples.members[`${type.id}.${member.slug}`], ctx);
-  if (examples.length) page.push(`**Examples:** ${examples.join(', ')}`, '');
+  page.push(...memberSamples(ctx, type, member));
 }
 
 function renderProperty(page, type, member, link, ctx) {
