@@ -71,12 +71,13 @@ jobs:
 
       - name: Build and check the site with the new release
         if: steps.release.outputs.up-to-date != 'true'
+        env:
+          SAMPLES_REQUIRED: '1'
         run: |
           npm ci
-          npm test
           npm run samples:fetch
           npm run apidocs
-          npm run search:golden
+          npm test
           npm run build
           npm run search:check
           npm run llms

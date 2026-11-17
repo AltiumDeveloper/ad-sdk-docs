@@ -13,7 +13,7 @@ import { categoryOf, loadCategories, loadHidden, loadNamespaces } from './lib/co
 import { llmsFull } from './lib/llms-full.mjs';
 import { buildModel } from './lib/model.mjs';
 import { methodSignature, typeParameterList, whereClauses } from './lib/render.mjs';
-import { CATEGORY_TITLES } from './lib/sample-pages.mjs';
+import { categoryTitle, sampleSource, samplesByCategory } from './lib/sample-pages.mjs';
 
 const BUILD = process.argv[2] ?? 'build';
 const site = parse(readFileSync('config/site.yaml', 'utf8'));
@@ -79,20 +79,8 @@ for (const file of walk('docs/reference')) {
 const manifest = JSON.parse(readFileSync('.generated/manifest.json', 'utf8'));
 
 // The samples (docs/samples/**, generated from the samples index and the sample folders fetched into .cache/samples/).
-// A sample's twin is its page followed by its whole source: every .cs file of the shim and the implementation and the
-// installation files, so one fetch gives a model a complete extension. samples/llms.txt lists them all.
-const SOURCE_FILE = /\.(cs|ins|rcs|out)$/;
-const FENCE = { cs: 'csharp', ins: 'ini', rcs: 'text', out: 'text' };
-function sourceFiles(dir, prefix = '') {
-  const out = [];
-  for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, 'en'))) {
-    if (name === 'bin' || name === 'obj') continue;
-    const full = join(dir, name);
-    if (statSync(full).isDirectory()) out.push(...sourceFiles(full, `${prefix}${name}/`));
-    else if (SOURCE_FILE.test(name)) out.push(`${prefix}${name}`);
-  }
-  return out;
-}
+// A sample's twin is its page followed by its whole source (lib/sample-pages.mjs, sampleSource), so one fetch gives a
+// model a complete extension. samples/llms.txt lists them all.
 const samplesById = new Map((manifest.samples ?? []).map((s) => [s.id, s]));
 let sampleSources = 0;
 if (existsSync('docs/samples')) {
@@ -102,29 +90,21 @@ if (existsSync('docs/samples')) {
     const sample = samplesById.get(rel.replace(/^samples\//, ''));
     const dir = sample && manifest.samplesSource ? join(manifest.samplesSource.dir, sample.path) : null;
     if (dir && existsSync(dir)) {
-      const files = sourceFiles(dir);
-      const parts = ['', '## Source', '', `The sample's own source code (${manifest.samplesSource.repo}/tree/${manifest.samplesSource.commit}/${sample.path}). It builds inside the samples repository, with the extension framework every sample shares (framework/) and the build settings in Directory.Build.props.`, ''];
-      for (const f of files) {
-        const text = readFileSync(join(dir, f), 'utf8').replace(/\r/g, '').trimEnd();
-        const fence = text.includes('```') ? '````' : '```';
-        parts.push(`### ${f}`, '', `${fence}${FENCE[f.split('.').pop()]}`, text, fence, '');
-      }
-      markdown = `${markdown.trimEnd()}\n${parts.join('\n')}`;
-      sampleSources += files.length;
+      const source = sampleSource(dir, `${manifest.samplesSource.repo}/tree/${manifest.samplesSource.commit}/${sample.path}`);
+      markdown = `${markdown.trimEnd()}\n\n${source.markdown}`;
+      sampleSources += source.files;
     }
     writeTwin(`/${rel.replace(/\/index$/, '')}`, markdown);
   }
 }
 const samplesLlms = [];
 if (manifest.samples?.length) {
-  const categories = [...new Set(manifest.samples.map((s) => s.category))]
-    .sort((a, b) => ((Object.keys(CATEGORY_TITLES).indexOf(a) + 1 || 99) - (Object.keys(CATEGORY_TITLES).indexOf(b) + 1 || 99)));
   samplesLlms.push('# Altium Designer SDK samples', '',
     `> ${manifest.samples.length} complete Altium Designer extensions in C#, one task each. Each link is a Markdown page with the sample's README, the SDK APIs its code uses and its whole source code.`, '',
-    `Source repository: ${manifest.samplesSource.repo} (this list is built from ${manifest.samplesSource.release}). Every entry: title, category, task, surface, what it shows, and the SDK APIs it is about.`, '');
-  for (const category of categories) {
-    samplesLlms.push(`## ${CATEGORY_TITLES[category] ?? category}`, '');
-    for (const s of manifest.samples.filter((x) => x.category === category).sort((a, b) => a.title.localeCompare(b.title, 'en'))) {
+    `Source repository: ${manifest.samplesSource.repo} (this list is built from ${manifest.samplesSource.release}). By category; each entry: title, task, surface, summary, and the SDK types the sample is about.`, '');
+  for (const [category, list] of samplesByCategory(manifest.samples)) {
+    samplesLlms.push(`## ${categoryTitle(category)}`, '');
+    for (const s of list) {
       const apis = s.primary.length ? ` APIs: ${s.primary.join(', ')}.` : '';
       samplesLlms.push(`- [${s.title}](${absolute(`${s.route}.md`)}): ${s.task.join(', ')}; ${s.surface.join(', ')}. ${s.summary.replace(/\s+/g, ' ').trim()}${apis}`);
     }

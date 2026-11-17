@@ -16,7 +16,7 @@
 // A type page lists the samples that use the type or any of its members; a member section, those that use the member.
 // Order (`rankSamples`): samples where the API is primary (named in the sample's "What it shows") first, then
 // samples that use fewer distinct APIs (a small sample about the API before a large one that touches it), then by id.
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 export const SAMPLES_CACHE = '.cache/samples';
@@ -84,27 +84,31 @@ function findMember(type, name) {
 //   byType:   type id → ranked [{ sample, primary, file, line }] (the type and all its members)
 //   byMember: `<type id>.<member slug>` → ranked list
 //   samples:  sample id → { id, title, summary, path, apiCount }
+//   resolved: index id → resolveApi's result (null when the reference has no page for it)
 //   report:   { unresolved: [{ id, kind, samples }], typeOnly: [...], counts }
 export function joinSamples(model, index) {
   const samples = new Map(index.samples.map((s) => [s.id, { id: s.id, title: s.title, summary: s.summary, path: s.path, apiCount: s.apis.length }]));
   const byType = new Map();
   const byMember = new Map();
+  const resolved = new Map();
   const unresolved = [];
   const typeOnly = [];
   const counts = {};
+  // One entry per sample: primary if any of its uses is. The source link goes to the first use: of the type itself
+  // when the sample uses it directly (a type page), else of any of the ids merged here (overloads, accessors, members).
   const add = (map, key, entry) => {
     if (!map.has(key)) map.set(key, new Map());
     const list = map.get(key);
     const seen = list.get(entry.sample);
-    // One entry per sample: primary if any of its uses is, the source link at the first use.
-    if (!seen) list.set(entry.sample, { ...entry });
-    else {
-      seen.primary ||= entry.primary;
-      if (entry.direct && !seen.direct) Object.assign(seen, { file: entry.file, line: entry.line, direct: true });
+    if (!seen) { list.set(entry.sample, { ...entry }); return; }
+    seen.primary ||= entry.primary;
+    if ((entry.direct && !seen.direct) || (entry.direct === seen.direct && compareUse(entry, seen) < 0)) {
+      Object.assign(seen, { file: entry.file, line: entry.line, direct: entry.direct });
     }
   };
   for (const [id, api] of Object.entries(index.apis)) {
     const target = resolveApi(model, id);
+    resolved.set(id, target);
     const how = target?.how ?? 'unresolved';
     counts[how] = (counts[how] ?? 0) + 1;
     const used = api.samples.map((s) => s.sample);
@@ -118,8 +122,11 @@ export function joinSamples(model, index) {
     }
   }
   const ranked = (map) => new Map([...map].map(([key, list]) => [key, rankSamples([...list.values()], samples)]));
-  return { byType: ranked(byType), byMember: ranked(byMember), samples, report: { counts, unresolved, typeOnly } };
+  return { byType: ranked(byType), byMember: ranked(byMember), samples, resolved, report: { counts, unresolved, typeOnly } };
 }
+
+// Earlier use first: by file, then line.
+const compareUse = (a, b) => a.file.localeCompare(b.file, 'en') || a.line - b.line;
 
 export function rankSamples(entries, samples) {
   const size = (e) => samples.get(e.sample)?.apiCount ?? Infinity;
@@ -128,14 +135,23 @@ export function rankSamples(entries, samples) {
     .sort((a, b) => (b.primary - a.primary) || (size(a) - size(b)) || a.sample.localeCompare(b.sample, 'en'));
 }
 
-// GitHub links at the commit the index was built from: a sample's folder, and the line where its code first uses an
-// API (the "source" link on reference pages).
+// GitHub links at the commit the index was built from, for repository paths (`samples/pcb/BoardOutlineRect/...`): a
+// folder, a file, a raw file (images), and a use of an API (the "source" link on reference pages).
 export function sampleLinks(index) {
-  const base = `${index.repo}/tree/${index.commit}`;
-  const blob = `${index.repo}/blob/${index.commit}`;
-  const path = (p) => p.split('/').map(encodeURIComponent).join('/');
-  return {
-    sample: (sample) => `${base}/${path(sample.path)}`,
-    source: (entry) => `${blob}/${path(entry.file)}#L${entry.line}`,
-  };
+  const encode = (p) => p.split('/').map(encodeURIComponent).join('/');
+  const at = (kind) => (p) => `${index.repo}/${kind}/${index.commit}/${encode(p)}`;
+  const blob = at('blob');
+  return { tree: at('tree'), blob, raw: at('raw'), source: (entry) => `${blob(entry.file)}#L${entry.line}` };
+}
+
+// A sample folder's files, sorted, without build output; `filter` picks by file name.
+export function sampleFiles(dir, filter = () => true, prefix = '') {
+  const out = [];
+  for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, 'en'))) {
+    if (name === 'bin' || name === 'obj') continue;
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) out.push(...sampleFiles(full, filter, `${prefix}${name}/`));
+    else if (filter(name)) out.push(`${prefix}${name}`);
+  }
+  return out;
 }

@@ -10,12 +10,14 @@
 // The sidebar lists the categories and the samples by API, not the samples themselves (152 entries); a sample page
 // still shows the sidebar (`displayed_sidebar`). The categories are the repository's folders under samples/.
 //
-// The README is published as written. Its API names in code spans become reference links through
-// plugins/remark-xref.mjs; nothing here rewrites them.
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
-import { escapeText, Page, typeFile } from './render.mjs';
-import { resolveApi } from './samples.mjs';
+// The README is published as written, with two changes: `<` is escaped outside code (the pages are CommonMark, where it
+// would start raw HTML), and relative links, which point into the samples repository, are made absolute: to the
+// sample's page for another sample's README or folder, else to the file on GitHub at the pinned commit. Its API names in
+// code spans become reference links through plugins/remark-xref.mjs; nothing here rewrites them.
+import { existsSync, readFileSync } from 'node:fs';
+import { join, posix } from 'node:path';
+import { escapeText, linkText, Page, typeFile } from './render.mjs';
+import { sampleFiles } from './samples.mjs';
 
 // The categories (folders under samples/), in the order and with the titles of the samples repository's README.
 export const CATEGORY_TITLES = {
@@ -23,14 +25,39 @@ export const CATEGORY_TITLES = {
   output: 'Design output', project: 'Project management', 'framework-ui': 'Extension framework and UI',
   integration: 'External integration', licensing: 'Licensing',
 };
-const categoryTitle = (category) => CATEGORY_TITLES[category] ?? category;
+export const categoryTitle = (category) => CATEGORY_TITLES[category] ?? category;
+// The categories of `samples`, in CATEGORY_TITLES order (unknown ones last, by name), each with its samples by title.
+export function samplesByCategory(samples) {
+  const order = Object.keys(CATEGORY_TITLES);
+  const rank = (c) => (order.indexOf(c) + 1 || order.length + 1);
+  return [...new Set(samples.map((s) => s.category))]
+    .sort((a, b) => (rank(a) - rank(b)) || a.localeCompare(b, 'en'))
+    .map((category) => [category, samples.filter((s) => s.category === category).sort((a, b) => a.title.localeCompare(b.title, 'en'))]);
+}
 const SIDEBAR = 'docs';
+
+// The source part of a sample's Markdown twin (llms.mjs): every .cs file and the installation files, each under its
+// path in a fence longer than any backtick run in it. `folderUrl`: the folder on GitHub.
+const SOURCE_FILE = /\.(cs|ins|rcs|out)$/;
+const FENCE_LANGUAGE = { cs: 'csharp', ins: 'ini', rcs: 'text', out: 'text' };
+export function sampleSource(dir, folderUrl) {
+  const files = sampleFiles(dir, (name) => SOURCE_FILE.test(name));
+  const parts = ['## Source', '', `The sample's own source code (${folderUrl}). It builds inside the samples repository, with the extension framework every sample shares (framework/) and the build settings in Directory.Build.props.`, ''];
+  for (const f of files) {
+    const text = readFileSync(join(dir, f), 'utf8').replace(/\r/g, '').trimEnd();
+    const longest = Math.max(0, ...(text.match(/`+/g) ?? []).map((run) => run.length));
+    const fence = '`'.repeat(Math.max(3, longest + 1));
+    parts.push(`### ${f}`, '', `${fence}${FENCE_LANGUAGE[f.split('.').pop()]}`, text, fence, '');
+  }
+  return { markdown: parts.join('\n'), files: files.length };
+}
 
 // Sample pages at docs/samples/<Id>.md, API lists at docs/samples/apis/<ns>.md; links from reference pages.
 export const samplePageFile = (id) => `${id}.md`;
 export const apiPageFile = (nsSlug) => `apis/${nsSlug}.md`;
 export const categoryPageFile = (category) => `category/${category}.md`;
-const toReference = (fromDepth, type, anchor) => `${'../'.repeat(fromDepth + 1)}reference/${typeFile(type)}${anchor ? `#${anchor}` : ''}`;
+// From a page `fromDepth` folders below docs/samples/ to a reference page.
+export const toReference = (fromDepth, type, anchor) => `${'../'.repeat(fromDepth + 1)}reference/${typeFile(type)}${anchor ? `#${anchor}` : ''}`;
 
 function frontMatter(fields) {
   const lines = ['---'];
@@ -41,37 +68,69 @@ function frontMatter(fields) {
   return [...lines, '---', ''].join('\n');
 }
 
-const linkText = (text) => escapeText(text).replace(/[[\]]/g, '\\$&');
+// Markdown text outside fenced blocks. Code spans may run over several lines, so the text is split into code and
+// prose as a whole, never line by line. Only `<` is escaped: `>` starts nothing mid-line and marks quotes at the start.
+const ABSOLUTE = /^([a-z][a-z0-9+.-]*:|#|\/)/i;
+function readmeText(text, link) {
+  return text.split(/(`[^`]+`)/).map((part, i) => {
+    if (i % 2) return part;
+    let out = part.replace(/<(https?:\/\/[^>\s]+)>/g, '[$1]($1)');
+    if (link) {
+      out = out.replace(/(!?)\[([^\]]*)\]\(([^)\s]+)((?:\s+"[^"]*")?)\)/g,
+        (all, bang, label, target, title) => (ABSOLUTE.test(target) ? all : `${bang}[${label}](${link(target, Boolean(bang))}${title})`));
+    }
+    return out.replace(/</g, '&lt;');
+  }).join('');
+}
 
-// README text for a CommonMark page: `<` and `>` escaped outside code (spans and fenced blocks); the title line is
-// dropped (the page has its own).
-export function readmeBody(markdown) {
+// README text for a sample page: the title line dropped (the page has its own), fenced blocks as they are, the rest
+// through readmeText. `link(target, isImage)` makes a relative link absolute.
+export function readmeBody(markdown, { link = null } = {}) {
   const lines = markdown.replace(/\r/g, '').split('\n');
   const start = lines.findIndex((l) => /^# /.test(l));
-  let fenced = false;
-  return lines.slice(start + 1).map((line) => {
-    if (/^\s*(```|~~~)/.test(line)) { fenced = !fenced; return line; }
-    return fenced ? line : escapeText(line);
-  }).join('\n').trim();
-}
-
-// Files of a sample folder, sorted, without build output.
-function sampleFiles(dir, prefix = '') {
   const out = [];
-  for (const name of readdirSync(dir).sort((a, b) => a.localeCompare(b, 'en'))) {
-    if (name === 'bin' || name === 'obj') continue;
-    const full = join(dir, name);
-    if (statSync(full).isDirectory()) out.push(...sampleFiles(full, `${prefix}${name}/`));
-    else out.push(`${prefix}${name}`);
+  let prose = [];
+  let fence = null;
+  const flush = () => {
+    if (prose.length) out.push(readmeText(prose.join('\n'), link));
+    prose = [];
+  };
+  for (const line of lines.slice(start + 1)) {
+    const marker = /^\s*(`{3,}|~{3,})/.exec(line)?.[1];
+    if (fence) {
+      out.push(line);
+      if (marker && marker[0] === fence[0] && marker.length >= fence.length) fence = null;
+    } else if (marker) {
+      flush();
+      fence = marker;
+      out.push(line);
+    } else {
+      prose.push(line);
+    }
   }
-  return out;
+  flush();
+  return out.join('\n').trim();
 }
 
-// The SDK APIs one sample uses, resolved to the reference and grouped by type: [{ type, used: bool, members }].
-function apisOf(model, sample) {
+// Relative links of a sample's README (`s.path` in the repository): another sample's README or folder → its page,
+// anything else → GitHub at the pinned commit (images: the raw file).
+export function readmeLinks(sample, samples, links) {
+  const pages = new Map(samples.flatMap((o) => [[o.path, o.id], [`${o.path}/README.md`, o.id]]));
+  return (target, image) => {
+    const [path, hash] = target.split('#');
+    const repoPath = posix.normalize(posix.join(sample.path, decodeURI(path))).replace(/\/$/, '');
+    const anchor = hash ? `#${hash}` : '';
+    if (!image && pages.has(repoPath)) return `./${samplePageFile(pages.get(repoPath))}${anchor}`;
+    return `${(image ? links.raw : links.blob)(repoPath)}${anchor}`;
+  };
+}
+
+// The SDK APIs one sample uses, resolved to the reference (`resolved`: joinSamples) and grouped by type:
+// [{ type, primary, members }].
+function apisOf(resolved, sample) {
   const byType = new Map();
   for (const api of sample.apis) {
-    const target = resolveApi(model, api.id);
+    const target = resolved.get(api.id);
     if (!target) continue;
     const entry = byType.get(target.type.id) ?? { type: target.type, members: new Map(), primary: false };
     byType.set(target.type.id, entry);
@@ -81,12 +140,10 @@ function apisOf(model, sample) {
   return [...byType.values()].sort((a, b) => a.type.id.localeCompare(b.type.id, 'en'));
 }
 
-// `ctx.samples` (generate.mjs): { index, byType, byMember, samples, links, repoDir }.
+// `ctx.samples` (generate.mjs): { index, byType, byMember, samples, resolved, links, repoDir }.
 export function renderSamplePages(model, namespaces, ctx) {
-  const { index } = ctx.samples;
+  const { index, links } = ctx.samples;
   const pages = [];
-  const blob = (path) => `${index.repo}/blob/${index.commit}/${path.split('/').map(encodeURIComponent).join('/')}`;
-  const tree = (path) => `${index.repo}/tree/${index.commit}/${path.split('/').map(encodeURIComponent).join('/')}`;
   const readmeOf = (s) => join(ctx.samples.repoDir, s.path, 'README.md');
 
   // --- one page per sample ---
@@ -108,15 +165,15 @@ export function renderSamplePages(model, namespaces, ctx) {
       `**Surface:** ${s.surface.join(', ')}`,
     ];
     page.push(facets.join(' · '), '');
-    page.push(`**Sample:** \`${s.id}\` · [Source on GitHub](${tree(s.path)}) · The commands run from a clone of the [samples repository](${index.repo}#getting-started), set up as its README describes.`, '');
+    page.push(`**Sample:** \`${s.id}\` · [Source on GitHub](${links.tree(s.path)}) · The commands run from a clone of the [samples repository](${index.repo}#getting-started), set up as its README describes.`, '');
     if (existsSync(readmeOf(s))) {
-      const body = readmeBody(readFileSync(readmeOf(s), 'utf8'));
+      const body = readmeBody(readFileSync(readmeOf(s), 'utf8'), { link: readmeLinks(s, index.samples, links) });
       // Headings in the README count for the page's anchors (the sections below come after them).
       for (const m of body.matchAll(/^(#{2,6}) (.+)$/gm)) page.slugger.slug(m[2]);
       page.push(body, '');
     }
 
-    const apis = apisOf(model, s);
+    const apis = apisOf(ctx.samples.resolved, s);
     if (apis.length) {
       page.heading(2, 'SDK APIs used');
       page.push('Every SDK type and member the sample\'s code uses. In bold: the ones the sample is about.', '');
@@ -138,7 +195,7 @@ export function renderSamplePages(model, namespaces, ctx) {
     const dir = join(ctx.samples.repoDir, s.path);
     if (existsSync(dir)) {
       page.heading(2, 'Files');
-      for (const f of sampleFiles(dir)) page.push(`- [\`${f}\`](${blob(`${s.path}/${f}`)})`);
+      for (const f of sampleFiles(dir)) page.push(`- [\`${f}\`](${links.blob(`${s.path}/${f}`)})`);
       page.push('');
     }
     pages.push({ file: samplePageFile(s.id), text: page.text() });
@@ -187,10 +244,7 @@ export function renderSamplePages(model, namespaces, ctx) {
   }
 
   // --- the samples, by category: the index page (all of them) and a page per category ---
-  const order = Object.keys(CATEGORY_TITLES);
-  const categories = [...new Set(index.samples.map((s) => s.category))]
-    .sort((a, b) => ((order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99)) || a.localeCompare(b, 'en'))
-    .map((category) => [category, index.samples.filter((s) => s.category === category).sort((a, b) => a.title.localeCompare(b.title, 'en'))]);
+  const categories = samplesByCategory(index.samples);
   const table = (list, toPage) => [
     '| Sample | What it does | Task | Surface |', '| --- | --- | --- | --- |',
     ...list.map((s) => `| [${linkText(s.title)}](${toPage(s)}) | ${escapeText(s.summary).replace(/\|/g, '\\|')} | ${s.task.join(', ')} | ${s.surface.join(', ')} |`),

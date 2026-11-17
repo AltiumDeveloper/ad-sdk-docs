@@ -299,8 +299,10 @@ export function search(index, records, query, options = {}) {
 const MIN_RELATIVE_SCORE = 0.02;
 const SAMPLE_IDENTIFIER_FACTOR = 0.3;
 
-// One word with an inner capital, an underscore or a dot: an API name, not a phrase ("count pads", "board").
-export const isIdentifierQuery = (query) => /^[A-Za-z_][\w.]*$/.test(query) && /[A-Z_.]/.test(query.slice(1));
+// One word with an underscore, a dot, or mixed case with an inner capital (`IClient`, `GetState_Text`, `ISch_Pin.Name`):
+// an API name. Not a phrase ("count pads"), a plain word ("board") or an acronym in capitals ("BOM", "PCB", "HRID").
+export const isIdentifierQuery = (query) => /^[A-Za-z_][\w.]*$/.test(query)
+  && (/[_.]/.test(query) || (/[a-z]/.test(query) && /[A-Z]/.test(query.slice(1))));
 
 // Members sharing a name (`id` on 400 types) collapse into their best-scored record; the others are kept in `others`
 // (in rank order) for the UI to expand, and counted in `more`.

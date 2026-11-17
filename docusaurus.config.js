@@ -20,6 +20,8 @@ module.exports = async function createConfig() {
   projectName: 'ad-sdk-docs',
   favicon: 'img/favicon.svg',
   onBrokenLinks: 'throw',
+  // Member sections, the "N more" links of the Samples sections and the samples by API pages link to #anchors.
+  onBrokenAnchors: 'throw',
   // Reference pages are plain CommonMark (.md); guides and the home page are MDX (.mdx).
   markdown: { format: 'detect', hooks: { onBrokenMarkdownLinks: 'throw' } },
   plugins: [

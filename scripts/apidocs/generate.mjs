@@ -86,6 +86,8 @@ try {
     console.log(`apidocs: samples ${index.release}: ${index.samples.length} samples on ${joined.byType.size} type pages and ${joined.byMember.size} member sections`
       + `; ${typeOnly.length} ids shown on their type page only, ${unresolved.length} with no page (${GENERATED}/samples-report.json)`);
   } else {
+    // A report from an earlier build would describe samples these pages do not have (npm run coverage reads it).
+    rmSync(join(GENERATED, 'samples-report.json'), { force: true });
     console.log('apidocs: no samples index (npm run samples:fetch): pages have no Samples sections');
   }
 } catch (error) {

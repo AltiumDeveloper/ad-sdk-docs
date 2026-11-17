@@ -73,7 +73,7 @@ npm run api -- "NS.Type:regex"  # look up what exists (members, accessors, overl
 npm run coverage           # most valuable documentation gaps; --ns <NS>, --type <Type>
 npm run build              # Docusaurus build (~2 min, ~240 MB)
 npm run search:check       # after build: every search record's page and #anchor exist
-npm run search:golden      # after apidocs: golden search queries for the samples
+npm run search:golden      # after apidocs: golden search queries for the samples (SAMPLES_REQUIRED=1: fail without them)
 npm run llms               # after build: LLM files and Markdown twins in build/
 npm run serve              # serve build/ (search uses the hashed index name; works only on a production build)
 npm start                  # dev server (Markdown twins and llms.txt do not exist in dev)

@@ -34,6 +34,8 @@ function relativePath(from, to) {
 export const escapeText = (text) => String(text ?? '').split(/(`[^`]+`)/)
   .map((part, i) => (i % 2 ? part : part.replace(/</g, '&lt;').replace(/>/g, '&gt;'))).join('');
 const cell = (text) => escapeText(text).replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
+// Text of a link (a sample title): escaped, with brackets and table pipes taken literally.
+export const linkText = (text) => escapeText(text).replace(/[[\]|]/g, '\\$&');
 // Heading text: a leading `_` (`_Finalize`) would start emphasis.
 const headingText = (text) => escapeText(String(text).replace(/^_/, '\\_'));
 
@@ -185,7 +187,7 @@ function samplesOf(ctx, key, byMember) {
 }
 // From docs/reference/<ns>/<Type>.md to docs/samples/<file>.
 const toSamples = (type, file) => `${'../'.repeat(typeFile(type).split('/').length)}samples/${file}`;
-const sampleTitle = (type, sample) => `[${escapeText(sample.title).replace(/[[\]]/g, '\\$&')}](${toSamples(type, `${sample.id}.md`)})`;
+const sampleTitle = (type, sample) => `[${linkText(sample.title)}](${toSamples(type, `${sample.id}.md`)})`;
 function moreLine(ctx, type, key, more, what) {
   const text = `${more} more ${more === 1 ? 'sample uses' : 'samples use'} this ${what}`;
   const target = ctx.samples.apiAnchors?.get(key);

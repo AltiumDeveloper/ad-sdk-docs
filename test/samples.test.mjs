@@ -73,8 +73,25 @@ test('a type page lists the samples that use the type or its members; a member s
 
 test('links point at the commit the index was built from', () => {
   const links = sampleLinks({ repo: 'https://github.com/o/r', commit: 'c0ffee' });
-  assert.equal(links.sample({ path: 'samples/pcb/A' }), 'https://github.com/o/r/tree/c0ffee/samples/pcb/A');
+  assert.equal(links.tree('samples/pcb/A'), 'https://github.com/o/r/tree/c0ffee/samples/pcb/A');
+  assert.equal(links.blob('samples/pcb/A/README.md'), 'https://github.com/o/r/blob/c0ffee/samples/pcb/A/README.md');
+  assert.equal(links.raw('samples/pcb/A/img.png'), 'https://github.com/o/r/raw/c0ffee/samples/pcb/A/img.png');
   assert.equal(links.source({ file: 'samples/pcb/A/A Impl/C.cs', line: 12 }), 'https://github.com/o/r/blob/c0ffee/samples/pcb/A/A%20Impl/C.cs#L12');
+});
+
+test('the source link goes to the first use of the ids merged into one entry', () => {
+  const merged = {
+    ...index,
+    samples: [sample('A', ['PCB.IPCB_Polygon.SetState_XSizeYSize_1', 'PCB.IPCB_Board.BoardOutline'])],
+    apis: {
+      // Two ids of one sample on one type page, neither the type itself: the earlier line wins, whatever the key order.
+      'PCB.IPCB_Board.BoardOutline': { kind: 'property', samples: [use('A', false, 40)] },
+      'PCB.IPCB_Board.GetState_ZTopBottom': { kind: 'method', samples: [use('A', false, 12)] },
+    },
+  };
+  const joined = joinSamples(model, merged);
+  assert.deepEqual(joined.byType.get('PCB.IPCB_Board').map((e) => e.line), [12]);
+  assert.equal(joined.resolved.get('PCB.IPCB_Board.BoardOutline').member.name, 'BoardOutline');
 });
 
 test('the index is read only when it is the pinned release', () => {

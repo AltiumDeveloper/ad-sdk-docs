@@ -32,6 +32,8 @@ jobs:
         run: npm run apidocs
       - name: Search golden queries (samples)
         run: npm run search:golden
+        env:
+          SAMPLES_REQUIRED: '1'
       - name: Build site
         run: npm run build
       - name: Check search links
