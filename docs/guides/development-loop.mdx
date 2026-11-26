@@ -1,0 +1,68 @@
+---
+title: Development loop
+description: What takes effect only after an Altium Designer restart, when an extension starts, what to check when it does not load, and how to rebuild it without a restart.
+---
+
+# Development loop
+
+## What needs a restart
+
+Altium Designer reads an extension's installation files when it starts, and loads its assembly at most once per
+session:
+
+| Change | Takes effect |
+| --- | --- |
+| `.ins` file (server, commands, panels in `PanelInfo` blocks) | after a restart |
+| `.rcs` file (menus, toolbars, shortcuts) | after a restart |
+| `.out` file (OutJob outputers, see [Writing an OutJob outputer](./outputers.mdx)) | after a restart |
+| The extension assembly (the `EditorExePath` of the `.ins` file) | after a restart |
+| Files the extension reads itself (settings, data) | when the extension reads them again |
+| Assemblies the extension loads itself into a collectible `AssemblyLoadContext` | when the extension loads them again |
+
+While Altium Designer runs, the extension assembly is locked: it cannot be overwritten, but it can be renamed, so a
+deployment script can move it aside and copy the new build in for the next start. Do not copy a `runtimeconfig.json`
+into the extension's folder (see [Project setup](./project-setup.mdx)).
+
+## When the extension starts
+
+Altium Designer starts an extension's server on first use: when one of its commands runs in the session, not when
+Altium Designer starts. An `Updates` entry in the `.ins` file (see
+[Menus and the .rcs file](./menus.mdx#inserting-into-other-menus)) makes Altium Designer merge the extension's menus at
+startup, but still does not load the assembly.
+
+Until the first command runs, none of the extension's code runs: not the plugin factory, not `InitializeCommands`,
+and not a file watcher, pipe server or hot-reload host that the extension starts there. After a restart, run any of the
+extension's commands once before a tool connects to it. The exception is an OutJob outputer: Altium Designer creates it
+without starting the server (see [Writing an OutJob outputer](./outputers.mdx#creating-the-outputer)).
+
+Several extensions run side by side in one Altium Designer process, each with its own server.
+
+## When the extension does not load
+
+| What you see after a restart | Cause |
+| --- | --- |
+| No menu, and the extension's commands are not found by the search | The extension is not registered in `Extensions\ExtensionsRegistry.xml` (see [Getting started](./getting-started.mdx#registering-the-extension)), or its folder does not contain the `.ins` file and the assembly that `EditorExePath` names. |
+| The commands are found by the search, but the top-level menu is missing | The `.ins` file has no `Updates` entry (see [Menus and the .rcs file](./menus.mdx#inserting-into-other-menus)). |
+| A command found by the search fails when it first runs, and the Output panel shows `Failed to create server <name>` with the load error | The assembly that `EditorExePath` names exists but cannot be loaded. |
+| A tool cannot connect to the extension | Its server has not started yet: run one of its commands (see [When the extension starts](#when-the-extension-starts)). |
+| A change has no effect | It needs a restart (see [What needs a restart](#what-needs-a-restart)), or the new build was copied to a different folder than the one registered. |
+
+`DXP_Startup.log`, in the installation's folder under `%LOCALAPPDATA%\Altium` (the folder with the same name as the
+installation's data folder, for example `Altium Designer {<installation GUID>}`), records each server that starts,
+with times, an extension's server included when it starts on first use:
+`Starting server <EditorName>`, then `Server <EditorName> started`. For problems inside the extension, have the
+extension write its own log file.
+
+## Hot reload
+
+The last row of the table in [What needs a restart](#what-needs-a-restart) lets you change an extension without
+restarting Altium Designer: keep the code that changes out of the assembly that Altium Designer loads. A small, stable
+shim is the extension assembly; it loads the implementation, a separate assembly, into a collectible
+`AssemblyLoadContext` and loads it again after each build.
+
+The [Altium Designer extension template](https://github.com/AltiumDeveloper/ad-extension-template)
+(`dotnet new ad-extension`) sets this up with the
+[Altium.Designer.HotReload](https://www.nuget.org/packages/Altium.Designer.HotReload) package in Debug builds: edit,
+build, and the running Altium Designer uses the new code. Its README describes the workflow, running commands from
+scripts and tests, and what hot-reloaded code must release before it is unloaded. Release builds contain no hot
+reload code; deploy them as an ordinary extension.
