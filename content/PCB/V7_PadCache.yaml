@@ -1,0 +1,7 @@
+# PCB.V7_PadCache: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The design rule values cached on a pad or via (`IPCB_Pad.Cache`, `IPCB_Via.Cache`), each with its own validity
+  state.
+remarks: >-
+  The expansions, clearances and gaps are in internal units (10,000 per mil). `SolderMaskExpansionValid` says where the
+  solder mask expansions come from: `TCacheState.eCacheValid` for the value derived from the design rules,
+  `TCacheState.eCacheManual` for a value set on the pad, which overrides the rules.

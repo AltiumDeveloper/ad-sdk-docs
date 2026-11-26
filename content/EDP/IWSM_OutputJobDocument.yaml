@@ -1,2 +1,9 @@
 # EDP.IWSM_OutputJobDocument: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IWSM_OutputJobDocument interface represents the output jobs document in Altium Designer.
+remarks: To get the Output Job document, open the `.OutJob` file with `IClient.OpenDocument("OUTPUTJOB", path)` and cast
+  the returned `IServerDocument` to `IWSM_OutputJobDocument`.
+members:
+  BeginModifyOutputer:
+    remarks: A change made with `IOutputer.DM_SetDocumentPath` between `BeginModifyOutputer` and `EndModifyOutputer` is
+      discarded, although `BeginModifyOutputer` returns `true`. Call `DM_SetDocumentPath` without the pair and set
+      `IServerDocument.Modified` to `true`.

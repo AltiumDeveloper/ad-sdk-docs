@@ -193,8 +193,10 @@ members:
     summary: The name of the pad after gate and pin swapping.
   TemplateLink:
     summary: The link from the pad to a pad and via template.
-    remarks: The SDK examples re-link a pad to another template by reading `TemplateLink` between `BeginModify` and
-      `EndModify` and assigning new `LibraryID` and `TemplateID` values to the returned link.
+    remarks: >-
+      Returns null, also for a pad that is linked to a template, so a pad cannot be re-linked through it. To find the
+      template a pad uses, call `IPCB_Board.FindLinkedBoardTemplate`; to link a pad to a template,
+      `IPCB_Board.LinkToTemplate`.
   TopShape:
     summary: The shape of the pad on the top layer.
     remarks: In a simple pad (`TPadMode.ePadMode_Simple`) it is the shape on all layers.

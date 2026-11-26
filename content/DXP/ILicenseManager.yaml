@@ -7,3 +7,9 @@ members:
   ChangeToStandalone:
     summary: This method changes from a networked license to a standalone license for a copy of Altium Designer that's
       running on a computer. A standalone computer is a computer that is not connected to the internet.
+  GetCurrentLicenseInfo:
+    summary: Reads the ids and names of the licenses in use by this instance of Altium Designer.
+    parameters:
+      argLicenseIds: Receives the license ids (GUIDs without braces), each followed by a line break, the last one
+        included.
+      argLicenseNames: Receives the license names as line-terminated text, in the same form as argLicenseIds.

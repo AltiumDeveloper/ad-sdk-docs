@@ -13,7 +13,7 @@ static partial class Examples
         bool defaultValue = false;
 
         IOptionsReader reader = DXP.GlobalVars.Client.GetOptionsManager().GetOptionsReader(nameOfServer, "");
-        if (reader == null)
+        if (!reader.SectionExists(nameOfServerPreferences))
             return;
         bool aValue = reader.ReadBoolean(nameOfServerPreferences, settingName, defaultValue);
         // </example>

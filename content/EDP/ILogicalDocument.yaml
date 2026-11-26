@@ -1,0 +1,5 @@
+# EDP.ILogicalDocument: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: A schematic document with its physical (channel) instances.
+remarks: The `DXP.IServerDocument` of an open schematic document implements `ILogicalDocument`; cast it to use these
+  members. `GetPhysicalDocuments` returns the names of the sheet's physical (channel) instances, and these names are the
+  values that `ActivePhysicalDocument` accepts and returns.

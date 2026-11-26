@@ -77,5 +77,6 @@ objectSet.Add(SCH.TObjectId.eWire);
 
 ## Coordinates
 
-Coordinates are integers in internal units. `EDP.Utils` converts between internal units and mils or millimetres
-(`EDP.Utils.MilsToCoord`, `EDP.Utils.CoordToMils`, `EDP.Utils.MMsToCoord`, `EDP.Utils.CoordToMMs`).
+Coordinates are integers in internal units, 10,000 per mil (`EDP.EDPConstant.InternalUnits`), in schematic and PCB
+documents alike. `EDP.Utils` converts between internal units and mils or millimetres (`EDP.Utils.MilsToCoord`,
+`EDP.Utils.CoordToMils`, `EDP.Utils.MMsToCoord`, `EDP.Utils.CoordToMMs`).

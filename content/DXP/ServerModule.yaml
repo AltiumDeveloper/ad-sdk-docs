@@ -1,0 +1,4 @@
+# DXP.ServerModule: descriptions for the generated reference. Members are keyed by page name (property or method).
+remarks: >-
+  To add pages to the Preferences dialog, override the protected `RegisterOptionsPages`, which Altium Designer calls once
+  when the server module is created (see `DXP.IOptionsPage`).

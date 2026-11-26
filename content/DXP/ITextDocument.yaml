@@ -1,0 +1,10 @@
+# DXP.ITextDocument: descriptions for the generated reference. Members are keyed by page name (property or method).
+remarks: >-
+  The `DXP.IServerDocument` of a Text document implements this interface: cast it (`document as ITextDocument`).
+  `LineCount` includes the empty line after a final line break, and `GetLine` sets `argValue` to `null` for that line,
+  so test for `null` before using the text.
+members:
+  SetLine:
+    remarks: >-
+      A line break in `argValue` does not split the line: it is stored as characters inside that one line, and
+      `LineCount` does not change.

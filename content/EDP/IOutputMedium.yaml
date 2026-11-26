@@ -1,0 +1,6 @@
+# EDP.IOutputMedium: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  TypeString:
+    summary: The type of the output container, for example `Print`, `PDF`, `Generate Files` or `Multimedia`.
+    remarks: Compare with these values, not with the container's `Name` or with the type words stored in the .OutJob
+      file (such as `Printer`, `Publish` or `GeneratedFiles`).

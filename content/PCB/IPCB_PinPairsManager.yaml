@@ -16,7 +16,8 @@ members:
       pair is added by its `Name`. Nothing is added to a class whose `SuperClass` is true. The class name is compared
       case-sensitively; a name that differs only in case creates another class.
     parameters:
-      argPinPairs: The pin pairs to add, as `IPCB_PinPair` items.
+      argPinPairs: The pin pairs to add, as `IPCB_PinPair` items, for example in a list returned by
+        `IPCB_ContourUtilities.CreateInterfaceList`.
       argClassName: The name of the xSignal class.
   CanCreateTiePoints:
     summary: Returns whether tie points can be created for the given pin pairs.
@@ -37,7 +38,9 @@ members:
     remarks: >-
       The pin pair gets a unique name in the same way as with `CreateFromPins`. It is out of date until its signal path
       is calculated: when its lengths, delay or primitives are first read, or by `InvalidateAll` or
-      `IPCB_PinPair.Rebuild`. Returns null when the string contains an empty descriptor.
+      `IPCB_PinPair.Rebuild`. Returns null when the string contains an empty descriptor. A descriptor that names a
+      component not on the board is not an error: a pin pair with no signal path is still created and added to the
+      board.
     parameters:
       argPins: >-
         The pin descriptors, separated by `|`. A descriptor is a component designator, `-` and a pad name, for example

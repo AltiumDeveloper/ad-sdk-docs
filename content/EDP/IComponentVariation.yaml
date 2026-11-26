@@ -3,6 +3,10 @@ summary: The IComponentVariation interface represents the component variant on a
   physical document, but each component on this document can be specified to be a variant and when the output is
   generated, a specific variant document is generated. This variant output is controlled by the Output Job files.
 members:
+  DM_AlternateLibraryLink:
+    summary: Returns the library link of the alternate part this component variation uses.
+    remarks: For a variation that is not an alternate (for example eVariation_NotFitted) the result is a link with empty
+      fields, not null; test DM_VariationKind instead.
   DM_AlternatePart:
     summary: Returns the alternate part string for this component variant.
   DM_PhysicalDesignator:
@@ -13,7 +17,7 @@ members:
   DM_UniqueId:
     summary: Returns the unique ID for this component variant.
   DM_VariationCount:
-    summary: Returns the number of variations.
+    summary: Returns the number of parameter variations of this component variation; use with DM_Variations.
   DM_VariationKind:
     summary: This method returns the variation kind for this component.
   DM_Variations:

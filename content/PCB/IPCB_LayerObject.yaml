@@ -27,6 +27,9 @@ members:
         The format. `TLayerNameDisplayMode.eLayerNameDisplay_Short` and `TLayerNameDisplayMode.eLayerNameDisplay_Medium`
         give the short and the medium standard name of the layer; `TLayerNameDisplayMode.eLayerNameDisplay_Long` gives
         `LayerName`.
+  LayerStack:
+    summary: The layer stack that the layer belongs to.
+    remarks: Returns null; get the layer stack from the board with `IPCB_Board.LayerStack`.
   LayerName:
     summary: The name of the layer.
     remarks: >-

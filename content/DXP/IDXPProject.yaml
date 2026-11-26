@@ -1,0 +1,12 @@
+# DXP.IDXPProject: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  DM_AddParameter:
+    summary: Adds a project parameter, even when one of the same name exists.
+    remarks: To change the value of an existing parameter, use `DM_SetParameter`; `DM_GetParameterExist` tells whether
+      the name exists.
+    seeAlso: [DXP.IDXPProject.DM_SetParameter, DXP.IDXPProject.DM_GetParameterExist]
+  DM_GetVCSProject:
+    summary: Returns the project's version control binding; cast it with `as DXP.IVcsProject`, which gives `null` for a
+      project that is not under version control.
+    seeAlso:
+      - DXP.IVcsProject

@@ -1,7 +1,8 @@
 # EDP.ILine: descriptions for the generated reference. Members are keyed by page name (property or method).
-summary: The ILine interface is a line object interface for an existing line object on a Schematic document. A line is a
-  graphical drawing object with any number of joined segments.
-remarks: An equivalent Line object representation is the ISch_Line interface in the Schematic API reference.
+summary: A straight line segment in the compiled design model, such as one segment of a net's wire.
+remarks: >-
+  `EDP.INet.DM_Lines` returns one `ILine` per segment: the segments of one wire have the same `DM_SchHandle`, which
+  resolves to that `SCH.ISch_Wire`.
 members:
   DM_HX:
     summary: This method returns the upper right coordinate of the line.

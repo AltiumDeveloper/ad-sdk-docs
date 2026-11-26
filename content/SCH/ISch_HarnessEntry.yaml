@@ -8,6 +8,9 @@ members:
   DistanceFromTop:
     summary: The DistanceFromTop property defines the location of the harness entry in respect to the associated harness
       connector.
+    remarks: >-
+      In internal units (10,000 per mil), from the top of the harness connector: an entry 100 mil below the top is
+      `EDP.Utils.MilsToCoord(100)`.
   IsVertical:
     summary: The IsVertical property defines the orientation of the harness entry in respect to the harness connector.
   Name:

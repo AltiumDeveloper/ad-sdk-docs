@@ -1,0 +1,13 @@
+# DXP.Utils: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Static helpers of the DXP layer, among them running a server process from code (`RunCommand`).
+members:
+  RunCommand:
+    summary: Runs a server process, as a menu item's process launcher does.
+    parameters:
+      argIdString: The process id, `<server>:<process>`.
+      argSpecialParameter: Pairs of `Name=Value` separated by `|`, or an empty string.
+    remarks: The call returns after the process has finished, so a process that shows a modal dialog blocks until the
+      user closes it, and one that starts an interactive placement returns at once. An unknown process id is ignored
+      without an error; an error raised by the server reaches the caller as an exception.
+    seeAlso:
+      - DXP.ICommandLauncher

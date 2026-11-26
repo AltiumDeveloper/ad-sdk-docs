@@ -33,7 +33,7 @@ members:
   DM_BusWidth:
     summary: The method returns the bus width. An IBus interface is inherited from a INetItem interface.
   DM_CalculatedNetName:
-    summary: The method returns the bus width. An IBus interface is inherited from a INetItem interface.
+    summary: The method returns the net name calculated by the compiler for this net.
   DM_CountOfElectricalType:
     summary: The method returns the number of electrical types used by the current sheet or the project.
   DM_CountOfNonPinItems:
@@ -90,7 +90,7 @@ members:
   DM_PinCount:
     summary: The method returns the number of pins associated with this net.
   DM_Pins:
-    summary: The method reurns an indexed pin that is part of the current net. Use the DM_PinCount method.
+    summary: The method returns an indexed pin that is part of the current net. Use the DM_PinCount method.
   DM_PortCount:
     summary: The method returns the number of ports associated with this net.
   DM_Ports:

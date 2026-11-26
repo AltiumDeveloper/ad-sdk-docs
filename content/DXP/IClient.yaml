@@ -31,10 +31,11 @@ members:
       - DXP.IClient.EndRecoverySave
       - DXP.IClient.InRecoverySave
   BroadcastNotification:
-    summary: This method broadcasts a notification message in Altium Designer where all active design documents / servers
-      have an opportunity to respond. A BoardcastNotification is a DispatchNotification (null, ANotification); There are
-      five types of Notification interfaces; ISystemNotification, IDocumentNotification, IDocumentFormNotification,
-      IViewNotification and IModuleNotification.
+    summary: Sends a notification to every open design document and server in Altium Designer, each of which can
+      respond.
+    parameters:
+      argNotification: The notification, a `DXP.INotification` such as a `DXP.SystemNotification`,
+        `DXP.DocumentNotification` or `DXP.ViewNotification`.
     seeAlso:
       - DXP.INotification
   CloseDocument:
@@ -47,20 +48,14 @@ members:
   CurrentView:
     summary: This property returns the current document view interface which represents the current design document view in
       Altium Designer.
-    remarks: |-
-      SendMessage Example
-
-      CurrentView example
-
-      ViewName example
-
-      This code snippet uses the Client.CurrentView.ViewName method to find out the current document's type.
     seeAlso:
       - DXP.IServerDocumentView
   DispatchNotification:
-    summary: This method dispatches a notification message to the targeted server in Altium Designer. There are four types
-      of Notification interfaces; IDocumentNotification, IDocumentFormNotification, IViewNotification and
-      IModuleNotification.
+    summary: Sends a notification to one server module in Altium Designer.
+    parameters:
+      argServerModule: The server module that receives the notification.
+      argNotification: The notification, a `DXP.INotification` such as a `DXP.SystemNotification`,
+        `DXP.DocumentNotification` or `DXP.ViewNotification`.
     seeAlso:
       - DXP.INotification
   EndDisableInterface:
@@ -146,9 +141,7 @@ members:
       or `IOptionsManager.GetOptionsWriter` to retrieve or write options (settings) for the target server. Each editor server has options
       that manage its server documents.
     remarks: >-
-      This is a read only property that returns the IOptionsManager interface. This interface is responsible for
-      managing (reading and writing) values to/from the system wide Preferences dialog in Altium Designer for the
-      specified server.
+      IOptionsManager reads and writes the values of the system wide Preferences dialog for the specified server.
 
 
       This interface is useful for server writers who wish to add their options pages in the system wide preferences
@@ -290,6 +283,10 @@ members:
   OpenDocument:
     summary: The OpenDocument method returns the IServerDocument interface depending on the DocumentKind and FileName values
       of this document are valid.
+    remarks: >-
+      The document is opened but not displayed, and the focused document does not change: pass the returned document to
+      ShowDocument before running a process that acts on the focused document. If the file is already open, the open
+      document is returned as it is, including unsaved changes.
     seeAlso:
       - DXP.IClient.ShowDocument
   OpenDocumentShowOrHide:
@@ -311,23 +308,22 @@ members:
       example every-time a specific server notification code is intercepted.
 
 
-      This method is normally used for in developing servers and not for extensions.
+      In an extension, create a `DXP.NotificationHandler` with a callback (`new NotificationHandler(callback)`) instead:
+      its constructor calls this method, so do not call it again for that handler, or every notification is delivered
+      twice.
     parameters:
-      argHandler: The server module object.
+      argHandler: The notification handler.
     seeAlso:
       - DXP.IClient.BroadcastNotification
       - DXP.IClient.DispatchNotification
       - DXP.INotificationHandler
+      - DXP.NotificationHandler
   RemoveServerView:
     summary: This method removes a server view (representing a server document window) from Altium Designer.
     seeAlso:
       - DXP.IClient.CurrentView
   ShowDocument:
     summary: Displays the design document in Altium Designer.
-    remarks: |-
-      IServerDocument example
-
-      This example gets the client interface and then opens and shows a document.
     parameters:
       argDocument: The server document loaded in Altium Designer.
     seeAlso:
@@ -343,7 +339,7 @@ members:
       - DXP.IClient.ShowDocument
       - DXP.IServerDocument
   StartServer:
-    summary: The StartServer and StopServer properties can be used to load a server in Altium Designer if it has not
+    summary: The StartServer and StopServer methods can be used to load a server in Altium Designer if it has not
       already, before you can invoke this server's processes and to stop this server once you have done with these
       server processes. This can be used to conserve computer's memory.
     remarks: >-
@@ -351,13 +347,10 @@ members:
       its API methods if the server has not been loaded yet. Example, during a blank session of Altium Designer where
       there are no PCB documents open, and you need to use the PCB API to manipulate the contents on a PCB document, you
       would need to "start" the PCB server first so the PCB API is made active.
-
-
-      Example of the StartServer method
     seeAlso:
       - DXP.IClient.StopServer
   StopServer:
-    summary: The StartServer and StopServer properties can be used to load a server in Altium Designer if it has not loaded
+    summary: The StartServer and StopServer methods can be used to load a server in Altium Designer if it has not loaded
       already, before you can invoke this server's processes and to stop this server once you have done with these
       server processes. This can be used to conserve computer's memory.
     remarks: >-
@@ -365,9 +358,6 @@ members:
       its API methods if the server has not been loaded yet. Example, during a blank session of Altium Designer where
       there are no PCB documents open, and you need to use the PCB API to manipulate the contents on a PCB document, you
       would need to "start" the PCB server first so the PCB API is made active.
-
-
-      Example of the StopServer method
     seeAlso:
       - DXP.IClient.StartServer
   UnregisterNotificationHandler:

@@ -1,0 +1,21 @@
+# DXP.IEDMS_Vault: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  GetFolders:
+    parameters:
+      argParentFolderGUIDs: null for the top-level folders of the Vault.
+      argRecursive: true also loads the subfolder tree of each returned folder into IULB_Folder.SubFolder; the result's
+        Folders list is not flattened either way.
+  ItemByHRID:
+    summary: Returns the item with the given HRID from this Vault, or null when the Vault has none.
+    parameters:
+      argHRID: The item HRID, without a revision.
+    seeAlso: [DXP.IEDMS_Vault.ItemRevisionByHRID]
+  ItemRevisionByHRID:
+    summary: Returns the item revision with the given HRID from this Vault, or null when the Vault has none.
+    parameters:
+      argHRID: The item revision HRID, that is the item HRID followed by the revision.
+    seeAlso: [DXP.IEDMS_Vault.ItemByHRID]
+  SearchItems:
+    parameters:
+      argFilter_HRIDs: An HRID pattern, matched without regard to case, in which % matches any run of characters and _
+        exactly one character; * is not a wildcard.

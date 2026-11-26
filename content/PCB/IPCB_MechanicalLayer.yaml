@@ -5,7 +5,7 @@ remarks: >-
   A board can have up to 1,024 mechanical layers.
 
 
-  The examples visit the mechanical layers of a board with `IPCB_Board.MechanicalLayerIterator` and cast each
+  The examples visit the enabled mechanical layers of a board with `IPCB_Board.MechanicalLayerIterator` and cast each
   `IPCB_LayerObjectIterator.LayerObject` to `IPCB_MechanicalLayer`. Mechanical layers are not in the layer stack, but
   `IPCB_LayerStack.LayerObject` also returns the layer object of a mechanical layer.
 members:

@@ -159,7 +159,8 @@ members:
 
       The SDK examples create a component with `IPCB_ServerInterface.PCBObjectFactory`, assign its `Board`, call this
       method with `FileName=<library path>|Footprint=<footprint name>`, then set its layer and location and add it to
-      the board with `IPCB_Board.AddPCBObject`.
+      the board with `IPCB_Board.AddPCBObject`. For an integrated library (`.IntLib`), give its path with
+      `IntegratedLibraryName=<library path>`; `FileName` with an integrated library throws an exception.
     parameters:
       argParams: The parameters that identify the library and the footprint, as `Name=Value` pairs separated by `|`, for
         example `FileName=<library path>|Footprint=<footprint name>`.

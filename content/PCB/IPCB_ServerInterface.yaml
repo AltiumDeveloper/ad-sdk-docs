@@ -114,10 +114,12 @@ members:
     remarks: Every call returns the same object.
   LoadCompFromLibrary:
     summary: Loads a footprint from a PCB library file and returns it as an `IPCB_LibComponent`.
-    remarks: The returned footprint is not on any board.
+    remarks: The returned footprint is not on any board. Returns null when the footprint is not found.
     parameters:
       argPattern: The name of the footprint.
-      argLibPath: The path of the PCB library file.
+      argLibPath: >-
+        The full path of the PCB library file. A library name such as the value of
+        `IPCB_Component.SourceFootprintLibrary` is not resolved.
     seeAlso:
       - PCB.IPCB_LibComponent
   LoadPCBBoardByPath:
@@ -149,7 +151,9 @@ members:
     summary: Draws a footprint of a PCB library file into a new bitmap and returns the bitmap's handle.
     remarks: >-
       The footprint is scaled to fit the bitmap and drawn with its pad numbers; text objects and objects on paste mask
-      and solder mask layers are left out. Returns 0 when the footprint cannot be loaded from the file.
+      and solder mask layers are left out. Returns 0 when the footprint cannot be loaded from the file. The caller owns
+      the bitmap: free the handle with the Win32 `DeleteObject` function, also after `Image.FromHbitmap`, which copies
+      it.
     parameters:
       argViewName: The name of the footprint.
       argViewFileAddress: The path of the PCB library file.

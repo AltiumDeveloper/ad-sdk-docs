@@ -3,30 +3,11 @@ summary: The IOptionsPage interface represents the page of controls in the syste
   in Altium Designer, the controls on this page in the Preferences dialog are mapped from the controls on a server panel
   of this server. The controls on a page is represented by the TOptionsForm object and its IOptionsPage interface.
 remarks: >-
-  The server module (TServerModule class) has the RegisterOptionsPageClass method which takes in the TOptionsForm
-  object. The IOptionsPage interface represents this TOptionsForm object.
-
-
-  The TOptionsForm class has methods that you need to override to implement the OptionsPage, OptionsManager,
-  OptionsReader and OptionsWriter interfaces.
-
-
-  ClearModified
-
-
-  GetModified
-
-
-  GetStateControls
-
-
-  GetNotificationCode
-
-
-  DoSetStateControls
-
-
-  SetDefaultState
+  Implement a page by deriving from `DXP.OptionsForm` and overriding its protected members (`SetStateControlsImpl`,
+  `GetStateControlsImpl`, `GetModifiedImpl`, `ClearModified`, `SetDefaultStateImpl`, `GetNotificationCodeImpl`).
+  Register it from an override of the server module's protected `RegisterOptionsPages` by calling
+  `RegisterOptionsPageCreator` with the page name and a `DXP.DelegateCreateOptionsPage` that returns `new
+  OptionsPage(form)`.
 members:
   GetNotificationCode:
     summary: Each server that handles Option notifications to its server panel and the system wide Preferences dialog in

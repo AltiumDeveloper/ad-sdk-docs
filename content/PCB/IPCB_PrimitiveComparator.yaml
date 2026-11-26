@@ -5,7 +5,7 @@ remarks: >-
   the PCB editor.
 members:
   Compare:
-    summary: Compares two boards layer by layer and returns true when no differences are found.
+    summary: Compares two boards layer by layer and shows the differences in the PCB editor.
     remarks: >-
       The layers of `argBoardA`, except the multi-layer, are compared with the same layers of `argBoardB`. Progress is
       shown while the comparison runs; pressing Esc cancels it and raises an exception.

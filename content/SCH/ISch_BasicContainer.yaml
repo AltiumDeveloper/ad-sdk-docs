@@ -38,6 +38,10 @@ members:
       - SCH.ISch_BasicContainer.FreeAllContainedObjects
   DescriptionString:
     summary: This method returns you the description string for this object.
+  ExportToParameters:
+    summary: Returns the object's own properties, without child objects such as a component's pins, as one string of
+      `KEY=VALUE` pairs separated by `|`, the fields of its record in the schematic file.
+    remarks: Coordinates in the string, such as `LOCATION.X`, are in the file unit of 10 mils, not in internal units.
   FreeAllContainedObjects:
     summary: The FreeAllContainedObjects method removes the contained objects from the container of ISch_BasicContainer type
       and the container ends up clean. To have container that can be reused with the same elements in another container,

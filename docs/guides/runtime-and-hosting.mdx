@@ -34,6 +34,9 @@ build with error CS1705 ("uses `System.Runtime, Version=10.0.0.0` which has a hi
   string settings = Path.Combine(folder, "MyExtension.json");
   ```
 
+- Do not rely on the process's current directory, usually the Altium Designer installation folder: build file paths
+  from the document or project path, the extension's folder or `Path.GetTempPath()`, and set
+  `ProcessStartInfo.WorkingDirectory` when you start a program.
 - `Altium.SDK.dll` and `Altium.SDK.Interfaces.dll` are already loaded from the installation's `System` folder.
   Reference them without copying them to the build output.
 - The default load context cannot be unloaded, so a new build of the extension assembly takes effect only after a

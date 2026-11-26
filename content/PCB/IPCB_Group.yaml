@@ -14,8 +14,10 @@ members:
     summary: Adds a primitive to the group as a child primitive.
     remarks: >-
       When the group is a component, a net or a polygon, the primitive is first removed from the component, net or
-      polygon respectively that it belongs to. To place a new primitive in a footprint, add it to the library board
-      with `IPCB_Board.AddPCBObject` and then to the footprint with `AddPCBObject`.
+      polygon respectively that it belongs to. To place a new primitive in the library's current footprint
+      (`IPCB_Library.CurrentComponent`), add it only to the library board with `IPCB_Board.AddPCBObject`, which also
+      makes it a child of that footprint; adding it to the footprint as well adds it twice. For any other footprint of
+      the library, add it to the footprint with `AddPCBObject`.
     parameters:
       argPCBObject: >-
         The primitive to add: an arc, pad, via, track, connection, text, fill, rule, embedded board, region or
@@ -52,6 +54,9 @@ members:
     summary: Whether the child primitives of the group can be edited individually or only as part of the group.
   RemovePCBObject:
     summary: Removes a child primitive from the group.
+    remarks: >-
+      In a PCB library, a primitive removed from the current footprint (`IPCB_Library.CurrentComponent`) stays on the
+      library board and is saved with the footprint; remove primitives from a footprint while it is not the current one.
     parameters:
       argPCBObject: >-
         The primitive to remove: an arc, pad, via, track, connection, text, fill, rule, embedded board, region or
