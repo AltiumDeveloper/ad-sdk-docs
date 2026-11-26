@@ -103,6 +103,8 @@ function ResultRow({ result, active, words, loaded, onPick, onHover, id, expande
   const flags = record.f ?? 0;
   const context = record.c !== undefined ? loaded.contexts[record.c] : undefined;
   const isGuide = record.k === 'guide';
+  // Guide and sample titles are prose, not API names: no code font.
+  const isProse = isGuide || record.k === 'sample';
   return (
     <li
       ref={ref}
@@ -116,7 +118,7 @@ function ResultRow({ result, active, words, loaded, onPick, onHover, id, expande
     >
       <div className={styles.line}>
         <KindPill kind={record.k} engine={loaded.engine} />
-        <span className={isGuide ? styles.guideName : styles.name}>
+        <span className={isProse ? styles.guideName : styles.name}>
           {record.p && <span className={styles.parent}>{record.p}.</span>}
           <Highlight text={record.n} words={words} />
         </span>
@@ -350,7 +352,7 @@ function SearchModal({ onClose, initialQuery }: { onClose: () => void; initialQu
                     >
                       <div className={styles.line}>
                         <KindPill kind={item.k} engine={loaded.engine} />
-                        <span className={item.k === 'guide' ? styles.guideName : styles.name}>
+                        <span className={item.k === 'guide' || item.k === 'sample' ? styles.guideName : styles.name}>
                           {item.p && <span className={styles.parent}>{item.p}.</span>}
                           {item.n}
                         </span>

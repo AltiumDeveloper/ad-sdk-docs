@@ -24,10 +24,10 @@ Create a C# class library and reference the SDK assemblies:
 | `Altium.SDK.dll` | Hosting classes (`DXP.ServerModule`, `DXP.CommandLauncher`), entry points (`SCH.GlobalVars`, `PCB.GlobalVars`, `DXP.GlobalVars`), constants (`SCH.SCHConstant`) and utilities (`DXP.Utils`, `EDP.Utils`). |
 
 The SDK assemblies target the .NET version that Altium Designer hosts: .NET 8 in Altium Designer 26.1 to 26.11, .NET 10
-in 26.12 and later (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)). Many projects in the
-[SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples) repository were written for earlier SDK versions
-and target .NET Framework 4.x; their source code still shows the API usage, but use the target framework that matches
-your SDK version. [Project setup](./project-setup.mdx) has a complete project file.
+in 26.12 and later (see [Runtime and hosting](./runtime-and-hosting.mdx#the-net-runtime)).
+[Project setup](./project-setup.mdx) has a complete project file. The
+[SDK samples](https://github.com/AltiumDeveloper/ad-sdk-samples) are complete extensions, one task each, that build
+against the current SDK; reference pages list the samples that use each type and member.
 
 ## The plugin factory and the server module
 

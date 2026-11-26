@@ -2,7 +2,7 @@
 
 Source for https://altiumdeveloper.github.io/ad-sdk-docs/: the .NET API reference for building Altium
 Designer extensions, generated from the SDK assemblies and cross-linked with the
-[SDK examples](https://github.com/AltiumDeveloper/ad-sdk-examples).
+[SDK samples](https://github.com/AltiumDeveloper/ad-sdk-samples).
 
 It covers the SDK namespaces of both assemblies (`config/namespaces.yaml`): `SCH`, `PCB`, `EDP`, `DXP`,
 `ComponentLib` and `Embedded`, with `DXP.EDMS` and `Altium.Dxp.Interfaces` nested under System. Types and
@@ -15,15 +15,21 @@ namespaces left out on purpose (interface implementation classes, plumbing) are 
 SDK assemblies ──(npm run metadata)──▶ metadata/Altium.SDK.Interfaces.json, metadata/Altium.SDK.json ─┐
 content/<NS>/*.yaml (descriptions) ──────────────────────────────────────────────────────────────────┤
 examples/<NS>/*.cs (C# examples) ────────────────────────────────────────────────────────────────────┼─(npm run apidocs)─▶ docs/reference/**
-ad-sdk-examples ──(npm run examples:index)──▶ metadata/examples-index.json ──────────────────────────┘   static/search-index.json
+ad-sdk-samples release ──(npm run samples:fetch)──▶ .cache/samples/ ─────────────────────────────────┘   static/search-index.json
                                                                        ─(npm run build)─▶ build/ ─(npm run llms)─▶ build/ + LLM files
 ```
 
 1. `npm run metadata` reads the public API of `Altium.SDK.Interfaces.dll` and `Altium.SDK.dll` (metadata only; the
    assemblies are never loaded) with `tools/AssemblyMetadata` and writes `metadata/<assembly>.json`. It needs the
    .NET SDK and the assemblies (`SDK_DIR=<folder>`). The JSON is committed, so the site builds without either.
-2. `npm run examples:index` scans a checkout of the SDK examples (`--dir`) and records where each type and member is
-   used: `metadata/examples-index.json` (committed).
+2. `npm run samples:fetch` downloads the samples index of the SDK samples release pinned in `config/site.yaml`
+   (`samples.release`) and a sparse checkout of the samples at that release into `.cache/samples/` (git-ignored; no
+   token needed). The index lists every SDK type and member each sample's compiled code uses; the generator joins it
+   to the reference (`scripts/apidocs/lib/samples.mjs`) and writes the ids it could not place to
+   `.generated/samples-report.json`. `npm run apidocs` then also writes the samples section: a page per sample
+   (`docs/samples/<Id>.md`, its README with the SDK APIs it uses and its files), the samples index (`/samples`) and the
+   samples by API (`/samples/apis/<namespace>`), with search records of kind `sample`. Without the cache, the site is
+   built with no samples.
 3. `npm run apidocs` builds the API model (`scripts/apidocs/lib/model.mjs`), renders one page per type into
    `docs/reference/` (git-ignored; members are sections of their type's page, listed in its table of contents),
    writes the Reference sidebar to `.generated/sidebar.json` and the search index to `static/search-index.json`.

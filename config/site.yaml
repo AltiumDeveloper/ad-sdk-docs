@@ -6,6 +6,9 @@ baseUrl: /ad-sdk-docs/
 repo: https://github.com/AltiumDeveloper/ad-sdk-docs
 branch: main
 
-# SDK examples linked from reference pages (metadata/examples-index.json, built by `npm run examples:index`).
-examples:
-  repo: https://github.com/AltiumDeveloper/ad-sdk-examples
+# The SDK samples: reference pages list the samples that use each type and member. The build reads one pinned
+# release of the samples index, so it is reproducible; moving the pin is a reviewed change.
+# `npm run samples:fetch` downloads it into .cache/samples/.
+samples:
+  repo: https://github.com/AltiumDeveloper/ad-sdk-samples
+  release: index-2026.11.16.5

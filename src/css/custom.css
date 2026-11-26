@@ -242,6 +242,15 @@ html {
   pointer-events: none;
 }
 
+/* Samples is a section heading that is also a link (the list of all samples) and expands into its categories. */
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1.section-link > .menu__list-item-collapsible > .menu__link {
+  pointer-events: auto;
+}
+
+.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category-level-1.section-link > .menu__list-item-collapsible > .menu__link:hover {
+  color: var(--ifm-color-primary);
+}
+
 /* Two caret mechanisms exist (a separate button next to linked categories, an ::after on plain categories).
  * Same icon box and the same right padding put both chevrons on one vertical line. */
 .menu__caret::before,
