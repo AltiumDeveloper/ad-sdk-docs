@@ -14,16 +14,18 @@ Altium Designer provides the endpoint and an access token for the connected work
 
 All three come from the server manager, `EDP.Utils.GetDXPServerManager()` (`DXP.IEDMS_DXPServerManager`):
 
-| What | Call | Example value |
-| --- | --- | --- |
-| Signed in? | `server.IsConnected()` | `true`, also for an on-premises server |
-| The API endpoint | `server.GetDiscoveryService().GetServiceURL("PLATFORMAPI")` | `https://eur.365.altium.com/napi/gateway/graphql/`; empty for an on-premises server, which has no Altium 365 API |
-| The access token | `server.GetSessionID()` | a JWT, used as `Authorization: Bearer <token>` |
-| The workspace | the host of `server.GetDiscoveryService().VaultUrl()` | `acme.365.altium.com` |
+| What | Call |
+| --- | --- |
+| Signed in? | `server.IsConnected()` |
+| The API endpoint | `server.GetDiscoveryService().GetServiceURL("PLATFORMAPI")` |
+| The access token | `server.GetSessionID()` |
+| The workspace | the host of `server.GetDiscoveryService().VaultUrl()` |
 
-- **The endpoint** is the GraphQL endpoint of the region that hosts the connected workspace. Use it as returned; do
-  not choose a regional endpoint yourself.
-- **The token** is an access token (a JWT) for the signed-in user's session: it gives access to the connected
+- **Signed in** means signed in to a workspace: an Altium 365 workspace or an Altium Enterprise Server.
+- **The endpoint** is the GraphQL endpoint of the server that hosts the connected workspace. Use it as returned; do
+  not build one yourself. It is empty when the server does not advertise the Altium 365 API.
+- **The token** is sent as `Authorization: Bearer <token>`. It is an access token (a JWT) for the signed-in user's
+  session: it gives access to the connected
   workspace as that user. It carries its expiry time (the `exp` claim): reuse it until then. `GetSessionID()` returns
   the token Altium Designer currently holds and does not renew it, so when it expires, call `server.RefreshSession()`
   (on the main thread, like any SDK call). If it returns `true`, call `GetSessionID()` again for the new token.

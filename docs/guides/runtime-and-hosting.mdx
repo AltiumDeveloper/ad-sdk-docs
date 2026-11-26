@@ -14,7 +14,7 @@ installation, and the version depends on the Altium Designer version:
 | Altium Designer | Hosted runtime | SDK assemblies reference | Extension target framework |
 | --- | --- | --- | --- |
 | 26.1 to 26.11 | .NET 8.0.15 | .NET 8 (`System.Runtime` 8.0) | `net8.0-windows` |
-| 26.12 | .NET 10.0.10 | .NET 10 (`System.Runtime` 10.0) | `net10.0-windows` |
+| 26.12 and later | .NET 10 (10.0.10 in 26.12) | .NET 10 (`System.Runtime` 10.0) | `net10.0-windows` |
 
 `X2.runtimeconfig.json` in the installation's program folder (the parent of `System`) names the hosted version
 (`"tfm"` and the framework versions). Build the extension against the installation you target: target that version,
