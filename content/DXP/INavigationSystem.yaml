@@ -2,3 +2,8 @@
 summary: The navigation system is the workhouse for the Navigation panel which is the center-piece for net connectivity
   for the design project. There are three ways a design can be arranged - as a list of compiled sheets, flattened
   hierarchy and as a structural tree.
+members:
+  RegisterNavigationProvider:
+    summary: Registers a provider that handles navigation to URLs of a protocol and returns a handle for the registration.
+    remarks: |
+      Use a protocol name unique to your extension: registering a protocol that is already handled succeeds without an error, but the provider is never called.

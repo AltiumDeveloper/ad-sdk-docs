@@ -1,0 +1,6 @@
+# DXP.IOptionsStorage: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  GetExternalParameterValue:
+    summary: Returns the value of a parameter in a section, or the default value when the parameter has no value.
+    parameters:
+      argDefaultValue: An empty string comes back as null, so test the result with string.IsNullOrEmpty.

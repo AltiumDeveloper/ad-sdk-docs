@@ -45,7 +45,7 @@ members:
 
 
       With Schematic documents, you can save them as a Advanced Schematic binary, Advanced Schematic ascii, Schematic
-      binary 4.0, Orcad SDT Schematic, Advanced Schematic template.
+      binary 4.0, Advanced Schematic template.
 
 
       Server Installation files
@@ -53,6 +53,13 @@ members:
 
       The file formats supported by editors can be found in the server installation files within the SaveFilters - End
       blocks.
+
+
+      DoFileSave writes to the document's current FileName, and it returns true even when argKind is not one of the
+      editor's save formats, so check the written file when the format matters.
+    parameters:
+      argKind: A save format name from the editor's SaveFilters, for example 'PCB ASCII File' or 'Advanced Schematic
+        ascii'; an empty string keeps the document's current format.
     seeAlso:
       - DXP.IServerDocument.GetCanClose
       - DXP.IServerDocument.Modified
@@ -64,12 +71,15 @@ members:
     summary: The method determines whether the document can be saved of specified document type safely.
   FileModifiedDate:
     summary: This method returns the date and time of the modified file.
-    remarks: The method sets the modified date for the document if the document has been modified by an outside agent.
+    remarks: >-
+      The method sets the modified date for the document if the document has been modified by an outside agent.
+
+
+      The value is an OLE Automation date; convert it with DateTime.FromOADate.
     seeAlso:
       - DXP.IServerDocument.Modified
   FileName:
-    summary: The FileName property returns the filename for the server document (not the corresponding server panel). This
-      property is a read-only property and is supported by the GetFileName method.
+    summary: The FileName property returns the filename for the server document (not the corresponding server panel).
     remarks: Note a server document can be a document view or a panel view, and thus if it is a panel view, the FileName
       property is invalid.
     seeAlso:
@@ -112,8 +122,7 @@ members:
     seeAlso:
       - DXP.IClient
   GetKind:
-    summary: This method returns the Kind string for this document and this method is used for the Kind property. Examples
-      include 'PCB', 'PCBLIB','SCH','SCHLIB' etc.
+    summary: This method returns the Kind string for this document. Examples include 'PCB', 'PCBLIB','SCH','SCHLIB' etc.
     remarks: The Kind reports the type of the document opened in Altium Designer.
     seeAlso:
       - DXP.IClient

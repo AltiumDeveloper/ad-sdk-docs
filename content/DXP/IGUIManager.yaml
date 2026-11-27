@@ -6,3 +6,6 @@ members:
     summary: This method determines whether the panel can be resized or not. The name of the panel need to be supplied.
   CurrentProcessLauncherAvailable:
     summary: This method determines whether the current process launcher is available or not to use.
+  SetPanelVisibleInCurrentForm:
+    remarks: argViewName is the panel's internal name, which can differ from its caption (the Explorer panel is 'Vault
+      Explorer'). An unknown name is ignored without an error, so check it first with IsPanelValidInCurrentForm.

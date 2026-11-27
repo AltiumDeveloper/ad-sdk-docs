@@ -38,6 +38,9 @@ members:
     summary: This method returns the interface of the owner object this parameter object is associated with.
   DM_RawText:
     summary: The method returns the raw text for this parameter object.
+  DM_SetValue:
+    remarks: "For a project parameter, the change does not mark the project as modified: Altium Designer does not offer to
+      save it, and the new value is lost when the project is closed."
   DM_UniqueId:
     summary: Any parameter that is configured as a container for design rule directives need to have a unique ID that will
       be ported onto the corresponding PCB implementation document.

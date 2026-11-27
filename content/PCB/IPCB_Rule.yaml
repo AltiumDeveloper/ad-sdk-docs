@@ -20,7 +20,9 @@ remarks: >-
 members:
   ActualCheck:
     summary: Checks the given object, or pair of objects, against the rule and returns the first violation found.
-    remarks: Returns null when no violation is found.
+    remarks: >-
+      Returns null when no violation is found. The rule must be on a board: call `IPCB_Board.AddPCBObject` first for a
+      rule created with `IPCB_ServerInterface.PCBRuleFactory`, otherwise the call throws an exception.
     parameters:
       argP1: The object to check, or the first object of the pair.
       argP2: The second object of the pair; null for a rule kind that applies to single objects (`IsUnary` is true).

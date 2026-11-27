@@ -1,0 +1,6 @@
+# DXP.BaseNotification: descriptions for the generated reference. Members are keyed by page name (property or method).
+remarks: >-
+  To define a notification of your own, derive from BaseNotification and override the protected GetNotificationTypeImpl,
+  GetNotificationCodeImpl and GetNotificationDataImpl. The public GetNotificationType, GetNotificationCode and
+  GetNotificationData cannot be overridden; they return what these methods return, and Altium Designer reads the
+  notification through them when it is broadcast.

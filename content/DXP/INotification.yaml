@@ -12,3 +12,10 @@ remarks: >-
 
   The Broadcast Notification is a system wide notification, and the Dispatch Notification is a server specific
   notification.
+members:
+  GetNotificationCode:
+    summary: Returns what happened, a code from the nested class of `DXP.NotificationCode` that matches the type, for example `DXP.NotificationCode.DocumentNotificationCode.DocumentSaved`.
+  GetNotificationData:
+    summary: Returns the data of the notification; for a document notification it is an `IDataForDocumentNotification` (the document and its file name).
+  GetNotificationType:
+    summary: Returns the kind of notification, one of the `DXP.NotificationType` strings, for example `DXP.NotificationType.DocumentNotification`.

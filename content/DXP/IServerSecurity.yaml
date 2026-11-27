@@ -1,0 +1,12 @@
+# DXP.IServerSecurity: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: License queries for the running Altium Designer.
+remarks: >-
+  No member returns this interface: cast a server module to it, either one obtained with
+  `DXP.IClient.GetServerModuleByName` (for example `"PCB"`) or the extension's own `DXP.ServerModule`, which implements
+  it. The answer describes the license of the running Altium Designer.
+members:
+  IsTechnologySetSupported:
+    summary: Returns whether the license of the running Altium Designer includes the named technology set.
+    remarks: >-
+      Names are case-sensitive: `"Schematic_Editor"` is a technology set name, `"schematic_editor"` is not. An unknown
+      name returns `false` rather than throwing, so `false` does not distinguish an unlicensed set from a misspelt name.

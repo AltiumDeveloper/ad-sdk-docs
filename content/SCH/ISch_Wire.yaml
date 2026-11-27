@@ -1,8 +1,6 @@
 # SCH.ISch_Wire: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: Wires are straight line segments which are placed on a schematic document to create the electrical connections.
-remarks: |-
-  ReportList.Add('Wire #'
-
-  ReportList.Add('X: '
-
-  + ', Y: '
+members:
+  UnderlineColor:
+    summary: The color (BGR) of the wide band drawn underneath the wire.
+    remarks: It does not change the wire's line, which is drawn in `ISch_GraphicalObject.Color`.

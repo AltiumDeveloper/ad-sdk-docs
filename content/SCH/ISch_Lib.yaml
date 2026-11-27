@@ -26,5 +26,8 @@ members:
     summary: This property gets or sets the component as the current component in the library document.
   Description:
     summary: This property gets or sets the description of the library document.
+  SchComponentByLibRef:
+    summary: This property gets the library component with the given library reference, or null if the library has no
+      such component; the match ignores case.
   ShowHiddenPins:
     summary: This property gets or sets the visible property of hidden pins of the component in the library document.

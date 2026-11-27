@@ -19,23 +19,25 @@ static partial class Examples
             IPCB_Primitive comp1, comp2;
             do
             {
-                board.ChooseLocation(ref x, ref y, "Choose Component1");
+                // ChooseLocation returns false when the user presses Escape
+                if (!board.ChooseLocation(ref x, ref y, "Choose Component1"))
+                    return;
                 comp1 = board.GetObjectAtXYAskUserIfAmbiguous(x, y, new PCB.TObjectSet { TObjectId.eComponentObject },
                     PCBConstant.V6AllLayersSet, TEditingAction.eEditAction_Select);
                 if (comp1 == null)
                     return;
-                board.ChooseLocation(ref x, ref y, "Choose Component2");
+                if (!board.ChooseLocation(ref x, ref y, "Choose Component2"))
+                    return;
                 comp2 = board.GetObjectAtXYAskUserIfAmbiguous(x, y, new PCB.TObjectSet { TObjectId.eComponentObject },
                     PCBConstant.V6AllLayersSet, TEditingAction.eEditAction_Select);
                 if (comp2 == null)
                     return;
                 // do what you want with comp1 and comp2
-                // click on the board to exit or RMB
+                // press Escape or click on an empty spot to exit
             } while ((comp1 != null) && (comp2 != null));
         }
         finally
         {
-            pcbServer.PostProcess();
             DXP.Utils.RunCommand("PCB:Zoom", "Action=Redraw");
         }
         // </example>

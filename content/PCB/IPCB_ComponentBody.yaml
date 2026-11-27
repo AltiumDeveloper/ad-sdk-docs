@@ -83,7 +83,10 @@ members:
       argValue: The model to destroy.
   ModelFactory_FromFilename:
     summary: Creates a model from a 3D model file.
-    remarks: The model is not attached to the body; assign it to `Model` to use it.
+    remarks: >-
+      The model is not attached to the body; assign it to `Model` to use it. A body created with this model has the
+      model's origin at coordinate (0, 0): move it with `MoveByXY` before adding it, for a footprint by the footprint's
+      `IPCB_Group.XLocation` and `IPCB_Group.YLocation`.
     parameters:
       argFileName: The path of the 3D model file.
   ModelFactory_FromVault:

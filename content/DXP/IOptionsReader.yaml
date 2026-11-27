@@ -18,7 +18,8 @@ members:
       represented by the system wide Preferences dialog.
     remarks: The section name is the targetted page in the system wide preferences dialog.
   ReadSection:
-    summary: This method retrieves the data for the section which is the targetted page in the system wide Preferences dialog.
+    summary: This method returns the value names stored in the section, one per line and without their values; read each
+      value with ReadString, ReadBoolean, ReadInteger or ReadDouble.
     remarks: Note the section name is the targetted page in the system wide preferences dialog.
   ReadString:
     summary: This ReadString method retrieves a string value for the specified server and the setting name that are

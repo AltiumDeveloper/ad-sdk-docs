@@ -7,7 +7,7 @@ remarks: >-
 members:
   CreateTemplateLink:
     summary: Creates a new template link that holds the template's `LibraryID`, `TemplateID` and `RevisionID`.
-    remarks: The link is a separate object; changing it does not change the template.
+    remarks: Returns null; find the template of a pad with `IPCB_Board.FindLinkedBoardTemplate`.
   ExternalLink:
     summary: The template's external link, which holds the library, template and revision identifiers of an external
       template.

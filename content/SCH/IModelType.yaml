@@ -21,8 +21,9 @@ members:
       - SCH.IModelType.ViewableDocKind
       - SCH.IModelType.Previewable
   Name:
-    summary: "The method returns the name of the model type supported by Altium Designer. The following model names
-      supported by Altium Designer are:"
+    summary: The name of the model type, such as `PCBLIB` (footprint), `SIM` (simulation) or `SI` (signal integrity), as
+      `IIntegratedLibraryManager.ComponentHasModelOfType` takes it.
+    remarks: "`IModelTypeManager.ModelTypeAt` lists the installed model types."
   PortDescriptor:
     summary: The PortDescriptor
   Previewable:

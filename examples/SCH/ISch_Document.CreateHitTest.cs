@@ -11,7 +11,8 @@ static partial class Examples
         if (doc == null)
             return;
         var location = new DXP.Point(new SPoint());
-        doc.ChooseLocationInteractively(ref location, "Choose a location to click");
+        if (!doc.ChooseLocationInteractively(ref location, "Choose a location to click"))
+            return;
         THitTestMode hitTestMode = THitTestMode.eHitTest_AllObjects;
         ISch_HitTest hitTest = doc.CreateHitTest(hitTestMode, location);
         for (int i = 0; i < hitTest.GetState_HitTestCount(); i++)

@@ -18,7 +18,7 @@ const group = (label, docs, collapsed = true) => ({
 
 const guides = [
   'guides/getting-started',
-  group('Building an extension', ['project-setup', 'runtime-and-hosting', 'development-loop', 'api-conventions', 'interfaces-at-run-time'], false),
+  group('Building an extension', ['project-setup', 'runtime-and-hosting', 'development-loop', 'api-conventions', 'interfaces-at-run-time']),
   group('User interface', ['menus', 'messages-panel', 'panels']),
   group('Design data', ['schematic-basics', 'pcb-basics', 'bom', 'design-data-notes']),
   group('Outputs and services', ['outputers', 'altium-365-api']),

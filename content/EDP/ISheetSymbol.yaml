@@ -19,8 +19,8 @@ members:
   DM_PhysicalDesignator:
     summary: Returns the designator of this sheet symbol. Every physical designator is unique.
   DM_SheetEntries:
-    summary: Returns the number of sheet entries that are associated with this sheet symbol. Since a sheet entry is of a
-      INetItem type, thus a INetItem interface is returned.
+    summary: Returns the indexed sheet entry of this sheet symbol as an INetItem interface. Use in conjunction with the
+      DM_SheetEntryCount method.
   DM_SheetEntryCount:
     summary: Returns the number of sheet entries associated with this sheet symbol object.
   DM_SheetSymbolFileName:

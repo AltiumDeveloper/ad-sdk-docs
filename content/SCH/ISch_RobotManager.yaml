@@ -7,9 +7,14 @@ members:
     summary: The SendMessage method sends a message into Schematic Editor notifying that the data structures need to be
       updated and synchronized. It could be an object being modified, added or deleted from the schematic document.
     parameters:
+      argSource: >-
+        The object being modified; with `SCHConstant.SCHMPrimitiveRegistration`, the document (for a child object,
+        its owner) that the object is added to or removed from.
       argDestination: Normally the SCHConstant.BroadCast value, when an object is being modified, added or removed.
       argMessageID: >-
-        Normally when an object is being modified, the SCHConstant.SCHMPrimitiveRegistration value. Normally when a new
-        object is being added, the SCHConstant.SCHMBeginModify and SCHConstant.SCHMEndModify values. Normally when an
-        object is being removed, the SCHConstant.SCHMPrimitiveRegistration value.
-      argMessageData: Normally when a new object is being added, the SCHConstant.NoEventData value.
+        Normally when an object is being modified, the `SCHConstant.SCHMBeginModify` value before the change and the
+        `SCHConstant.SCHMEndModify` value after it. Normally when a new object is being added or an object is being
+        removed, the `SCHConstant.SCHMPrimitiveRegistration` value.
+      argMessageData: >-
+        `SCHConstant.NoEventData` with `SCHConstant.SCHMBeginModify` and `SCHConstant.SCHMEndModify`; the added or
+        removed object with `SCHConstant.SCHMPrimitiveRegistration`.

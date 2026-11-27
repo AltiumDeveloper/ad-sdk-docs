@@ -1,0 +1,5 @@
+# EDP.ITextCommands: descriptions for the generated reference. Members are keyed by page name (property or method).
+remarks: The `DXP.IServerDocument` of a text document (for example one created with
+  `DXP.Utils.CreateNewDocumentFromDocumentKind("Text")`) implements `ITextCommands`; cast it and call the commands,
+  which act at the editor cursor. `InsertText` inserts its parameter string; commands such as `InsertReturn`,
+  `InsertLine` and `SelectLine` take a variable holding an empty string.

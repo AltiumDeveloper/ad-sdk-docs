@@ -23,11 +23,16 @@ members:
   DM_CreateNewDocument:
     summary: This method creates a new document based on the Document Kind. The Kinds include -
       'PCBLIB','PCB','SCH','SCHLIB' and so on depending on which document servers are installed in Altium Designer.
+    remarks: Returns the default file name of the new, unsaved document (for example `PCB1.PcbDoc`), not a full path. The
+      new document is added to the focused project (or to Free Documents) and becomes the focused document, so no
+      DM_AddSourceDocument call is needed.
   DM_FocusedDocument:
     summary: Returns the focussed document interface object (if any) in Altium Designer. A focussed document is a document
       that is currently open and in focus (this document is active).
   DM_FocusedProject:
     summary: Returns the focussed project (if any) in Altium Designer.
+    remarks: The project of the focused document, which can be the Free Documents project (DM_FreeDocumentsProject).
+      DM_OpenProject does not focus the project it opens; use the IProject it returns.
   DM_FreeDocumentsProject:
     summary: Returns the IProject interface that contains free documents. A free document is a standalone document that
       lives in the Free Documents project.
@@ -62,7 +67,7 @@ members:
   DM_MessagesManager:
     summary: This method returns you the interface to the Messages panel in Altium Designer.
   DM_OpenProject:
-    summary: Opens a project with the full project path and set this project in focus depending on its Show parameter.
+    summary: Opens the project at the given full path.
   DM_OptionsStorage:
     summary: Represents a options storage container where Altium Designer can use to retrieve and store options for storing
       parameters of EDE options such as Toolchain name, folder and default options and project options.

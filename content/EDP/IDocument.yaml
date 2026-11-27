@@ -151,8 +151,12 @@ members:
   DM_Ports:
     summary: The method returns the indexed port instance from this document. This is to be used in conjunction with the
       DM_PortCount method
+    remarks: A port that carries a signal harness is listed once per harness signal, so DM_PortCount can exceed the
+      number of ports drawn. The items of one port share DM_SchHandle; de-duplicate by it to get the ports as drawn.
   DM_Project:
     summary: This method returns the IProject object interface that this document is associated with.
+    remarks: For a document that is not part of any project this returns the Free Documents project
+      (IWorkspace.DM_FreeDocumentsProject), not null.
   DM_RoomCount:
     summary: The method denotes the number of rooms on this document. Use this RoomCount in conjunction with the
       DM_Rooms(Index) to go through each room object.

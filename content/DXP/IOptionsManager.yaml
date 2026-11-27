@@ -9,6 +9,8 @@ members:
   GetOptionsReader:
     summary: This method retrieves the IOptionsReader method which enables you to read setting values for the Options of the
       specified server.
+    remarks: An unknown server name returns an empty reader, not null, so a null check does not validate the name; check
+      the section you read with `IOptionsReader.SectionExists`.
     seeAlso:
       - DXP.IOptionsWriter
       - DXP.IOptionsReader

@@ -61,6 +61,10 @@ members:
       Designer.
     seeAlso:
       - SCH.ISch_Document
+  GetSchDocumentByPath:
+    summary: Returns the schematic document loaded in Altium Designer for a file path, or `null` when that file is not
+      loaded.
+    remarks: "Opening or compiling a project does not load its sheets: open each sheet before you look it up."
   JunctionConvertSettings:
     summary: The JunctionConvertSettings property represents a crossing of wiring on a schematic sheet. When an addition of
       a wire would create a four-way junction, this is converted to into two adjacent three way junctions. If it is
@@ -68,6 +72,24 @@ members:
       electrically and if the Display Cross Overs option is enabled, a cross over is shown on this intersection.
     seeAlso:
       - SCH.ISch_JunctionConvertSettings
+  LoadComponentFromLibrary:
+    summary: Loads a copy of a library component that belongs to no document, or returns `null` when the component or the
+      library cannot be found.
+    remarks: >-
+      Add the copy to a document with `ISch_Document.AddSchObject`. Its `ISch_Component.SourceLibraryName` is the value
+      stored in the library symbol, not the library passed in; when the copy replaces a placed component, copy
+      `SourceLibraryName` from the placed one.
+    parameters:
+      argLibReference: The component's library reference.
+      argLibraryName: The full file path of the library.
+  PaintLoadedComponentThumbnail:
+    summary: Draws a schematic component into a new bitmap and returns the bitmap's handle.
+    remarks: >-
+      The result is a Windows GDI bitmap handle (HBITMAP) that the caller owns: after copying it (for example with
+      `Image.FromHbitmap`), release it with the Win32 `DeleteObject`.
+    parameters:
+      argWidth: The width of the bitmap, in pixels.
+      argHeight: The height of the bitmap, in pixels.
   ProbesTimerEnabled:
     summary: The ProbesTimerEnabled property determines whether the Probes are active or not. This feature is used in the
       LiveDesign process in Altium Designer.

@@ -2,8 +2,9 @@
 summary: A link to a pad and via template, which holds the identifiers of the template's library, of the template and
   of its revision.
 remarks: >-
-  The link holds only the identifiers, not the template itself. `TemplateLink` of `IPCB_Pad` and of `IPCB_Via` returns
-  the pad's or via's own link, not a copy. `CreateTemplateLink` of `IPCB_PadViaTemplate` creates a separate link.
+  The link holds only the identifiers, not the template itself. `IPCB_Pad.TemplateLink` and
+  `IPCB_PadViaTemplate.CreateTemplateLink` return null, also for a pad that is linked to a template; find the template
+  of a pad with `IPCB_Board.FindLinkedBoardTemplate`.
 members:
   Clear:
     summary: Sets `LibraryID`, `TemplateID` and `RevisionID` to empty strings.

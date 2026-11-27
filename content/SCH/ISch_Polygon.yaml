@@ -8,3 +8,6 @@ members:
       enumerated type.
     seeAlso:
       - SCH.TSize
+  Vertex:
+    summary: The vertex at the given index, from 1 to `VerticesCount`.
+    remarks: An index outside that range raises no error and returns an undefined point.

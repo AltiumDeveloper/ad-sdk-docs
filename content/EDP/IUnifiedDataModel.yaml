@@ -1,0 +1,9 @@
+# EDP.IUnifiedDataModel: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  SupportsInterface:
+    summary: Resolves a data model handle, such as one from `IDMObject.DM_SchHandle`, to the live design object.
+    remarks: Returns false when the handle's schematic sheet is not open in an editor, even in a compiled project; open
+      the project's sheets first.
+    parameters:
+      argIntf: Set on return to the object.
+    seeAlso: [EDP.IDMObject.DM_SchHandle, EDP.IProject.DM_DataModel]

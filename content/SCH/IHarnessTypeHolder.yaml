@@ -1,0 +1,5 @@
+# SCH.IHarnessTypeHolder: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: Whether a schematic object belongs to a signal harness, and its harness type.
+remarks: >-
+  Schematic ports implement this interface although `SCH.ISch_Port` does not derive from it: cast the port to
+  `IHarnessTypeHolder` to read `IsHarnessObject` and `HarnessType`.

@@ -300,11 +300,13 @@ members:
     summary: This property retrieves or sets the boolean value for whether the layer is used by primitives or not. Normally
       when a layer has primitives (design objects) on it, the layer is used.
     remarks: >-
-      Reads `false` for a layer that is not in the board's layer stack; setting the property then has no effect.
+      Reads `false`, and setting it has no effect, for a layer that is not in the board's layer stack, other than a
+      mechanical layer.
 
 
       After creating a layer with `IPCB_MasterLayerStack.CreateLayer`, the examples make it appear by setting
-      `LayerIsUsed` and then `LayerIsDisplayed` to `true`.
+      `LayerIsUsed` and then `LayerIsDisplayed` to `true`; a mechanical layer must also be enabled with
+      `IPCB_MechanicalLayer.MechLayerEnabled`.
   LayerName:
     summary: Returns the name of a layer.
     remarks: When the board has more than one substack (`IPCB_MasterLayerStack.SubstackCount`), the name is taken from
@@ -338,9 +340,13 @@ members:
     remarks: The examples read and set the 3D camera of this view with `IPCB_GraphicalView.GetState_Camera` and
       `IPCB_GraphicalView.Camera`.
   MechanicalLayerIterator:
-    summary: Returns an iterator over the mechanical layers of the board.
-    remarks: The examples walk it with `IPCB_LayerIterator.First` and `IPCB_LayerIterator.Next` and read each layer with
+    summary: Returns an iterator over the enabled mechanical layers of the board.
+    remarks: >-
+      The examples walk it with `IPCB_LayerIterator.First` and `IPCB_LayerIterator.Next` and read each layer with
       `IPCB_LayerObjectIterator.LayerObject`, as an `IPCB_MechanicalLayer`.
+
+
+      To reach a disabled mechanical layer, for example to enable it, use `IPCB_LayerStack.LayerObject`.
   MechanicalPairs:
     summary: The mechanical layer pairs of the board, as an `IPCB_MechanicalLayerPairs`.
     remarks: >-
@@ -391,7 +397,8 @@ members:
   PrimPrimDistance:
     summary: Returns the distance between two primitives, in internal units (10,000 per mil).
     remarks: >-
-      Returns `PCBConstant.MaxCoord` when either primitive is null or does not belong to this board.
+      Returns `PCBConstant.MaxCoord` when either primitive is null or does not belong to this board. Touching or
+      overlapping primitives give 0, never a negative value.
 
 
       The example collects the primitives with a board iterator first, destroys the iterator, and then measures every
@@ -403,8 +410,9 @@ members:
       - PCB.IPCB_PrinterOptions
   RebuildBoardOutline:
     summary: Rebuilds the board outline from the given defining layer.
-    remarks: After changing the outline's segments, the example calls `UpdateBoardOutline` and then
-      `RebuildBoardOutline` with the outline's own layer.
+    remarks: >-
+      Replaces the outline's segments with ones computed from the objects on the defining layer; after assigning the
+      segments yourself, call only `UpdateBoardOutline`.
   RemovePCBObject:
     summary: Removes an object from the board without destroying it.
     remarks: >-
@@ -497,7 +505,7 @@ members:
       board has no outline.
 
 
-      After changing the outline's segments, the example calls `UpdateBoardOutline` and then `RebuildBoardOutline`.
+      Call it after assigning the outline's segments; `RebuildBoardOutline` would replace them.
   ViaGridSize:
     summary: This property retrieves or sets the via grid size in both X and Y directions simultaneously.
     seeAlso:

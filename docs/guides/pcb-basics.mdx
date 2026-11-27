@@ -142,6 +142,21 @@ V7_LayerBase layer = track.GetState_V7Layer();
 track.SetState_V7Layer(new V7_Layer(TV6_Layer.eV6_BottomLayer));
 ```
 
+To filter a board iterator by a layer from a layer iterator, take the layer's `TV6_Layer` with
+[`IPCB_LayerObject.V6_LayerID`](../reference/pcb/IPCB_LayerObject.md#v6_layerid):
+
+```csharp
+IPCB_LayerObjectIterator planes = board.InternalPlaneLayerIterator();
+planes.SetBeforeFirst();
+while (planes.Next())
+{
+    IPCB_BoardIterator iterator = board.BoardIterator_Create();
+    iterator.AddFilter_LayerSet(new TV6_LayerSet { planes.LayerObject().V6_LayerID() });
+    // ...
+    board.BoardIterator_Destroy(ref iterator);
+}
+```
+
 ## Boards without a view
 
 Members that work on the board's view need the board to be open in a PCB editor view. Without one,

@@ -1,0 +1,6 @@
+# SCH.ISupplierManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: The ISupplierManager interface gives access to supplier links, the supplier import parameter preferences and
+  currency conversion.
+remarks: >-
+  `GetSupplierSourceCount`, `GetSupplierSource` and `GetSourceByName` are obsolete: they throw a `COMException`
+  (`E_UNEXPECTED`) at run time. For part search use `SCH.IPartSearchManager` (`EDP.Utils.GetPartSearchManager`).

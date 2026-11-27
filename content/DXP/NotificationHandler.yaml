@@ -1,0 +1,10 @@
+# DXP.NotificationHandler: descriptions for the generated reference. Members are keyed by page name (property or method).
+summary: An `INotificationHandler` that passes every notification of Altium Designer to a
+  `NotificationHandlerCallback`; its constructor registers it with `IClient.RegisterNotificationHandler`.
+remarks: >-
+  This is the recommended way for an extension to receive notifications. Do not register it again: each registration
+  delivers every notification once more. To stop, pass it to `IClient.UnregisterNotificationHandler`.
+
+
+  The kinds of notification are the `DXP.NotificationType` constants, and the codes of each kind are in the matching
+  class nested in `DXP.NotificationCode` (for document notifications, `DXP.NotificationCode.DocumentNotificationCode`).

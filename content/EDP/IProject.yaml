@@ -32,6 +32,10 @@ members:
   DM_AddGeneratedDocument:
     summary: This method adds a new generated document referenced by its filename parameter in this current project, and
       this document appears in theGenerated folder of this project on Altium Designer Projects panel.
+  DM_AddParameter:
+    summary: Adds a parameter with the given name and value to the project.
+    remarks: "It does not replace an existing parameter of the same name: calling it again adds a second entry with that
+      name."
   DM_AddSearchPath:
     summary: This method adds a new serach path for the current project.
   DM_AddSourceDocument:
@@ -118,7 +122,10 @@ members:
   DM_MoveSourceDocument:
     summary: The method re-assigns the source document referenced by the filename a new index number.
   DM_Outputers:
-    summary: The method returns the indexed Output Generator. An output generator could be a Simple BOM.
+    summary: The method returns the project's output generator of the given output type.
+    remarks: argName is matched, case-insensitively, against the output type stored in the project's output groups (for
+      example "Pick Place" or "ODB"), not against the output's display name such as "ODB++ Files". The method returns
+      null when the project has no output of that type.
   DM_PhysicalDocumentCount:
     summary: The method returns the number of physical source documents (which are expanded logical documents of the design
       project). Source documents are usually schematic documents. Use this method in conjunction with the

@@ -26,5 +26,6 @@ remarks: >-
   custom notifications can be registered and handled.
 members:
   HandleNotification:
+    remarks: In an extension, use `DXP.NotificationHandler` with a callback instead of implementing this interface.
     seeAlso:
       - DXP.IClient

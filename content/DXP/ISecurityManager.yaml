@@ -1,0 +1,5 @@
+# DXP.ISecurityManager: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  AbsoluteSubscriptionExpiryDate:
+    summary: The expiry date of the license subscription as an OLE Automation date; convert it with
+      `DateTime.FromOADate`.

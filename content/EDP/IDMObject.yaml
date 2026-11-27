@@ -52,8 +52,18 @@ members:
     summary: The method returns the object handle of a PCB object. If void, a null value is returned.
   DM_PrimaryCrossProbeString:
     summary: The method returns the primary cross probe string.
+  DM_SchHandle:
+    summary: >-
+      The handle of the schematic object this object comes from: the same string as `SCH.ISch_BasicContainer.Handle`
+      of that object.
+    remarks: Compare it with `SCH.ISch_BasicContainer.Handle` to match a compiled object to a live schematic object, or
+      pass it to `IUnifiedDataModel.SupportsInterface` (from `IProject.DM_DataModel`) to get the object while its sheet
+      is open.
   DM_SCHObjectHandle:
     summary: The method returns the object handle of a Schematic object. If void, a zero value is returned.
+  DM_SCHObjectInterface:
+    remarks: Returns null for the net items of a compiled project (`INet.DM_AllNetItems`); get their schematic objects
+      through `DM_SchHandle`.
   DM_SecondaryCrossProbeString:
     summary: The method returns the secondary cross probe string.
   DM_SheetIndex_Logical:

@@ -1,0 +1,5 @@
+# EDP.Utils: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  GetPartCatalog:
+    summary: Returns the part catalog of an installed vault, given its vault GUID.
+    remarks: Throws an exception when the vault is disabled; check `DXP.IEDMS_Vault.Enabled` before calling it.

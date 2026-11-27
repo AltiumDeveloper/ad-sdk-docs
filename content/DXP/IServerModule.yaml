@@ -228,6 +228,7 @@ members:
       Designer can receive and process accordingly.
 
 
-      This method needs to be overridden and implemented.
+      In an extension, create a `DXP.NotificationHandler` with a callback to receive notifications; its constructor
+      registers it.
   RemoveServerView:
     summary: The RemoveServerView method removes a IServerView object in Altium Designer which represents a system panel.

@@ -5,6 +5,9 @@ remarks: >-
   walk with `FirstLayer`, `NextLayer`, `PreviousLayer` and `LastLayer` visits the electrical layers of the stack:
   signal layers and internal planes.
 members:
+  Board:
+    summary: The board of the layer stack.
+    remarks: Returns null.
   DielectricBottom:
     summary: The bottom solder mask layer of the layer stack, or null when the stack has none.
   DielectricTop:

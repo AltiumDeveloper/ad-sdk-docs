@@ -1,7 +1,7 @@
 # SCH.IIntegratedLibraryManager: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IIntegratedLibraryManager interface represents the integrated library manager that manages schematic
   components and its models from installed libraries in Altium Designer.
-remarks: Invoke the IntegratedLibraryManager method to fetch the IIntegratedLibraryManager interface.
+remarks: Get it with `EDP.Utils.LoadIntegratedLibraryManager`.
 members:
   AddRemoveLibraries:
     summary: This method invokes the Available Libraries dialog with a list of installed libraries if any and their
@@ -119,6 +119,8 @@ members:
       argModelType: The model type of the implementation (model) linked to this component.
   GetComponentCount:
     summary: This method retrieves the count of components within the specified integrated library.
+    remarks: Returns 0, without an error, for a library that is not in the available libraries list and for a listed
+      library whose file no longer exists, so 0 does not mean the library is empty.
     parameters:
       argLibraryPath: Specifies the integrated library.
   GetComponentDatafileLocation:
@@ -196,8 +198,10 @@ members:
       argParameters: >-
         The parameters needed for the component to be able to be placed on the schematic sheet. For example
         'ModelType=SIM|ModelParameterName0=Value|ModelParameterValue0=1K|Orientation=1|Location.X=10000000|Location.Y=20000000'.
-        Normally you will need Location.X and Location.Y parameters at the least to be able to place this component on
-        the schematic sheet.
+        `Location.X` and `Location.Y` (internal units) place the component at that point on the current schematic
+        document without interaction; the method then returns `true` when it was placed. `PartID` selects the 1-based
+        part of a multi-part component; `ParameterNameN`, `ParameterValueN` and `ParameterVisibleN` (N from 0) add
+        parameters.
   UninstallLibrary:
     summary: This method removes the specified library (full path) in the Available Libraries dialog (in the Installed page)
       in Altium Designer

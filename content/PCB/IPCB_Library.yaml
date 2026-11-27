@@ -130,7 +130,8 @@ members:
       Returns false, and does nothing, when the component is null, its name (`IPCB_LibComponent.Pattern`) is empty, or
       the library already has a component of that name (compared ignoring case); use `GetUniqueCompName` to get a free
       name. Otherwise the component is added to the library, belongs to it from then on, and the method returns true.
-      Registering does not make the component current.
+      Registering does not make the component current. Registering does not mark the library document as modified: set
+      `IServerDocument.Modified` on its document, or save it, or the new footprint is lost when the document is closed.
 
 
       When creating a new footprint programmatically, for example with `IPCB_ServerInterface.CreatePCBLibComp`, register

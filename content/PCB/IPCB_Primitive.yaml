@@ -27,6 +27,9 @@ members:
   BoundingRectangle:
     summary: This method returns the coordinates of the bounding rectangle that encapsulates the design object on a PCB
       document. There are other two bounding rectangle methods.
+    remarks: >-
+      For a board, the rectangle covers every object on it, including drawing annotations outside the board outline; for
+      the extent of the board itself, use the `BoundingRectangle` of `IPCB_Board.BoardOutline`.
   BoundingRectangleForPainting:
     summary: The bounding rectangle of a design object for painting is potentially the largest of all bounding rectangles
       because for example a component can have comment and designator objects as well.
@@ -130,6 +133,9 @@ members:
   Net:
     summary: The Net property of an object denotes it has an electrical property, meaning it is connected from one node to
       another.
+    remarks: >-
+      Assigning `Net` does not add the object to the net's primitives (`IPCB_Group.GetPrimitiveCount`): add it with
+      `IPCB_Net.RegisterWithGroupWarehouse`, whose remarks also give the sequence for moving an object to another net.
   ObjectIDString:
     summary: This ObjectIDString property returns the Object Id string. For example eTrackObject type will yield a Track string.
   PadCacheRobotFlag:

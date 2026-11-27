@@ -4,7 +4,8 @@ summary: A dielectric (insulating) layer of a board's layer stack, such as a cor
 remarks: >-
   It holds the layer's material name, dielectric type, dielectric constant, loss tangent and thickness. To visit the
   dielectric layers of a stack, call `IPCB_LayerStackBase.Iterator_1` with `TLayerClassID.eLayerClass_Dielectric` and
-  cast each layer object of the iterator to `IPCB_DielectricLayer`.
+  cast each layer object of the iterator to `IPCB_DielectricLayer`. The walk also returns the solder mask layers, whose
+  `DielectricType` is `TDielectricType.eSurfaceMaterial`; skip that type to keep only the cores, prepregs and films.
 members:
   DielectricConstant:
     summary: The dielectric constant (relative permittivity, Dk) of the layer's material.

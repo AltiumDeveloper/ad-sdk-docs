@@ -43,6 +43,10 @@ members:
   GetCommandState:
     summary: The GetCommandState method fetches the current snapshot of the server command (internal server process) and the
       parameters are returned for the specified server command name.
+    remarks: >-
+      On a server module's own launcher, call it with the bare process name: the state comes from the GetState
+      procedure registered with `CommandLauncher.RegisterCommand`. A name with no registered procedure comes back
+      enabled and visible, so the result does not tell whether a process exists.
     seeAlso:
       - DXP.IServerModule
   LaunchCommand:

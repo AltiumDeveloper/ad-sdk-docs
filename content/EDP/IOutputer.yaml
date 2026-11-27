@@ -1,2 +1,12 @@
 # EDP.IOutputer: descriptions for the generated reference. Members are keyed by page name (property or method).
 summary: The IOutputer interface represents the one of the outputs of an output job within a design project.
+members:
+  DM_Generate_OutputFiles:
+    summary: Generates the outputer's files into the location configured for the outputer.
+    parameters:
+      argGeneratedFilenames: Set on return to the generated files as absolute paths, each in double quotes, separated by
+        commas.
+  DM_Generate_OutputFilesTo:
+    summary: Generates the outputer's files into the given folder.
+    remarks: The result is `true` also when the outputer's settings select nothing to generate (for example a Gerber
+      output with no layers to plot), so check the folder for the files you expect.

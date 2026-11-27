@@ -1,0 +1,5 @@
+# DXP.IEDM_AsyncResult: descriptions for the generated reference. Members are keyed by page name (property or method).
+members:
+  WaitUntilDone:
+    summary: Waits for the request to finish and returns true when it is done.
+    remarks: A failed request is also done, so check `GetOutput().Success` and read the reason from `GetOutput().Message`.
